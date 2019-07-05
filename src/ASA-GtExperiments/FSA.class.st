@@ -14,6 +14,15 @@ Class {
 	#category : #'ASA-GtExperiments'
 }
 
+{ #category : #tests }
+FSA class >> eg1 [
+	^ self
+		nodes: (1 to: 4)
+		edges: { 1->2. 1->3. 2->3. 3->2. 3->4 }
+		start: 1
+
+]
+
 { #category : #creation }
 FSA class >> nodes: aCollection edges: anotherCollection start: anObject [
 	^ FSA new
@@ -56,6 +65,11 @@ FSA >> edgeSources [
 { #category : #accessing }
 FSA >> edges [
 	^ edges
+]
+
+{ #category : #accessing }
+FSA >> following: aNode [
+	^ edgeMap at: aNode
 ]
 
 { #category : #'public interface' }
@@ -103,7 +117,7 @@ FSA >> isLive [
 
 { #category : #accessing }
 FSA >> next [
-	^ edgeMap at: current
+	^ self following: current
 ]
 
 { #category : #accessing }
@@ -114,4 +128,20 @@ FSA >> nodes [
 { #category : #accessing }
 FSA >> start [
 	^ start
+]
+
+{ #category : #mondrian }
+FSA >> view [
+	"FSA eg1 view"
+	| view |
+	"TO DO:
+	- display nodes as circles
+	- add labels to circles
+	- highlight the current node (bold circle)
+	- display edges as arrows"
+	view := GtMondrian new.
+	view nodes with: self nodes.
+	view edges connectToAll: [ :x | self following: x ].
+	view layout tree.
+	^ view
 ]
