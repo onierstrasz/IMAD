@@ -23,6 +23,13 @@ FSA class >> eg1 [
 
 ]
 
+{ #category : #tests }
+FSA class >> eg1view [
+	<gtExample>
+	^ self eg1 view
+
+]
+
 { #category : #creation }
 FSA class >> nodes: aCollection edges: anotherCollection start: anObject [
 	^ FSA new
@@ -125,6 +132,35 @@ FSA >> nodes [
 	^ nodes
 ]
 
+{ #category : #'as yet unclassified' }
+FSA >> playGroundScript [
+
+	"Just a place to store working script"
+
+^ '
+
+| eg view |
+eg := FSA eg1.
+view := GtMondrian new.
+
+view nodes
+	shape: [: x |
+		BlElement new
+			border: (BlBorder paint: Color black);
+			geometry: BlCircle new;
+			size: 40 @ 40
+		];
+	with: eg nodes
+	.
+
+view edges connectToAll: [ :x | eg following: x ].
+
+view layout circle.
+^ view
+
+'
+]
+
 { #category : #accessing }
 FSA >> start [
 	^ start
@@ -140,8 +176,16 @@ FSA >> view [
 	- highlight the current node (bold circle)
 	- display edges as arrows"
 	view := GtMondrian new.
-	view nodes with: self nodes.
+	"view nodes with: self nodes."
+	view nodes
+		shape: [: x |
+			BlElement new
+				border: (BlBorder paint: Color black);
+				geometry: BlCircle new;
+				size: 10 @ 10
+			];
+		with: self nodes.
 	view edges connectToAll: [ :x | self following: x ].
-	view layout tree.
+	view layout circle.
 	^ view
 ]
