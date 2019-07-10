@@ -198,7 +198,8 @@ FSA >> view [
 	| mondrian |
 	"TO DO:
 	- highlight the current node (bold circle)
-	- display edges as arrows"
+	- clicking on a next node fires a transition
+	- change colour to red when net is dead"
 	mondrian := GtMondrian new.
 	mondrian nodes
 		shape: [ :x | self borderCircleWithLabel: x asString ];
