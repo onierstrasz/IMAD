@@ -13,7 +13,7 @@ Class {
 { #category : #running }
 FSATest >> setUp [
 	"Hooks that subclasses may override to define the fixture of test."
-	fsa := FSA eg1
+	fsa := FSA eg4nodes
 ]
 
 { #category : #tests }

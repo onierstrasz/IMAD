@@ -15,18 +15,11 @@ Class {
 }
 
 { #category : #tests }
-FSA class >> eg1 [
+FSA class >> eg4nodes [
 	^ self
 		nodes: (1 to: 4)
 		edges: { 1->2. 1->3. 2->3. 3->2. 3->4 }
 		start: 1
-
-]
-
-{ #category : #tests }
-FSA class >> eg1view [
-	<gtExample>
-	^ self eg1 view
 
 ]
 
@@ -54,9 +47,32 @@ FSA >> assertIsNode: anObject [
 	self assert: (nodes includes: anObject)
 ]
 
+{ #category : #ui }
+FSA >> borderCircleWithLabel: aString [
+	^ BlElement new
+		layout: BlFrameLayout new;
+		border: (BlBorder paint: Color black);
+		geometry: BlCircle new;
+		size: self defaultNodeSize;
+		"when: BlClickEvent do: [ self inform: 'Click' ];"
+		addChild:
+			(BlTextElement new
+				text: aString asRopedText;
+				constraintsDo: [ :c | 
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ];
+				yourself);
+		yourself
+]
+
 { #category : #accessing }
 FSA >> current [
 	^ current
+]
+
+{ #category : #ui }
+FSA >> defaultNodeSize [
+	^ 20@20
 ]
 
 { #category : #accessing }
@@ -84,6 +100,14 @@ FSA >> go: target [
 	self assertIsNode: target.
 	self assert: (self next includes: target).
 	current := target
+]
+
+{ #category : #ui }
+FSA >> gtElement: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Element';
+		stencil: [ self view ]
 ]
 
 { #category : #initialization }
@@ -137,26 +161,19 @@ FSA >> start [
 	^ start
 ]
 
-{ #category : #mondrian }
+{ #category : #ui }
 FSA >> view [
 	"FSA eg1 view"
-	| view |
+
+	| mondrian |
 	"TO DO:
-	- display nodes as circles
-	- add labels to circles
 	- highlight the current node (bold circle)
 	- display edges as arrows"
-	view := GtMondrian new.
-	"view nodes with: self nodes."
-	view nodes
-		shape: [: x |
-			BlElement new
-				border: (BlBorder paint: Color black);
-				geometry: BlCircle new;
-				size: 10 @ 10
-			];
+	mondrian := GtMondrian new.
+	mondrian nodes
+		shape: [ :x | self borderCircleWithLabel: x asString ];
 		with: self nodes.
-	view edges connectToAll: [ :x | self following: x ].
-	view layout circle.
-	^ view
+	mondrian edges connectToAll: [ :x | self following: x ].
+	mondrian layout circle.
+	^ mondrian
 ]
