@@ -75,6 +75,36 @@ FSA >> defaultNodeSize [
 	^ 20@20
 ]
 
+{ #category : #ui }
+FSA >> directedCurvedEdge [
+	^ BlParabollaArcElement new
+		zIndex: 0;
+		curvatureFraction: 0.2;
+		border: (BlBorder paint: Color gray width: 2);
+		toHead:
+			(BlArrowheadSimpleArrow new
+				border:
+					(BlBorder builder
+						paint: Color gray;
+						width: 2;
+						build))
+]
+
+{ #category : #ui }
+FSA >> directedEdge [
+	^ BlParabollaArcElement new
+		zIndex: 0;
+		curvatureFraction: 0;
+		border: (BlBorder paint: Color gray width: 2);
+		toHead:
+			(BlArrowheadSimpleArrow new
+				border:
+					(BlBorder builder
+						paint: Color gray;
+						width: 2;
+						build))
+]
+
 { #category : #accessing }
 FSA >> edgeSinks [
 	^ edgeMap values flatten
@@ -173,7 +203,12 @@ FSA >> view [
 	mondrian nodes
 		shape: [ :x | self borderCircleWithLabel: x asString ];
 		with: self nodes.
-	mondrian edges connectToAll: [ :x | self following: x ].
+	"mondrian edges connectToAll: [ :x | self following: x ]."
+	mondrian edges
+		shape: [ :edge | self directedCurvedEdge ];
+		fromNearestTightCircle;
+		toNearestTightCircle;
+		connectToAll: [ :x | self following: x ].
 	mondrian layout circle.
 	^ mondrian
 ]
