@@ -19,7 +19,7 @@ GtModelingExamples >> borderCircleWithLabel: aString [
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
 		geometry: BlCircle new;
-		"when: BlClickEvent do: [ self inform: 'Click' ];"
+		when: BlClickEvent do: [ self inform: 'Click' ];
 		addChild:
 			(BlTextElement new
 				text: aString asRopedText;
@@ -28,6 +28,20 @@ GtModelingExamples >> borderCircleWithLabel: aString [
 					c frame vertical alignCenter ];
 				yourself);
 		yourself
+]
+
+{ #category : #examples }
+GtModelingExamples >> colourChangingCircle [
+	"Circle changes colour when you click on it"
+
+	<gtExample>
+	| node |
+	node := BlElement new.
+	node
+		background: (Color green darker alpha: 1);
+		geometry: BlCircle new;
+		when: BlClickEvent do: [ node background: Color red ].
+	^ node
 ]
 
 { #category : #utilities }
@@ -43,6 +57,12 @@ GtModelingExamples >> directedEdge [
 						paint: Color gray;
 						width: 2;
 						build))
+]
+
+{ #category : #examples }
+GtModelingExamples >> fsa10NodeGraph [
+	<gtExample>
+	^ FSA eg10nodes view
 ]
 
 { #category : #examples }

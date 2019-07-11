@@ -1,9 +1,16 @@
 "
-I represent a Finite State Automaton
+I represent the logic of a Finite State Automaton.
+
+To see a graphical view, send the view message to an instance, for example: 
+	
+	FSA eg4nodes view
+
+	FSA eg10nodes view
+
 "
 Class {
 	#name : #FSA,
-	#superclass : #Object,
+	#superclass : #Model,
 	#instVars : [
 		'nodes',
 		'start',
@@ -13,6 +20,18 @@ Class {
 	],
 	#category : #'ASA-GtExperiments'
 }
+
+{ #category : #tests }
+FSA class >> eg10nodes [
+	^ self
+		nodes: (0 to: 10)
+		edges:
+			((0 to: 10)
+				flatCollect: [ :x | 
+					{(x -> (x * 3 \\ 10)).
+					(x -> (x // 2))} ]) asOrderedCollection removeDuplicates
+		start: 10
+]
 
 { #category : #tests }
 FSA class >> eg4nodes [
@@ -168,12 +187,19 @@ FSA >> initializeNodes: aCollection edges: anotherCollection start: anObject [
 
 { #category : #testing }
 FSA >> isDead [
-	^ self next isEmpty
+	^ (self next isEmpty)
+	or: [ self next size = 1 and: [ self next first == self current  ] ]
 ]
 
 { #category : #testing }
 FSA >> isLive [
 	^ self isDead not
+]
+
+{ #category : #'public interface' }
+FSA >> isTarget: target [
+	self assertIsNode: target.
+	^ self next includes: target
 ]
 
 { #category : #accessing }
@@ -193,23 +219,20 @@ FSA >> start [
 
 { #category : #ui }
 FSA >> view [
-	"FSA eg1 view"
+	"FSA eg4nodes view"
 
-	| mondrian |
-	"TO DO:
-	- highlight the current node (bold circle)
-	- clicking on a next node fires a transition
-	- change colour to red when net is dead"
+	| mondrian controller |
 	mondrian := GtMondrian new.
 	mondrian nodes
 		shape: [ :x | self borderCircleWithLabel: x asString ];
 		with: self nodes.
-	"mondrian edges connectToAll: [ :x | self following: x ]."
 	mondrian edges
 		shape: [ :edge | self directedCurvedEdge ];
 		fromNearestTightCircle;
 		toNearestTightCircle;
 		connectToAll: [ :x | self following: x ].
 	mondrian layout circle.
+	controller := FSAcontroller forModel: self andView: mondrian root.
+	self addDependent: controller.
 	^ mondrian
 ]
