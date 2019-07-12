@@ -148,7 +148,8 @@ FSA >> following: aNode [
 FSA >> go: target [
 	self assertIsNode: target.
 	self assert: (self next includes: target).
-	current := target
+	current := target.
+	self changed
 ]
 
 { #category : #ui }

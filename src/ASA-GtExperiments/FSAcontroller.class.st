@@ -12,7 +12,8 @@ Class {
 	#instVars : [
 		'fsa',
 		'view',
-		'viewNodes'
+		'viewNodes',
+		'current'
 	],
 	#category : #'ASA-GtExperiments'
 }
@@ -34,16 +35,13 @@ FSAcontroller >> clickOn: aNodeElement [
 	| node |
 	node := aNodeElement graph model.
 	(fsa isTarget: node)
-		ifTrue: [ 
-			self clearFSAstateColor .
-			fsa go: node.
-			self setFSAstateColor ]
+		ifTrue: [ fsa go: node ]
 		ifFalse: [ self inform: node asString , ' is not a valid target' ]
 ]
 
 { #category : #'model interaction' }
 FSAcontroller >> currentNode [
-	^ viewNodes detect: [ : each | each graph model = fsa current ]
+	^ viewNodes detect: [ : each | each graph model = current ]
 ]
 
 { #category : #'view control' }
@@ -54,11 +52,12 @@ FSAcontroller >> deadColor [
 { #category : #initialization }
 FSAcontroller >> initializeModel: anFSA andView: aView [
 	fsa := anFSA.
+	current := fsa current.
 	view := aView.
 	viewNodes := view children select: [ :each | each graph isNode ].
 	viewNodes
 		do: [ :aNode | aNode when: BlClickEvent do: [ self clickOn: aNode ] ].
-	self setFSAstateColor 
+	self setFSAstateColor.
 ]
 
 { #category : #'view control' }
@@ -73,4 +72,11 @@ FSAcontroller >> setFSAstateColor [
 			(fsa isLive
 				ifTrue: [ self liveColor ]
 				ifFalse: [ self deadColor ])
+]
+
+{ #category : #'model interaction' }
+FSAcontroller >> update: anFSA [
+	self clearFSAstateColor.
+	current := fsa current.
+	self setFSAstateColor
 ]
