@@ -13,7 +13,7 @@ Class {
 		'fsa',
 		'view',
 		'viewNodes',
-		'current'
+		'fsaCurrentState'
 	],
 	#category : #'ASA-GtExperiments'
 }
@@ -41,7 +41,7 @@ FSAcontroller >> clickOn: aNodeElement [
 
 { #category : #'model interaction' }
 FSAcontroller >> currentNode [
-	^ viewNodes detect: [ : each | each graph model = current ]
+	^ viewNodes detect: [ : each | each graph model = fsaCurrentState ]
 ]
 
 { #category : #'view control' }
@@ -52,7 +52,7 @@ FSAcontroller >> deadColor [
 { #category : #initialization }
 FSAcontroller >> initializeModel: anFSA andView: aView [
 	fsa := anFSA.
-	current := fsa current.
+	fsaCurrentState := fsa current.
 	view := aView.
 	viewNodes := view children select: [ :each | each graph isNode ].
 	viewNodes
@@ -77,6 +77,6 @@ FSAcontroller >> setFSAstateColor [
 { #category : #'model interaction' }
 FSAcontroller >> update: anFSA [
 	self clearFSAstateColor.
-	current := fsa current.
+	fsaCurrentState := fsa current.
 	self setFSAstateColor
 ]
