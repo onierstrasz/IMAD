@@ -5,7 +5,7 @@ Repo location: git@github.com:onierstrasz/ASA-GtExperiments.git
 
 ```
 Metacello new
-	 baseline: 'ASAGtExperiments';
+   baseline: 'ASAGtExperiments';
    repository: 'github://onierstrasz/ASA-GtExperiments/src';
    load
 ```
