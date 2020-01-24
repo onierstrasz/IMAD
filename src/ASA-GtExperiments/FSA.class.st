@@ -23,6 +23,7 @@ Class {
 
 { #category : #tests }
 FSA class >> eg10nodes [
+	<gtExample>
 	^ self
 		nodes: (0 to: 10)
 		edges:
@@ -35,6 +36,7 @@ FSA class >> eg10nodes [
 
 { #category : #tests }
 FSA class >> eg4nodes [
+	<gtExample>
 	^ self
 		nodes: (1 to: 4)
 		edges: { 1->2. 1->3. 2->3. 3->2. 3->4 }
