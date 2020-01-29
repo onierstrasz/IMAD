@@ -1,22 +1,16 @@
-!Example-driven PostOffice tutorial
+!Example-driven Post Office tutorial
 
-- Goal: illustrate how to program in an example-driven way with Pharo and GT
-- Like test-driven, but using examples that contain tests (assertions)
-- Unlike tests, examples may be cascaded (built-up from other examples)
-- Illustrate with simple example of a PostOffice that serves three customers
-- Assume no knowledge of Smalltalk
+The goal of this tutorial is to illustrate how to program in Pharo and GT in an example-driven way. In contrast to TDD, examples are objects that contain test code (assertions). Examples can also be built-up from other examples, and can be inspected or manipulated.
 
-Normally we would program either with the Pharo system browser, or the GT Coder.
-Instead we will incrementally add code snippets from within the tutorial.
-Note that every change either creates or modifies a class, or creates or modifies a method.
-To program in an example-driven way, we first specify an example, and add some test
+We will illustrate the approach with a simple scenario of a Post Office that serves three customers. 
 
-To start, we need a ==PostOffice== class.
-Create by sending message to Object.
-Do it by clicking on the triangle.
-Inspect it by clicking on the traingle with the little i.
+Normally we would program either with the Pharo system browser, or the GT Coder. Instead we will incrementally add code snippets from within the tutorial. Note that every change either creates or modifies a class, or creates or modifies a method.
 
-Create the class.
+To program in an example-driven way, we first specify an example, and add some test code that asserts what should be true about that example.
+
+To start, we need a ==PostOffice== class. We do this by evaluating the code snippet below. It sends a message to the class ${class:name=Object}$, asking it to create a subclass ==PostOffice== in the package also called ==PostOffice==. 
+
+Evaluate this code by clicking on the triangle. You can also inspect the result by clicking on the second triangle with the letter "i":
 
 [[[
 Object subclass: #PostOffice
@@ -24,7 +18,6 @@ Object subclass: #PostOffice
 	classVariableNames: ''
 	package: 'PostOffice'
 ]]]
-
 
 !!An empty Post Office
 
@@ -36,19 +29,14 @@ This code will create a new, empty ==PostOffice== instance.
 We create the new instance, assert that it is empty, and return the instance.
 Click on ''Apply'' to accept this new code.
 
-
 ${changes:path=changes/01-po.ombu}$
 
-
-
-Now we can create and inspect this instance, but this will generatean error since the method ==PostOffice>>#isEmpty== has not yet been implemented.
+Now we can create and inspect this instance, but this will generate an error since the method ==PostOffice>>#isEmpty== has not yet been implemented.
 Try it:
 
 [[[
 PostOffice new emptyPostOffice
 ]]]
-
-
 
 The ==isEmpty== method checks if the queue is empty. We add a queue variable to the class, and initialize it to an instance of ${class:name=OrderedCollection}$. 
 
@@ -60,11 +48,9 @@ Now we can safely inspect the empty Post Office:
 PostOffice new emptyPostOffice
 ]]]
 	
-
 !!Jack enters the Post Office
 
-Next we would like to have some customers enter the Post Office, starting with "Jack".
-We create the ==Customer== class. Every customers has a name.
+Next we would like to have some customers enter the Post Office, starting with "Jack". We create the ==Customer== class. Every customer has a name.
 
 [[[
 Object subclass: #Customer
@@ -73,17 +59,13 @@ Object subclass: #Customer
 	package: 'PostOffice'
 ]]]
 
-
 Let's create a new example that starts with an empty Post Office, where "Jack" enters:
 
-
 ${changes:path=changes/03-po.ombu}$
-
 
 To make this example work, we need to first implement several methods:
 
 To create a new customer, we send the message ==named== to the Customer class. This is a ``class-side`` method:
-
 
 ${changes:path=changes/04-po.ombu}$
 
@@ -92,12 +74,10 @@ The setter method ==name:== is implemented on the ``instance side`` of the ${cla
 
 ${changes:path=changes/05-po.ombu}$
 
-
 When a customer enters the Post Office, it adds itself to the queue.
 The number of waiting customers is the size of the queue.
 
 ${changes:path=changes/06-po.ombu}$
-
 
 Now we can inspect the 
 
@@ -105,9 +85,7 @@ Now we can inspect the
 PostOffice new postOfficeWithJack
 ]]]
 
-
-To make this a little bit more user friendly, we can make the ==Customer== instances show thier name:
-
+To make this a little bit more user friendly, we can make the ==Customer== instances show their name:
 
 ${changes:path=changes/07-po.ombu}$
 
@@ -115,25 +93,18 @@ ${changes:path=changes/07-po.ombu}$
 
 We  introduce examples in which Jane and Jill enter the Post Office
 
-
 ${changes:path=changes/08-po.ombu}$
-
-
-
 
 [[[
 PostOffice new postOfficeWithJackAndJaneAndJill 
 ]]]
-
 
 !!Jack is served
 
 In this example, Jack is served, and we verify that the number of waiting customers has gone down.
 To serve a customer, we remove him or her from the front of the queue.
 
-
 ${changes:path=changes/09-po.ombu}$
-
 
 We cam also inspect the example to see who is left in the queue:
 
@@ -141,11 +112,9 @@ We cam also inspect the example to see who is left in the queue:
 PostOffice new postOfficeWithJackServed
 ]]]
 
-
 !!Jane and Jill are served
 
 ${changes:path=changes/10-po.ombu}$
-
 
 [[[
 PostOffice new postOfficeWithJillServed
@@ -161,7 +130,7 @@ Let's make a Post Office print itself a bit more nicely.
 
 ${changes:path=changes/12-po.ombu}$
 
-Finally we can insoect all the examples we have created:
+Finally we can inspect all the examples we have created:
 
 [[[
 PostOffice gtExamples collect: [:each | each run returnValue]
