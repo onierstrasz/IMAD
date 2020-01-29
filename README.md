@@ -9,3 +9,9 @@ Metacello new
    repository: 'github://onierstrasz/ASA-GtExperiments/src';
    load
 ```
+
+Example-driven Post Office
+
+```
+FileLocator imageDirectory asFileReference / 'pharo-local/iceberg/onierstrasz/ASA-GtExperiments/doc/PostOffice/postoffice.pillar'
+```

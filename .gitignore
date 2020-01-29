@@ -22,3 +22,4 @@ SqueakDebug.log
 github-*.zip
 
 _*
+*.backup

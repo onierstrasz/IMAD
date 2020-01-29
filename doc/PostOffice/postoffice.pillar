@@ -1,0 +1,171 @@
+!Example-driven PostOffice tutorial
+
+- Goal: illustrate how to program in an example-driven way with Pharo and GT
+- Like test-driven, but using examples that contain tests (assertions)
+- Unlike tests, examples may be cascaded (built-up from other examples)
+- Illustrate with simple example of a PostOffice that serves three customers
+- Assume no knowledge of Smalltalk
+
+Normally we would program either with the Pharo system browser, or the GT Coder.
+Instead we will incrementally add code snippets from within the tutorial.
+Note that every change either creates or modifies a class, or creates or modifies a method.
+To program in an example-driven way, we first specify an example, and add some test
+
+To start, we need a ==PostOffice== class.
+Create by sending message to Object.
+Do it by clicking on the triangle.
+Inspect it by clicking on the traingle with the little i.
+
+Create the class.
+
+[[[
+Object subclass: #PostOffice
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'PostOffice'
+]]]
+
+
+To program in an example-driven way, we first specify an example, including some tests (assertions) expressing what should be true about this example.
+An example is just a method of a class that generates an instance.
+
+This code will create a new, empty ==PostOffice== instance. 
+(TO DO explain the syntax.)
+We create the new instance, assert that it is empty, and return the instance.
+Click on ''Apply'' to accept this new code.
+
+
+${changes:path=changes/01-po.ombu}$
+
+
+
+Now we can create and inspect this instance, but this will generatean error since the method ==PostOffice>>#isEmpty== has not yet been implemented.
+Try it:
+
+[[[
+PostOffice new emptyPostOffice
+]]]
+
+
+
+The ==isEmpty== method checks if the queue is empty. We add a queue variable to the class, and initialize it to an instance of ${class:name=OrderedCollection}$. 
+
+${changes:path=changes/02-po.ombu}$
+
+Now we can safely inspect the empty Post Office:
+
+[[[
+PostOffice new emptyPostOffice
+]]]
+	
+	
+	
+---
+
+PostOffice>>
+postOfficeWithJack
+	<gtExample>
+	| po |
+	po := self emptyPostOffice.
+	(Customer named: 'jack') enters: po.
+	self assert: po waiting equals: 1.
+	^ po
+
+Object subclass: #Customer
+	instanceVariableNames: ''
+	classVariableNames: ''
+	package: 'PostOffice'
+
+Customer>>
+enters: aPostOffice
+	aPostOffice enqueue: self
+
+Customer class>>
+named: aString
+	^ self new name: aString
+
+Customer>>
+name: aString
+	name := aString
+
+PostOffice>>
+enqueue: aCustomer
+	queue addLast: aCustomer
+
+PostOffice>>
+waiting
+	^ queue size
+
+---
+
+PostOffice>>
+postOfficeWithJackAndJane
+	<gtExample>
+	| po |
+	po := self postOfficeWithJack.
+	(Customer named: 'jane') enters: po.
+	self assert: po waiting equals: 2.
+	^ po
+
+---
+
+PostOffice>>
+postOfficeWithJackAndJaneAndJill
+	<gtExample>
+	| po |
+	po := self postOfficeWithJackAndJane.
+	(Customer named: 'jill') enters: po.
+	self assert: po waiting equals: 3.
+	^ po
+
+---
+
+PostOffice>>
+postOfficeWithJackServed
+	<gtExample>
+	| po |
+	po := self postOfficeWithJackAndJaneAndJill.
+	self assert: po serveCustomer name equals: 'jack'.
+	self assert: po waiting equals: 2.
+	^ po
+
+PostOffice>>
+serveCustomer
+	^ queue removeFirst
+
+Customer>>
+name
+	^ name
+
+---
+
+PostOffice>>
+postOfficeWithJaneServed
+	<gtExample>
+	| po |
+	po := self postOfficeWithJackServed.
+	self assert: po serveCustomer name equals: 'jane'.
+	self assert: po waiting equals: 1.
+	^ po
+
+---
+
+PostOffice>>
+postOfficeWithJillServed
+	<gtExample>
+	| po |
+	po := self postOfficeWithJaneServed.
+	self assert: po serveCustomer name equals: 'jill'.
+	self assert: po waiting equals: 0.
+	self assert: po serveCustomer isNil.
+	^ po
+
+"fix"
+
+PostOffice>>
+serveCustomer
+	^ queue ifEmpty: [ nil ] ifNotEmpty: [ queue removeFirst ]
+
+---
+
+
