@@ -10,8 +10,8 @@ Metacello new
    load
 ```
 
-Example-driven Post Office
+Documents
 
 ```
-FileLocator imageDirectory asFileReference / 'pharo-local/iceberg/onierstrasz/ASA-GtExperiments/doc/PostOffice/postoffice.pillar'
+FileLocator imageDirectory asFileReference / 'pharo-local/iceberg/onierstrasz/ASA-GtExperiments/doc'
 ```
