@@ -1,0 +1,49 @@
+!Documenter FAQ
+
+!!Basic Pillar stuff
+
+- a list item
+- another list item
+
+# an order list item
+# another item
+
+;definition
+:list item
+:another list item
+
+- ""bold text""
+- ''italic text''
+- ==monospace==
+- --strikethrough--
+- text with@@subscript@@
+- text with^^superscript^^
+- __underlined__
+
+|!column 1|!column 2
+|fruit|banana
+|vegetable|carrot
+
+!!Documenter links
+
+images: +file://memoryExample0.png+
+
+link to document: ${inputFile:path=PostOffice/postoffice.pillar}$
+
+link to a class: ${class:name=True}$
+
+a method: ${method:name=Integer>>#factorial}$ 
+
+changes to apply: ${changes:path=PostOffice/changes/01-po.ombu}$
+
+code snippets to execute:
+[[[
+3+4
+]]]
+
+
+!!Open FAQs
+
+- embedding a graphical element
+- link to a web page?
+
