@@ -8,7 +8,7 @@
 
 !!Documenter links
 
-images: +file://memoryExample0.png+
+images: +file://example.png+
 
 link to document: ${inputFile:path=PostOffice/postoffice.pillar}$
 
@@ -24,8 +24,11 @@ code snippets to execute:
 ]]]
 
 
+*Link to a web page>https://ci.inria.fr/pharo-contribution/job/EnterprisePharoBook/lastSuccessfulBuild/artifact/book-result/PillarChap/Pillar.html* (opens in external browser)
+
 !!Open FAQs
 
-- embedding a graphical element
+- embedding a graphical element?
 - link to a web page?
+- scaling an image? (width=10 des not work)
 
