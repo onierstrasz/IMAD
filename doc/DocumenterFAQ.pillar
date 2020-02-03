@@ -26,9 +26,8 @@ code snippets to execute:
 
 *Link to a web page>https://ci.inria.fr/pharo-contribution/job/EnterprisePharoBook/lastSuccessfulBuild/artifact/book-result/PillarChap/Pillar.html* (opens in external browser)
 
-!!Open FAQs
 
-- embedding a graphical element?
-- link to a web page?
-- scaling an image? (width=10 des not work)
+An embedded example: ${example:BlBasicExamples>>#polygon|previewShow=#gtLiveFor:|noCode}$
+
+
 
