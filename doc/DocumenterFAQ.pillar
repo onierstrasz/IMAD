@@ -2,27 +2,9 @@
 
 !!Basic Pillar stuff
 
-- a list item
-- another list item
-
-# an order list item
-# another item
-
-;definition
-:list item
-:another list item
-
 - ""bold text""
 - ''italic text''
 - ==monospace==
-- --strikethrough--
-- text with@@subscript@@
-- text with^^superscript^^
-- __underlined__
-
-|!column 1|!column 2
-|fruit|banana
-|vegetable|carrot
 
 !!Documenter links
 
