@@ -4,7 +4,7 @@ I contain a bunch of bloc examples that show how to visualize graphs
 Class {
 	#name : #GtModelingExamples,
 	#superclass : #GtExampleProvider,
-	#category : #'ASA-GtExperiments'
+	#category : #'IMAD-FSA'
 }
 
 { #category : #examples }
