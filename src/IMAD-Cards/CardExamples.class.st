@@ -12,5 +12,5 @@ Class {
 { #category : #accessing }
 CardExamples >> emptyCard [
 	<gtExample>
-	^ Card new
+	^ Card new title: 'Woohoo'
 ]
