@@ -102,3 +102,9 @@ aSpace addChild: (BlElement new background: Color red).
 aSpace withHalos.
 aSpace show.
 ]
+
+{ #category : #accessing }
+UsefulExamples >> searchFilterExamples [
+	<gtExample>
+	^ GtSearchMethodReferencesFilterExamples
+]
