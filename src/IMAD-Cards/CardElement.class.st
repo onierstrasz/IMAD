@@ -14,8 +14,9 @@ Class {
 
 { #category : #accessing }
 CardElement >> buildCardLabel [
-	"TODO
-	Here I wasnt to add a hamburger icon at the right linked to a menu of various actions."
+
+	self todo: 'Add a hamburger dropdown'.
+	
 	^ BrLabel new
 		margin: (BlInsets left: 10);
 		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
@@ -40,10 +41,9 @@ CardElement >> buildContentPane [
 
 { #category : #accessing }
 CardElement >> card: aCard [
-	"
-	TODO: here we should set up announcements!
-	See: GtClassCoderElement>>#classCoder:
-	"
+	self todo: 'set up announcements'.
+	"See: GtClassCoderElement>>#classCoder:"
+	
 	card := aCard.
 	self updateContent
 ]
