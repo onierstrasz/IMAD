@@ -42,9 +42,9 @@ UsefulExamples >> coderHeaderElementForClass [
 ]
 
 { #category : #accessing }
-UsefulExamples >> findAllTodoReferencesInAPackage [
+UsefulExamples >> findAllTodosInAPackage [
 	<gtExample>
-	^ #todo: gtReferences & 'IMAD-Card' gtPackageMatches
+	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
 
 { #category : #accessing }

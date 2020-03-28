@@ -41,7 +41,7 @@ CardElement >> buildContentPane [
 
 { #category : #accessing }
 CardElement >> buildMainMenu [
-	self todo: 'hook in menu items'.
+	<todo: 'hook in menu items'>
 	^ BrButton new 
 		look: BrGlamorousButtonWithIconLook;
 		icon: BrGlamorousIcons hamburger asElement;
@@ -55,8 +55,8 @@ CardElement >> buildTabs [
 	See: BrExamplesShowroom>>#glamorousTabs"
 
 	<gtExample>
+	<todo: 'build the tabs!'>
 	| descriptionView summaryView |
-	self todo: 'build the tabs!'.
 	contentTabs := BrTabGroup new.
 	contentTabs look: BrGlamorousTabGroupLook new.
 	summaryView := GtPhlowEmptyView new
@@ -110,7 +110,7 @@ CardElement >> buildTopPane [
 
 { #category : #accessing }
 CardElement >> card: aCard [
-	self todo: 'set up announcements'.
+	<todo: 'set up announcements'>
 	"See: GtClassCoderElement>>#classCoder:"
 	
 	card := aCard.
