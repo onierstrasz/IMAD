@@ -14,9 +14,6 @@ Class {
 
 { #category : #accessing }
 CardElement >> buildCardLabel [
-
-	self todo: 'Add a hamburger dropdown'.
-	
 	^ BrLabel new
 		margin: (BlInsets left: 10);
 		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
@@ -34,9 +31,7 @@ CardElement >> buildContentPane [
 		c horizontal matchParent.
 		c vertical matchParent ].
 	contentPane addChild: self buildTopPane.
-	"
-	contentPane addChild: self buildCardLabel.
-	contentPane addChild: self buildMainMenu."
+	contentPane addChild: self buildTabs.
 	^ contentPane
 ]
 
@@ -48,6 +43,31 @@ CardElement >> buildMainMenu [
 		icon: BrGlamorousIcons hamburger asElement;
 		label: 'Menu';
 		margin: (BlInsets all: 5)
+]
+
+{ #category : #accessing }
+CardElement >> buildTabs [
+	self todo: 'build the tabs!'.
+	"See: GtClassCoderElement>>#buildContentTabs"
+	"| tabPragmas |
+	tabPragmas := self classViewItems.
+	contentTabs := BrTabGroup new.
+	contentTabs look: BrGlamorousTabGroupLook new.
+	contentTabs constraintsDo: [ :c | c linear weight: 2 ].
+	tabPragmas
+		do: [ :each | 
+			each
+				ifItHasContent: [ | tab |
+					tab := BrTab new
+						look: BrGlamorousTabLook new;
+						label: each title;
+						stencil: [ each asElementDo: [ :el | el ] ].
+					each actions notEmpty
+						ifTrue:
+							[ tab toolbarStencil: [ each actionsToolbarForElement: tab ] ].
+					contentTabs addTab: tab ] ].
+	^ contentTabs"
+
 ]
 
 { #category : #accessing }
