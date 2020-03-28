@@ -48,6 +48,12 @@ UsefulExamples >> findAllTodoReferencesInAPackage [
 ]
 
 { #category : #accessing }
+UsefulExamples >> findExamplesOfAClass [
+	<gtExample>
+	^ BrTab gtReferences & #gtExample gtReferences
+]
+
+{ #category : #accessing }
 UsefulExamples >> hamburgerDropdown [
 	<gtExample>
 	| subSpaceDropdown |
@@ -113,6 +119,25 @@ aSpace extent: 1200 @ 600.
 aSpace addChild: (BlElement new background: Color red).
 aSpace withHalos.
 aSpace show.
+]
+
+{ #category : #accessing }
+UsefulExamples >> paneWithTabs [
+	<gtExample>
+	| contentPane label |
+	contentPane := BlElement new.
+	contentPane layout: BlLinearLayout vertical.
+	contentPane
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	label := BrLabel new
+		margin: (BlInsets left: 10);
+		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
+		text: 'Woohoo'.
+	contentPane addChild: label.
+	contentPane addChild: BrExamplesShowroom new glamorousTabs.
+	^ contentPane
 ]
 
 { #category : #accessing }

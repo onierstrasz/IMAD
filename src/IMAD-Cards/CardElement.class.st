@@ -23,15 +23,19 @@ CardElement >> buildCardLabel [
 { #category : #accessing }
 CardElement >> buildContentPane [
 	"See GtClassCoderElement>>#buildContentPane"
+
 	"used by updateContent to set the container"
-	| contentPane topPane |
+
+	| contentPane |
 	contentPane := BlElement new.
 	contentPane layout: BlLinearLayout vertical.
-	contentPane constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ].
+	contentPane
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
 	contentPane addChild: self buildTopPane.
 	contentPane addChild: self buildTabs.
+	"contentPane addChild: BrExamplesShowroom new glamorousTabs."
 	^ contentPane
 ]
 
@@ -47,27 +51,37 @@ CardElement >> buildMainMenu [
 
 { #category : #accessing }
 CardElement >> buildTabs [
+	"See: GtClassCoderElement>>#buildContentTabs.
+	See: BrExamplesShowroom>>#glamorousTabs"
+
+	<gtExample>
+	| descriptionView summaryView |
 	self todo: 'build the tabs!'.
-	"See: GtClassCoderElement>>#buildContentTabs"
-	"| tabPragmas |
-	tabPragmas := self classViewItems.
 	contentTabs := BrTabGroup new.
 	contentTabs look: BrGlamorousTabGroupLook new.
-	contentTabs constraintsDo: [ :c | c linear weight: 2 ].
-	tabPragmas
+	summaryView := GtPhlowEmptyView new
+		title: 'Summary';
+		yourself.
+	descriptionView := GtPhlowEmptyView new
+		title: 'Description';
+		yourself.
+	"Views are the actual contents of the tabs.
+	Each is a GtPhlowExplicitView.
+	See: GtPhlowExplicitView comment
+	Each view has a title which is the title of the tab."
+	{summaryView.
+	descriptionView}
 		do: [ :each | 
-			each
-				ifItHasContent: [ | tab |
-					tab := BrTab new
-						look: BrGlamorousTabLook new;
-						label: each title;
-						stencil: [ each asElementDo: [ :el | el ] ].
-					each actions notEmpty
+			| tab |
+			tab := BrTab new
+				look: BrGlamorousTabLook new;
+				label: each title;
+				stencil: [ each asElementDo: [ :el | el ] ].
+			"each actions notEmpty
 						ifTrue:
-							[ tab toolbarStencil: [ each actionsToolbarForElement: tab ] ].
-					contentTabs addTab: tab ] ].
-	^ contentTabs"
-
+							[ tab toolbarStencil: [ each actionsToolbarForElement: tab ] ]."
+			contentTabs addTab: tab ].
+	^ contentTabs
 ]
 
 { #category : #accessing }

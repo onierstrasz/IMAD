@@ -35,6 +35,7 @@ Card >> gtLiveFor: aView [
 
 { #category : #accessing }
 Card >> initialize [
+	super initialize.
 	self title: '(undefined)'
 ]
 
