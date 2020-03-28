@@ -29,6 +29,12 @@ UsefulExamples >> autofitElementToContainer [
 ]
 
 { #category : #accessing }
+UsefulExamples >> bugsBunnyContact [
+	<gtExample>
+	^ GtABCartoonAddressBookExample new bugsBunnyContact
+]
+
+{ #category : #accessing }
 UsefulExamples >> coderHeaderElementForClass [
 	<gtExample>
 	"Example of new UI prototype for classes"
@@ -82,6 +88,12 @@ UsefulExamples >> hamburgerWithLabelLook [
 ]
 
 { #category : #accessing }
+UsefulExamples >> johnDoeContact [
+	<gtExample>
+	^ GtABAddressBookExample new johnDoeContact
+]
+
+{ #category : #accessing }
 UsefulExamples >> lookSubtraction [
 	<gtExample>
 	"this simply means that we are not taking BrGlamorousButtonExteriorLook into account in this case, and we will get no border"
@@ -107,4 +119,36 @@ aSpace show.
 UsefulExamples >> searchFilterExamples [
 	<gtExample>
 	^ GtSearchMethodReferencesFilterExamples
+]
+
+{ #category : #accessing }
+UsefulExamples >> textWithMenuAtRight [
+	"Adapted from BlLinearLayoutUsageExamples>>#twoChildrenOnOppositeSidesWithSpan"
+	<gtExample>
+	| parent left span right |
+	
+	parent := BlElement new.
+	parent layout: (BlLinearLayout horizontal).
+	parent constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
+
+	left := BrLabel new
+		margin: (BlInsets left: 10);
+		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
+		text: 'Woohoo!'.
+	
+	span := BlElement new.
+	span constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent. ].
+
+	right := BrButton new 
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousIcons hamburger asElement;
+		label: 'Menu'.
+
+	parent addChildren: { left . span . right }.
+
+	^ parent
 ]

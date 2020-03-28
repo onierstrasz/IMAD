@@ -25,18 +25,25 @@ CardElement >> buildCardLabel [
 
 { #category : #accessing }
 CardElement >> buildContentPane [
-	| contentPane |
+	"See GtClassCoderElement>>#buildContentPane"
+	| contentPane topPane |
 	contentPane := BlElement new.
 	contentPane layout: BlLinearLayout vertical.
 	contentPane constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
 	contentPane addChild: self buildCardLabel.
-	"
-	contentPane addChild: self buildParentLink.
-	contentPane addChild: self buildContentTabs.
-	"
+	contentPane addChild: self buildMainMenu.
 	^ contentPane
+]
+
+{ #category : #accessing }
+CardElement >> buildMainMenu [
+	self todo: 'hook in menu items'.
+	^ BrButton new 
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousIcons hamburger asElement;
+		label: 'Menu'
 ]
 
 { #category : #accessing }
@@ -57,20 +64,6 @@ CardElement >> initialize [
 			c horizontal matchParent.
 			c vertical matchParent ].
 	"NB: don't updateContent until card: has been set!"
-]
-
-{ #category : #accessing }
-CardElement >> simpleView [
-	"simple card skeleton from TG"
-	self
-		size: 200 @ 300;
-		margin: (BlInsets all: 10);
-		look: BrShadowLook;
-		background: Color white;
-		addChild:
-			(BrLabel new
-				look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
-				text: 'Woohoo')
 ]
 
 { #category : #accessing }
