@@ -50,7 +50,7 @@ UsefulExamples >> findAllTodoReferencesInAPackage [
 { #category : #accessing }
 UsefulExamples >> findExamplesOfAClass [
 	<gtExample>
-	^ BrTab gtReferences & #gtExample gtReferences
+	^ BrTab gtReferences & #gtExample gtPragmas
 ]
 
 { #category : #accessing }
