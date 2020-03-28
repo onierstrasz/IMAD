@@ -1,7 +1,6 @@
 "
 I contain a bunch of examples of index cards to specify domain concepts.
-    
-    
+
 "
 Class {
 	#name : #CardExamples,

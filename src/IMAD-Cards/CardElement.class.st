@@ -26,14 +26,17 @@ CardElement >> buildCardLabel [
 { #category : #accessing }
 CardElement >> buildContentPane [
 	"See GtClassCoderElement>>#buildContentPane"
+	"used by updateContent to set the container"
 	| contentPane topPane |
 	contentPane := BlElement new.
 	contentPane layout: BlLinearLayout vertical.
 	contentPane constraintsDo: [ :c | 
 		c horizontal matchParent.
 		c vertical matchParent ].
+	contentPane addChild: self buildTopPane.
+	"
 	contentPane addChild: self buildCardLabel.
-	contentPane addChild: self buildMainMenu.
+	contentPane addChild: self buildMainMenu."
 	^ contentPane
 ]
 
@@ -43,7 +46,32 @@ CardElement >> buildMainMenu [
 	^ BrButton new 
 		look: BrGlamorousButtonWithIconLook;
 		icon: BrGlamorousIcons hamburger asElement;
-		label: 'Menu'
+		label: 'Menu';
+		margin: (BlInsets all: 5)
+]
+
+{ #category : #accessing }
+CardElement >> buildTopPane [
+	| top left span right |
+	
+	top := BlElement new.
+	top layout: (BlLinearLayout horizontal).
+	top constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical fitContent ].
+
+	left := self buildCardLabel.
+	
+	span := BlElement new.
+	span constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent. ].
+
+	right := self buildMainMenu.
+
+	top addChildren: { left . span . right }.
+
+	^ top
 ]
 
 { #category : #accessing }
