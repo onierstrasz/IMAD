@@ -51,11 +51,12 @@ CardElement >> buildMainMenu [
 
 { #category : #accessing }
 CardElement >> buildTabs [
+	<gtExample>
+	<todo: 'build the actual tabs!'>
+
 	"See: GtClassCoderElement>>#buildContentTabs.
 	See: BrExamplesShowroom>>#glamorousTabs"
-
-	<gtExample>
-	<todo: 'build the tabs!'>
+	
 	| descriptionView summaryView |
 	contentTabs := BrTabGroup new.
 	contentTabs look: BrGlamorousTabGroupLook new.
