@@ -169,7 +169,9 @@ UsefulExamples >> paneWithTabs [
 UsefulExamples >> popupList [
 	<gtExample>
 	<todo: 'make own example here'>
-	
+	"See BrDropdownExamples>>#popuList"
+	"How do we replace this with our own menu?"
+	"I don't want a list to select from, but a list of actions to perform."
 	^ BrSimpleListExamples new exampleWithSelection
 		lookDo: [ :aLook | aLook listElement constraintsDo: [ :c | c maxHeight: 200 ] ];
 		layout: BlLinearLayout vertical;
