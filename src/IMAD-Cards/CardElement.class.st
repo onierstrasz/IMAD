@@ -42,6 +42,8 @@ CardElement >> buildContentPane [
 { #category : #accessing }
 CardElement >> buildMainMenu [
 	<todo: 'hook in menu items'>
+	<gtExample>
+	"See: GtWorldElement>>#newSubSpaceButton"
 	^ BrButton new 
 		look: BrGlamorousButtonWithIconLook;
 		icon: BrGlamorousIcons hamburger asElement;

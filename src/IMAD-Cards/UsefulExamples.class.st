@@ -56,6 +56,31 @@ UsefulExamples >> findExamplesOfAClass [
 { #category : #accessing }
 UsefulExamples >> hamburgerDropdown [
 	<gtExample>
+	<todo: 'complete this example'>
+	| subSpaceDropdown |
+	subSpaceDropdown := BrButton new
+		look:
+			BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook
+				+
+					(BrGlamorousWithDropdownLook
+						handle: [ BrButton new
+								look:
+									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
+										- BrGlamorousButtonExteriorLook;
+								icon: BrGlamorousIcons hamburger asElement;
+								label: 'Menu' ]
+						content: [ self popupList ]);
+		icon: BrGlamorousIcons hamburger asElement;
+		label: 'Menu';
+		yourself.
+	^ subSpaceDropdown
+]
+
+{ #category : #accessing }
+UsefulExamples >> hamburgerDropdownOLD [
+	<gtExample>
+	<todo: 'delete this when new version is complete'>
+	"See hamburgerDropdown for an extended version ..."
 	| subSpaceDropdown |
 	subSpaceDropdown := BrButton new
 		look:
@@ -138,6 +163,19 @@ UsefulExamples >> paneWithTabs [
 	contentPane addChild: label.
 	contentPane addChild: BrExamplesShowroom new glamorousTabs.
 	^ contentPane
+]
+
+{ #category : #accessing }
+UsefulExamples >> popupList [
+	<gtExample>
+	<todo: 'make own example here'>
+	
+	^ BrSimpleListExamples new exampleWithSelection
+		lookDo: [ :aLook | aLook listElement constraintsDo: [ :c | c maxHeight: 200 ] ];
+		layout: BlLinearLayout vertical;
+		padding: (BlInsets all: 5);
+		vFitContent;
+		hExact: 200
 ]
 
 { #category : #accessing }
