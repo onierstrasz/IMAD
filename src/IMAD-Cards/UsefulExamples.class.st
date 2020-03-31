@@ -126,30 +126,6 @@ UsefulExamples >> hamburgerDropdown [
 ]
 
 { #category : #accessing }
-UsefulExamples >> hamburgerDropdownOLD [
-	<gtExample>
-	<todo: 'delete this when new version is complete'>
-	"See hamburgerDropdown for an extended version ..."
-	| subSpaceDropdown |
-	subSpaceDropdown := BrButton new
-		look:
-			BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook
-				+
-					(BrGlamorousWithDropdownLook
-						handle: [ BrButton new
-								look:
-									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
-										- BrGlamorousButtonExteriorLook;
-								icon: BrGlamorousIcons hamburger asElement;
-								label: 'Menu' ]
-						content: [ BlElement new background: Color red ]);
-		icon: BrGlamorousIcons hamburger asElement;
-		label: 'Menu';
-		yourself.
-	^ subSpaceDropdown
-]
-
-{ #category : #accessing }
 UsefulExamples >> hamburgerWithIconLook [
 	<gtExample>
 	^ BrButton new 
