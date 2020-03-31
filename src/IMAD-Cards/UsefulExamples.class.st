@@ -54,9 +54,56 @@ UsefulExamples >> findExamplesOfAClass [
 ]
 
 { #category : #accessing }
+UsefulExamples >> gtToolsMenu [
+	<gtExample>
+	"See GtWorldElement>>#newSubSpaceButton and GtToolsMenu"
+	| menu |
+	"menu := GtToolsMenu new."
+	menu := BlElement new.
+
+	"initialize"
+	menu layout: BlFlowLayout new.
+	menu constraintsDo: [ :c | 
+			c vertical fitContent.
+			c horizontal exact: 420 ].
+	menu padding: (BlInsets top: 10 bottom: 10).
+	
+	menu removeChildren.
+
+	menu addChild: (GtHomeToolsSection new newPlaygroundButtonStencil smallIcon create size: 100@100).
+	menu addChild: (GtHomeToolsSection new newCoderButtonStencil smallIcon create  size: 100@100).
+	menu addChild: (GtHomeToolsSection new newGitButtonStencil smallIcon create  size: 100@100).
+	menu addChild: (GtHomeToolsSection new newMonitorButtonStencil smallIcon create  size: 100@100).
+	menu addChild: (GtHomeToolsSection new newExamplesButtonStencil smallIcon create  size: 100@100).
+	menu addChild: (GtHomeToolsSection new newTranscriptButtonStencil smallIcon create  size: 100@100).
+	menu addChild: (GtHomeToolsSection new newMorphicWorldButtonStencil smallIcon create  size: 100@100).
+		
+	menu addChild: (BlElement new
+		layout: (BlLinearLayout horizontal cellSpacing: 10);
+		margin: (BlInsets top: 25 left: 10 bottom: 5 right: 10);
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical fitContent ];
+		addChildren: {
+			BrButton new
+				look: BrGlamorousButtonWithLabelLook new;
+				label: 'Save';
+				hMatchParent;
+				action: [ :aButton | aButton space universe snapshot: true andQuit: false ].
+				
+			BrButton new
+				look: (BrGlamorousButtonWithLabelLook new);
+				label: 'Quit';
+				hMatchParent;
+				action: [ :aButton | aButton space universe snapshot: false andQuit: true ] }).
+
+	^ menu
+]
+
+{ #category : #accessing }
 UsefulExamples >> hamburgerDropdown [
 	<gtExample>
-	<todo: 'complete this example'>
+	<todo: 'complete this example. Instead of a list or the GtToolsMenu, implement some custom actions.'>
 	| subSpaceDropdown |
 	subSpaceDropdown := BrButton new
 		look:
@@ -69,7 +116,9 @@ UsefulExamples >> hamburgerDropdown [
 										- BrGlamorousButtonExteriorLook;
 								icon: BrGlamorousIcons hamburger asElement;
 								label: 'Menu' ]
-						content: [ self popupList ]);
+						content: [
+							self gtToolsMenu
+						 ]);
 		icon: BrGlamorousIcons hamburger asElement;
 		label: 'Menu';
 		yourself.
@@ -168,7 +217,7 @@ UsefulExamples >> paneWithTabs [
 { #category : #accessing }
 UsefulExamples >> popupList [
 	<gtExample>
-	<todo: 'make own example here'>
+	<todo: 'make own example here to call from hamburgerDropdown'>
 	"See BrDropdownExamples>>#popuList"
 	"How do we replace this with our own menu?"
 	"I don't want a list to select from, but a list of actions to perform."
