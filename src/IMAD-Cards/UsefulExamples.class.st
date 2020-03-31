@@ -29,6 +29,40 @@ UsefulExamples >> autofitElementToContainer [
 ]
 
 { #category : #accessing }
+UsefulExamples >> badgeButton [
+	<gtExample>
+	"Example by TG"
+
+	^ BrButton new
+		layout: BlLinearLayout horizontal;
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ];
+		padding: (BlInsets all: 7);
+		icon: BrGlamorousIcons hamburger asElement;
+		look: 
+			BrGlamorousButtonWithIconLook +
+			(BrGlamorousWithDropdownLook new stencil: [ 
+				| aList |
+				aList := BrGlamorousSimpleContextMenuContent new.
+				aList
+					display:
+							{('Action 1' -> [ self halt ]).
+							('Action 2' -> [ self halt ]).
+							('Action 3' -> [ self halt ])};
+						yourself.
+				BrAnchoredElement new look:
+					(BrGlamorousDropdownLook new
+						handle: (BrButton new icon: BrGlamorousIcons hamburger asElement; look:
+			BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook);
+						content: (aList
+							padding: (BlInsets all: 5);
+							vFitContent;
+							hExact: 200)) ]);
+		relocate: 200 @ 100
+]
+
+{ #category : #accessing }
 UsefulExamples >> bugsBunnyContact [
 	<gtExample>
 	^ GtABCartoonAddressBookExample new bugsBunnyContact
