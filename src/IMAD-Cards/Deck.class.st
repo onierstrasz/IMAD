@@ -22,3 +22,9 @@ Deck >> initialize [
 	super initialize.
 	cards := OrderedCollection new.
 ]
+
+{ #category : #accessing }
+Deck >> listTodos [
+	<gtExample>
+	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
+]

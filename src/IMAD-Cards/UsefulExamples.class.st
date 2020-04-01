@@ -137,7 +137,6 @@ UsefulExamples >> gtToolsMenu [
 { #category : #accessing }
 UsefulExamples >> hamburgerDropdown [
 	<gtExample>
-	<todo: 'complete this example. Instead of a list or the GtToolsMenu, implement some custom actions.'>
 	| subSpaceDropdown |
 	subSpaceDropdown := BrButton new
 		look:
@@ -222,21 +221,6 @@ UsefulExamples >> paneWithTabs [
 	contentPane addChild: label.
 	contentPane addChild: BrExamplesShowroom new glamorousTabs.
 	^ contentPane
-]
-
-{ #category : #accessing }
-UsefulExamples >> popupList [
-	<gtExample>
-	<todo: 'make own example here to call from hamburgerDropdown'>
-	"See BrDropdownExamples>>#popuList"
-	"How do we replace this with our own menu?"
-	"I don't want a list to select from, but a list of actions to perform."
-	^ BrSimpleListExamples new exampleWithSelection
-		lookDo: [ :aLook | aLook listElement constraintsDo: [ :c | c maxHeight: 200 ] ];
-		layout: BlLinearLayout vertical;
-		padding: (BlInsets all: 5);
-		vFitContent;
-		hExact: 200
 ]
 
 { #category : #accessing }

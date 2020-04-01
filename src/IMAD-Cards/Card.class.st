@@ -38,7 +38,7 @@ Card >> description: aString [
 
 { #category : #accessing }
 Card >> get: propertySymbol [
-	<todo: 'Should return a dediacted Null object if absent'>
+	<todo: 'Should return a dedicated Null object if absent'>
 	^ properties at: propertySymbol ifAbsent: nil
 ]
 
@@ -53,9 +53,11 @@ Card >> gtLiveFor: aView [
 
 { #category : #accessing }
 Card >> initialize [
-	<todo: 'Should properties be an instance of IdentityDictionary?'>
+	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
 	properties := Dictionary new.
+	self name: 'Unknown'.
+	self description: 'To do.'
 ]
 
 { #category : #accessing }

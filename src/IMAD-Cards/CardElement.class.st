@@ -54,16 +54,18 @@ CardElement >> buildMainMenu [
 { #category : #accessing }
 CardElement >> buildTabs [
 	<gtExample>
-	<todo: 'build the actual tabs!'>
+	<todo: 'build the actual tabs!
+	The Description should be a Pillar document (like a class comment).
+	The Property view should be a list of keys and values (summaries if necessary).'>
 
 	"See: GtClassCoderElement>>#buildContentTabs.
 	See: BrExamplesShowroom>>#glamorousTabs"
 	
-	| descriptionView summaryView |
+	| descriptionView propertyView |
 	contentTabs := BrTabGroup new.
 	contentTabs look: BrGlamorousTabGroupLook new.
-	summaryView := GtPhlowEmptyView new
-		title: 'Summary';
+	propertyView := GtPhlowEmptyView new
+		title: 'Properties';
 		yourself.
 	descriptionView := GtPhlowEmptyView new
 		title: 'Description';
@@ -72,8 +74,7 @@ CardElement >> buildTabs [
 	Each is a GtPhlowExplicitView.
 	See: GtPhlowExplicitView comment
 	Each view has a title which is the title of the tab."
-	{summaryView.
-	descriptionView}
+	{ descriptionView . propertyView }
 		do: [ :each | 
 			| tab |
 			tab := BrTab new
