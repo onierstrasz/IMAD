@@ -11,9 +11,10 @@ Class {
 	#name : #Card,
 	#superclass : #Object,
 	#instVars : [
-		'title'
+		'name',
+		'properties'
 	],
-	#category : #'IMAD-Cards'
+	#category : #'IMAD-Cards-Model'
 }
 
 { #category : #accessing }
@@ -22,6 +23,23 @@ Card >> asElement [
 	element := CardElement new.
 	element card: self.
 	^ element
+]
+
+{ #category : #accessing }
+Card >> description [
+	^ self get: #description
+]
+
+{ #category : #accessing }
+Card >> description: aString [
+	self set: #description to: aString
+
+]
+
+{ #category : #accessing }
+Card >> get: propertySymbol [
+	<todo: 'Should return a dediacted Null object if absent'>
+	^ properties at: propertySymbol ifAbsent: nil
 ]
 
 { #category : #accessing }
@@ -35,17 +53,23 @@ Card >> gtLiveFor: aView [
 
 { #category : #accessing }
 Card >> initialize [
+	<todo: 'Should properties be an instance of IdentityDictionary?'>
 	super initialize.
-	self title: '(undefined)'
+	properties := Dictionary new.
 ]
 
 { #category : #accessing }
-Card >> title [
-	^ title
+Card >> name [
+	^ self get: #name
 ]
 
 { #category : #accessing }
-Card >> title: aString [
-	title := aString 
+Card >> name: aString [
+	self set: #name to: aString
 
+]
+
+{ #category : #accessing }
+Card >> set: propertySymbol to: aValue [
+	^ properties at: propertySymbol put: aValue
 ]

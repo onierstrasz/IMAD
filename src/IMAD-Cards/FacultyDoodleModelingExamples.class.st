@@ -11,41 +11,27 @@ Class {
 	#name : #FacultyDoodleModelingExamples,
 	#superclass : #Object,
 	#instVars : [
-		'universe',
-		'domain'
+		'deck'
 	],
-	#category : #'IMAD-Cards'
+	#category : #'IMAD-Cards-Examples'
 }
 
 { #category : #accessing }
 FacultyDoodleModelingExamples >> committeeConcept [
 	<gtExample>
-	
+	| card |
+	self assert: (deck cardsNamed: 'committee') isEmpty.
+	card := Card new.
+	card name: 'committee';
+		description: 'I am a committee within the Faculty of Science of the University of Bern.';
+		yourself.
+	deck add: card.
+	self assert: (deck cardsNamed: 'committee') size equals: 1.
+	^ card
 ]
 
 { #category : #accessing }
-FacultyDoodleModelingExamples >> facultyDoodleDomain [
-	<gtExample>
-	domain ifNil: [
-		domain := Card new.
-		domain name: #FacultyDoodle;
-			kind: #domain;
-			universe: self imadUniverse;
-			description: 'I am the domain of Doodles for meetings of committees of the Faculty of Science of the University of Bern.'.
-		self assert: domain concepts isEmpty.
-	].
-	^ domain
-]
-
-{ #category : #accessing }
-FacultyDoodleModelingExamples >> imadUniverse [
-	<gtExample>
-	universe ifNil: [
-		universe := Card new.
-		universe name: #IMAD;
-			kind: #universe;
-			description: 'I am the universe of domains used to exemplify and test the IMAD modeling framework.'.
-		self assert: universe domains isEmpty.
-		].
-	^ universe
+FacultyDoodleModelingExamples >> initialize [
+	super initialize.
+	deck := Deck new.
 ]

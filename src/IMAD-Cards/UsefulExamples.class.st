@@ -6,7 +6,7 @@ I collect some useful examples provided by the feenk team.
 Class {
 	#name : #UsefulExamples,
 	#superclass : #Object,
-	#category : #'IMAD-Cards'
+	#category : #'IMAD-Cards-Examples'
 }
 
 { #category : #accessing }

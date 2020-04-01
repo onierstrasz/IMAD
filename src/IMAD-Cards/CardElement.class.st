@@ -9,7 +9,7 @@ Class {
 		'container',
 		'contentTabs'
 	],
-	#category : #'IMAD-Cards'
+	#category : #'IMAD-Cards-UI'
 }
 
 { #category : #accessing }
@@ -17,7 +17,7 @@ CardElement >> buildCardLabel [
 	^ BrLabel new
 		margin: (BlInsets left: 10);
 		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
-		text: card title
+		text: card name
 ]
 
 { #category : #accessing }
