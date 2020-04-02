@@ -1,5 +1,5 @@
 Class {
-	#name : #Deck,
+	#name : #CardDeck,
 	#superclass : #Object,
 	#instVars : [
 		'cards'
@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #accessing }
-Deck >> add: aCard [
+CardDeck >> add: aCard [
 	cards add: aCard
 ]
 
 { #category : #accessing }
-Deck >> cardNamed: aString [
+CardDeck >> cardNamed: aString [
 	| result |
 	result := cards select: [:each | each name = aString].
 	self assert: result size equals: 1.
@@ -21,23 +21,23 @@ Deck >> cardNamed: aString [
 ]
 
 { #category : #accessing }
-Deck >> cardsNamed: aString [
+CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
 
 { #category : #accessing }
-Deck >> initialize [
+CardDeck >> initialize [
 	super initialize.
 	cards := OrderedCollection new.
 ]
 
 { #category : #accessing }
-Deck >> isEmpty [
+CardDeck >> isEmpty [
 	^ cards isEmpty
 ]
 
 { #category : #accessing }
-Deck >> listTodos [
+CardDeck >> listTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]

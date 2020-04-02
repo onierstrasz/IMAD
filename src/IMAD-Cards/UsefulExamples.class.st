@@ -47,12 +47,6 @@ UsefulExamples >> autofitElementToContainer [
 ]
 
 { #category : #accessing }
-UsefulExamples >> bugsBunnyContact [
-	<gtExample>
-	^ GtABCartoonAddressBookExample new bugsBunnyContact
-]
-
-{ #category : #accessing }
 UsefulExamples >> buildDifferentKindsOfTabs [
 	<gtExample>
 	<todo: 'Add more examples of different kinds of tabs.'>
@@ -77,7 +71,7 @@ UsefulExamples >> buildDifferentKindsOfTabs [
 				c vertical exact: 300 ];
 			margin: (BlInsets all: 10);
 			background: (Color blue alpha: 0.2) ]).
-	
+
 	^ tabs
 ]
 
@@ -274,6 +268,11 @@ UsefulExamples >> paneWithTabs [
 UsefulExamples >> searchFilterExamples [
 	<gtExample>
 	^ GtSearchMethodReferencesFilterExamples
+]
+
+{ #category : #accessing }
+UsefulExamples >> simpsons [
+	^ OrderedCollection with: 'Homer' with: 'Marge' with: 'Lisa' with: 'Bart' with: 'Maggie'
 ]
 
 { #category : #accessing }

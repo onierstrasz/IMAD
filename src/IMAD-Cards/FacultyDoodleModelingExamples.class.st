@@ -17,7 +17,7 @@ Class {
 FacultyDoodleModelingExamples >> committeeConcept [
 	<gtExample>
 	| deck card cardName |
-	deck := Deck new.
+	deck := CardDeck new.
 	cardName := 'Committee'.
 	self assert: (deck cardsNamed: cardName) isEmpty.
 	card := Card new.

@@ -3,7 +3,7 @@ I contain basic example to test the functionality of Cards and CardElements.
 
 "
 Class {
-	#name : #CardExamples,
+	#name : #CardDeckTestExamples,
 	#superclass : #Object,
 	#instVars : [
 		'cardOneName'
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #accessing }
-CardExamples >> addCardOneToDeck [
+CardDeckTestExamples >> addCardOneToDeck [
 	<gtExample>
 	| deck card |
 	deck := self emptyDeck.
@@ -26,22 +26,22 @@ CardExamples >> addCardOneToDeck [
 ]
 
 { #category : #accessing }
-CardExamples >> emptyDeck [
+CardDeckTestExamples >> emptyDeck [
 	<gtExample>
 	| deck |
-	deck := Deck new.
+	deck := CardDeck new.
 	self assert: deck isEmpty.
 	^ deck
 ]
 
 { #category : #accessing }
-CardExamples >> initialize [
+CardDeckTestExamples >> initialize [
 	super initialize.
 	cardOneName := 'Card1'
 ]
 
 { #category : #accessing }
-CardExamples >> updateCardOneDescription [
+CardDeckTestExamples >> updateCardOneDescription [
 	<gtExample>
 	"Check that updates to a GtDocument view of a Card's description are propagated back to the Card."
 	| deck card gtDoc newDescription |
