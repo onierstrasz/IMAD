@@ -10,16 +10,14 @@ Committee members can be contacted by email or phone
 Class {
 	#name : #FacultyDoodleModelingExamples,
 	#superclass : #Object,
-	#instVars : [
-		'deck'
-	],
 	#category : #'IMAD-Cards-Examples'
 }
 
 { #category : #accessing }
 FacultyDoodleModelingExamples >> committeeConcept [
 	<gtExample>
-	| card cardName |
+	| deck card cardName |
+	deck := Deck new.
 	cardName := 'Committee'.
 	self assert: (deck cardsNamed: cardName) isEmpty.
 	card := Card new.
@@ -28,11 +26,5 @@ FacultyDoodleModelingExamples >> committeeConcept [
 		yourself.
 	deck add: card.
 	self assert: (deck cardsNamed: cardName) size equals: 1.
-	^ card
-]
-
-{ #category : #accessing }
-FacultyDoodleModelingExamples >> initialize [
-	super initialize.
-	deck := Deck new.
+	^ deck
 ]

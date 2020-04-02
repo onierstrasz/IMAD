@@ -13,6 +13,14 @@ Deck >> add: aCard [
 ]
 
 { #category : #accessing }
+Deck >> cardNamed: aString [
+	| result |
+	result := cards select: [:each | each name = aString].
+	self assert: result size equals: 1.
+	^ result at: 1
+]
+
+{ #category : #accessing }
 Deck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
@@ -21,6 +29,11 @@ Deck >> cardsNamed: aString [
 Deck >> initialize [
 	super initialize.
 	cards := OrderedCollection new.
+]
+
+{ #category : #accessing }
+Deck >> isEmpty [
+	^ cards isEmpty
 ]
 
 { #category : #accessing }

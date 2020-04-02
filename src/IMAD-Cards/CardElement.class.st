@@ -7,7 +7,8 @@ Class {
 	#instVars : [
 		'card',
 		'container',
-		'tabs'
+		'tabs',
+		'testingDict'
 	],
 	#category : #'IMAD-Cards-UI'
 }
@@ -60,14 +61,22 @@ CardElement >> buildTabs [
 	"See: GtClassCoderElement>>#buildtabs.
 	See: BrExamplesShowroom>>#glamorousTabs"
 	
-	| descriptionView propertyView |
+	| gtDoc |
 	tabs := BrTabGroup new.
 	tabs look: BrGlamorousTabGroupLook new.
 	
 	tabs addTab: (BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Description';
-		stencil: [ GtDocument new text: (card description)]). "NB: This is just a static link."
+		stencil: [
+			gtDoc := GtDocument new.
+			gtDoc text: (card description).
+			gtDoc
+				when: GtDocumentUpdateRequestedAnnouncement
+				do: [ card description: gtDoc text asString ].
+			self testingDictAt: #gtDocForDescription put: gtDoc.
+			gtDoc
+		]).
 
 	tabs addTab: (BrTab new
 		look: BrGlamorousTabLook new;
@@ -124,6 +133,22 @@ CardElement >> initialize [
 			c horizontal matchParent.
 			c vertical matchParent ].
 	card := Card new. "placeholder"
+	testingDict := Dictionary new.
+]
+
+{ #category : #accessing }
+CardElement >> testingDictAt: key [
+	^ testingDict at: key
+
+
+]
+
+{ #category : #accessing }
+CardElement >> testingDictAt: key put: value [
+	"Private stuff to make accessible for testing."
+	testingDict at: key put: value
+
+
 ]
 
 { #category : #accessing }

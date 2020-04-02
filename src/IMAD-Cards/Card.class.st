@@ -26,6 +26,16 @@ Card >> asElement [
 ]
 
 { #category : #accessing }
+Card >> defaultDescription [
+	^ 'To do'
+]
+
+{ #category : #accessing }
+Card >> defaultName [
+	^ 'Unknown'
+]
+
+{ #category : #accessing }
 Card >> description [
 	^ self get: #description
 ]
@@ -56,8 +66,8 @@ Card >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
 	properties := Dictionary new.
-	self name: 'Unknown'.
-	self description: 'To do.'
+	self name: self defaultName.
+	self description: self defaultDescription.
 ]
 
 { #category : #accessing }

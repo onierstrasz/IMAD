@@ -10,6 +10,24 @@ Class {
 }
 
 { #category : #accessing }
+UsefulExamples >> attachGtDocToModel [
+	<gtExample>
+	| dict doc |
+	dict := Dictionary new.
+	dict at: #name put: 'Homer'.
+	doc := GtDocument new.
+	doc text: (dict at: #name).
+	doc
+		when: GtDocumentUpdateRequestedAnnouncement
+		do: [ dict at: #name put: doc text asString ].
+	"GtInspector openOn: doc."
+	doc text: 'Madge'.
+	doc mayRequestDocumentUpdate.
+	self assert: (dict at: #name) equals: 'Madge'.
+	^ doc
+]
+
+{ #category : #accessing }
 UsefulExamples >> autofitElementToContainer [
 	<gtExample>
 	
