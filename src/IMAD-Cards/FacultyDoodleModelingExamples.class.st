@@ -19,14 +19,15 @@ Class {
 { #category : #accessing }
 FacultyDoodleModelingExamples >> committeeConcept [
 	<gtExample>
-	| card |
-	self assert: (deck cardsNamed: 'committee') isEmpty.
+	| card cardName |
+	cardName := 'Committee'.
+	self assert: (deck cardsNamed: cardName) isEmpty.
 	card := Card new.
-	card name: 'committee';
+	card name: cardName;
 		description: 'I am a committee within the Faculty of Science of the University of Bern.';
 		yourself.
 	deck add: card.
-	self assert: (deck cardsNamed: 'committee') size equals: 1.
+	self assert: (deck cardsNamed: cardName) size equals: 1.
 	^ card
 ]
 

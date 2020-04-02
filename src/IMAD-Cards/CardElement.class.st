@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'card',
 		'container',
-		'contentTabs'
+		'tabs'
 	],
 	#category : #'IMAD-Cards-UI'
 }
@@ -54,38 +54,32 @@ CardElement >> buildMainMenu [
 { #category : #accessing }
 CardElement >> buildTabs [
 	<gtExample>
-	<todo: 'build the actual tabs!
-	The Description should be a Pillar document (like a class comment).
-	The Property view should be a list of keys and values (summaries if necessary).'>
+	<todo: 'Add the property list tab'>
+	<todo: 'Link the description view to the card via announcements?'>
 
-	"See: GtClassCoderElement>>#buildContentTabs.
+	"See: GtClassCoderElement>>#buildtabs.
 	See: BrExamplesShowroom>>#glamorousTabs"
 	
 	| descriptionView propertyView |
-	contentTabs := BrTabGroup new.
-	contentTabs look: BrGlamorousTabGroupLook new.
-	propertyView := GtPhlowEmptyView new
-		title: 'Properties';
-		yourself.
-	descriptionView := GtPhlowEmptyView new
-		title: 'Description';
-		yourself.
-	"Views are the actual contents of the tabs.
-	Each is a GtPhlowExplicitView.
-	See: GtPhlowExplicitView comment
-	Each view has a title which is the title of the tab."
-	{ descriptionView . propertyView }
-		do: [ :each | 
-			| tab |
-			tab := BrTab new
-				look: BrGlamorousTabLook new;
-				label: each title;
-				stencil: [ each asElementDo: [ :el | el ] ].
-			"each actions notEmpty
-						ifTrue:
-							[ tab toolbarStencil: [ each actionsToolbarForElement: tab ] ]."
-			contentTabs addTab: tab ].
-	^ contentTabs
+	tabs := BrTabGroup new.
+	tabs look: BrGlamorousTabGroupLook new.
+	
+	tabs addTab: (BrTab new
+		look: BrGlamorousTabLook new;
+		label: 'Description';
+		stencil: [ GtDocument new text: (card description)]). "NB: This is just a static link."
+
+	tabs addTab: (BrTab new
+		look: BrGlamorousTabLook new;
+		label: 'Properties';
+		stencil: [ BlElement new
+			constraintsDo: [ :c |
+				c horizontal matchParent.
+				c vertical exact: 300 ];
+			margin: (BlInsets all: 10);
+			background: (Color blue alpha: 0.2) ]).
+
+	^ tabs
 ]
 
 { #category : #accessing }
@@ -129,7 +123,7 @@ CardElement >> initialize [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ].
-	"NB: don't updateContent until card: has been set!"
+	card := Card new. "placeholder"
 ]
 
 { #category : #accessing }

@@ -29,7 +29,42 @@ UsefulExamples >> autofitElementToContainer [
 ]
 
 { #category : #accessing }
-UsefulExamples >> badgeButton [
+UsefulExamples >> bugsBunnyContact [
+	<gtExample>
+	^ GtABCartoonAddressBookExample new bugsBunnyContact
+]
+
+{ #category : #accessing }
+UsefulExamples >> buildDifferentKindsOfTabs [
+	<gtExample>
+	<todo: 'Add more examples of different kinds of tabs.'>
+	| tabs |
+	"Sources:
+	BrExamplesShowroom>>#glamorousTabs
+	"
+	tabs := BrTabGroup new.
+	tabs look: BrGlamorousTabGroupLook new.
+		
+	tabs addTab: (BrTab new
+		look: BrGlamorousTabLook new;
+		label: 'Text';
+		stencil: [ GtDocument new text: 'Sample text']).
+
+	tabs addTab: (BrTab new
+		look: BrGlamorousTabLook new;
+		label: 'BlueBox';
+		stencil: [ BlElement new
+			constraintsDo: [ :c |
+				c horizontal matchParent.
+				c vertical exact: 300 ];
+			margin: (BlInsets all: 10);
+			background: (Color blue alpha: 0.2) ]).
+	
+	^ tabs
+]
+
+{ #category : #accessing }
+UsefulExamples >> buttonWithActions [
 	<gtExample>
 	"Example by TG"
 
@@ -60,12 +95,6 @@ UsefulExamples >> badgeButton [
 							vFitContent;
 							hExact: 200)) ]);
 		relocate: 200 @ 100
-]
-
-{ #category : #accessing }
-UsefulExamples >> bugsBunnyContact [
-	<gtExample>
-	^ GtABCartoonAddressBookExample new bugsBunnyContact
 ]
 
 { #category : #accessing }
@@ -219,7 +248,7 @@ UsefulExamples >> paneWithTabs [
 		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
 		text: 'Woohoo'.
 	contentPane addChild: label.
-	contentPane addChild: BrExamplesShowroom new glamorousTabs.
+	contentPane addChild: self buildDifferentKindsOfTabs.
 	^ contentPane
 ]
 
