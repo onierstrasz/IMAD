@@ -17,10 +17,12 @@ CardDeckTestExamples >> addCardOneToDeck [
 	| deck card |
 	deck := self emptyDeck.
 	self assert: (deck cardsNamed: cardOneName) isEmpty.
+	
 	card := Card new.
 	card name: cardOneName;
 		yourself.
 	deck add: card.
+	
 	self assert: (deck cardsNamed: cardOneName) size equals: 1.
 	^ deck
 ]
@@ -35,6 +37,19 @@ CardDeckTestExamples >> emptyDeck [
 ]
 
 { #category : #accessing }
+CardDeckTestExamples >> getCardOne [
+	<gtExample>
+	"Check that an added card has the right properties"
+	| deck card |
+	deck := self addCardOneToDeck.
+	card := deck cardNamed: cardOneName.
+	self assert: card name equals: cardOneName.
+	self assert: card description equals: card defaultDescription.
+	
+	^ deck
+]
+
+{ #category : #accessing }
 CardDeckTestExamples >> initialize [
 	super initialize.
 	cardOneName := 'Card1'
@@ -45,15 +60,14 @@ CardDeckTestExamples >> updateCardOneDescription [
 	<gtExample>
 	"Check that updates to a GtDocument view of a Card's description are propagated back to the Card."
 	| deck card gtDoc newDescription |
-	deck := self addCardOneToDeck.
+	deck := self getCardOne.
 	card := deck cardNamed: cardOneName.
-	newDescription := 'An updated description.'.
-	self assert: card description equals: card defaultDescription.
 	
+	newDescription := 'An updated description.'.
 	gtDoc := card asElement testingDictAt: #gtDocForDescription.
 	gtDoc text: newDescription.
 	gtDoc mayRequestDocumentUpdate.
+	
 	self assert: card description equals: newDescription.
-
 	^ deck
 ]

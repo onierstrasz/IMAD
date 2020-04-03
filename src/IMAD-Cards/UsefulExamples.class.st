@@ -50,6 +50,7 @@ UsefulExamples >> autofitElementToContainer [
 UsefulExamples >> buildDifferentKindsOfTabs [
 	<gtExample>
 	<todo: 'Add more examples of different kinds of tabs.'>
+	<todo: 'Add a list tab example (simpsons)'>
 	| tabs |
 	"Sources:
 	BrExamplesShowroom>>#glamorousTabs
@@ -71,6 +72,17 @@ UsefulExamples >> buildDifferentKindsOfTabs [
 				c vertical exact: 300 ];
 			margin: (BlInsets all: 10);
 			background: (Color blue alpha: 0.2) ]).
+
+	tabs addTab: (BrTab new
+		look: BrGlamorousTabLook new;
+		label: 'Simpsons';
+		stencil: [ BlElement new
+			constraintsDo: [ :c |
+				c horizontal matchParent.
+				c vertical exact: 300 ];
+			margin: (BlInsets all: 10);
+			background: (Color blue alpha: 0.2) ]).
+
 
 	^ tabs
 ]

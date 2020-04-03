@@ -26,6 +26,16 @@ CardDeck >> cardsNamed: aString [
 ]
 
 { #category : #accessing }
+CardDeck >> gtCardsFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Cards';
+		priority: 2;
+		object: [ cards ];
+		view: #gtItemsFor:
+]
+
+{ #category : #accessing }
 CardDeck >> initialize [
 	super initialize.
 	cards := OrderedCollection new.

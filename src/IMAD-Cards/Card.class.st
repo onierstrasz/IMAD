@@ -82,6 +82,13 @@ Card >> name: aString [
 ]
 
 { #category : #accessing }
+Card >> printOn: aStream [
+	<todo: 'Add more information (kind of card, domain ...)'>
+	aStream
+		nextPutAll: self name
+]
+
+{ #category : #accessing }
 Card >> set: propertySymbol to: aValue [
 	^ properties at: propertySymbol put: aValue
 ]
