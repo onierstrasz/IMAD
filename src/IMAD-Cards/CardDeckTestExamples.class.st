@@ -6,7 +6,8 @@ Class {
 	#name : #CardDeckTestExamples,
 	#superclass : #Object,
 	#instVars : [
-		'cardOneName'
+		'cardOneName',
+		'cardTwoName'
 	],
 	#category : #'IMAD-Cards-Examples'
 }
@@ -32,8 +33,7 @@ CardDeckTestExamples >> addCardOneToDeck [
 CardDeckTestExamples >> addCardTwoWithDeckAPI [
 	<gtExample>
 	"Test compact interface to add cards"
-	| deck card cardTwoName cardTwoDescription |
-	cardTwoName := 'Card2'.
+	| deck card cardTwoDescription |
 	cardTwoDescription := 'I am Card2'.
 	deck := self addCardOneToDeck.
 	deck addCardNamed: cardTwoName description: cardTwoDescription.
@@ -45,6 +45,22 @@ CardDeckTestExamples >> addCardTwoWithDeckAPI [
 	
 	^ deck
 	
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> connectTwoCards [
+
+	<gtExample>
+	"Test compact interface to add cards"
+	| deck card1 card2 |
+	deck := self addCardTwoWithDeckAPI.
+	card1 := deck cardNamed: cardOneName.
+	card2 := deck cardNamed: cardTwoName.
+	
+	
+	^ deck
+	
+
 ]
 
 { #category : #accessing }
@@ -72,7 +88,9 @@ CardDeckTestExamples >> getCardOne [
 { #category : #accessing }
 CardDeckTestExamples >> initialize [
 	super initialize.
-	cardOneName := 'Card1'
+	cardOneName := 'Card1'.
+	cardTwoName := 'Card2'.
+	
 ]
 
 { #category : #accessing }
