@@ -128,7 +128,6 @@ UsefulExamples >> coderHeaderElementForClass [
 
 { #category : #accessing }
 UsefulExamples >> filterToExampleGroup [
-	<todo: 'check that this works in the release of April 4, 2020'>
 	<gtExample>
 	^ #printString gtReferences gtExamples
 ]

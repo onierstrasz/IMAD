@@ -5,24 +5,13 @@ Class {
 }
 
 { #category : #accessing }
-IMADutilities class >> examplesExplorer [
-	<gtExample>
-	<todo: 'Replace by: (''IMAD'' gtPackageMatches & #gtExample gtReferences) gtExamples'>
-	^ self examplesExplorerFromBaselineClass: BaselineOfIMAD  andRepoDescription: 'github.com/onierstrasz/ASA-GtExperiments/src'
-]
-
-{ #category : #accessing }
-IMADutilities class >> examplesExplorerFromBaselineClass: baseline andRepoDescription: githubRepo [
-	| projectBuilder project |
-	projectBuilder := GtRlDependenciesModelBuilder new.
-	project := projectBuilder 
-		buildProjectFromBaselineClass: baseline
-		withRepositoryDescription: githubRepo.
-	^ GtRlSystemExamplesExplorer forProject: project
-]
-
-{ #category : #accessing }
 IMADutilities >> findAllTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
+]
+
+{ #category : #accessing }
+IMADutilities >> runAllExamples [
+	<gtExample>
+	^ ('IMAD' gtPackageMatches & #gtExample gtReferences) gtExamples
 ]
