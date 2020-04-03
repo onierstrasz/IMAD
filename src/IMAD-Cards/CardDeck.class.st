@@ -13,6 +13,16 @@ CardDeck >> add: aCard [
 ]
 
 { #category : #accessing }
+CardDeck >> addCardNamed: cardName description: cardDescription [
+	self add: (
+		Card new
+			name: cardName;
+			description: cardDescription;
+			yourself
+		)
+]
+
+{ #category : #accessing }
 CardDeck >> cardNamed: aString [
 	| result |
 	result := cards select: [:each | each name = aString].
@@ -50,4 +60,9 @@ CardDeck >> isEmpty [
 CardDeck >> listTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
+]
+
+{ #category : #accessing }
+CardDeck >> size [
+	^ cards size
 ]

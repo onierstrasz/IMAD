@@ -24,7 +24,27 @@ CardDeckTestExamples >> addCardOneToDeck [
 	deck add: card.
 	
 	self assert: (deck cardsNamed: cardOneName) size equals: 1.
+	self assert: (deck cardNamed: cardOneName) == card.
 	^ deck
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> addCardTwoWithDeckAPI [
+	<gtExample>
+	"Test compact interface to add cards"
+	| deck card cardTwoName cardTwoDescription |
+	cardTwoName := 'Card2'.
+	cardTwoDescription := 'I am Card2'.
+	deck := self addCardOneToDeck.
+	deck addCardNamed: cardTwoName description: cardTwoDescription.
+	card := (deck cardNamed: cardTwoName).
+
+	self assert: deck size equals: 2.
+	self assert: card name equals: cardTwoName.
+	self assert: card description equals: cardTwoDescription.
+	
+	^ deck
+	
 ]
 
 { #category : #accessing }
