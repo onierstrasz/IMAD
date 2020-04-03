@@ -7,6 +7,7 @@ Class {
 { #category : #accessing }
 IMADutilities class >> examplesExplorer [
 	<gtExample>
+	<todo: 'Replace by: (''IMAD'' gtPackageMatches & #gtExample gtReferences) gtExamples'>
 	^ self examplesExplorerFromBaselineClass: BaselineOfIMAD  andRepoDescription: 'github.com/onierstrasz/ASA-GtExperiments/src'
 ]
 
