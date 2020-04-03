@@ -42,7 +42,7 @@ FacultyDoodleModelingExamples >> committeeConcept [
 	card name: cardName;
 		description: 'I am a committee within the Faculty of Science of the University of Bern.';
 		yourself.
-	deck add: card.
+	deck addCard: card.
 	self assert: (deck cardsNamed: cardName) size equals: 1.
 	^ deck
 ]

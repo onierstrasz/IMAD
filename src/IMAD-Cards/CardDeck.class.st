@@ -8,13 +8,13 @@ Class {
 }
 
 { #category : #accessing }
-CardDeck >> add: aCard [
+CardDeck >> addCard: aCard [
 	cards add: aCard
 ]
 
 { #category : #accessing }
 CardDeck >> addCardNamed: cardName description: cardDescription [
-	self add: (
+	self addCard: (
 		Card new
 			name: cardName;
 			description: cardDescription;

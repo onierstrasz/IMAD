@@ -22,7 +22,7 @@ CardDeckTestExamples >> addCardOneToDeck [
 	card := Card new.
 	card name: cardOneName;
 		yourself.
-	deck add: card.
+	deck addCard: card.
 	
 	self assert: (deck cardsNamed: cardOneName) size equals: 1.
 	self assert: (deck cardNamed: cardOneName) == card.
@@ -57,9 +57,13 @@ CardDeckTestExamples >> connectTwoCards [
 	card1 := deck cardNamed: cardOneName.
 	card2 := deck cardNamed: cardTwoName.
 
-	card1 is: #friend of: card2. "can the same relationship be added multiple times?"
+	card1 become: #friend of: card2. "can the same relationship be added multiple times?"
 	
-	"ASSERTIONS?"
+	self assert: (card2 hasA: #friend).
+	self assert: (card1 isA: #friend).
+	self assert: (card1 is: #friend of: card2).
+	
+	self assert: (deck relationships incldues: #friend).
 	
 	^ deck
 	

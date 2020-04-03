@@ -26,6 +26,11 @@ Card >> asElement [
 ]
 
 { #category : #accessing }
+Card >> become: relation of: aCard [
+	
+]
+
+{ #category : #accessing }
 Card >> defaultDescription [
 	^ 'To do'
 ]
@@ -86,6 +91,12 @@ Card >> printOn: aStream [
 	<todo: 'Add more information (kind of card, domain ...)'>
 	aStream
 		nextPutAll: self name
+]
+
+{ #category : #accessing }
+Card >> properties [
+	"For CardElement"
+	^ properties
 ]
 
 { #category : #accessing }

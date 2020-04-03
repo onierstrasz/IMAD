@@ -81,12 +81,10 @@ CardElement >> buildTabs [
 	tabs addTab: (BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Properties';
-		stencil: [ BlElement new
-			constraintsDo: [ :c |
-				c horizontal matchParent.
-				c vertical exact: 300 ];
-			margin: (BlInsets all: 10);
-			background: (Color blue alpha: 0.2) ]).
+		stencil: [
+			(card properties gtItemsFor: GtPhlowEmptyView new)
+				asElementDo: [:e | e ]
+		]).
 
 	^ tabs
 ]
