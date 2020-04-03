@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'cards'
 	],
-	#category : #'IMAD-Cards'
+	#category : #'IMAD-Cards-Model'
 }
 
 { #category : #accessing }
