@@ -127,6 +127,18 @@ UsefulExamples >> coderHeaderElementForClass [
 ]
 
 { #category : #accessing }
+UsefulExamples >> examplesExplorerForPackage [
+	<gtExample>
+	| baseline repo |
+	baseline := BaselineOfIMAD.
+	repo := 'github.com/onierstrasz/ASA-GtExperiments/src'.
+ 	^ (( GtRlSystemExamplesExplorer forProject:
+ 	(GtRlDependenciesModelBuilder new
+ 		buildProjectFromBaselineClass: baseline
+ 		withRepositoryDescription: repo)) repositoryExplorers ) at: 1
+]
+
+{ #category : #accessing }
 UsefulExamples >> filterToExampleGroup [
 	<gtExample>
 	^ #printString gtReferences gtExamples

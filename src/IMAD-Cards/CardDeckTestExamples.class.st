@@ -56,10 +56,8 @@ CardDeckTestExamples >> connectTwoCards [
 	deck := self addCardTwoWithDeckAPI.
 	card1 := deck cardNamed: cardOneName.
 	card2 := deck cardNamed: cardTwoName.
-	
-	
+
 	card1 is: #friend of: card2. "can the same relationship be added multiple times?"
-	card2 is: #buddy of: card1.
 	
 	"ASSERTIONS?"
 	
