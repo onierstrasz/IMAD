@@ -76,12 +76,10 @@ UsefulExamples >> buildDifferentKindsOfTabs [
 	tabs addTab: (BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Simpsons';
-		stencil: [ BlElement new
-			constraintsDo: [ :c |
-				c horizontal matchParent.
-				c vertical exact: 300 ];
-			margin: (BlInsets all: 10);
-			background: (Color blue alpha: 0.2) ]).
+		stencil: [
+			(self simpsons gtItemsFor: GtPhlowEmptyView new)
+				asElementDo: [:e | e ]
+			]).
 
 
 	^ tabs
