@@ -43,11 +43,23 @@ CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 ]
 
 { #category : #accessing }
+CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
+	"Convenience method"
+ 	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
+]
+
+{ #category : #accessing }
 CardDeck >> cardNamed: aString [
 	| result |
 	result := cards select: [:each | each name = aString].
 	self assert: result size equals: 1.
 	^ result at: 1
+]
+
+{ #category : #accessing }
+CardDeck >> cardNamed: targetName become: aSymbol ofCardNamed: sourceName [
+	"Convenience method"
+ 	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
 { #category : #accessing }
@@ -65,7 +77,7 @@ CardDeck >> gtCardsFor: aView [
 	<gtView>
 	^ aView forward
 		title: 'Cards';
-		priority: 2;
+		priority: 1;
 		object: [ cards ];
 		view: #gtItemsFor:
 ]

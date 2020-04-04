@@ -14,35 +14,39 @@ Class {
 }
 
 { #category : #accessing }
-FacultyDoodleModelingExamples >> buildConcepts [
- 	<gtExample>
- 	<todo: 'expand with missing concepts'>
- 	| deck |
- 	deck := CardDeck new.
- 	self assert: deck isEmpty.
- 	deck addCardNamed: 'Committee' description: 'I am a committee within the Faculty of Science of the University of Bern. I am formed to make decisions on various issues throughout the year (budgets, hiring of professors, teaching evaluations, etc.).'.
- 	deck addCardNamed: 'Member' description: 'I am a Faculty member, or possibly an assistant or a student. I can be contacted by email or phone'.
- 	deck addCardNamed: 'Chair' description: 'I chair the committee and am also a Faculty member.'.
- 	deck addCardNamed: 'Meeting' description: 'I am held on a given date, and produce a report to the Dean or the Faculty.'.
- 	deck addCardNamed: 'Report' description: '...'.
- 	
- 	self assert: deck size equals: 5.
- 	^ deck
-]
-
-{ #category : #accessing }
-FacultyDoodleModelingExamples >> committeeConcept [
-	"Obsolete. Included in buildConcepts"
+FacultyDoodleModelingExamples >> buildModel [
 	<gtExample>
-	| deck card cardName |
+	<todo: 'expand with missing concepts'>
+	| deck |
 	deck := CardDeck new.
-	cardName := 'Committee'.
-	self assert: (deck cardsNamed: cardName) isEmpty.
-	card := Card new.
-	card name: cardName;
-		description: 'I am a committee within the Faculty of Science of the University of Bern.';
-		yourself.
-	deck addCard: card.
-	self assert: (deck cardsNamed: cardName) size equals: 1.
+	self assert: deck isEmpty.
+	
+	deck
+		addCardNamed: 'Committee'
+		description:
+			'I am a committee within the Faculty of Science of the University of Bern. I am formed to make decisions on various issues throughout the year (budgets, hiring of professors, teaching evaluations, etc.).'.
+
+	deck
+		addCardNamed: 'Member'
+		description:
+			'I am a Faculty member, or possibly an assistant or a student. I can be contacted by email or phone'.
+	deck cardNamed: 'Member' become: #member ofCardNamed: 'Committee'.
+
+	deck
+		addCardNamed: 'Chair'
+		description: 'I chair the committee and am also a Faculty member.'.
+	deck cardNamed: 'Chair' become: #chair ofCardNamed: 'Committee'.
+
+	deck
+		addCardNamed: 'Meeting'
+		description:
+			'I am held on a given date, and produce a report to the Dean or the Faculty.'.
+	deck cardNamed: 'Meeting' become: #meeting ofCardNamed: 'Committee'.
+
+	deck addCardNamed: 'Report' description: '...'.	
+	"deck cardNamed: 'Report' become: #report ofCardNamed: 'Committee'."
+	deck addRelation: #report fromCardNamed: 'Committee' toCardNamed: 'Report'.
+	
+	self assert: deck size equals: 5.
 	^ deck
 ]

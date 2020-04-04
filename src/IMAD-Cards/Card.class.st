@@ -27,25 +27,26 @@ Card >> asElement [
 
 { #category : #accessing }
 Card >> assertInvariant [
-	self assert: deck isNotNil.
+	self assert: self deck isNotNil.
 	self assert: properties isNotNil.
 	self assert: self name isNotNil.
 	
 ]
 
 { #category : #accessing }
-Card >> become: relation of: aCard [
-	deck addRelation: relation from: aCard to: self
+Card >> become: relation of: aSourceCard [
+	"Convenience method"
+	self deck addRelation: relation from: aSourceCard to: self
 ]
 
 { #category : #accessing }
 Card >> deck [
-	^ deck
+	^ self get: #deck
 ]
 
 { #category : #accessing }
 Card >> deck: aCardDeck [
-	deck := aCardDeck.
+	self set: #deck to: aCardDeck.
 	self assertInvariant.
 ]
 
@@ -87,7 +88,7 @@ Card >> gtLiveFor: aView [
 
 { #category : #accessing }
 Card >> hasA: relSymbol [
-	^ (deck relationsMatching: (self relFilter: relSymbol)) isNotEmpty
+	^ (self deck relationsMatching: (self relFilter: relSymbol)) isNotEmpty
 ]
 
 { #category : #accessing }
@@ -109,7 +110,7 @@ Card >> invariant [
 
 { #category : #accessing }
 Card >> is: relSymbol of: aCard [
-	^ (deck relationsMatching:
+	^ (self deck relationsMatching:
 		(self relFilter: relSymbol)
 		& (self sourceFilter: aCard)
 		& (self selfTargetFilter)) isNotEmpty
@@ -117,7 +118,7 @@ Card >> is: relSymbol of: aCard [
 
 { #category : #accessing }
 Card >> isA: relSymbol [
-	^ (deck relationsMatching:
+	^ (self deck relationsMatching:
 		(self relFilter: relSymbol)
 		& (self selfTargetFilter)) isNotEmpty
 

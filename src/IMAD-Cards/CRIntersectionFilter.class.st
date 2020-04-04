@@ -3,7 +3,7 @@ I evaluate the intersection of two queries.
 "
 Class {
 	#name : #CRIntersectionFilter,
-	#superclass : #CRUnionFilter,
+	#superclass : #CRBinaryFilter,
 	#category : #'IMAD-Cards-Filters'
 }
 
