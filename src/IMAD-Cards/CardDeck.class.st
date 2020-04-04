@@ -2,14 +2,16 @@ Class {
 	#name : #CardDeck,
 	#superclass : #Object,
 	#instVars : [
-		'cards'
+		'cards',
+		'relations'
 	],
 	#category : #'IMAD-Cards-Model'
 }
 
 { #category : #accessing }
 CardDeck >> addCard: aCard [
-	cards add: aCard
+	cards add: aCard.
+	aCard deck: self.
 ]
 
 { #category : #accessing }
@@ -20,6 +22,11 @@ CardDeck >> addCardNamed: cardName description: cardDescription [
 			description: cardDescription;
 			yourself
 		)
+]
+
+{ #category : #accessing }
+CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
+	
 ]
 
 { #category : #accessing }
@@ -60,6 +67,12 @@ CardDeck >> isEmpty [
 CardDeck >> listTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
+]
+
+{ #category : #accessing }
+CardDeck >> relations [
+	<todo: 'hide this behind a Facade?'>
+	^ relations
 ]
 
 { #category : #accessing }

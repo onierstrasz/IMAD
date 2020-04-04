@@ -11,7 +11,7 @@ Class {
 	#name : #Card,
 	#superclass : #Object,
 	#instVars : [
-		'name',
+		'deck',
 		'properties'
 	],
 	#category : #'IMAD-Cards-Model'
@@ -26,8 +26,27 @@ Card >> asElement [
 ]
 
 { #category : #accessing }
-Card >> become: relation of: aCard [
+Card >> assertInvariant [
+	self assert: deck isNotNil.
+	self assert: properties isNotNil.
+	self assert: self name isNotNil.
 	
+]
+
+{ #category : #accessing }
+Card >> become: relation of: aCard [
+	deck addRelation: relation from: aCard to: self
+]
+
+{ #category : #accessing }
+Card >> deck [
+	^ deck
+]
+
+{ #category : #accessing }
+Card >> deck: aCardDeck [
+	deck := aCardDeck.
+	self assertInvariant.
 ]
 
 { #category : #accessing }
@@ -73,6 +92,14 @@ Card >> initialize [
 	properties := Dictionary new.
 	self name: self defaultName.
 	self description: self defaultDescription.
+]
+
+{ #category : #accessing }
+Card >> invariant [
+	self assert: deck isNotNil.
+	self assert: properties isNotNil.
+	self assert: self name isNotNil.
+	
 ]
 
 { #category : #accessing }

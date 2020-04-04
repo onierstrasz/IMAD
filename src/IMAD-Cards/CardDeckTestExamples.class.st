@@ -63,7 +63,7 @@ CardDeckTestExamples >> connectTwoCards [
 	self assert: (card1 isA: #friend).
 	self assert: (card1 is: #friend of: card2).
 	
-	self assert: (deck relationships incldues: #friend).
+	self assert: (deck relationships includes: #friend).
 	
 	^ deck
 	
