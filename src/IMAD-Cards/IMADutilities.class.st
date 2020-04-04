@@ -1,3 +1,6 @@
+"
+I am a utility class for this package. I can run all the tests and find all the todos.
+"
 Class {
 	#name : #IMADutilities,
 	#superclass : #Object,

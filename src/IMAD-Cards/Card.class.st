@@ -86,6 +86,11 @@ Card >> gtLiveFor: aView [
 ]
 
 { #category : #accessing }
+Card >> hasA: relSymbol [
+	^ (deck relationsMatching: (self relFilter: relSymbol)) isNotEmpty
+]
+
+{ #category : #accessing }
 Card >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
@@ -100,6 +105,22 @@ Card >> invariant [
 	self assert: properties isNotNil.
 	self assert: self name isNotNil.
 	
+]
+
+{ #category : #accessing }
+Card >> is: relSymbol of: aCard [
+	^ (deck relationsMatching:
+		(self relFilter: relSymbol)
+		& (self sourceFilter: aCard)
+		& (self selfTargetFilter)) isNotEmpty
+]
+
+{ #category : #accessing }
+Card >> isA: relSymbol [
+	^ (deck relationsMatching:
+		(self relFilter: relSymbol)
+		& (self selfTargetFilter)) isNotEmpty
+
 ]
 
 { #category : #accessing }
@@ -127,6 +148,31 @@ Card >> properties [
 ]
 
 { #category : #accessing }
+Card >> relFilter: aSymbol [
+	^ CRRelNameFilter new name: aSymbol
+]
+
+{ #category : #accessing }
+Card >> selfSourceFilter [
+	^ CRSourceFilter new source: self.
+]
+
+{ #category : #accessing }
+Card >> selfTargetFilter [
+	^ CRTargetFilter new target: self.
+]
+
+{ #category : #accessing }
 Card >> set: propertySymbol to: aValue [
 	^ properties at: propertySymbol put: aValue
+]
+
+{ #category : #accessing }
+Card >> sourceFilter: aCard [
+	^ CRSourceFilter new source: aCard
+]
+
+{ #category : #accessing }
+Card >> targetFilter: aCard [
+	^ CRTargetFilter new target: aCard
 ]
