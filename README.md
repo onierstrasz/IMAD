@@ -12,11 +12,19 @@ Metacello new
 
 ## Domain modeling Card Decks
 
-...
+Interactive modeling of domain concepts using decks of cards.
+```
+FacultyDoodleModelingExamples
+```
 
 ## FSA
 
 Experiments with FSAs and Petri Nets.
+
+```
+FSA eg4nodes view.
+FSA eg10nodes view.
+```
 
 ## Executable Graph Models
 
@@ -29,6 +37,7 @@ Graph new
 
 ## Documents
 
+Test-driven PostOffice example:
 ```
-FileLocator imageDirectory asFileReference / 'pharo-local/iceberg/onierstrasz/ASA-GtExperiments/doc'
+FileLocator imageDirectory asFileReference / 'pharo-local/iceberg/onierstrasz/ASA-GtExperiments/doc/PostOffice'
 ```
