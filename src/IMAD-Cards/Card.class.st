@@ -11,7 +11,6 @@ Class {
 	#name : #Card,
 	#superclass : #Object,
 	#instVars : [
-		'deck',
 		'properties'
 	],
 	#category : #'IMAD-Cards-Model'
