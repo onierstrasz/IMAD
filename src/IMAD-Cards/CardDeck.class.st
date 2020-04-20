@@ -31,7 +31,7 @@ CardDeck >> addCardNamed: cardName description: cardDescription [
 		)
 ]
 
-{ #category : #accessing }
+{ #category : #relations }
 CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 	| rel |
 	rel := CardRelation new.
@@ -42,7 +42,7 @@ CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 	^ rel
 ]
 
-{ #category : #accessing }
+{ #category : #relations }
 CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
 	"Convenience method"
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
@@ -56,7 +56,7 @@ CardDeck >> cardNamed: aString [
 	^ result at: 1
 ]
 
-{ #category : #accessing }
+{ #category : #relations }
 CardDeck >> cardNamed: targetName become: aSymbol ofCardNamed: sourceName [
 	"Convenience method"
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
@@ -72,7 +72,7 @@ CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
 
-{ #category : #accessing }
+{ #category : #gt }
 CardDeck >> gtCardsFor: aView [
 	<gtView>
 	^ aView forward
@@ -82,7 +82,7 @@ CardDeck >> gtCardsFor: aView [
 		view: #gtItemsFor:
 ]
 
-{ #category : #accessing }
+{ #category : #gt }
 CardDeck >> gtRelationsFor: aView [
 	<gtView>
 	^ aView forward
@@ -92,12 +92,12 @@ CardDeck >> gtRelationsFor: aView [
 		view: #gtItemsFor:
 ]
 
-{ #category : #accessing }
+{ #category : #relations }
 CardDeck >> hasRelation: aSymbol [
 	^ (self relationsMatching:(CRRelNameFilter new name: aSymbol)) isNotEmpty
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 CardDeck >> initialize [
 	<todo: 'Instead of OrderedCollections, we will need more clever implementations for cards and relations.'>
 	super initialize.
@@ -105,24 +105,24 @@ CardDeck >> initialize [
 	relations := OrderedCollection new.
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 CardDeck >> isEmpty [
 	^ cards isEmpty
 ]
 
-{ #category : #accessing }
+{ #category : #gt }
 CardDeck >> listTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
 
-{ #category : #accessing }
+{ #category : #relations }
 CardDeck >> relations [
 	<todo: 'hide this behind a Facade?'>
 	^ relations
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 CardDeck >> relationsMatching: aFilter [
 	^ relations select: [:rel | aFilter matches: rel].
 ]

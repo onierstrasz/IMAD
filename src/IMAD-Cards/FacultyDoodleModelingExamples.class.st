@@ -31,11 +31,15 @@ FacultyDoodleModelingExamples >> buildModel [
 		description:
 			'I am a Faculty member, or possibly an assistant or a student. I can be contacted by email or phone'.
 	deck cardNamed: 'Member' become: #member ofCardNamed: 'Committee'.
+	
+	self assert: ((deck cardNamed: 'Member') is: #member of: (deck cardNamed: 'Committee')).
 
 	deck
 		addCardNamed: 'Chair'
 		description: 'I chair the committee and am also a Faculty member.'.
 	deck cardNamed: 'Chair' become: #chair ofCardNamed: 'Committee'.
+
+	self assert: ((deck cardNamed: 'Chair') is: #chair of: (deck cardNamed: 'Committee')).
 
 	deck
 		addCardNamed: 'Meeting'
@@ -43,10 +47,14 @@ FacultyDoodleModelingExamples >> buildModel [
 			'I am held on a given date, and produce a report to the Dean or the Faculty.'.
 	deck cardNamed: 'Meeting' become: #meeting ofCardNamed: 'Committee'.
 
+	self assert: ((deck cardNamed: 'Meeting') is: #meeting of: (deck cardNamed: 'Committee')).
+
 	deck addCardNamed: 'Report' description: '...'.	
 	"deck cardNamed: 'Report' become: #report ofCardNamed: 'Committee'."
 	deck addRelation: #report fromCardNamed: 'Committee' toCardNamed: 'Report'.
 	
+	self assert: ((deck cardNamed: 'Report') is: #report of: (deck cardNamed: 'Committee')).
+
 	self assert: deck size equals: 5.
 	^ deck
 ]

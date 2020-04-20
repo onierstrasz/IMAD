@@ -16,7 +16,7 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
-{ #category : #accessing }
+{ #category : #gt }
 Card >> asElement [
 	| element |
 	element := CardElement new.
@@ -24,7 +24,7 @@ Card >> asElement [
 	^ element
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 Card >> assertInvariant [
 	self assert: self deck isNotNil.
 	self assert: properties isNotNil.
@@ -32,7 +32,7 @@ Card >> assertInvariant [
 	
 ]
 
-{ #category : #accessing }
+{ #category : #relations }
 Card >> become: relation of: aSourceCard [
 	"Convenience method"
 	self deck addRelation: relation from: aSourceCard to: self
@@ -76,7 +76,7 @@ Card >> get: propertySymbol [
 	^ properties at: propertySymbol ifAbsent: nil
 ]
 
-{ #category : #accessing }
+{ #category : #gt }
 Card >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit
@@ -85,12 +85,15 @@ Card >> gtLiveFor: aView [
 		stencil: [ self ]
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Card >> hasA: relSymbol [
-	^ (self deck relationsMatching: (self relFilter: relSymbol)) isNotEmpty
+	^ (self deck relationsMatching:
+		(self relFilter: relSymbol)
+		& (self selfSourceFilter)) isNotEmpty
+
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 Card >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
@@ -99,15 +102,15 @@ Card >> initialize [
 	self description: self defaultDescription.
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 Card >> invariant [
-	self assert: deck isNotNil.
+	self assert: self deck isNotNil.
 	self assert: properties isNotNil.
 	self assert: self name isNotNil.
 	
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Card >> is: relSymbol of: aCard [
 	^ (self deck relationsMatching:
 		(self relFilter: relSymbol)
@@ -115,7 +118,7 @@ Card >> is: relSymbol of: aCard [
 		& (self selfTargetFilter)) isNotEmpty
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Card >> isA: relSymbol [
 	^ (self deck relationsMatching:
 		(self relFilter: relSymbol)
@@ -134,7 +137,7 @@ Card >> name: aString [
 
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 Card >> printOn: aStream [
 	<todo: 'Add more information (kind of card, domain ...)'>
 	aStream
@@ -147,19 +150,19 @@ Card >> properties [
 	^ properties
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Card >> relFilter: aSymbol [
 	^ CRRelNameFilter new name: aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Card >> selfSourceFilter [
-	^ CRSourceFilter new source: self.
+	^ self sourceFilter: self.
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Card >> selfTargetFilter [
-	^ CRTargetFilter new target: self.
+	^ self targetFilter: self.
 ]
 
 { #category : #accessing }
@@ -167,12 +170,12 @@ Card >> set: propertySymbol to: aValue [
 	^ properties at: propertySymbol put: aValue
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Card >> sourceFilter: aCard [
 	^ CRSourceFilter new source: aCard
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Card >> targetFilter: aCard [
 	^ CRTargetFilter new target: aCard
 ]

@@ -1,5 +1,6 @@
 "
 I test the querying of CardRelations using filters.
+I use a simple deck of three cards labeled A, B and C, connected by relations w, x, y and z.
 "
 Class {
 	#name : #CardRelationFilterTestExamples,
@@ -52,21 +53,25 @@ CardRelationFilterTestExamples >> deckHasSixRelations [
 { #category : #accessing }
 CardRelationFilterTestExamples >> deckHasSourceAandRelationX [
 	<gtExample>
-	| filter filterA filterX result |
-	filterA := CRSourceFilter new source: (deck cardNamed: 'A').
+	| cardA filter filterA filterX result |
+	cardA := deck cardNamed: 'A'.
+	filterA := CRSourceFilter new source: cardA.
 	filterX := CRRelNameFilter new name: #x.
 	filter := filterA & filterX.
 	result := deck relationsMatching: filter.
 	self assert: result size equals: 1.
+	self assert: (cardA hasA: #x).
 	^ result
 ]
 
 { #category : #accessing }
 CardRelationFilterTestExamples >> deckHasSourceAandTargetB [
 	<gtExample>
-	| filter filterA filterB result |
-	filterA := CRSourceFilter new source: (deck cardNamed: 'A').
-	filterB := CRTargetFilter new target: (deck cardNamed: 'B').
+	| cardA cardB filter filterA filterB result |
+	cardA := deck cardNamed: 'A'.
+	cardB := deck cardNamed: 'B'.
+	filterA := CRSourceFilter new source: cardA.
+	filterB := CRTargetFilter new target: cardB.
 	filter := filterA & filterB.
 	result := deck relationsMatching: filter.
 	self assert: result size equals: 1.
@@ -106,6 +111,11 @@ CardRelationFilterTestExamples >> deckHasTwoTargetCardsNamedB [
 
 { #category : #accessing }
 CardRelationFilterTestExamples >> initialize [
+	self setupModel
+]
+
+{ #category : #accessing }
+CardRelationFilterTestExamples >> setupModel [
 	<gtExample>
 	| a b c |
 	deck := CardDeck new.
@@ -122,4 +132,5 @@ CardRelationFilterTestExamples >> initialize [
 	a become: #z of: c.
 	b become: #w of: b.
 	c become: #w of: c.
+	^ deck
 ]
