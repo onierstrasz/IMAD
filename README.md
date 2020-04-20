@@ -15,10 +15,8 @@ Metacello new
 
 Interactive modeling of domain concepts using decks of cards.
 
-Example of using a deck of cards, where each card represents a domain concept for the Faculty Doodle domain:
-```
-FacultyDoodleModelingExamples
-```
+Example of using a deck of cards, where each card represents a domain concept for the Faculty Doodle domain.
+Browse: `FacultyDoodleModelingExamples`
 
 Other stuff:
 
