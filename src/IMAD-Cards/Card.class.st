@@ -4,6 +4,7 @@ I provide a UI to enter, edit and manipulate this information.
 
 I have a title, a description, and other properties.
 
+NB: properties should just hold (flat?) values, so the deck of a card should not be modeled as a property.
 
 
 "
@@ -11,10 +12,22 @@ Class {
 	#name : #Card,
 	#superclass : #Object,
 	#instVars : [
+		'deck',
 		'properties'
 	],
 	#category : #'IMAD-Cards-Model'
 }
+
+{ #category : #comparing }
+Card >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject
+		ifTrue: [ ^ true ].
+	self class = anObject class
+		ifFalse: [ ^ false ].
+	^ self properties = anObject properties
+]
 
 { #category : #gt }
 Card >> asElement [
@@ -40,12 +53,12 @@ Card >> become: relation of: aSourceCard [
 
 { #category : #accessing }
 Card >> deck [
-	^ self get: #deck
+	^ deck
 ]
 
 { #category : #accessing }
 Card >> deck: aCardDeck [
-	self set: #deck to: aCardDeck.
+	deck := aCardDeck.
 	self assertInvariant.
 ]
 
@@ -107,7 +120,7 @@ Card >> invariant [
 	self assert: self deck isNotNil.
 	self assert: properties isNotNil.
 	self assert: self name isNotNil.
-	
+
 ]
 
 { #category : #querying }

@@ -85,6 +85,16 @@ CardDeckTestExamples >> emptyDeck [
 ]
 
 { #category : #accessing }
+CardDeckTestExamples >> emptyDeckEqualsEmptyDeck [
+	<gtExample>
+	| deck1 deck2 |
+	deck1 := self emptyDeck.
+	deck2 := self emptyDeck.
+	self assert: deck1 equals: deck2.
+	^ deck1 = deck2
+]
+
+{ #category : #accessing }
 CardDeckTestExamples >> getCardOne [
 	<gtExample>
 	"Check that an added card has the right properties"
@@ -100,6 +110,46 @@ CardDeckTestExamples >> getCardOne [
 { #category : #accessing }
 CardDeckTestExamples >> initialize [
 	super initialize
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> oneCardDeckEqualsOneCardDeck [
+	<gtExample>
+	| deck1 deck2 |
+	deck1 := self addCardOneToDeck.
+	deck2 := self addCardOneToDeck.
+	self assert: deck1 equals: deck2.
+	^ deck1 = deck2
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> twoCardDeckEqualsTwoCardDeck [
+	<gtExample>
+	| deck1 deck2 |
+	deck1 := self addCardTwoWithDeckAPI.
+	deck2 := self addCardTwoWithDeckAPI.
+	self assert: deck1 equals: deck2.
+	^ deck1 = deck2
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> twoCardDeckNotEqualsOneCardDeck [
+	<gtExample>
+	| deck1 deck2 |
+	deck1 := self addCardTwoWithDeckAPI.
+	deck2 := self addCardOneToDeck.
+	self assert: deck1 ~= deck2.
+	^ deck1 ~= deck2
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> twoConnectedCardDeckEqualsTwoConnectedCardDeck [
+	<gtExample>
+	| deck1 deck2 |
+	deck1 := self connectTwoCards.
+	deck2 := self connectTwoCards.
+	self assert: deck1 equals: deck2.
+	^ deck1 = deck2
 ]
 
 { #category : #accessing }

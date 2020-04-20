@@ -14,6 +14,18 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
+{ #category : #comparing }
+CardRelation >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject
+		ifTrue: [ ^ true ].
+	self class = anObject class
+		ifFalse: [ ^ false ].
+	^ self name = anObject name
+		and: [ self source = anObject source and: [ self target = anObject target ] ]
+]
+
 { #category : #accessing }
 CardRelation >> hasSource: aCard [
 	^ source = aCard
