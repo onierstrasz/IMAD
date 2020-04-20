@@ -5,7 +5,7 @@ I support filtering operations to retrieve relations.
 "
 Class {
 	#name : #CardRelation,
-	#superclass : #Object,
+	#superclass : #CardModelEntity,
 	#instVars : [
 		'source',
 		'target',
@@ -51,7 +51,7 @@ CardRelation >> name: aSymbol [
 	name := aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 CardRelation >> printOn: aStream [
 	aStream
 		nextPutAll: self name;

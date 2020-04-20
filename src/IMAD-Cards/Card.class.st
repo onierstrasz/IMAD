@@ -10,7 +10,7 @@ NB: properties should just hold (flat?) values, so the deck of a card should not
 "
 Class {
 	#name : #Card,
-	#superclass : #Object,
+	#superclass : #CardModelEntity,
 	#instVars : [
 		'deck',
 		'properties'
@@ -81,6 +81,24 @@ Card >> description [
 Card >> description: aString [
 	self set: #description to: aString
 
+]
+
+{ #category : #printing }
+Card >> generateOn: aStream [
+	aStream
+		nextPutAll: 'Card new';
+		cr.
+	properties
+		associationsDo: [ :each | 
+			aStream
+				nextPutAll: '  set: ';
+				nextPutAll: each key printString;
+				nextPutAll: ' to: ';
+				nextPutAll: each value printString;
+				nextPutAll: ';'.
+			aStream cr ].
+	aStream
+		nextPutAll: '  yourself'
 ]
 
 { #category : #accessing }

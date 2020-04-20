@@ -7,7 +7,7 @@ The implementations of cards and relations are naive to start (collections). To 
 "
 Class {
 	#name : #CardDeck,
-	#superclass : #Object,
+	#superclass : #CardModelEntity,
 	#instVars : [
 		'cards',
 		'relations'
@@ -82,6 +82,46 @@ CardDeck >> cards [
 { #category : #accessing }
 CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
+]
+
+{ #category : #printing }
+CardDeck >> genCardsOn: aStream [
+	self cards
+		do: [ :each |
+			aStream
+				nextPutAll: '  addCard: ('.
+			each generateOn: aStream.
+			aStream
+				nextPutAll: ');';
+				cr.
+		]
+]
+
+{ #category : #printing }
+CardDeck >> genRelationsOn: aStream [
+	self relations
+		do: [ :each | 
+			aStream
+				nextPutAll: '  addRelation: ';
+				nextPutAll: each name printString;
+				nextPutAll: ' fromCardNamed: ';
+				nextPutAll: each source name printString;
+				nextPutAll: ' toCardNamed: ';
+				nextPutAll: each target name printString.
+			aStream
+				nextPutAll: ';';
+				cr ]
+]
+
+{ #category : #printing }
+CardDeck >> generateOn: aStream [
+	aStream
+		nextPutAll: 'CardDeck new';
+		cr.
+	self genCardsOn: aStream.
+	self genRelationsOn: aStream.
+	aStream
+		nextPutAll: '  yourself'
 ]
 
 { #category : #gt }
