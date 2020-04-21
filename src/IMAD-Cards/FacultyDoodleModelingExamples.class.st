@@ -62,3 +62,17 @@ FacultyDoodleModelingExamples >> buildModel [
 	self assert: deck size equals: 5.
 	^ deck
 ]
+
+{ #category : #accessing }
+FacultyDoodleModelingExamples >> builtModelEqualsGeneratedModel [
+	<todo: 'test if generated deck is same as original deck'>
+	<gtExample>
+	| deck1 deck2 genMethod |
+	deck1 := self buildModel.
+	deck1 compileMethodString.
+	genMethod := (deck1 storageClass >> deck1 genMethodName asSymbol).
+	deck2 := genMethod valueWithReceiver: deck1 arguments: #().
+	genMethod removeFromSystem.
+	self assert: deck1 equals: deck2.
+	^ deck1 = deck2
+]
