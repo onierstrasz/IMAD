@@ -84,8 +84,6 @@ Card >> hasA: relSymbol [
 Card >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
-	self name: self defaultName.
-	self description: self defaultDescription.
 ]
 
 { #category : #initialization }

@@ -66,6 +66,8 @@ CardModelEntity >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
 	properties := Dictionary new.
+	self name: self defaultName.
+	self description: self defaultDescription.
 ]
 
 { #category : #accessing }

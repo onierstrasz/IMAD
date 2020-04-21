@@ -102,6 +102,18 @@ CardDeck >> compileMethodString [
 	self storageClass compile: self generateMethodString
 ]
 
+{ #category : #defaults }
+CardDeck >> defaultClassName [
+	"The class where this CardDeck is stored as a generating method."
+	^ 'CardDeckRepository'
+]
+
+{ #category : #defaults }
+CardDeck >> defaultMethodName [
+	"The name of the generating method to recreate this CardDeck."
+	^ 'generateCardDeck'
+]
+
 { #category : #generation }
 CardDeck >> genCardsOn: aStream [
 	self cards
@@ -146,6 +158,7 @@ CardDeck >> generateMethodString [
 	stream
 		nextPutAll: self genMethodName;
 		nextPutAll: '  "NB: generated method"';
+		nextPutAll: '  <gtExample>';
 		nextPutAll: ' ^ '.
 	self generateOn: stream.
 	^ OpalCompiler new format: stream contents
@@ -194,6 +207,8 @@ CardDeck >> initialize [
 	super initialize.
 	cards := OrderedCollection new.
 	relations := OrderedCollection new.
+	self className: self defaultClassName.
+	self methodName: self defaultMethodName.
 ]
 
 { #category : #initialization }
@@ -235,6 +250,11 @@ CardDeck >> relations [
 { #category : #querying }
 CardDeck >> relationsMatching: aFilter [
 	^ relations select: [:rel | aFilter matches: rel].
+]
+
+{ #category : #generation }
+CardDeck >> save [
+	^ self compileMethodString
 ]
 
 { #category : #cards }
