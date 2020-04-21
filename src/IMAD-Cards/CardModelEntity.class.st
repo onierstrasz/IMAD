@@ -11,6 +11,11 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
+{ #category : #gt }
+CardModelEntity >> asElement [
+	^ self subclassResponsibility 
+]
+
 { #category : #accessing }
 CardModelEntity >> defaultDescription [
 	^ 'To do'
@@ -79,6 +84,19 @@ CardModelEntity >> name [
 CardModelEntity >> name: aString [
 	self set: #name to: aString
 
+]
+
+{ #category : #gt }
+CardModelEntity >> open [
+	"open in new window. NB: This view does not provide Inspector-like navigation."
+	<todo: 'add navigation support?'>
+	| aSpace |
+	aSpace := BlSpace new.
+	aSpace title: self name.
+	aSpace extent: 800 @ 600.
+	aSpace addChild: self asElement.
+	aSpace withHalos.
+	aSpace show
 ]
 
 { #category : #accessing }

@@ -108,18 +108,6 @@ Card >> isA: relSymbol [
 
 ]
 
-{ #category : #gt }
-Card >> open [
-	"open in new window"
-	| aSpace |
-	aSpace := BlSpace new.
-	aSpace title: self name.
-	aSpace extent: 800 @ 600.
-	aSpace addChild: self asElement.
-	aSpace withHalos.
-	aSpace show
-]
-
 { #category : #printing }
 Card >> printOn: aStream [
 	<todo: 'Add more information (kind of card, domain ...)'>
