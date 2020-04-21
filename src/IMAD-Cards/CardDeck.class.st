@@ -84,7 +84,7 @@ CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
 
-{ #category : #printing }
+{ #category : #generation }
 CardDeck >> genCardsOn: aStream [
 	self cards
 		do: [ :each |
@@ -97,23 +97,39 @@ CardDeck >> genCardsOn: aStream [
 		]
 ]
 
-{ #category : #printing }
+{ #category : #generation }
+CardDeck >> genMethodName [
+	<todo: 'fix this to be the current method name, or a newly generated one'>
+	^ 'generateMe'
+]
+
+{ #category : #generation }
 CardDeck >> genRelationsOn: aStream [
 	self relations
 		do: [ :each | 
 			aStream
 				nextPutAll: '  addRelation: ';
-				nextPutAll: each name printString;
+				print: each name;
 				nextPutAll: ' fromCardNamed: ';
-				nextPutAll: each source name printString;
+				print: each source name;
 				nextPutAll: ' toCardNamed: ';
-				nextPutAll: each target name printString.
-			aStream
+				print: each target name;
 				nextPutAll: ';';
 				cr ]
 ]
 
-{ #category : #printing }
+{ #category : #generation }
+CardDeck >> generateMethodString [
+	| stream |
+	stream := WriteStream on: String new.
+	stream
+		nextPutAll: self genMethodName;
+		nextPutAll: ' ^ '.
+	self generateOn: stream.
+	^ OpalCompiler new format: stream contents
+]
+
+{ #category : #generation }
 CardDeck >> generateOn: aStream [
 	aStream
 		nextPutAll: 'CardDeck new';

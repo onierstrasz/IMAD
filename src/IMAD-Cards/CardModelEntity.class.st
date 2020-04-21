@@ -8,7 +8,7 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
-{ #category : #printing }
+{ #category : #generation }
 CardModelEntity >> genString [
 	^ String streamContents: [:s | self generateOn: s]
 ]

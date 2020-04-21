@@ -263,16 +263,16 @@ UsefulExamples >> lookSubtraction [
 
 { #category : #accessing }
 UsefulExamples >> openElementInOwnWindow [
-<gtExample>
-| aSpace |
-aSpace := BlSpace new.
-aSpace title: 'Space'.
-aSpace extent: 1200 @ 600.
-aSpace addChild: (BlElement new background: Color red).
-aSpace withHalos.
-"aSpace show."
+	<gtExample>
+	| aSpace |
+	aSpace := BlSpace new.
+	aSpace title: 'Space'.
+	aSpace extent: 1200 @ 600.
+	aSpace addChild: (BlElement new background: Color red).
+	aSpace withHalos
+	"aSpace show."
 
-"NB: commented out last step to avoid opening window when running all the examples"
+	"NB: commented out last step to avoid opening window when running all the examples"
 ]
 
 { #category : #accessing }
@@ -292,6 +292,16 @@ UsefulExamples >> paneWithTabs [
 	contentPane addChild: label.
 	contentPane addChild: self buildDifferentKindsOfTabs.
 	^ contentPane
+]
+
+{ #category : #accessing }
+UsefulExamples >> scrollableMethodCoder [
+	<gtExample>
+	^ ((GtMethodCoder
+		forClass: FacultyDoodleModelingExamples
+		source: FacultyDoodleModelingExamples new buildModel generateMethodString)
+		expanded: true;
+		asElement) asScrollableElement
 ]
 
 { #category : #accessing }

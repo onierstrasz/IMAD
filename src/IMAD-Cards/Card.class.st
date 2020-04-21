@@ -83,7 +83,7 @@ Card >> description: aString [
 
 ]
 
-{ #category : #printing }
+{ #category : #generation }
 Card >> generateOn: aStream [
 	aStream
 		nextPutAll: 'Card new';
@@ -92,9 +92,9 @@ Card >> generateOn: aStream [
 		associationsDo: [ :each | 
 			aStream
 				nextPutAll: '  set: ';
-				nextPutAll: each key printString;
+				print: each key;
 				nextPutAll: ' to: ';
-				nextPutAll: each value printString;
+				print: each value;
 				nextPutAll: ';'.
 			aStream cr ].
 	aStream

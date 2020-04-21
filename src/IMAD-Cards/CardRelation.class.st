@@ -5,7 +5,7 @@ I support filtering operations to retrieve relations.
 "
 Class {
 	#name : #CardRelation,
-	#superclass : #CardModelEntity,
+	#superclass : #Object,
 	#instVars : [
 		'source',
 		'target',
