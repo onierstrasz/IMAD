@@ -12,8 +12,7 @@ Class {
 	#name : #Card,
 	#superclass : #CardModelEntity,
 	#instVars : [
-		'deck',
-		'properties'
+		'deck'
 	],
 	#category : #'IMAD-Cards-Model'
 }
@@ -88,23 +87,9 @@ Card >> generateOn: aStream [
 	aStream
 		nextPutAll: 'Card new';
 		cr.
-	properties
-		associationsDo: [ :each | 
-			aStream
-				nextPutAll: '  set: ';
-				print: each key;
-				nextPutAll: ' to: ';
-				print: each value;
-				nextPutAll: ';'.
-			aStream cr ].
+	self genPropertiesOn: aStream.
 	aStream
 		nextPutAll: '  yourself'
-]
-
-{ #category : #accessing }
-Card >> get: propertySymbol [
-	<todo: 'Should return a dedicated Null object if absent'>
-	^ properties at: propertySymbol ifAbsent: nil
 ]
 
 { #category : #gt }
@@ -128,7 +113,6 @@ Card >> hasA: relSymbol [
 Card >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
-	properties := Dictionary new.
 	self name: self defaultName.
 	self description: self defaultDescription.
 ]
@@ -175,12 +159,6 @@ Card >> printOn: aStream [
 		nextPutAll: self name
 ]
 
-{ #category : #accessing }
-Card >> properties [
-	"For CardElement"
-	^ properties
-]
-
 { #category : #querying }
 Card >> relFilter: aSymbol [
 	^ CRRelNameFilter new name: aSymbol
@@ -194,11 +172,6 @@ Card >> selfSourceFilter [
 { #category : #querying }
 Card >> selfTargetFilter [
 	^ self targetFilter: self.
-]
-
-{ #category : #accessing }
-Card >> set: propertySymbol to: aValue [
-	^ properties at: propertySymbol put: aValue
 ]
 
 { #category : #querying }

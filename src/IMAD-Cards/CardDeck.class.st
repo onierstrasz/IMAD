@@ -27,13 +27,13 @@ CardDeck >> = anObject [
 		and: [ self relations = anObject relations ]
 ]
 
-{ #category : #accessing }
+{ #category : #cards }
 CardDeck >> addCard: aCard [
 	cards add: aCard.
 	aCard deck: self.
 ]
 
-{ #category : #accessing }
+{ #category : #cards }
 CardDeck >> addCardNamed: cardName description: cardDescription [
 	self addCard: (
 		Card new
@@ -60,7 +60,7 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
-{ #category : #accessing }
+{ #category : #cards }
 CardDeck >> cardNamed: aString [
 	| result |
 	result := cards select: [:each | each name = aString].
@@ -74,12 +74,12 @@ CardDeck >> cardNamed: targetName become: aSymbol ofCardNamed: sourceName [
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
-{ #category : #accessing }
+{ #category : #cards }
 CardDeck >> cards [
 	^ cards
 ]
 
-{ #category : #accessing }
+{ #category : #cards }
 CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
@@ -134,6 +134,7 @@ CardDeck >> generateOn: aStream [
 	aStream
 		nextPutAll: 'CardDeck new';
 		cr.
+	self genPropertiesOn: aStream.
 	self genCardsOn: aStream.
 	self genRelationsOn: aStream.
 	aStream
@@ -195,7 +196,7 @@ CardDeck >> relationsMatching: aFilter [
 	^ relations select: [:rel | aFilter matches: rel].
 ]
 
-{ #category : #accessing }
+{ #category : #cards }
 CardDeck >> size [
 	^ cards size
 ]
