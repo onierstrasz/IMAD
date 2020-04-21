@@ -92,18 +92,6 @@ CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
 
-{ #category : #accessing }
-CardDeck >> className [
-	self get: #className
-
-]
-
-{ #category : #accessing }
-CardDeck >> className: aString [
-	self set: #className to: aString
-
-]
-
 { #category : #generation }
 CardDeck >> compileMethodString [
 	"NB: the properties className and methodName must be defined"
@@ -138,7 +126,7 @@ CardDeck >> genCardsOn: aStream [
 { #category : #generation }
 CardDeck >> genMethodName [
 	| methodName |
-	methodName := self get: #methodName.
+	methodName := self generatingMethodName.
 	self assert: methodName notNil.
 	self assert: methodName isString.
 	^ methodName
@@ -184,14 +172,16 @@ CardDeck >> generateOn: aStream [
 		nextPutAll: '  yourself'
 ]
 
-{ #category : #gt }
-CardDeck >> gtCardsFor: aView [
-	<gtView>
-	^ aView forward
-		title: 'Cards';
-		priority: 1;
-		object: [ cards ];
-		view: #gtItemsFor:
+{ #category : #accessing }
+CardDeck >> generatingMethodName [
+	^ self get: #generatingMethodName
+
+]
+
+{ #category : #accessing }
+CardDeck >> generatingMethodName: aString [
+	self set: #generatingMethodName to: aString
+
 ]
 
 { #category : #gt }
@@ -201,16 +191,6 @@ CardDeck >> gtLiveFor: aView [
 		title: 'Live';
 		priority: 0;
 		stencil: [ self ]
-]
-
-{ #category : #gt }
-CardDeck >> gtRelationsFor: aView [
-	<gtView>
-	^ aView forward
-		title: 'Relations';
-		priority: 2;
-		object: [ relations ];
-		view: #gtItemsFor:
 ]
 
 { #category : #relations }
@@ -224,8 +204,8 @@ CardDeck >> initialize [
 	super initialize.
 	cards := OrderedCollection new.
 	relations := OrderedCollection new.
-	self className: self defaultClassName.
-	self methodName: self defaultMethodName.
+	self storageClassName: self defaultClassName.
+	self generatingMethodName: self defaultMethodName.
 ]
 
 { #category : #initialization }
@@ -246,18 +226,6 @@ CardDeck >> listTodos [
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
 
-{ #category : #accessing }
-CardDeck >> methodName [
-	self get: #methodName
-
-]
-
-{ #category : #accessing }
-CardDeck >> methodName: aString [
-	self set: #methodName to: aString
-
-]
-
 { #category : #relations }
 CardDeck >> relations [
 	<todo: 'hide this behind a Facade?'>
@@ -271,6 +239,7 @@ CardDeck >> relationsMatching: aFilter [
 
 { #category : #generation }
 CardDeck >> save [
+	"store the deck by generating a method that will recreate it"
 	^ self compileMethodString
 ]
 
@@ -282,10 +251,22 @@ CardDeck >> size [
 { #category : #generation }
 CardDeck >> storageClass [
 	| className storageClass |
-	className := self get: #className.
+	className := self storageClassName.
 	self assert: className notNil.
 	storageClass := OpalCompiler new evaluate: className.
 	self assert: storageClass notNil.
 	self assert: storageClass isClass.
 	^ storageClass
+]
+
+{ #category : #accessing }
+CardDeck >> storageClassName [
+	^ self get: #storageClassName
+
+]
+
+{ #category : #accessing }
+CardDeck >> storageClassName: aString [
+	self set: #storageClassName to: aString
+
 ]

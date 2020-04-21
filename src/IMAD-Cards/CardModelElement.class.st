@@ -47,7 +47,7 @@ CardModelElement >> buildMainMenu [
 
 { #category : #gui }
 CardModelElement >> buildTabs [
-	<gtExample>
+	"<gtExample>"
 	tabs := BrTabGroup new.
 	tabs look: BrGlamorousTabGroupLook new.
 	tabs addTab: self descriptionTab.

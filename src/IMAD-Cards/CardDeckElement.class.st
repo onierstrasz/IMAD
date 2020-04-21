@@ -19,8 +19,37 @@ CardDeckElement >> buildMainMenu [
 		margin: (BlInsets all: 5)
 ]
 
+{ #category : #gui }
+CardDeckElement >> buildTabs [
+	<gtExample>
+	<todo: 'add tabs for cards and relations'>
+	<todo: 'add a graph view tab'>
+	tabs := super buildTabs.
+	tabs addTab: self cardsTab.
+	tabs addTab: self relationsTab.
+	^ tabs
+]
+
+{ #category : #gui }
+CardDeckElement >> cardsTab [
+	^ BrTab new
+		look: BrGlamorousTabLook new;
+		label: 'Cards';
+		stencil: [ (self entity cards gtItemsFor: GtPhlowEmptyView new)
+				asElementDo: [ :e | e ] ]
+]
+
 { #category : #initialization }
 CardDeckElement >> initialize [
 	super initialize.
 	self entity: CardDeck new. "placeholder"
+]
+
+{ #category : #gui }
+CardDeckElement >> relationsTab [
+	^ BrTab new
+		look: BrGlamorousTabLook new;
+		label: 'Relations';
+		stencil: [ (self entity relations gtItemsFor: GtPhlowEmptyView new)
+				asElementDo: [ :e | e ] ]
 ]
