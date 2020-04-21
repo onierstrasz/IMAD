@@ -22,6 +22,10 @@ FacultyDoodleModelingExamples >> buildModel [
 	self assert: deck isEmpty.
 	
 	deck
+		className: 'FacultyDoodleModelingExamples';
+		methodName: 'genFacultyDoodleModelingExamples'.
+	
+	deck
 		addCardNamed: 'Committee'
 		description:
 			'I am a committee within the Faculty of Science of the University of Bern. I am formed to make decisions on various issues throughout the year (budgets, hiring of professors, teaching evaluations, etc.).'.

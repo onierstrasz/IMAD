@@ -36,14 +36,6 @@ Card >> asElement [
 	^ element
 ]
 
-{ #category : #initialization }
-Card >> assertInvariant [
-	self assert: self deck isNotNil.
-	self assert: properties isNotNil.
-	self assert: self name isNotNil.
-	
-]
-
 { #category : #relations }
 Card >> become: relation of: aSourceCard [
 	"Convenience method"
@@ -58,28 +50,7 @@ Card >> deck [
 { #category : #accessing }
 Card >> deck: aCardDeck [
 	deck := aCardDeck.
-	self assertInvariant.
-]
-
-{ #category : #accessing }
-Card >> defaultDescription [
-	^ 'To do'
-]
-
-{ #category : #accessing }
-Card >> defaultName [
-	^ 'Unknown'
-]
-
-{ #category : #accessing }
-Card >> description [
-	^ self get: #description
-]
-
-{ #category : #accessing }
-Card >> description: aString [
-	self set: #description to: aString
-
+	self assert: self invariant
 ]
 
 { #category : #generation }
@@ -119,10 +90,8 @@ Card >> initialize [
 
 { #category : #initialization }
 Card >> invariant [
-	self assert: self deck isNotNil.
-	self assert: properties isNotNil.
-	self assert: self name isNotNil.
-
+	^ self deck isNotNil
+		and: [ self properties isNotNil and: [ self name isNotNil ] ]
 ]
 
 { #category : #querying }
@@ -138,17 +107,6 @@ Card >> isA: relSymbol [
 	^ (self deck relationsMatching:
 		(self relFilter: relSymbol)
 		& (self selfTargetFilter)) isNotEmpty
-
-]
-
-{ #category : #accessing }
-Card >> name [
-	^ self get: #name
-]
-
-{ #category : #accessing }
-Card >> name: aString [
-	self set: #name to: aString
 
 ]
 

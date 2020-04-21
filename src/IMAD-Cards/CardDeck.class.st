@@ -84,6 +84,24 @@ CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
 
+{ #category : #accessing }
+CardDeck >> className [
+	self get: #className
+
+]
+
+{ #category : #accessing }
+CardDeck >> className: aString [
+	self set: #className to: aString
+
+]
+
+{ #category : #generation }
+CardDeck >> compileMethodString [
+	"NB: the properties className and methodName must be defined"
+	self storageClass compile: self generateMethodString
+]
+
 { #category : #generation }
 CardDeck >> genCardsOn: aStream [
 	self cards
@@ -99,8 +117,11 @@ CardDeck >> genCardsOn: aStream [
 
 { #category : #generation }
 CardDeck >> genMethodName [
-	<todo: 'fix this to be the current method name, or a newly generated one'>
-	^ 'generateMe'
+	| methodName |
+	methodName := self get: #methodName.
+	self assert: methodName notNil.
+	self assert: methodName isString.
+	^ methodName
 ]
 
 { #category : #generation }
@@ -124,6 +145,7 @@ CardDeck >> generateMethodString [
 	stream := WriteStream on: String new.
 	stream
 		nextPutAll: self genMethodName;
+		nextPutAll: '  "NB: generated method"';
 		nextPutAll: ' ^ '.
 	self generateOn: stream.
 	^ OpalCompiler new format: stream contents
@@ -174,6 +196,13 @@ CardDeck >> initialize [
 	relations := OrderedCollection new.
 ]
 
+{ #category : #initialization }
+CardDeck >> invariant [
+	<todo: 'call this from somewhere'>
+	^ self properties isNotNil
+		and: [ self cards isNotNil and: [ self relations isNotNil ] ]
+]
+
 { #category : #querying }
 CardDeck >> isEmpty [
 	^ cards isEmpty
@@ -183,6 +212,18 @@ CardDeck >> isEmpty [
 CardDeck >> listTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
+]
+
+{ #category : #accessing }
+CardDeck >> methodName [
+	self get: #methodName
+
+]
+
+{ #category : #accessing }
+CardDeck >> methodName: aString [
+	self set: #methodName to: aString
+
 ]
 
 { #category : #relations }
@@ -199,4 +240,15 @@ CardDeck >> relationsMatching: aFilter [
 { #category : #cards }
 CardDeck >> size [
 	^ cards size
+]
+
+{ #category : #generation }
+CardDeck >> storageClass [
+	| className storageClass |
+	className := self get: #className.
+	self assert: className notNil.
+	storageClass := OpalCompiler new evaluate: className.
+	self assert: storageClass notNil.
+	self assert: storageClass isClass.
+	^ storageClass
 ]

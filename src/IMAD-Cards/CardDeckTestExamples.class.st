@@ -80,6 +80,12 @@ CardDeckTestExamples >> emptyDeck [
 	<gtExample>
 	| deck |
 	deck := CardDeck new.
+	deck
+		name: 'A Test Deck';
+		description: 'I hold a bunch of boring examples to test core functionality.'.
+	deck
+		className: 'CardDeckTestExamples';
+		methodName: 'genCardDeckTestExamples'.
 	self assert: deck isEmpty.
 	^ deck
 ]
@@ -92,6 +98,30 @@ CardDeckTestExamples >> emptyDeckEqualsEmptyDeck [
 	deck2 := self emptyDeck.
 	self assert: deck1 equals: deck2.
 	^ deck1 = deck2
+]
+
+{ #category : #'as yet unclassified' }
+CardDeckTestExamples >> genCardDeckTestExamples [
+	"NB: generated method"
+
+	^ CardDeck new
+		set: #className to: 'CardDeckTestExamples';
+		set: #name to: 'A Test Deck';
+		set: #description
+			to: 'I hold a bunch of boring examples to test core functionality.';
+		set: #methodName to: 'genCardDeckTestExamples';
+		addCard:
+			(Card new
+				set: #name to: 'Card1';
+				set: #description to: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				set: #name to: 'Card2';
+				set: #description to: 'I am Card2';
+				yourself);
+		addRelation: #friend fromCardNamed: 'Card2' toCardNamed: 'Card1';
+		yourself
 ]
 
 { #category : #accessing }
@@ -140,6 +170,19 @@ CardDeckTestExamples >> twoCardDeckNotEqualsOneCardDeck [
 	deck2 := self addCardOneToDeck.
 	self assert: deck1 ~= deck2.
 	^ deck1 ~= deck2
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> twoConnectedCardDeckEqualsGeneratedDeck [
+	<todo: 'test if generated deck is same as original deck'>
+	<gtExample>
+	| deck1 deck2 genMethod |
+	deck1 := self connectTwoCards.
+	deck1 compileMethodString.
+	genMethod := (deck1 storageClass >> deck1 genMethodName asSymbol).
+	deck2 := genMethod valueWithReceiver: deck1 arguments: #().
+	self assert: deck1 equals: deck2.
+	^ deck1 = deck2
 ]
 
 { #category : #accessing }

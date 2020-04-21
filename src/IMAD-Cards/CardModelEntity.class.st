@@ -11,6 +11,27 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
+{ #category : #accessing }
+CardModelEntity >> defaultDescription [
+	^ 'To do'
+]
+
+{ #category : #accessing }
+CardModelEntity >> defaultName [
+	^ 'Unknown'
+]
+
+{ #category : #accessing }
+CardModelEntity >> description [
+	^ self get: #description
+]
+
+{ #category : #accessing }
+CardModelEntity >> description: aString [
+	self set: #description to: aString
+
+]
+
 { #category : #generation }
 CardModelEntity >> genPropertiesOn: aStream [
 	properties
@@ -45,6 +66,17 @@ CardModelEntity >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
 	properties := Dictionary new.
+]
+
+{ #category : #accessing }
+CardModelEntity >> name [
+	^ self get: #name
+]
+
+{ #category : #accessing }
+CardModelEntity >> name: aString [
+	self set: #name to: aString
+
 ]
 
 { #category : #accessing }
