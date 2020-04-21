@@ -60,6 +60,14 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
+{ #category : #gt }
+CardDeck >> asElement [
+	| element |
+	element := CardDeckElement new.
+	element entity: self.
+	^ element
+]
+
 { #category : #cards }
 CardDeck >> cardNamed: aString [
 	| result |
@@ -187,6 +195,15 @@ CardDeck >> gtCardsFor: aView [
 ]
 
 { #category : #gt }
+CardDeck >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live';
+		priority: 0;
+		stencil: [ self ]
+]
+
+{ #category : #gt }
 CardDeck >> gtRelationsFor: aView [
 	<gtView>
 	^ aView forward
@@ -223,7 +240,7 @@ CardDeck >> isEmpty [
 	^ cards isEmpty
 ]
 
-{ #category : #gt }
+{ #category : #todos }
 CardDeck >> listTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches

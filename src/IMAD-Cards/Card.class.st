@@ -32,7 +32,7 @@ Card >> = anObject [
 Card >> asElement [
 	| element |
 	element := CardElement new.
-	element card: self.
+	element entity: self.
 	^ element
 ]
 
@@ -106,6 +106,18 @@ Card >> isA: relSymbol [
 		(self relFilter: relSymbol)
 		& (self selfTargetFilter)) isNotEmpty
 
+]
+
+{ #category : #gt }
+Card >> open [
+	"open in new window"
+	| aSpace |
+	aSpace := BlSpace new.
+	aSpace title: self name.
+	aSpace extent: 800 @ 600.
+	aSpace addChild: self asElement.
+	aSpace withHalos.
+	aSpace show
 ]
 
 { #category : #printing }

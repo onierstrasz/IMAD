@@ -1,14 +1,14 @@
 "
-I provide a view for a Card.
+I provide a view for a CardDeck
 "
 Class {
-	#name : #CardElement,
+	#name : #CardDeckElement,
 	#superclass : #CardModelElement,
 	#category : #'IMAD-Cards-UI'
 }
 
 { #category : #gui }
-CardElement >> buildMainMenu [
+CardDeckElement >> buildMainMenu [
 	<todo: 'hook in menu items'>
 	<gtExample>
 	"See: GtWorldElement>>#newSubSpaceButton"
@@ -20,7 +20,7 @@ CardElement >> buildMainMenu [
 ]
 
 { #category : #initialization }
-CardElement >> initialize [
+CardDeckElement >> initialize [
 	super initialize.
-	self entity: Card new. "placeholder"
+	self entity: CardDeck new. "placeholder"
 ]
