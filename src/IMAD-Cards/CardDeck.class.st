@@ -185,12 +185,32 @@ CardDeck >> generatingMethodName: aString [
 ]
 
 { #category : #gt }
+CardDeck >> gtCardsFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Cards';
+		priority: 1;
+		object: [ cards ];
+		view: #gtItemsFor:
+]
+
+{ #category : #gt }
 CardDeck >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Live';
 		priority: 0;
 		stencil: [ self ]
+]
+
+{ #category : #gt }
+CardDeck >> gtRelationsFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Relations';
+		priority: 2;
+		object: [ relations ];
+		view: #gtItemsFor:
 ]
 
 { #category : #relations }

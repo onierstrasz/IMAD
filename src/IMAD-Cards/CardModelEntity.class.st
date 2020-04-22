@@ -66,6 +66,16 @@ CardModelEntity >> get: propertySymbol [
 	^ properties at: propertySymbol ifAbsent: nil
 ]
 
+{ #category : #gt }
+CardModelEntity >> gtPropertiesFor: aView [
+	<gtView>
+	^ aView forward
+		title: 'Properties';
+		priority: 3;
+		object: [ properties ];
+		view: #gtItemsFor:
+]
+
 { #category : #initialization }
 CardModelEntity >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
