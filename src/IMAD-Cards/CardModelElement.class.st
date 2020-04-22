@@ -142,7 +142,9 @@ CardModelElement >> propertyTab [
 	^ BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Properties';
-		stencil: [ (self properties gtItemsFor: GtPhlowEmptyView new)
+		"stencil: [ (self properties gtItemsFor: GtPhlowEmptyView new)
+				asElementDo: [ :e | e ] ]"
+		stencil: [ (self entity gtPropertiesFor: GtPhlowEmptyView new)
 				asElementDo: [ :e | e ] ]
 ]
 
