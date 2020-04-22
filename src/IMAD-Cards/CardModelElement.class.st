@@ -51,7 +51,7 @@ CardModelElement >> buildTabs [
 	tabs := BrTabGroup new.
 	tabs look: BrGlamorousTabGroupLook new.
 	tabs addTab: self descriptionTab.
-	tabs addTab: self propertyTab.
+	"tabs addTab: self propertyTab."
 	^ tabs
 ]
 

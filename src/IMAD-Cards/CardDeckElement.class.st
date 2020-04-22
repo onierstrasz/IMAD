@@ -25,8 +25,8 @@ CardDeckElement >> buildTabs [
 	<todo: 'add tabs for cards and relations'>
 	<todo: 'add a graph view tab'>
 	tabs := super buildTabs.
-	tabs addTab: self cardsTab.
-	tabs addTab: self relationsTab.
+	"tabs addTab: self cardsTab."
+	"tabs addTab: self relationsTab."
 	^ tabs
 ]
 
