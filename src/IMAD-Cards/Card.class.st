@@ -28,7 +28,7 @@ Card >> = anObject [
 	^ self properties = anObject properties
 ]
 
-{ #category : #gt }
+{ #category : #ui }
 Card >> asElement [
 	| element |
 	element := CardElement new.
@@ -63,7 +63,7 @@ Card >> generateOn: aStream [
 		nextPutAll: '  yourself'
 ]
 
-{ #category : #gt }
+{ #category : #ui }
 Card >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit

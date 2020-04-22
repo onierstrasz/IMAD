@@ -60,7 +60,7 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
-{ #category : #gt }
+{ #category : #ui }
 CardDeck >> asElement [
 	| element |
 	element := CardDeckElement new.
@@ -184,7 +184,7 @@ CardDeck >> generatingMethodName: aString [
 
 ]
 
-{ #category : #gt }
+{ #category : #ui }
 CardDeck >> gtCardsFor: aView [
 	<gtView>
 	^ aView forward
@@ -192,9 +192,12 @@ CardDeck >> gtCardsFor: aView [
 		priority: 1;
 		object: [ cards ];
 		view: #gtItemsFor:
+		" ;
+		actionButtonIcon: BrGlamorousVectorIcons add
+			action: [ GLMAlertBrick alert: 'woohoo' ]"
 ]
 
-{ #category : #gt }
+{ #category : #ui }
 CardDeck >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit
@@ -203,7 +206,7 @@ CardDeck >> gtLiveFor: aView [
 		stencil: [ self ]
 ]
 
-{ #category : #gt }
+{ #category : #ui }
 CardDeck >> gtRelationsFor: aView [
 	<gtView>
 	^ aView forward

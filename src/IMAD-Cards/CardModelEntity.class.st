@@ -11,7 +11,7 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
-{ #category : #gt }
+{ #category : #ui }
 CardModelEntity >> asElement [
 	^ self subclassResponsibility 
 ]
@@ -66,7 +66,7 @@ CardModelEntity >> get: propertySymbol [
 	^ properties at: propertySymbol ifAbsent: nil
 ]
 
-{ #category : #gt }
+{ #category : #ui }
 CardModelEntity >> gtPropertiesFor: aView [
 	<gtView>
 	^ aView forward
@@ -96,7 +96,7 @@ CardModelEntity >> name: aString [
 
 ]
 
-{ #category : #gt }
+{ #category : #ui }
 CardModelEntity >> open [
 	"open in new window. NB: This view does not provide Inspector-like navigation."
 	<todo: 'add navigation support?'>
