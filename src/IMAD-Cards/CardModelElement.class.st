@@ -13,7 +13,7 @@ Class {
 	#category : #'IMAD-Cards-UI'
 }
 
-{ #category : #gui }
+{ #category : #ui }
 CardModelElement >> buildContentPane [
 	"See GtClassCoderElement>>#buildContentPane"
 
@@ -32,7 +32,7 @@ CardModelElement >> buildContentPane [
 	^ contentPane
 ]
 
-{ #category : #gui }
+{ #category : #ui }
 CardModelElement >> buildLabel [
 	^ BrLabel new
 		margin: (BlInsets left: 10);
@@ -40,22 +40,22 @@ CardModelElement >> buildLabel [
 		text: self name
 ]
 
-{ #category : #gui }
+{ #category : #ui }
 CardModelElement >> buildMainMenu [
 	^ self subclassResponsibility 
 ]
 
-{ #category : #gui }
+{ #category : #ui }
 CardModelElement >> buildTabs [
 	"<gtExample>"
 	tabs := BrTabGroup new.
 	tabs look: BrGlamorousTabGroupLook new.
 	tabs addTab: self descriptionTab.
-	"tabs addTab: self propertyTab."
+	tabs addTab: self propertyTab.
 	^ tabs
 ]
 
-{ #category : #gui }
+{ #category : #ui }
 CardModelElement >> buildTopPane [
 	| top left span right |
 	
@@ -89,7 +89,7 @@ CardModelElement >> description: aString [
 	^ entity description: aString
 ]
 
-{ #category : #gui }
+{ #category : #ui }
 CardModelElement >> descriptionTab [
 	| gtDoc |
 	^ BrTab new
@@ -102,6 +102,14 @@ CardModelElement >> descriptionTab [
 				do: [ self description: gtDoc text asString ].
 			self testingDictAt: #gtDocForDescription put: gtDoc.
 			gtDoc ]
+		"OLD broken version:"
+		"stencil: [ gtDoc := GtDocument new.
+			gtDoc text: self description.
+			gtDoc
+				when: GtDocumentUpdateRequestedAnnouncement
+				do: [ self description: gtDoc text asString ].
+			self testingDictAt: #gtDocForDescription put: gtDoc.
+			gtDoc ]"
 ]
 
 { #category : #accessing }
@@ -137,11 +145,12 @@ CardModelElement >> properties [
 	^ entity properties
 ]
 
-{ #category : #gui }
+{ #category : #ui }
 CardModelElement >> propertyTab [
 	^ BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Properties';
+		"NB: Instead of building the property tab here, we can copy the one from the model, ie reuse it as a stencil."
 		"stencil: [ (self properties gtItemsFor: GtPhlowEmptyView new)
 				asElementDo: [ :e | e ] ]"
 		stencil: [ (self entity gtPropertiesFor: GtPhlowEmptyView new)
@@ -163,7 +172,7 @@ CardModelElement >> testingDictAt: key put: value [
 
 ]
 
-{ #category : #gui }
+{ #category : #ui }
 CardModelElement >> updateContent [
 	container ifNotNil: #removeFromParent.
 	container := self buildContentPane.

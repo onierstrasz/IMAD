@@ -25,8 +25,8 @@ CardDeckElement >> buildTabs [
 	<todo: 'add tabs for cards and relations'>
 	<todo: 'add a graph view tab'>
 	tabs := super buildTabs.
-	"tabs addTab: self cardsTab."
-	"tabs addTab: self relationsTab."
+	tabs addTab: self cardsTab.
+	tabs addTab: self relationsTab.
 	^ tabs
 ]
 
@@ -35,7 +35,7 @@ CardDeckElement >> cardsTab [
 	^ BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Cards';
-		stencil: [ (self entity cards gtItemsFor: GtPhlowEmptyView new)
+		stencil: [ (self entity gtCardsFor: GtPhlowEmptyView new)
 				asElementDo: [ :e | e ] ]
 ]
 
@@ -50,6 +50,6 @@ CardDeckElement >> relationsTab [
 	^ BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Relations';
-		stencil: [ (self entity relations gtItemsFor: GtPhlowEmptyView new)
+		stencil: [ (self entity gtRelationsFor: GtPhlowEmptyView new)
 				asElementDo: [ :e | e ] ]
 ]
