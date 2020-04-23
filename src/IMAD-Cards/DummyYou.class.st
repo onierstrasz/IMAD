@@ -1,5 +1,5 @@
 Class {
-	#name : #Dummy,
+	#name : #DummyYou,
 	#superclass : #Object,
 	#category : #'IMAD-Cards-Model'
 }

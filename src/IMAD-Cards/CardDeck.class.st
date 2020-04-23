@@ -187,14 +187,16 @@ CardDeck >> generatingMethodName: aString [
 { #category : #ui }
 CardDeck >> gtCardsFor: aView [
 	<gtView>
+	<todo: 'add button to add a card'>
 	^ aView forward
 		title: 'Cards';
 		priority: 1;
 		object: [ cards ];
-		view: #gtItemsFor:
-		" ;
+		view: #gtItemsFor:;
 		actionButtonIcon: BrGlamorousVectorIcons add
-			action: [ GLMAlertBrick alert: 'woohoo' ]"
+			label: 'Add card'
+			action: [ GLMAlertBrick alert: 'woohoo' ]
+			"If you need more buttons, use actionStencil:"
 ]
 
 { #category : #ui }

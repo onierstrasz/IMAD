@@ -73,7 +73,7 @@ CardModelEntity >> gtPropertiesFor: aView [
 		title: 'Properties';
 		priority: 3;
 		object: [ properties ];
-		view: #gtItemsFor:
+		view: #gtEditItemsFor:
 ]
 
 { #category : #initialization }
