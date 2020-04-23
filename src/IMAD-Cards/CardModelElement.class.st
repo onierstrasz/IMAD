@@ -37,7 +37,7 @@ CardModelElement >> buildLabel [
 	^ BrLabel new
 		margin: (BlInsets left: 10);
 		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
-		text: self name
+		text: self entity name
 ]
 
 { #category : #ui }
@@ -79,37 +79,34 @@ CardModelElement >> buildTopPane [
 	^ top
 ]
 
-{ #category : #accessing }
-CardModelElement >> description [
-	^ entity description
-]
-
-{ #category : #accessing }
-CardModelElement >> description: aString [
-	^ entity description: aString
-]
-
 { #category : #ui }
 CardModelElement >> descriptionTab [
-	| gtDoc |
+	<todo: 'add a button to save the updated description'>
 	^ BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Description';
-		stencil: [ gtDoc := GtDocument new.
-			gtDoc text: self description.
-			gtDoc
-				when: GtDocumentUpdateRequestedAnnouncement
-				do: [ self description: gtDoc text asString ].
+		stencil: [ | gtDoc elt localContainer |
+			gtDoc := GtDocument new.
+			gtDoc text: self entity description.
 			self testingDictAt: #gtDocForDescription put: gtDoc.
-			gtDoc ]
-		"OLD broken version:"
-		"stencil: [ gtDoc := GtDocument new.
-			gtDoc text: self description.
-			gtDoc
-				when: GtDocumentUpdateRequestedAnnouncement
-				do: [ self description: gtDoc text asString ].
-			self testingDictAt: #gtDocForDescription put: gtDoc.
-			gtDoc ]"
+			elt := gtDoc asElementWithoutSaveAction.
+			elt 
+				vFitContent.
+			localContainer := BlElement new.
+			localContainer
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical matchParent ].
+			localContainer
+				layout: BlLinearLayout vertical;
+				addChild: elt;
+				addChild:
+					(BrButton new
+						look: BrGlamorousButtonWithIconLook;
+						icon: BrGlamorousVectorIcons accept;
+						label: 'Save';
+						action: [ GLMAlertBrick alert: 'woohoo' ]).
+			localContainer ]
 ]
 
 { #category : #accessing }
@@ -135,16 +132,6 @@ CardModelElement >> initialize [
 	testingDict := Dictionary new.
 ]
 
-{ #category : #accessing }
-CardModelElement >> name [
-	^ entity name
-]
-
-{ #category : #accessing }
-CardModelElement >> properties [
-	^ entity properties
-]
-
 { #category : #ui }
 CardModelElement >> propertyTab [
 	^ BrTab new
@@ -157,14 +144,14 @@ CardModelElement >> propertyTab [
 				asElementDo: [ :e | e ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 CardModelElement >> testingDictAt: key [
 	^ testingDict at: key
 
 
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 CardModelElement >> testingDictAt: key put: value [
 	"Private stuff to make accessible for testing."
 	testingDict at: key put: value
