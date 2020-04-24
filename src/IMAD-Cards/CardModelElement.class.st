@@ -62,6 +62,7 @@ CardModelElement >> buildTabs [
 
 { #category : #ui }
 CardModelElement >> descriptionTab [
+	<todo: 'make the accept button appear only if there is a change'>
 	| gtDoc |
 	gtDoc := GtDocument new.
 	gtDoc text: self entity description.

@@ -12,53 +12,6 @@ Class {
 }
 
 { #category : #ui }
-CardModelEntity >> OLDgtPropertiesFor: aView [
-	"<gtView>"
-	<todo: 'adjust the sizes of the rows (losing serifs on the labels)'>
-	<todo: 'fix to add new key and value'>
-	<todo: 'update view on adding a new property'>
-	<todo: 'update the underlying value when the key or value is edited'>
-	^ aView columnedTree
-		title: 'Properties';
-		priority: 10;
-		items: [ self properties associations ];
-		children: [ :each | 
-			each value isDictionary
-				ifTrue: [ each value associations ]
-				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
-						ifTrue: [ each value collectWithIndex: [ :x :i | i -> x ] ]
-						ifFalse: [ #() ] ] ];
-		column: 'Key'
-			do: [ :column | 
-			column
-				item: [ :assoc | assoc key ];
-				rowStencil: [ :item | 
-					| label |
-					label := BrEditableLabel new
-						look: BrGlamorousEditableLabelLook new glamorousRegularFontAndSize;
-						text: item.
-					"label editor
-						when: BrTextEditorModifiedEvent
-						do: [ :anEvent | 
-							| newKey |
-							newKey := anEvent text asString.
-							newKey = item
-								ifFalse: [ self at: newKey put: (self removeKey: item) ] ]."
-					label ] ];
-		column: 'Value'
-			do: [ :column | 
-			column
-				item: [ :assoc | assoc value ];
-				matchParent ];
-		send: [ :assoc | assoc value ];
-		"Why does this button disappear when the veiw is reused within the live view?"
-		actionButtonIcon: BrGlamorousVectorIcons add
-			label: 'Add property'
-			action: [ self properties at: 'to do' put: 'to do'
-			"aView update" ]
-]
-
-{ #category : #ui }
 CardModelEntity >> asElement [
 	^ self subclassResponsibility 
 ]
@@ -114,16 +67,6 @@ CardModelEntity >> get: propertySymbol [
 ]
 
 { #category : #ui }
-CardModelEntity >> gtOLDPropertiesFor: aView [
-	"<gtView>"
-	^ aView forward
-		title: 'Properties';
-		priority: 3;
-		object: [ properties ];
-		view: #gtEditItemsFor:
-]
-
-{ #category : #ui }
 CardModelEntity >> gtPropertiesFor: aView [
 	"NB: A column is an instance of GtPhlowColumn"
 
@@ -131,6 +74,7 @@ CardModelEntity >> gtPropertiesFor: aView [
 	<todo: 'fix to add new key and value'>
 	<todo: 'update view on adding a new property'>
 	<todo: 'update the underlying value when the key or value is edited'>
+	<todo: 'add sanity checks before renaming a key!'>
 	^ aView columnedList
 		title: 'Properties';
 		priority: 10;
@@ -138,28 +82,36 @@ CardModelEntity >> gtPropertiesFor: aView [
 		column: 'Key'
 			do: [ :column | 
 			column
-				item: [ :assoc | assoc key ];
+				rowStencil: [ :assoc | 
+					| label |
+					label := BrEditableLabel new
+						look:
+							(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
+						text: assoc key.
+					label
+						when: BrEditorAcceptWish
+						do: [ :aWish | 
+							"ADD SANITY CHECK!"
+							self properties at: aWish text asString put: assoc value.
+							self properties removeKey: assoc key ].
+					label ];
 				matchParent ];
 		column: 'Value'
 			do: [ :column | 
 			column
-				item: [ :assoc | assoc value ];
-				rowStencil: [ :item | 
+				rowStencil: [ :assoc | 
 					| label |
 					label := BrEditableLabel new
 						look:
-							(BrGlamorousEditableLabelLook new
-								defaultBackground: Color transparent;
-								glamorousCodeFont);
-						text: item.
+							(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
+						text: assoc value.
 					label
 						when: BrEditorAcceptWish
 						do:
-							[ :aWish | "self properties at: key put: aWish text asString"
-							self halt].
+							[ :aWish | "ADD SANITY CHECK!" self properties at: assoc key put: aWish text asString ].
 					label ];
 				matchParent ];
-		send: [ :assoc | assoc value ] "What does this do?"
+		send: [ :assoc | "send just the value to the next pane?" assoc value ]
 ]
 
 { #category : #initialization }
