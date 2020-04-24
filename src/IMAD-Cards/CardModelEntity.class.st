@@ -12,6 +12,53 @@ Class {
 }
 
 { #category : #ui }
+CardModelEntity >> OLDgtPropertiesFor: aView [
+	"<gtView>"
+	<todo: 'adjust the sizes of the rows (losing serifs on the labels)'>
+	<todo: 'fix to add new key and value'>
+	<todo: 'update view on adding a new property'>
+	<todo: 'update the underlying value when the key or value is edited'>
+	^ aView columnedTree
+		title: 'Properties';
+		priority: 10;
+		items: [ self properties associations ];
+		children: [ :each | 
+			each value isDictionary
+				ifTrue: [ each value associations ]
+				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
+						ifTrue: [ each value collectWithIndex: [ :x :i | i -> x ] ]
+						ifFalse: [ #() ] ] ];
+		column: 'Key'
+			do: [ :column | 
+			column
+				item: [ :assoc | assoc key ];
+				rowStencil: [ :item | 
+					| label |
+					label := BrEditableLabel new
+						look: BrGlamorousEditableLabelLook new glamorousRegularFontAndSize;
+						text: item.
+					"label editor
+						when: BrTextEditorModifiedEvent
+						do: [ :anEvent | 
+							| newKey |
+							newKey := anEvent text asString.
+							newKey = item
+								ifFalse: [ self at: newKey put: (self removeKey: item) ] ]."
+					label ] ];
+		column: 'Value'
+			do: [ :column | 
+			column
+				item: [ :assoc | assoc value ];
+				matchParent ];
+		send: [ :assoc | assoc value ];
+		"Why does this button disappear when the veiw is reused within the live view?"
+		actionButtonIcon: BrGlamorousVectorIcons add
+			label: 'Add property'
+			action: [ self properties at: 'to do' put: 'to do'
+			"aView update" ]
+]
+
+{ #category : #ui }
 CardModelEntity >> asElement [
 	^ self subclassResponsibility 
 ]
@@ -78,49 +125,41 @@ CardModelEntity >> gtOLDPropertiesFor: aView [
 
 { #category : #ui }
 CardModelEntity >> gtPropertiesFor: aView [
+	"NB: A column is an instance of GtPhlowColumn"
+
 	<gtView>
-	<todo: 'adjust the sizes of the rows (losing serifs on the labels)'>
 	<todo: 'fix to add new key and value'>
 	<todo: 'update view on adding a new property'>
 	<todo: 'update the underlying value when the key or value is edited'>
-	^ aView columnedTree
+	^ aView columnedList
 		title: 'Properties';
 		priority: 10;
 		items: [ self properties associations ];
-		children: [ :each | 
-			each value isDictionary
-				ifTrue: [ each value associations ]
-				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
-						ifTrue: [ each value collectWithIndex: [ :x :i | i -> x ] ]
-						ifFalse: [ #() ] ] ];
 		column: 'Key'
 			do: [ :column | 
 			column
 				item: [ :assoc | assoc key ];
-				rowStencil: [ :item | 
-					| label |
-					label := BrEditableLabel new
-						look: BrGlamorousEditableLabelLook new glamorousRegularFontAndSize;
-						text: item.
-					"label editor
-						when: BrTextEditorModifiedEvent
-						do: [ :anEvent | 
-							| newKey |
-							newKey := anEvent text asString.
-							newKey = item
-								ifFalse: [ self at: newKey put: (self removeKey: item) ] ]."
-					label ] ];
+				matchParent ];
 		column: 'Value'
 			do: [ :column | 
 			column
 				item: [ :assoc | assoc value ];
+				rowStencil: [ :item | 
+					| label |
+					label := BrEditableLabel new
+						look:
+							(BrGlamorousEditableLabelLook new
+								defaultBackground: Color transparent;
+								glamorousCodeFont);
+						text: item.
+					label
+						when: BrEditorAcceptWish
+						do:
+							[ :aWish | "self properties at: key put: aWish text asString"
+							self halt].
+					label ];
 				matchParent ];
-		send: [ :assoc | assoc value ];
-		"Why does this button disappear when the veiw is reused within the live view?"
-		actionButtonIcon: BrGlamorousVectorIcons add
-			label: 'Add property'
-			action: [ self properties at: 'to do' put: 'to do'
-			"aView update" ]
+		send: [ :assoc | assoc value ] "What does this do?"
 ]
 
 { #category : #initialization }
