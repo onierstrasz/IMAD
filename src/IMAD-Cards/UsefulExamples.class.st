@@ -87,9 +87,9 @@ UsefulExamples >> buildDifferentKindsOfTabs [
 
 { #category : #accessing }
 UsefulExamples >> buttonWithActions [
-	<gtExample>
 	"Example by TG"
 
+	<gtExample>
 	^ BrButton new
 		layout: BlLinearLayout horizontal;
 		constraintsDo: [ :c | 
@@ -97,25 +97,29 @@ UsefulExamples >> buttonWithActions [
 			c vertical fitContent ];
 		padding: (BlInsets all: 7);
 		icon: BrGlamorousIcons hamburger asElement;
-		look: 
-			BrGlamorousButtonWithIconLook +
-			(BrGlamorousWithDropdownLook new stencil: [ 
-				| aList |
-				aList := BrGlamorousSimpleContextMenuContent new.
-				aList
-					display:
-							{('Action 1' -> [ self openTextInOwnWindow: 'action 1' ]).
-							('Action 2' -> [ self openTextInOwnWindow: 'action 2' ]).
-							('Action 3' -> [ self openTextInOwnWindow: 'action 3' ])};
-						yourself.
-				BrAnchoredElement new look:
-					(BrGlamorousDropdownLook new
-						handle: (BrButton new icon: BrGlamorousIcons hamburger asElement; look:
-			BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook);
-						content: (aList
-							padding: (BlInsets all: 5);
-							vFitContent;
-							hExact: 200)) ]);
+		look:
+			BrGlamorousButtonWithIconLook
+				+
+					(BrGlamorousWithDropdownLook new
+						stencil: [ | aList |
+							aList := BrGlamorousSimpleContextMenuContent new.
+							aList
+								display:
+									{('Action 1' -> [ self openTextInOwnWindow: 'action 1' ]).
+									('Action 2' -> [ self openTextInOwnWindow: 'action 2' ]).
+									('Action 3' -> [ self openTextInOwnWindow: 'action 3' ])}.
+							BrAnchoredElement new
+								look:
+									(BrGlamorousDropdownLook new
+										handle:
+											(BrButton new
+												icon: BrGlamorousIcons hamburger asElement;
+												look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook);
+										content:
+											(aList
+												padding: (BlInsets all: 5);
+												vFitContent;
+												hExact: 200)) ]);
 		relocate: 200 @ 100
 ]
 

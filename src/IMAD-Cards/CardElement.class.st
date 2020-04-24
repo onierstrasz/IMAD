@@ -7,7 +7,7 @@ Class {
 	#category : #'IMAD-Cards-UI'
 }
 
-{ #category : #gui }
+{ #category : #unused }
 CardElement >> buildMainMenu [
 	<todo: 'hook in menu items'>
 	<gtExample>

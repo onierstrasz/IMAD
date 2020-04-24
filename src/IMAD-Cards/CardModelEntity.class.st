@@ -67,13 +67,60 @@ CardModelEntity >> get: propertySymbol [
 ]
 
 { #category : #ui }
-CardModelEntity >> gtPropertiesFor: aView [
-	<gtView>
+CardModelEntity >> gtOLDPropertiesFor: aView [
+	"<gtView>"
 	^ aView forward
 		title: 'Properties';
 		priority: 3;
 		object: [ properties ];
 		view: #gtEditItemsFor:
+]
+
+{ #category : #ui }
+CardModelEntity >> gtPropertiesFor: aView [
+	<gtView>
+	<todo: 'adjust the sizes of the rows (losing serifs on the labels)'>
+	<todo: 'fix to add new key and value'>
+	<todo: 'update view on adding a new property'>
+	<todo: 'update the underlying value when the key or value is edited'>
+	^ aView columnedTree
+		title: 'Properties';
+		priority: 10;
+		items: [ self properties associations ];
+		children: [ :each | 
+			each value isDictionary
+				ifTrue: [ each value associations ]
+				ifFalse: [ (each value isArray and: [ each value allSatisfy: #isDictionary ])
+						ifTrue: [ each value collectWithIndex: [ :x :i | i -> x ] ]
+						ifFalse: [ #() ] ] ];
+		column: 'Key'
+			do: [ :column | 
+			column
+				item: [ :assoc | assoc key ];
+				rowStencil: [ :item | 
+					| label |
+					label := BrEditableLabel new
+						look: BrGlamorousEditableLabelLook new glamorousRegularFontAndSize;
+						text: item.
+					"label editor
+						when: BrTextEditorModifiedEvent
+						do: [ :anEvent | 
+							| newKey |
+							newKey := anEvent text asString.
+							newKey = item
+								ifFalse: [ self at: newKey put: (self removeKey: item) ] ]."
+					label ] ];
+		column: 'Value'
+			do: [ :column | 
+			column
+				item: [ :assoc | assoc value ];
+				matchParent ];
+		send: [ :assoc | assoc value ];
+		"Why does this button disappear when the veiw is reused within the live view?"
+		actionButtonIcon: BrGlamorousVectorIcons add
+			label: 'Add property'
+			action: [ self properties at: 'to do' put: 'to do'
+			"aView update" ]
 ]
 
 { #category : #initialization }

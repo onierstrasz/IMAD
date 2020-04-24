@@ -25,7 +25,8 @@ CardModelElement >> buildContentPane [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ].
-	contentPane addChild: self buildTopPane.
+	"contentPane addChild: self buildTopPane."
+	contentPane addChild: self buildLabel.
 	contentPane addChild: self buildTabs.
 	"contentPane addChild: BrExamplesShowroom new glamorousTabs."
 	^ contentPane
@@ -39,7 +40,7 @@ CardModelElement >> buildLabel [
 		text: self entity name
 ]
 
-{ #category : #ui }
+{ #category : #unused }
 CardModelElement >> buildMainMenu [
 	^ self subclassResponsibility 
 ]
@@ -54,7 +55,7 @@ CardModelElement >> buildTabs [
 	^ tabs
 ]
 
-{ #category : #ui }
+{ #category : #unused }
 CardModelElement >> buildTopPane [
 	| top left span right |
 	
@@ -80,7 +81,6 @@ CardModelElement >> buildTopPane [
 
 { #category : #ui }
 CardModelElement >> descriptionTab [
-	<todo: 'Find a way to test this'>
 	| gtDoc |
 	gtDoc := GtDocument new.
 	gtDoc text: self entity description.
@@ -119,18 +119,18 @@ CardModelElement >> initialize [
 
 { #category : #ui }
 CardModelElement >> propertyTab [
+	"NB: Instead of building the property tab here, we can copy the one from the model, ie reuse it as a stencil."
+
 	^ BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Properties';
-		"NB: Instead of building the property tab here, we can copy the one from the model, ie reuse it as a stencil."
-		"stencil: [ (self properties gtItemsFor: GtPhlowEmptyView new)
-				asElementDo: [ :e | e ] ]"
 		stencil: [ (self entity gtPropertiesFor: GtPhlowEmptyView new)
 				asElementDo: [ :e | e ] ]
 ]
 
 { #category : #ui }
 CardModelElement >> updateContent [
+	"Called when the entity is set or updated"
 	container ifNotNil: #removeFromParent.
 	container := self buildContentPane.
 	self addChildFirst: container
