@@ -171,20 +171,3 @@ CardDeckTestExamples >> twoConnectedCardDeckEqualsTwoConnectedCardDeck [
 	self assert: deck1 equals: deck2.
 	^ deck1 = deck2
 ]
-
-{ #category : #accessing }
-CardDeckTestExamples >> updateCardOneDescription [
-	<gtExample>
-	"Check that updates to a GtDocument view of a Card's description are propagated back to the Card."
-	| deck card gtDoc newDescription |
-	deck := self getCardOne.
-	card := deck cardNamed: self cardOneName.
-	
-	newDescription := 'An updated description.'.
-	gtDoc := card asElement testingDictAt: #gtDocForDescription.
-	gtDoc text: newDescription.
-	gtDoc mayRequestDocumentUpdate.
-	
-	self assert: card description equals: newDescription.
-	^ deck
-]

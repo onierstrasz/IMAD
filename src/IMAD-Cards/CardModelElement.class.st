@@ -7,8 +7,7 @@ Class {
 	#instVars : [
 		'entity',
 		'container',
-		'tabs',
-		'testingDict'
+		'tabs'
 	],
 	#category : #'IMAD-Cards-UI'
 }
@@ -85,7 +84,6 @@ CardModelElement >> descriptionTab [
 	| gtDoc |
 	gtDoc := GtDocument new.
 	gtDoc text: self entity description.
-	self testingDictAt: #gtDocForDescription put: gtDoc.
 	^ BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Description';
@@ -116,8 +114,7 @@ CardModelElement >> initialize [
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
-			c vertical matchParent ].
-	testingDict := Dictionary new.
+			c vertical matchParent ]
 ]
 
 { #category : #ui }
@@ -130,21 +127,6 @@ CardModelElement >> propertyTab [
 				asElementDo: [ :e | e ] ]"
 		stencil: [ (self entity gtPropertiesFor: GtPhlowEmptyView new)
 				asElementDo: [ :e | e ] ]
-]
-
-{ #category : #testing }
-CardModelElement >> testingDictAt: key [
-	^ testingDict at: key
-
-
-]
-
-{ #category : #testing }
-CardModelElement >> testingDictAt: key put: value [
-	"Private stuff to make accessible for testing."
-	testingDict at: key put: value
-
-
 ]
 
 { #category : #ui }
