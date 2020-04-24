@@ -7,18 +7,6 @@ Class {
 	#category : #'IMAD-Cards-UI'
 }
 
-{ #category : #unused }
-CardDeckElement >> buildMainMenu [
-	<todo: 'hook in menu items'>
-	<gtExample>
-	"See: GtWorldElement>>#newSubSpaceButton"
-	^ BrButton new 
-		look: BrGlamorousButtonWithIconLook;
-		icon: BrGlamorousIcons hamburger asElement;
-		label: 'Menu';
-		margin: (BlInsets all: 5)
-]
-
 { #category : #gui }
 CardDeckElement >> buildTabs [
 	<gtExample>

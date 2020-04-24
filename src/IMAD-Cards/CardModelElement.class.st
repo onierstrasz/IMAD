@@ -34,15 +34,20 @@ CardModelElement >> buildContentPane [
 
 { #category : #ui }
 CardModelElement >> buildLabel [
-	^ BrLabel new
-		margin: (BlInsets left: 10);
-		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
-		text: self entity name
-]
-
-{ #category : #unused }
-CardModelElement >> buildMainMenu [
-	^ self subclassResponsibility 
+	| aNameEditor |
+	aNameEditor := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new
+				defaultBackground: Color transparent;
+				glamorousCodeFont;
+				bold;
+				fontSize: 20);
+		text: self entity name;
+		margin: (BlInsets all: 0).
+	aNameEditor
+		when: BrEditorAcceptWish
+		do: [ :aWish | self entity name: aWish text asString ].
+	^ aNameEditor
 ]
 
 { #category : #ui }
@@ -53,30 +58,6 @@ CardModelElement >> buildTabs [
 	tabs addTab: self descriptionTab.
 	tabs addTab: self propertyTab.
 	^ tabs
-]
-
-{ #category : #unused }
-CardModelElement >> buildTopPane [
-	| top left span right |
-	
-	top := BlElement new.
-	top layout: (BlLinearLayout horizontal).
-	top constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical fitContent ].
-
-	left := self buildLabel.
-	
-	span := BlElement new.
-	span constraintsDo: [ :c |
-		c horizontal matchParent.
-		c vertical matchParent. ].
-
-	right := self buildMainMenu.
-
-	top addChildren: { left . span . right }.
-
-	^ top
 ]
 
 { #category : #ui }

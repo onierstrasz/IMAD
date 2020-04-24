@@ -105,7 +105,7 @@ UsefulExamples >> buttonWithActions [
 							aList := BrGlamorousSimpleContextMenuContent new.
 							aList
 								display:
-									{('Action 1' -> [ self openTextInOwnWindow: 'action 1' ]).
+									{('Action 1' -> [ 'action 1' inspect ]).
 									('Action 2' -> [ self openTextInOwnWindow: 'action 2' ]).
 									('Action 3' -> [ self openTextInOwnWindow: 'action 3' ])}.
 							BrAnchoredElement new
