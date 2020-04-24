@@ -195,7 +195,7 @@ CardDeck >> gtCardsFor: aView [
 		view: #gtItemsFor:;
 		actionButtonIcon: BrGlamorousVectorIcons add
 			label: 'Add card'
-			action: [ GLMAlertBrick alert: 'woohoo' ]
+			action: [ UsefulExamples new openTextInOwnWindow: 'woohoo' ]
 			"If you need more buttons, use actionStencil:"
 ]
 

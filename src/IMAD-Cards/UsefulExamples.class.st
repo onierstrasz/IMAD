@@ -104,9 +104,9 @@ UsefulExamples >> buttonWithActions [
 				aList := BrGlamorousSimpleContextMenuContent new.
 				aList
 					display:
-							{('Action 1' -> [ self halt ]).
-							('Action 2' -> [ self halt ]).
-							('Action 3' -> [ self halt ])};
+							{('Action 1' -> [ self openTextInOwnWindow: 'action 1' ]).
+							('Action 2' -> [ self openTextInOwnWindow: 'action 2' ]).
+							('Action 3' -> [ self openTextInOwnWindow: 'action 3' ])};
 						yourself.
 				BrAnchoredElement new look:
 					(BrGlamorousDropdownLook new
@@ -261,18 +261,16 @@ UsefulExamples >> lookSubtraction [
 	label: 'Menu'
 ]
 
-{ #category : #accessing }
-UsefulExamples >> openElementInOwnWindow [
-	<gtExample>
-	| aSpace |
+{ #category : #utilities }
+UsefulExamples >> openTextInOwnWindow: aString [
+	| aSpace aText |
+	aText := BlRopedText string: aString.
 	aSpace := BlSpace new.
-	aSpace title: 'Space'.
-	aSpace extent: 1200 @ 600.
-	aSpace addChild: (BlElement new background: Color red).
-	aSpace withHalos
-	"aSpace show."
-
-	"NB: commented out last step to avoid opening window when running all the examples"
+	aSpace title: aString.
+	aSpace extent: 500 @ 50.
+	aSpace addChild: (BlTextElement new text: aText). "NB: Could be any kind of BlElement"
+	aSpace withHalos.
+	aSpace show
 ]
 
 { #category : #accessing }

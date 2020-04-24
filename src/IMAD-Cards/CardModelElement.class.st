@@ -81,32 +81,20 @@ CardModelElement >> buildTopPane [
 
 { #category : #ui }
 CardModelElement >> descriptionTab [
-	<todo: 'add a button to save the updated description'>
+	<todo: 'Find a way to test this'>
+	| gtDoc |
+	gtDoc := GtDocument new.
+	gtDoc text: self entity description.
+	self testingDictAt: #gtDocForDescription put: gtDoc.
 	^ BrTab new
 		look: BrGlamorousTabLook new;
 		label: 'Description';
-		stencil: [ | gtDoc elt localContainer |
-			gtDoc := GtDocument new.
-			gtDoc text: self entity description.
-			self testingDictAt: #gtDocForDescription put: gtDoc.
-			elt := gtDoc asElementWithoutSaveAction.
-			elt 
-				vFitContent.
-			localContainer := BlElement new.
-			localContainer
-				constraintsDo: [ :c | 
-					c horizontal matchParent.
-					c vertical matchParent ].
-			localContainer
-				layout: BlLinearLayout vertical;
-				addChild: elt;
-				addChild:
-					(BrButton new
-						look: BrGlamorousButtonWithIconLook;
-						icon: BrGlamorousVectorIcons accept;
-						label: 'Save';
-						action: [ GLMAlertBrick alert: 'woohoo' ]).
-			localContainer ]
+		stencil: [ gtDoc asElementWithoutSaveAction ];
+		toolbarStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons accept;
+				label: 'Save';
+				action: [ self entity description: gtDoc text ] ]
 ]
 
 { #category : #accessing }
