@@ -33,7 +33,7 @@ FSA class >> nodes: aCollection edges: anotherCollection start: anObject [
 { #category : #ui }
 FSA >> asElement [
 	| element |
-	element := FSAElement new.
+	element := FSAView new.
 	element fsa: self.
 	^ element
 ]

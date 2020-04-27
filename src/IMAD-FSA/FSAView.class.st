@@ -9,12 +9,11 @@ If the model accepts the transition as valid, I update the view.
 If the FSA is dead, I color the current state as red instead of green.
 "
 Class {
-	#name : #FSAElement,
+	#name : #FSAView,
 	#superclass : #BlElement,
 	#instVars : [
 		'fsa',
 		'contents',
-		'view',
 		'fsaCurrentState',
 		'viewNodes'
 	],
@@ -22,7 +21,7 @@ Class {
 }
 
 { #category : #ui }
-FSAElement >> borderCircleWithLabel: aString [
+FSAView >> borderCircleWithLabel: aString [
 	^ BlElement new
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
@@ -39,7 +38,7 @@ FSAElement >> borderCircleWithLabel: aString [
 ]
 
 { #category : #ui }
-FSAElement >> buildContentPane [
+FSAView >> buildContentPane [
 	| mondrian |
 	mondrian := GtMondrian new.
 	mondrian nodes
@@ -58,12 +57,12 @@ FSAElement >> buildContentPane [
 ]
 
 { #category : #'view updates' }
-FSAElement >> clearFSAstateColor [
+FSAView >> clearFSAstateColor [
 	self currentNode background: Color white
 ]
 
 { #category : #'view updates' }
-FSAElement >> clickOn: aNodeElement [
+FSAView >> clickOn: aNodeElement [
 	| node |
 	node := aNodeElement graph model.
 	(fsa isTarget: node)
@@ -72,22 +71,22 @@ FSAElement >> clickOn: aNodeElement [
 ]
 
 { #category : #acccessing }
-FSAElement >> currentNode [
+FSAView >> currentNode [
 	^ viewNodes detect: [ :each | each graph model = fsaCurrentState ]
 ]
 
 { #category : #defaults }
-FSAElement >> deadColor [
+FSAView >> deadColor [
 	^ Color red
 ]
 
 { #category : #defaults }
-FSAElement >> defaultNodeSize [
+FSAView >> defaultNodeSize [
 	^ 20@20
 ]
 
 { #category : #ui }
-FSAElement >> directedCurvedEdge [
+FSAView >> directedCurvedEdge [
 	^ BlParabollaArcElement new
 		zIndex: 0;
 		curvatureFraction: 0.2;
@@ -102,7 +101,7 @@ FSAElement >> directedCurvedEdge [
 ]
 
 { #category : #ui }
-FSAElement >> directedEdge [
+FSAView >> directedEdge [
 	^ BlParabollaArcElement new
 		zIndex: 0;
 		curvatureFraction: 0;
@@ -117,27 +116,26 @@ FSAElement >> directedEdge [
 ]
 
 { #category : #acccessing }
-FSAElement >> fsa [
+FSAView >> fsa [
 	^ fsa
 ]
 
 { #category : #acccessing }
-FSAElement >> fsa: anFSA [
+FSAView >> fsa: anFSA [
 	fsa := anFSA.
 	fsaCurrentState := fsa current.
 	self updateContent 
 ]
 
 { #category : #'ui requests' }
-FSAElement >> handleClickEvents: aView [
-	view := aView.
-	viewNodes := view children select: [ :each | each graph isNode ].
+FSAView >> handleClickEvents: aView [
+	viewNodes := aView children select: [ :each | each graph isNode ].
 	viewNodes
 		do: [ :aNode | aNode when: BlClickEvent do: [ self clickOn: aNode ] ].
 ]
 
 { #category : #'ui requests' }
-FSAElement >> inform: aString [
+FSAView >> inform: aString [
 	| aSpace aText |
 	aText := BlRopedText string: aString.
 	aSpace := BlSpace new.
@@ -149,7 +147,7 @@ FSAElement >> inform: aString [
 ]
 
 { #category : #initialization }
-FSAElement >> initialize [
+FSAView >> initialize [
 	super initialize.
 	self
 		layout: BlLinearLayout vertical;
@@ -159,12 +157,12 @@ FSAElement >> initialize [
 ]
 
 { #category : #defaults }
-FSAElement >> liveColor [
+FSAView >> liveColor [
 	^ (Color green darker alpha: 1)
 ]
 
 { #category : #'view updates' }
-FSAElement >> setFSAstateColor [
+FSAView >> setFSAstateColor [
 	self currentNode
 		background:
 			(fsa isLive
@@ -173,14 +171,14 @@ FSAElement >> setFSAstateColor [
 ]
 
 { #category : #'view updates' }
-FSAElement >> update: anFSA [
+FSAView >> update: anFSA [
 	self clearFSAstateColor.
 	fsaCurrentState := fsa current.
 	self setFSAstateColor
 ]
 
 { #category : #'view updates' }
-FSAElement >> updateContent [
+FSAView >> updateContent [
 	"Called when the fsa is set."
 	contents ifNotNil: #removeFromParent.
 	contents := self buildContentPane.
