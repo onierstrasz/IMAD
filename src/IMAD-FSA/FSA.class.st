@@ -30,14 +30,6 @@ FSA class >> nodes: aCollection edges: anotherCollection start: anObject [
 		yourself
 ]
 
-{ #category : #ui }
-FSA >> asElement [
-	| element |
-	element := FSAView new.
-	element fsa: self.
-	^ element
-]
-
 { #category : #initialization }
 FSA >> assertInvariant [
 	self assert: nodes isCollection.
@@ -89,10 +81,10 @@ FSA >> go: target [
 { #category : #ui }
 FSA >> gtLiveFor: aView [
 	<gtView>
-	^ aView explicit
+	^ aView mondrian
 		title: 'FSA';
 		priority: 10;
-		stencil: [ self ]
+		painting: [ :aMondrian | FSAView new viewForFSA: self with: aMondrian ]
 ]
 
 { #category : #initialization }

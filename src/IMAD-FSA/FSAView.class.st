@@ -10,12 +10,11 @@ If the FSA is dead, I color the current state as red instead of green.
 "
 Class {
 	#name : #FSAView,
-	#superclass : #BlElement,
+	#superclass : #Object,
 	#instVars : [
 		'fsa',
-		'contents',
-		'fsaCurrentState',
-		'viewNodes'
+		'mondrian',
+		'fsaRecentState'
 	],
 	#category : #'IMAD-FSA'
 }
@@ -39,8 +38,6 @@ FSAView >> borderCircleWithLabel: aString [
 
 { #category : #ui }
 FSAView >> buildContentPane [
-	| mondrian |
-	mondrian := GtMondrian new.
 	mondrian nodes
 		shape: [ :x | self borderCircleWithLabel: x asString ];
 		with: self fsa nodes.
@@ -50,18 +47,15 @@ FSAView >> buildContentPane [
 		toNearestTightCircle;
 		connectToAll: [ :x | self fsa following: x ].
 	mondrian layout circle.
-	self handleClickEvents: mondrian root.
-	self setFSAstateColor.
-	self fsa addDependent: self.
-	^ mondrian asElement
+	^ mondrian
 ]
 
-{ #category : #'view updates' }
+{ #category : #ui }
 FSAView >> clearFSAstateColor [
 	self currentNode background: Color white
 ]
 
-{ #category : #'view updates' }
+{ #category : #events }
 FSAView >> clickOn: aNodeElement [
 	| node |
 	node := aNodeElement graph model.
@@ -72,7 +66,8 @@ FSAView >> clickOn: aNodeElement [
 
 { #category : #acccessing }
 FSAView >> currentNode [
-	^ viewNodes detect: [ :each | each graph model = fsaCurrentState ]
+	^ self viewNodes
+		detect: [ :each | each graph model = fsaRecentState ]
 ]
 
 { #category : #defaults }
@@ -120,22 +115,16 @@ FSAView >> fsa [
 	^ fsa
 ]
 
-{ #category : #acccessing }
-FSAView >> fsa: anFSA [
-	fsa := anFSA.
-	fsaCurrentState := fsa current.
-	self updateContent 
+{ #category : #events }
+FSAView >> handleClickEvents [
+	self viewNodes
+		do: [ :aNode | aNode when: BlClickEvent do: [ self clickOn: aNode ] ]
 ]
 
-{ #category : #'ui requests' }
-FSAView >> handleClickEvents: aView [
-	viewNodes := aView children select: [ :each | each graph isNode ].
-	viewNodes
-		do: [ :aNode | aNode when: BlClickEvent do: [ self clickOn: aNode ] ].
-]
-
-{ #category : #'ui requests' }
+{ #category : #utilities }
 FSAView >> inform: aString [
+	<todo:
+		'instead post this information inside the content pane (make hidden with a checkbox)'>
 	| aSpace aText |
 	aText := BlRopedText string: aString.
 	aSpace := BlSpace new.
@@ -146,23 +135,14 @@ FSAView >> inform: aString [
 	aSpace show
 ]
 
-{ #category : #initialization }
-FSAView >> initialize [
-	super initialize.
-	self
-		layout: BlLinearLayout vertical;
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ]
-]
-
 { #category : #defaults }
 FSAView >> liveColor [
 	^ (Color green darker alpha: 1)
 ]
 
-{ #category : #'view updates' }
+{ #category : #ui }
 FSAView >> setFSAstateColor [
+	fsaRecentState := fsa current.
 	self currentNode
 		background:
 			(fsa isLive
@@ -170,17 +150,25 @@ FSAView >> setFSAstateColor [
 				ifFalse: [ self deadColor ])
 ]
 
-{ #category : #'view updates' }
+{ #category : #events }
 FSAView >> update: anFSA [
+	"Called when the FSA is changed"
 	self clearFSAstateColor.
-	fsaCurrentState := fsa current.
 	self setFSAstateColor
 ]
 
-{ #category : #'view updates' }
-FSAView >> updateContent [
-	"Called when the fsa is set."
-	contents ifNotNil: #removeFromParent.
-	contents := self buildContentPane.
-	self addChildFirst: contents
+{ #category : #initialization }
+FSAView >> viewForFSA: anFSA with: aMondrian [
+	fsa := anFSA.
+	mondrian := aMondrian.
+	self buildContentPane.
+	self handleClickEvents.
+	self fsa addDependent: self.
+	self setFSAstateColor
+
+]
+
+{ #category : #acccessing }
+FSAView >> viewNodes [
+	^ mondrian root children select: [ :each | each graph isNode ]
 ]

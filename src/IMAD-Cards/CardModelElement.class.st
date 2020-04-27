@@ -83,9 +83,9 @@ CardModelElement >> entity [
 ]
 
 { #category : #accessing }
-CardModelElement >> entity: aCardModelEtity [
+CardModelElement >> entity: aCardModelEntity [
 	"I.e., either a Card or a CardDeck"
-	entity := aCardModelEtity.
+	entity := aCardModelEntity.
 	self updateContent 
 ]
 
