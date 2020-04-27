@@ -10,11 +10,12 @@ If the FSA is dead, I color the current state as red instead of green.
 "
 Class {
 	#name : #FSAView,
-	#superclass : #Object,
+	#superclass : #BlElement,
 	#instVars : [
 		'fsa',
 		'mondrian',
-		'fsaRecentState'
+		'fsaRecentState',
+		'container'
 	],
 	#category : #'IMAD-FSA'
 }
@@ -135,6 +136,16 @@ FSAView >> inform: aString [
 	aSpace show
 ]
 
+{ #category : #initialization }
+FSAView >> initialize [
+	super initialize.
+	self
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ]
+]
+
 { #category : #defaults }
 FSAView >> liveColor [
 	^ (Color green darker alpha: 1)
@@ -158,14 +169,24 @@ FSAView >> update: anFSA [
 ]
 
 { #category : #initialization }
+FSAView >> updateContent [
+	"Called when the entity is set or updated"
+	container ifNotNil: #removeFromParent.
+	
+	container := self buildContentPane.
+	
+	self handleClickEvents.
+	self fsa addDependent: self.
+	self setFSAstateColor.
+
+	self addChildFirst: container asElement
+]
+
+{ #category : #initialization }
 FSAView >> viewForFSA: anFSA with: aMondrian [
 	fsa := anFSA.
 	mondrian := aMondrian.
-	self buildContentPane.
-	self handleClickEvents.
-	self fsa addDependent: self.
-	self setFSAstateColor
-
+	self updateContent
 ]
 
 { #category : #acccessing }
