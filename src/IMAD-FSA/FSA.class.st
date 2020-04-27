@@ -21,29 +21,6 @@ Class {
 	#category : #'IMAD-FSA'
 }
 
-{ #category : #tests }
-FSA class >> eg10nodes [
-	<gtExample>
-	^ self
-		nodes: (0 to: 10)
-		edges:
-			((0 to: 10)
-				flatCollect: [ :x | 
-					{(x -> (x * 3 \\ 10)).
-					(x -> (x // 2))} ]) asOrderedCollection removeDuplicates
-		start: 10
-]
-
-{ #category : #tests }
-FSA class >> eg4nodes [
-	<gtExample>
-	^ self
-		nodes: (1 to: 4)
-		edges: { 1->2. 1->3. 2->3. 3->2. 3->4 }
-		start: 1
-
-]
-
 { #category : #creation }
 FSA class >> nodes: aCollection edges: anotherCollection start: anObject [
 	^ FSA new
@@ -110,18 +87,11 @@ FSA >> go: target [
 ]
 
 { #category : #ui }
-FSA >> gtElement: aView [
-	"<gtView>"
-	^ aView explicit
-		title: 'Element';
-		stencil: [ self view ]
-]
-
-{ #category : #ui }
 FSA >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'FSA';
+		priority: 10;
 		stencil: [ self ]
 ]
 
@@ -181,26 +151,4 @@ FSA >> nodes [
 { #category : #accessing }
 FSA >> start [
 	^ start
-]
-
-{ #category : #ui }
-FSA >> view [
-	"FSA eg4nodes view"
-
-	^ FSAviewBuilder new viewFor: self
-
-	"| mondrian controller |
-	mondrian := GtMondrian new.
-	mondrian nodes
-		shape: [ :x | self borderCircleWithLabel: x asString ];
-		with: self nodes.
-	mondrian edges
-		shape: [ :edge | self directedCurvedEdge ];
-		fromNearestTightCircle;
-		toNearestTightCircle;
-		connectToAll: [ :x | self following: x ].
-	mondrian layout circle.
-	controller := FSAcontroller forModel: self andView: mondrian root.
-	self addDependent: controller.
-	^ mondrian"
 ]

@@ -60,18 +60,6 @@ GtModelingExamples >> directedEdge [
 ]
 
 { #category : #examples }
-GtModelingExamples >> fsa10NodeGraph [
-	<gtExample>
-	^ FSA eg10nodes view
-]
-
-{ #category : #examples }
-GtModelingExamples >> fsa4NodeGraph [
-	<gtExample>
-	^ FSA eg4nodes view
-]
-
-{ #category : #examples }
 GtModelingExamples >> graphWithDirectedEdges [
 	<gtExample>
 	| nodes mondrian |

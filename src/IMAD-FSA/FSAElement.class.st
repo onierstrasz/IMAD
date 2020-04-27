@@ -1,9 +1,22 @@
+"
+I am a view of an FSA.
+
+I also handle update events.
+
+I color the current state of the FSA as a green node in the view.
+I gather mouse click events from the view, and interpret them as transition requests.
+If the model accepts the transition as valid, I update the view.
+If the FSA is dead, I color the current state as red instead of green.
+"
 Class {
 	#name : #FSAElement,
 	#superclass : #BlElement,
 	#instVars : [
 		'fsa',
-		'contents'
+		'contents',
+		'view',
+		'fsaCurrentState',
+		'viewNodes'
 	],
 	#category : #'IMAD-FSA'
 }
@@ -27,7 +40,7 @@ FSAElement >> borderCircleWithLabel: aString [
 
 { #category : #ui }
 FSAElement >> buildContentPane [
-	| mondrian controller |
+	| mondrian |
 	mondrian := GtMondrian new.
 	mondrian nodes
 		shape: [ :x | self borderCircleWithLabel: x asString ];
@@ -38,12 +51,37 @@ FSAElement >> buildContentPane [
 		toNearestTightCircle;
 		connectToAll: [ :x | self fsa following: x ].
 	mondrian layout circle.
-	controller := FSAcontroller forModel: self fsa andView: mondrian root.
-	self fsa addDependent: controller.
+	self handleClickEvents: mondrian root.
+	self setFSAstateColor.
+	self fsa addDependent: self.
 	^ mondrian asElement
 ]
 
+{ #category : #'view updates' }
+FSAElement >> clearFSAstateColor [
+	self currentNode background: Color white
+]
+
+{ #category : #'view updates' }
+FSAElement >> clickOn: aNodeElement [
+	| node |
+	node := aNodeElement graph model.
+	(fsa isTarget: node)
+		ifTrue: [ fsa go: node ]
+		ifFalse: [ self inform: node asString , ' is not a valid target' ]
+]
+
 { #category : #acccessing }
+FSAElement >> currentNode [
+	^ viewNodes detect: [ :each | each graph model = fsaCurrentState ]
+]
+
+{ #category : #defaults }
+FSAElement >> deadColor [
+	^ Color red
+]
+
+{ #category : #defaults }
 FSAElement >> defaultNodeSize [
 	^ 20@20
 ]
@@ -86,7 +124,28 @@ FSAElement >> fsa [
 { #category : #acccessing }
 FSAElement >> fsa: anFSA [
 	fsa := anFSA.
+	fsaCurrentState := fsa current.
 	self updateContent 
+]
+
+{ #category : #'ui requests' }
+FSAElement >> handleClickEvents: aView [
+	view := aView.
+	viewNodes := view children select: [ :each | each graph isNode ].
+	viewNodes
+		do: [ :aNode | aNode when: BlClickEvent do: [ self clickOn: aNode ] ].
+]
+
+{ #category : #'ui requests' }
+FSAElement >> inform: aString [
+	| aSpace aText |
+	aText := BlRopedText string: aString.
+	aSpace := BlSpace new.
+	aSpace title: aString.
+	aSpace extent: 500 @ 50.
+	aSpace addChild: (BlTextElement new text: aText).
+	aSpace withHalos.
+	aSpace show
 ]
 
 { #category : #initialization }
@@ -99,8 +158,30 @@ FSAElement >> initialize [
 			c vertical matchParent ]
 ]
 
-{ #category : #initialization }
+{ #category : #defaults }
+FSAElement >> liveColor [
+	^ (Color green darker alpha: 1)
+]
+
+{ #category : #'view updates' }
+FSAElement >> setFSAstateColor [
+	self currentNode
+		background:
+			(fsa isLive
+				ifTrue: [ self liveColor ]
+				ifFalse: [ self deadColor ])
+]
+
+{ #category : #'view updates' }
+FSAElement >> update: anFSA [
+	self clearFSAstateColor.
+	fsaCurrentState := fsa current.
+	self setFSAstateColor
+]
+
+{ #category : #'view updates' }
 FSAElement >> updateContent [
+	"Called when the fsa is set."
 	contents ifNotNil: #removeFromParent.
 	contents := self buildContentPane.
 	self addChildFirst: contents
