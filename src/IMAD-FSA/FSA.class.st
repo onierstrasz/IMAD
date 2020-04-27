@@ -53,6 +53,14 @@ FSA class >> nodes: aCollection edges: anotherCollection start: anObject [
 		yourself
 ]
 
+{ #category : #ui }
+FSA >> asElement [
+	| element |
+	element := FSAElement new.
+	element fsa: self.
+	^ element
+]
+
 { #category : #initialization }
 FSA >> assertInvariant [
 	self assert: nodes isCollection.
@@ -103,10 +111,18 @@ FSA >> go: target [
 
 { #category : #ui }
 FSA >> gtElement: aView [
-	<gtView>
+	"<gtView>"
 	^ aView explicit
 		title: 'Element';
 		stencil: [ self view ]
+]
+
+{ #category : #ui }
+FSA >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'FSA';
+		stencil: [ self ]
 ]
 
 { #category : #initialization }
