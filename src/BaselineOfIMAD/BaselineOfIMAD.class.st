@@ -7,13 +7,10 @@ Class {
 { #category : #baselines }
 BaselineOfIMAD >> baseline: spec [
 	<baseline>
-
-	spec for: #'common' do: [
-		spec
-		"Not working on the FSA stuff for now."
-			"package: #'IMAD-FSA' ;
-			package: #'IMAD-EGM' ;"
-			package: #'IMAD-Cards'
-			].
-
+	spec
+		for: #common
+		do: [ spec
+				package: #'IMAD-Cards';
+				package: #'IMAD-FSA';
+				package: #'IMAD-EGM' ]
 ]
