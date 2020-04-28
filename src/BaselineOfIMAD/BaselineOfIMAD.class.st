@@ -11,6 +11,6 @@ BaselineOfIMAD >> baseline: spec [
 		for: #common
 		do: [ spec
 				package: #'IMAD-Cards';
-				package: #'IMAD-FSA';
-				package: #'IMAD-EGM' ]
+				package: #'IMAD-FSA'
+			"package: #'IMAD-EGM'" ]
 ]

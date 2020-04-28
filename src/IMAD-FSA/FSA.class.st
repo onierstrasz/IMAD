@@ -30,14 +30,6 @@ FSA class >> nodes: aCollection edges: anotherCollection start: anObject [
 		yourself
 ]
 
-{ #category : #ui }
-FSA >> asElement [
-	| element |
-	element := FSAView new.
-	element viewForFSA: self with: GtMondrian new.
-	^ element
-]
-
 { #category : #initialization }
 FSA >> assertInvariant [
 	self assert: nodes isCollection.
@@ -87,26 +79,17 @@ FSA >> go: target [
 ]
 
 { #category : #ui }
-FSA >> gtLiveFor: aView [
-	<gtView>
-	^ aView explicit
-		title: 'Live';
-		priority: 0;
-		stencil: [ self ]
-]
-
-{ #category : #ui }
 FSA >> gtMondrianFor: aView [
-	"<gtView>"
+	<gtView>
 	^ aView mondrian
 		title: 'FSA';
 		priority: 10;
-		painting: [ :aMondrian | FSAView new viewForFSA: self with: aMondrian ]
+		painting: [ :aMondrian | FSAViewController new viewForFSA: self with: aMondrian ]
 ]
 
 { #category : #initialization }
 FSA >> initialize [
-	edgeMap := Dictionary new
+	edgeMap := IdentityDictionary new
 ]
 
 { #category : #initialization }

@@ -9,19 +9,18 @@ If the model accepts the transition as valid, I update the view.
 If the FSA is dead, I color the current state as red instead of green.
 "
 Class {
-	#name : #FSAView,
-	#superclass : #BlElement,
+	#name : #FSAViewController,
+	#superclass : #Object,
 	#instVars : [
 		'fsa',
 		'mondrian',
-		'fsaRecentState',
-		'container'
+		'fsaRecentState'
 	],
 	#category : #'IMAD-FSA'
 }
 
 { #category : #ui }
-FSAView >> borderCircleWithLabel: aString [
+FSAViewController >> borderCircleWithLabel: aString [
 	^ BlElement new
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
@@ -38,7 +37,7 @@ FSAView >> borderCircleWithLabel: aString [
 ]
 
 { #category : #ui }
-FSAView >> buildContentPane [
+FSAViewController >> buildContentPane [
 	mondrian nodes
 		shape: [ :x | self borderCircleWithLabel: x asString ];
 		with: self fsa nodes.
@@ -52,12 +51,12 @@ FSAView >> buildContentPane [
 ]
 
 { #category : #ui }
-FSAView >> clearFSAstateColor [
+FSAViewController >> clearFSAstateColor [
 	self currentNode background: Color white
 ]
 
 { #category : #events }
-FSAView >> clickOn: aNodeElement [
+FSAViewController >> clickOn: aNodeElement [
 	| node |
 	node := aNodeElement graph model.
 	(fsa isTarget: node)
@@ -66,23 +65,23 @@ FSAView >> clickOn: aNodeElement [
 ]
 
 { #category : #acccessing }
-FSAView >> currentNode [
+FSAViewController >> currentNode [
 	^ self viewNodes
 		detect: [ :each | each graph model = fsaRecentState ]
 ]
 
 { #category : #defaults }
-FSAView >> deadColor [
+FSAViewController >> deadColor [
 	^ Color red
 ]
 
 { #category : #defaults }
-FSAView >> defaultNodeSize [
+FSAViewController >> defaultNodeSize [
 	^ 20@20
 ]
 
 { #category : #ui }
-FSAView >> directedCurvedEdge [
+FSAViewController >> directedCurvedEdge [
 	^ BlParabollaArcElement new
 		zIndex: 0;
 		curvatureFraction: 0.2;
@@ -97,7 +96,7 @@ FSAView >> directedCurvedEdge [
 ]
 
 { #category : #ui }
-FSAView >> directedEdge [
+FSAViewController >> directedEdge [
 	^ BlParabollaArcElement new
 		zIndex: 0;
 		curvatureFraction: 0;
@@ -112,18 +111,18 @@ FSAView >> directedEdge [
 ]
 
 { #category : #acccessing }
-FSAView >> fsa [
+FSAViewController >> fsa [
 	^ fsa
 ]
 
 { #category : #events }
-FSAView >> handleClickEvents [
+FSAViewController >> handleClickEvents [
 	self viewNodes
 		do: [ :aNode | aNode when: BlClickEvent do: [ self clickOn: aNode ] ]
 ]
 
 { #category : #utilities }
-FSAView >> inform: aString [
+FSAViewController >> inform: aString [
 	<todo:
 		'instead post this information inside the content pane (make hidden with a checkbox)'>
 	| aSpace aText |
@@ -136,23 +135,13 @@ FSAView >> inform: aString [
 	aSpace show
 ]
 
-{ #category : #initialization }
-FSAView >> initialize [
-	super initialize.
-	self
-		layout: BlLinearLayout vertical;
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ]
-]
-
 { #category : #defaults }
-FSAView >> liveColor [
+FSAViewController >> liveColor [
 	^ (Color green darker alpha: 1)
 ]
 
 { #category : #ui }
-FSAView >> setFSAstateColor [
+FSAViewController >> setFSAstateColor [
 	fsaRecentState := fsa current.
 	self currentNode
 		background:
@@ -162,34 +151,24 @@ FSAView >> setFSAstateColor [
 ]
 
 { #category : #events }
-FSAView >> update: anFSA [
+FSAViewController >> update: anFSA [
 	"Called when the FSA is changed"
 	self clearFSAstateColor.
 	self setFSAstateColor
 ]
 
 { #category : #initialization }
-FSAView >> updateContent [
-	"Called when the entity is set or updated"
-	container ifNotNil: #removeFromParent.
-	
-	container := self buildContentPane.
+FSAViewController >> viewForFSA: anFSA with: aMondrian [
+	fsa := anFSA.
+	mondrian := aMondrian.
+	self buildContentPane.
 	
 	self handleClickEvents.
 	self fsa addDependent: self.
 	self setFSAstateColor.
-
-	self addChildFirst: container asElement
-]
-
-{ #category : #initialization }
-FSAView >> viewForFSA: anFSA with: aMondrian [
-	fsa := anFSA.
-	mondrian := aMondrian.
-	self updateContent
 ]
 
 { #category : #acccessing }
-FSAView >> viewNodes [
+FSAViewController >> viewNodes [
 	^ mondrian root children select: [ :each | each graph isNode ]
 ]

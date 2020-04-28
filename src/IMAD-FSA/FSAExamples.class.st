@@ -22,6 +22,24 @@ FSAExamples >> fsa10nodes [
 	^ fsa
 ]
 
+{ #category : #accessing }
+FSAExamples >> fsa1nodeIsDead [
+	<gtExample>
+	| fsa |
+	fsa := FSA nodes: {0} edges: {} start: 0.
+	self assert: fsa isDead.
+	^ fsa
+]
+
+{ #category : #accessing }
+FSAExamples >> fsa2disconnectedNodesIsDead [
+	<gtExample>
+	| fsa |
+	fsa := FSA nodes: (0 to: 1) edges: {} start: 0.
+	self assert: fsa isDead.
+	^ fsa
+]
+
 { #category : #examples }
 FSAExamples >> fsa4nodes [
 	<gtExample>
