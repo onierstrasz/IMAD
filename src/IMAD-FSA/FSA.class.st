@@ -1,12 +1,7 @@
 "
 I represent the logic of a Finite State Automaton.
-
-To see a graphical view, send the view message to an instance, for example: 
+For examples, inspect: FSAExamples
 	
-	FSA eg4nodes view
-
-	FSA eg10nodes view
-
 "
 Class {
 	#name : #FSA,

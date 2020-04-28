@@ -1,10 +1,9 @@
 "
-I am a view of an FSA.
+I produce a view of an FSA, and I control the interactions between the model and the view.
 
-I also handle update events.
+I color the current state of the FSA as a green node in the view, and the following nodes as orange.
+I gather mouse click events from the view (clicks on orange nodes), and interpret them as transition requests.
 
-I color the current state of the FSA as a green node in the view.
-I gather mouse click events from the view, and interpret them as transition requests.
 If the model accepts the transition as valid, I update the view.
 If the FSA is dead, I color the current state as red instead of green.
 "
@@ -14,7 +13,7 @@ Class {
 	#instVars : [
 		'fsa',
 		'mondrian',
-		'colouredNodes',
+		'colouredViewNodes',
 		'nodeMap'
 	],
 	#category : #'IMAD-FSA'
@@ -39,14 +38,14 @@ FSAViewController >> borderCircleWithLabel: aString [
 
 { #category : #ui }
 FSAViewController >> clearFSAstateColors [
-	colouredNodes do: [ :each | each background: Color white ].
-	colouredNodes := OrderedCollection new
+	colouredViewNodes do: [ :each | each background: Color white ].
+	colouredViewNodes := OrderedCollection new
 ]
 
 { #category : #events }
-FSAViewController >> clickOn: aNodeElement [
+FSAViewController >> clickOn: aViewNode [
 	| node |
-	node := aNodeElement graph model.
+	node := aViewNode graph model.
 	(fsa isTarget: node)
 		ifTrue: [ fsa go: node ]
 		ifFalse: [ self inform: node asString , ' is not a valid target' ]
@@ -100,7 +99,8 @@ FSAViewController >> fsa [
 { #category : #initialization }
 FSAViewController >> handleClickEvents [
 	self viewNodes
-		do: [ :aNode | aNode when: BlClickEvent do: [ self clickOn: aNode ] ]
+		do:
+			[ :aViewNode | aViewNode when: BlClickEvent do: [ self clickOn: aViewNode ] ]
 ]
 
 { #category : #utilities }
@@ -120,7 +120,7 @@ FSAViewController >> inform: aString [
 { #category : #accessing }
 FSAViewController >> initialize [
 	super initialize.
-	colouredNodes := OrderedCollection new.
+	colouredViewNodes := OrderedCollection new.
 	nodeMap := IdentityDictionary new
 ]
 
@@ -129,14 +129,14 @@ FSAViewController >> initializeNodeMap [
 	"build a dictionary mapping model nodes to view nodes"
 
 	mondrian root children
-		do: [ :each | 
-			each graph isNode
-				ifTrue: [ nodeMap at: each graph model put: each ] ]
+		do: [ :aViewNode | 
+			aViewNode graph isNode
+				ifTrue: [ nodeMap at: aViewNode graph model put: aViewNode ] ]
 ]
 
 { #category : #defaults }
 FSAViewController >> liveColor [
-	^ (Color green darker alpha: 1)
+	^ Color green darker alpha: 1
 ]
 
 { #category : #defaults }
@@ -160,21 +160,22 @@ FSAViewController >> paintMondrianGraph [
 
 { #category : #ui }
 FSAViewController >> setFSAstateColors [
-	| currentNode |
-	currentNode := nodeMap at: fsa current.
-	colouredNodes add: currentNode.
-	currentNode
+	| currentViewNode aNode |
+	aNode := fsa current.
+	currentViewNode := nodeMap at: aNode.
+	currentViewNode
 		background:
 			(fsa isLive
 				ifTrue: [ self liveColor ]
 				ifFalse: [ self deadColor ]).
+	colouredViewNodes add: currentViewNode.
 	fsa isLive
 		ifTrue: [ fsa next
-				do: [ :each | 
-					| node |
-					node := nodeMap at: each.
-					colouredNodes add: node.
-					node background: self nextColor ] ]
+				do: [ :node | 
+					| viewNode |
+					viewNode := nodeMap at: node.
+					viewNode background: self nextColor.
+					colouredViewNodes add: viewNode ] ]
 ]
 
 { #category : #events }
