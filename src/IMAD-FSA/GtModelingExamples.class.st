@@ -62,8 +62,7 @@ GtModelingExamples >> directedEdge [
 { #category : #examples }
 GtModelingExamples >> graphWithDirectedEdges [
 	<gtExample>
-	| nodes mondrian |
-	nodes := 1 to: 10.
+	| mondrian |
 	mondrian := GtMondrian new.
 	mondrian nodes
 		shape: [ :each | self borderCircleWithLabel: each asString ];
@@ -73,11 +72,6 @@ GtModelingExamples >> graphWithDirectedEdges [
 		fromNearestTightCircle;
 		toNearestTightCircle;
 		connectTo: [ :x | x // 2 ].
-	"mondrian layout
-		custom:
-			(GtGradHorizontalDominanceCenteredTreeLayout new
-				levelDistance: 50;
-				nodeDistance: 10)."
 	mondrian layout tree.
 	^ mondrian
 ]
@@ -128,31 +122,4 @@ GtModelingExamples >> gtProjectMap [
 	^ BaselineOfGToolkit gtGtMapFor: GtPhlowProtoView new
 
 	"Source: (ConfigurationOf class)>>#gtMapFor:selectRelationsThat:nameDisplayedAs:"
-]
-
-{ #category : #playgrounds }
-GtModelingExamples >> pgCircleGraph [
-
-	"Just a place to store working script"
-
-	GTPlayground openContents: '| eg view |
-eg := FSA eg1.
-view := GtMondrian new.
-
-view nodes
-	shape: [: x |
-		BlElement new
-			border: (BlBorder paint: Color black);
-			geometry: BlCircle new;
-			size: 40 @ 40
-		];
-	with: eg nodes
-	.
-
-view edges connectToAll: [ :x | eg following: x ].
-
-view layout circle.
-^ view
-
-' label: 'Workspace'.
 ]
