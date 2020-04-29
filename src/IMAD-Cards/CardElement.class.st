@@ -4,7 +4,7 @@ I provide a view for a Card.
 Class {
 	#name : #CardElement,
 	#superclass : #CardModelElement,
-	#category : #'IMAD-Cards-UI'
+	#category : #'IMAD-Cards-Deprecated-UI'
 }
 
 { #category : #initialization }

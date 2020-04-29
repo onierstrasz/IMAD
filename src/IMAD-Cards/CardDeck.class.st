@@ -60,7 +60,7 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
-{ #category : #ui }
+{ #category : #deprecated }
 CardDeck >> asElement [
 	| element |
 	element := CardDeckElement new.
@@ -184,7 +184,7 @@ CardDeck >> generatingMethodName: aString [
 
 ]
 
-{ #category : #ui }
+{ #category : #'gt-extensions' }
 CardDeck >> gtCardsFor: aView [
 	<gtView>
 	<todo: 'add button to add a card'>
@@ -199,7 +199,7 @@ CardDeck >> gtCardsFor: aView [
 			"If you need more buttons, use actionStencil:"
 ]
 
-{ #category : #ui }
+{ #category : #deprecated }
 CardDeck >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit
@@ -208,7 +208,7 @@ CardDeck >> gtLiveFor: aView [
 		stencil: [ self ]
 ]
 
-{ #category : #ui }
+{ #category : #'gt-extensions' }
 CardDeck >> gtRelationsFor: aView [
 	<gtView>
 	^ aView forward

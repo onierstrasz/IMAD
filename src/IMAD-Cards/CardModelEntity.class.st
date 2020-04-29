@@ -11,9 +11,64 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
-{ #category : #ui }
+{ #category : #deprecated }
 CardModelEntity >> asElement [
 	^ self subclassResponsibility 
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> buildDescriptionDoc [
+	<todo: 'make the accept button appear only if there is a change'>
+	| gtDoc |
+	gtDoc := GtDocument new.
+	gtDoc text: self description.
+	^ BrTab new
+		look: BrGlamorousTabLook new;
+		label: 'Description';
+		stencil: [ gtDoc asElementWithoutSaveAction ];
+		toolbarStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons accept;
+				label: 'Save';
+				action: [ self description: gtDoc text ] ]
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> buildDescriptionPane [
+	"See GtClassCoderElement>>#buildContentPane"
+
+	"used by updateContent to set the container"
+
+	| contentPane |
+	contentPane := BlElement new.
+	contentPane layout: BlLinearLayout vertical.
+	contentPane
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	"contentPane addChild: self buildTopPane."
+	contentPane addChild: self buildLabel.
+	contentPane addChild: self buildDescriptionDoc.
+	"contentPane addChild: BrExamplesShowroom new glamorousTabs."
+	^ contentPane
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> buildLabel [
+	| aNameEditor |
+	aNameEditor := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new
+				defaultBackground: Color transparent;
+				glamorousCodeFont;
+				bold;
+				fontSize: 20);
+		text: self name;
+		margin: (BlInsets all: 0).
+	aNameEditor
+		when: BrEditorAcceptWish
+		do: [ :aWish | self name: aWish text asString ].
+	^ aNameEditor
 ]
 
 { #category : #accessing }
@@ -66,7 +121,16 @@ CardModelEntity >> get: propertySymbol [
 	^ properties at: propertySymbol ifAbsent: nil
 ]
 
-{ #category : #ui }
+{ #category : #'gt-extensions' }
+CardModelEntity >> gtDescriptionFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Description';
+		priority: 0;
+		stencil: [ self buildDescriptionPane ]
+]
+
+{ #category : #'gt-extensions' }
 CardModelEntity >> gtPropertiesFor: aView [
 	"NB: A column is an instance of GtPhlowColumn"
 
@@ -141,7 +205,7 @@ CardModelEntity >> name: aString [
 
 ]
 
-{ #category : #ui }
+{ #category : #deprecated }
 CardModelEntity >> open [
 	"open in new window. NB: This view does not provide Inspector-like navigation."
 	<todo: 'add navigation support?'>

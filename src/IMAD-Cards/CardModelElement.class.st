@@ -9,7 +9,7 @@ Class {
 		'container',
 		'tabs'
 	],
-	#category : #'IMAD-Cards-UI'
+	#category : #'IMAD-Cards-Deprecated-UI'
 }
 
 { #category : #ui }

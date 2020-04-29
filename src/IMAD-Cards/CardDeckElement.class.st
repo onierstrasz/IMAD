@@ -4,7 +4,7 @@ I provide a view for a CardDeck
 Class {
 	#name : #CardDeckElement,
 	#superclass : #CardModelElement,
-	#category : #'IMAD-Cards-UI'
+	#category : #'IMAD-Cards-Deprecated-UI'
 }
 
 { #category : #gui }
