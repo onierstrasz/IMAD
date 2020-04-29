@@ -300,8 +300,8 @@ UsefulExamples >> paneWithTabs [
 UsefulExamples >> scrollableMethodCoder [
 	<gtExample>
 	^ ((GtMethodCoder
-		forClass: FacultyDoodleModelingExamples
-		source: FacultyDoodleModelingExamples new buildModel generateMethodString)
+		forClass: CardDeckExamples
+		source: CardDeckExamples new facultyDoodleDomain generateMethodString)
 		expanded: true;
 		asElement) asScrollableElement
 ]

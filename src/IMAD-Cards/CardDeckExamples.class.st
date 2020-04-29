@@ -1,20 +1,34 @@
 "
-I simulate the exercise of modeling this description:
+I contain some modeling examples using Card decks.
 
- Exercise: turn this into a UML class diagram ...
+CardDeckExamples new facultyDoodleDomain 
+
 The Faculty of Science of the University of Bern forms various committees to make decisions on various issues throughout the year (budgets, hiring of professors, teaching evaluations, etc.).
 Each committee is composed of Faculty members (i.e., professors), assistants, and also some students. The chair of a committee is always a Faculty member. Committees meet on various dates and may deliver reports to the Dean or to the Faculty.
 Committee members can be contacted by email or phone
  
 "
 Class {
-	#name : #FacultyDoodleModelingExamples,
+	#name : #CardDeckExamples,
 	#superclass : #Object,
 	#category : #'IMAD-Cards-Examples'
 }
 
 { #category : #accessing }
-FacultyDoodleModelingExamples >> buildModel [
+CardDeckExamples >> builtModelEqualsGeneratedModel [
+	<gtExample>
+	| deck1 deck2 genMethod |
+	deck1 := self facultyDoodleDomain.
+	deck1 compileMethodString.
+	genMethod := (deck1 storageClass >> deck1 genMethodName asSymbol).
+	deck2 := genMethod valueWithReceiver: deck1 arguments: #().
+	genMethod removeFromSystem.
+	self assert: deck1 equals: deck2.
+	^ deck1 = deck2
+]
+
+{ #category : #accessing }
+CardDeckExamples >> facultyDoodleDomain [
 	<gtExample>
 	<todo: 'expand with missing concepts'>
 	| deck |
@@ -24,7 +38,7 @@ FacultyDoodleModelingExamples >> buildModel [
 	deck
 		name: 'Faculty Doodle Domain';
 		description: 'I represent the domain of doodles to organize Committee meetings for the Faculty of Science.';
-		storageClassName: 'FacultyDoodleModelingExamples';
+		storageClassName: 'CardDeckExamples';
 		generatingMethodName: 'genFacultyDoodleModelingExamples'.
 	
 	deck
@@ -63,18 +77,4 @@ FacultyDoodleModelingExamples >> buildModel [
 
 	self assert: deck size equals: 5.
 	^ deck
-]
-
-{ #category : #accessing }
-FacultyDoodleModelingExamples >> builtModelEqualsGeneratedModel [
-	<todo: 'test if generated deck is same as original deck'>
-	<gtExample>
-	| deck1 deck2 genMethod |
-	deck1 := self buildModel.
-	deck1 compileMethodString.
-	genMethod := (deck1 storageClass >> deck1 genMethodName asSymbol).
-	deck2 := genMethod valueWithReceiver: deck1 arguments: #().
-	genMethod removeFromSystem.
-	self assert: deck1 equals: deck2.
-	^ deck1 = deck2
 ]

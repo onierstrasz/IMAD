@@ -17,44 +17,38 @@ CardModelEntity >> asElement [
 ]
 
 { #category : #'gt-extensions' }
-CardModelEntity >> buildDescriptionDoc [
-	<todo: 'make the accept button appear only if there is a change'>
-	| gtDoc |
-	gtDoc := GtDocument new.
-	gtDoc text: self description.
-	^ BrTab new
-		look: BrGlamorousTabLook new;
-		label: 'Description';
-		stencil: [ gtDoc asElementWithoutSaveAction ];
-		toolbarStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousVectorIcons accept;
-				label: 'Save';
-				action: [ self description: gtDoc text ] ]
-]
-
-{ #category : #'gt-extensions' }
 CardModelEntity >> buildDescriptionPane [
 	"See GtClassCoderElement>>#buildContentPane"
 
 	"used by updateContent to set the container"
 
-	| contentPane |
+	| contentPane gtDoc |
 	contentPane := BlElement new.
 	contentPane layout: BlLinearLayout vertical.
 	contentPane
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ].
-	"contentPane addChild: self buildTopPane."
 	contentPane addChild: self buildLabel.
-	contentPane addChild: self buildDescriptionDoc.
+	
+	gtDoc := GtDocument new.
+	gtDoc text: self description.
+	
+		"toolbarStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons accept;
+				label: 'Save';
+				action: [ self description: gtDoc text ] ]."
+	
+	contentPane addChild: gtDoc asElementWithoutSaveAction.
+	
 	"contentPane addChild: BrExamplesShowroom new glamorousTabs."
 	^ contentPane
 ]
 
 { #category : #'gt-extensions' }
 CardModelEntity >> buildLabel [
+	<todo: 'name is not updating'>
 	| aNameEditor |
 	aNameEditor := BrEditableLabel new
 		look:
