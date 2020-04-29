@@ -75,6 +75,8 @@ CardModelEntity >> gtPropertiesFor: aView [
 	<todo: 'update view on adding a new property'>
 	<todo: 'update the underlying value when the key or value is edited'>
 	<todo: 'add sanity checks before renaming a key!'>
+	| anAnnouncer |
+	anAnnouncer := Announcer new.
 	^ aView columnedList
 		title: 'Properties';
 		priority: 10;
@@ -111,6 +113,11 @@ CardModelEntity >> gtPropertiesFor: aView [
 							[ :aWish | "ADD SANITY CHECK!" self properties at: assoc key put: aWish text asString ].
 					label ];
 				matchParent ];
+		actionButtonIcon: BrGlamorousVectorIcons add
+			action: [ properties at: 'abc' put: 'xyz'.
+			"ADD SANITY CHECK"
+			anAnnouncer announce: Announcement new ];
+		updateWhen: Announcement in: [ anAnnouncer ];
 		send: [ :assoc | "send just the value to the next pane?" assoc value ]
 ]
 
