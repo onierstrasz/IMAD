@@ -6,10 +6,16 @@ Class {
 	#name : #CardModelEntity,
 	#superclass : #Object,
 	#instVars : [
-		'properties'
+		'properties',
+		'announcer'
 	],
 	#category : #'IMAD-Cards-Model'
 }
+
+{ #category : #accessing }
+CardModelEntity >> announcer [
+	^ announcer
+]
 
 { #category : #deprecated }
 CardModelEntity >> asElement [
@@ -48,6 +54,7 @@ CardModelEntity >> buildDescriptionPane [
 
 { #category : #'gt-extensions' }
 CardModelEntity >> buildLabel [
+	"Study implementation of GtBehaviorCoderElement>>#buildClassLabel"
 	<todo: 'name is not updating'>
 	| aNameEditor |
 	aNameEditor := BrEditableLabel new
@@ -65,14 +72,19 @@ CardModelEntity >> buildLabel [
 	^ aNameEditor
 ]
 
-{ #category : #accessing }
+{ #category : #properties }
 CardModelEntity >> defaultDescription [
 	^ 'To do'
 ]
 
-{ #category : #accessing }
+{ #category : #properties }
 CardModelEntity >> defaultName [
 	^ 'Unknown'
+]
+
+{ #category : #properties }
+CardModelEntity >> defaultValue [
+	^ '...'
 ]
 
 { #category : #accessing }
@@ -84,6 +96,17 @@ CardModelEntity >> description [
 CardModelEntity >> description: aString [
 	self set: #description to: aString
 
+]
+
+{ #category : #properties }
+CardModelEntity >> freshKey [
+	| index key |
+	index := self properties size.
+	key := 'key' , index asString.
+	[ self properties includesKey: key ]
+		whileTrue: [ index := index + 1.
+			key := 'key' , index asString ].
+	^ key
 ]
 
 { #category : #generation }
@@ -109,10 +132,10 @@ CardModelEntity >> generateOn: aStream [
 	^ self subclassResponsibility
 ]
 
-{ #category : #accessing }
-CardModelEntity >> get: propertySymbol [
-	<todo: 'Should return a dedicated Null object if absent'>
-	^ properties at: propertySymbol ifAbsent: nil
+{ #category : #properties }
+CardModelEntity >> get: propertyKey [
+	self assert: (properties includesKey: propertyKey).
+	^ properties at: propertyKey ifAbsent: nil
 ]
 
 { #category : #'gt-extensions' }
@@ -133,8 +156,6 @@ CardModelEntity >> gtPropertiesFor: aView [
 	<todo: 'update view on adding a new property'>
 	<todo: 'update the underlying value when the key or value is edited'>
 	<todo: 'add sanity checks before renaming a key!'>
-	| anAnnouncer |
-	anAnnouncer := Announcer new.
 	^ aView columnedList
 		title: 'Properties';
 		priority: 10;
@@ -142,50 +163,48 @@ CardModelEntity >> gtPropertiesFor: aView [
 		column: 'Key'
 			do: [ :column | 
 			column
-				rowStencil: [ :assoc | 
-					| label |
-					label := BrEditableLabel new
-						look:
-							(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
-						text: assoc key.
-					label
-						when: BrEditorAcceptWish
-						do: [ :aWish | 
-							"ADD SANITY CHECK!"
-							self properties at: aWish text asString put: assoc value.
-							self properties removeKey: assoc key ].
-					label ];
+				rowStencil: [ :assoc | self keyLabelFor: assoc ];
 				matchParent ];
 		column: 'Value'
 			do: [ :column | 
 			column
-				rowStencil: [ :assoc | 
-					| label |
-					label := BrEditableLabel new
-						look:
-							(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
-						text: assoc value.
-					label
-						when: BrEditorAcceptWish
-						do:
-							[ :aWish | "ADD SANITY CHECK!" self properties at: assoc key put: aWish text asString ].
-					label ];
+				rowStencil: [ :assoc | self valueLabelFor: assoc ];
 				matchParent ];
 		actionButtonIcon: BrGlamorousVectorIcons add
-			action: [ properties at: 'abc' put: 'xyz'.
-			"ADD SANITY CHECK"
-			anAnnouncer announce: Announcement new ];
-		updateWhen: Announcement in: [ anAnnouncer ];
-		send: [ :assoc | "send just the value to the next pane?" assoc value ]
+			action: [ self set: self freshKey to: self defaultValue ];
+		updateWhen: PropertiesUpdated in: [ self announcer ];
+		send: [ :assoc | assoc value ]
 ]
 
 { #category : #initialization }
 CardModelEntity >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
+	announcer := Announcer new.
 	properties := Dictionary new.
 	self name: self defaultName.
-	self description: self defaultDescription.
+	self description: self defaultDescription
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> keyLabelFor: assoc [
+	| label |
+	label := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
+		text: assoc key.
+	label
+		when: BrEditorAcceptWish
+		do: [ :aWish | 
+			"ADD SANITY CHECK!"
+			"Do not directly modify properties, but use an API that sends announcements!"
+			"self properties at: aWish text asString put: assoc value.
+			self properties removeKey: assoc key"
+			
+			self rename: assoc key to: aWish text asString
+			
+			 ].
+	^ label
 ]
 
 { #category : #accessing }
@@ -212,13 +231,41 @@ CardModelEntity >> open [
 	aSpace show
 ]
 
-{ #category : #accessing }
+{ #category : #properties }
 CardModelEntity >> properties [
-	"For CardElement"
 	^ properties
 ]
 
-{ #category : #accessing }
-CardModelEntity >> set: propertySymbol to: aValue [
-	^ properties at: propertySymbol put: aValue
+{ #category : #properties }
+CardModelEntity >> protectedKeys [
+	^ { 'name' . 'description' }
+]
+
+{ #category : #properties }
+CardModelEntity >> rename: oldKey to: newKey [
+	self assert: (self properties includesKey: oldKey).
+	self assert: (self properties includesKey: newKey) not.
+	self assert: (self protectedKeys includes: oldKey) not.
+	self properties at: newKey put: (self properties removeKey: oldKey).
+	self announcer announce: PropertiesUpdated new
+]
+
+{ #category : #properties }
+CardModelEntity >> set: propertyKey to: aValue [
+	self properties at: propertyKey put: aValue.
+	self announcer announce: PropertiesUpdated new
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> valueLabelFor: assoc [
+	| label |
+	label := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
+		text: assoc value.
+	label
+		when: BrEditorAcceptWish
+		do:
+			[ :aWish | self set: assoc key to: aWish text asString ].
+	^ label
 ]

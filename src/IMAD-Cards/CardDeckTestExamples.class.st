@@ -43,6 +43,39 @@ CardDeckTestExamples >> addCardTwoWithDeckAPI [
 ]
 
 { #category : #accessing }
+CardDeckTestExamples >> addFreshPropertyToDeck [
+	<gtExample>
+	| deck key value |
+	deck := self emptyDeck.
+	self assert: deck properties size equals: 4.
+	key := deck freshKey.
+	value := 'xyz'.
+	self assert: (deck properties includesKey: key) not.
+	deck set: key to: value.
+	self assert: deck properties size equals: 5.
+	self assert: (deck properties includesKey: key).
+	self assert: (deck get: key) equals: value.
+	^ deck
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> addPropertyAbcToDeck [
+	<gtExample>
+	| deck key value |
+	deck := self emptyDeck.
+	self assert: deck properties size equals: 4.
+	key := 'abc'.
+	value := 'xyz'.
+	self assert: (deck properties includesKey: key) not.
+	deck set: key to: value.
+	
+	self assert: deck properties size equals: 5.
+	self assert: (deck properties includesKey: key).
+	self assert: (deck get: key) equals: value.
+	^ deck
+]
+
+{ #category : #accessing }
 CardDeckTestExamples >> cardOneName [
 	^ 'Card1'
 ]
@@ -126,6 +159,42 @@ CardDeckTestExamples >> oneCardDeckEqualsOneCardDeck [
 	deck2 := self addCardOneToDeck.
 	self assert: deck1 equals: deck2.
 	^ deck1 = deck2
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> renamePropertyAbcToAbcdInDeck [
+	<gtExample>
+	| deck oldKey newKey value |
+	deck := self addPropertyAbcToDeck.
+	oldKey := 'abc'.
+	newKey := 'abcd'.
+	value := 'xyz'.
+	self assert: (deck properties includesKey: oldKey).
+	self assert: (deck properties includesKey: newKey) not.
+	deck rename: oldKey to: newKey.
+	self assert: (deck properties includesKey: oldKey) not.
+	self assert: (deck properties includesKey: newKey).
+	self assert: (deck get: newKey) equals: value.
+	^ deck
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> renameProtectedPropertyFails [
+	<gtExample>
+	| deck oldKey newKey value |
+	deck := self addPropertyAbcToDeck.
+	oldKey := 'name'.
+	newKey := 'name2'.
+	value := 'xyz'.
+	self assert: (deck properties includesKey: oldKey).
+	self assert: (deck properties includesKey: newKey) not.
+	self
+		assert:
+			([ deck rename: oldKey to: newKey.
+			false ]
+				on: AssertionFailure
+				do: [ true ]).
+	^ deck
 ]
 
 { #category : #accessing }
