@@ -24,11 +24,7 @@ CardModelEntity >> asElement [
 
 { #category : #'gt-extensions' }
 CardModelEntity >> buildDescriptionPane [
-	"See GtClassCoderElement>>#buildContentPane"
-
-	"used by updateContent to set the container"
-
-	| contentPane gtDoc |
+	| contentPane gtDoc aSaveButton |
 	contentPane := BlElement new.
 	contentPane layout: BlLinearLayout vertical.
 	contentPane
@@ -36,26 +32,28 @@ CardModelEntity >> buildDescriptionPane [
 			c horizontal matchParent.
 			c vertical matchParent ].
 	contentPane addChild: self buildLabel.
-	
 	gtDoc := GtDocument new.
 	gtDoc text: self description.
-	
-		"toolbarStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousVectorIcons accept;
-				label: 'Save';
-				action: [ self description: gtDoc text ] ]."
-	
+	aSaveButton := BrButton new
+		look: BrGlamorousButtonWithIconLook;
+		visibility: BlVisibility hidden;
+		icon: BrGlamorousVectorIcons accept;
+		label: 'Save';
+		action: [ self description: gtDoc text ].
+	contentPane addChild: aSaveButton.
+	gtDoc editor
+		when: BrTextEditorModifiedEvent
+		do: [ :anEvent | 
+			anEvent text asString = gtDoc text
+				ifTrue: [ aSaveButton visibility: BlVisibility hidden ]
+				ifFalse: [ aSaveButton visibility: BlVisibility visible ] ].
 	contentPane addChild: gtDoc asElementWithoutSaveAction.
-	
-	"contentPane addChild: BrExamplesShowroom new glamorousTabs."
 	^ contentPane
 ]
 
 { #category : #'gt-extensions' }
 CardModelEntity >> buildLabel [
-	"Study implementation of GtBehaviorCoderElement>>#buildClassLabel"
-	<todo: 'name is not updating'>
+	"See also GtBehaviorCoderElement>>#buildClassLabel"
 	| aNameEditor |
 	aNameEditor := BrEditableLabel new
 		look:
@@ -140,11 +138,13 @@ CardModelEntity >> get: propertyKey [
 
 { #category : #'gt-extensions' }
 CardModelEntity >> gtDescriptionFor: aView [
+	<todo: 'have a more specific announcement just for change in name or description'>
 	<gtView>
 	^ aView explicit
 		title: 'Description';
 		priority: 0;
-		stencil: [ self buildDescriptionPane ]
+		stencil: [ self buildDescriptionPane ];
+		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }
@@ -196,14 +196,9 @@ CardModelEntity >> keyLabelFor: assoc [
 	label
 		when: BrEditorAcceptWish
 		do: [ :aWish | 
-			"ADD SANITY CHECK!"
-			"Do not directly modify properties, but use an API that sends announcements!"
-			"self properties at: aWish text asString put: assoc value.
-			self properties removeKey: assoc key"
-			
-			self rename: assoc key to: aWish text asString
-			
-			 ].
+			[ self rename: assoc key to: aWish text asString ]
+				on: AssertionFailure
+				do: [ label text: assoc key ] ].
 	^ label
 ]
 
