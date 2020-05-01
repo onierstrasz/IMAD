@@ -17,11 +17,6 @@ CardModelEntity >> announcer [
 	^ announcer
 ]
 
-{ #category : #deprecated }
-CardModelEntity >> asElement [
-	^ self subclassResponsibility 
-]
-
 { #category : #'gt-extensions' }
 CardModelEntity >> buildDescriptionPane [
 	| contentPane gtDoc aSaveButton |
@@ -152,10 +147,6 @@ CardModelEntity >> gtPropertiesFor: aView [
 	"NB: A column is an instance of GtPhlowColumn"
 
 	<gtView>
-	<todo: 'fix to add new key and value'>
-	<todo: 'update view on adding a new property'>
-	<todo: 'update the underlying value when the key or value is edited'>
-	<todo: 'add sanity checks before renaming a key!'>
 	^ aView columnedList
 		title: 'Properties';
 		priority: 10;
@@ -211,19 +202,6 @@ CardModelEntity >> name [
 CardModelEntity >> name: aString [
 	self set: #name to: aString
 
-]
-
-{ #category : #deprecated }
-CardModelEntity >> open [
-	"open in new window. NB: This view does not provide Inspector-like navigation."
-	<todo: 'add navigation support?'>
-	| aSpace |
-	aSpace := BlSpace new.
-	aSpace title: self name.
-	aSpace extent: 800 @ 600.
-	aSpace addChild: self asElement.
-	aSpace withHalos.
-	aSpace show
 ]
 
 { #category : #properties }

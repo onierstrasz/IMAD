@@ -28,14 +28,6 @@ Card >> = anObject [
 	^ self properties = anObject properties
 ]
 
-{ #category : #deprecated }
-Card >> asElement [
-	| element |
-	element := CardElement new.
-	element entity: self.
-	^ element
-]
-
 { #category : #relations }
 Card >> become: relation of: aSourceCard [
 	"Convenience method"
@@ -61,15 +53,6 @@ Card >> generateOn: aStream [
 	self genPropertiesOn: aStream.
 	aStream
 		nextPutAll: '  yourself'
-]
-
-{ #category : #deprecated }
-Card >> gtLiveFor: aView [
-	<gtView>
-	^ aView explicit
-		title: 'Live';
-		priority: 0;
-		stencil: [ self ]
 ]
 
 { #category : #querying }

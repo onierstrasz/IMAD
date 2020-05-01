@@ -60,18 +60,13 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
-{ #category : #deprecated }
-CardDeck >> asElement [
-	| element |
-	element := CardDeckElement new.
-	element entity: self.
-	^ element
-]
-
 { #category : #cards }
 CardDeck >> cardNamed: aString [
+	"In general there is nothing to prohibit multiple cards with the same name, but using this method makes a strong assumption that the card exists and is uniquely named.
+	(Is this a good idea?)"
+
 	| result |
-	result := cards select: [:each | each name = aString].
+	result := self cardsNamed: aString.
 	self assert: result size equals: 1.
 	^ result at: 1
 ]
@@ -195,17 +190,9 @@ CardDeck >> gtCardsFor: aView [
 		view: #gtItemsFor:;
 		actionButtonIcon: BrGlamorousVectorIcons add
 			label: 'Add card'
-			action: [ UsefulExamples new openTextInOwnWindow: 'woohoo' ]
-			"If you need more buttons, use actionStencil:"
-]
-
-{ #category : #deprecated }
-CardDeck >> gtLiveFor: aView [
-	<gtView>
-	^ aView explicit
-		title: 'Live';
-		priority: 0;
-		stencil: [ self ]
+			action: [ UsefulExamples new openTextInOwnWindow: 'woohoo' ];
+			"If you need more buttons, use actionStencil:" 
+		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }
