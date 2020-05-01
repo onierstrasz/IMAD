@@ -91,6 +91,7 @@ CardDeck >> cardsNamed: aString [
 { #category : #printing }
 CardDeck >> compileMethodString [
 	"NB: the properties className and methodName must be defined"
+
 	self storageClass compile: self generateMethodString
 ]
 
@@ -167,6 +168,24 @@ CardDeck >> gtRelationsFor: aView [
 		priority: 2;
 		object: [ relations ];
 		view: #gtItemsFor:
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> gtStoreStringFor: aView [
+	"<gtView>"
+
+	^ (super gtStoreStringFor: aView)
+		actionButtonIcon: BrGlamorousIcons save
+		label:
+			'Save to method ' , self storageClassName , '>>#'
+				, self generatingMethodName
+		action: [ :button | 
+			| coder |
+			coder := GtMethodCoder
+				forClass: self storageClass
+				source: self generateMethodString.
+			coder expanded: true.
+			button phlow spawnObject: coder asElement asScrollableElement ]
 ]
 
 { #category : #relations }

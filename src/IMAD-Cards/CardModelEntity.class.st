@@ -154,6 +154,19 @@ CardModelEntity >> gtStoreStringFor: aView [
 				matchParent ]
 ]
 
+{ #category : #'ui requests' }
+CardModelEntity >> inform: aString [
+	"NB: just a placeholder for a real gt version of #inform:"
+	| aSpace aText |
+	aText := BlRopedText string: aString.
+	aSpace := BlSpace new.
+	aSpace title: aString.
+	aSpace extent: 500 @ 50.
+	aSpace addChild: (BlTextElement new text: aText).
+	aSpace withHalos.
+	aSpace show
+]
+
 { #category : #initialization }
 CardModelEntity >> initialize [
 	<todo: 'Should properties be an IdentityDictionary?'>
