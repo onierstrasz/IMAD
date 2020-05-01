@@ -19,12 +19,11 @@ CardDeckExamples >> builtModelEqualsGeneratedModel [
 	<gtExample>
 	| deck1 deck2 genMethod |
 	deck1 := self facultyDoodleDomain.
-	deck1 compileMethodString.
-	genMethod := (deck1 storageClass >> deck1 genMethodName asSymbol).
-	deck2 := genMethod valueWithReceiver: deck1 arguments: #().
-	genMethod removeFromSystem.
+	deck2 := OpalCompiler new
+		source: deck1 storeString;
+		evaluate.
 	self assert: deck1 equals: deck2.
-	^ deck1 = deck2
+	^ deck1
 ]
 
 { #category : #accessing }

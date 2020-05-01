@@ -88,13 +88,6 @@ CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
 
-{ #category : #printing }
-CardDeck >> compileMethodString [
-	"NB: the properties className and methodName must be defined"
-
-	self storageClass compile: self generateMethodString
-]
-
 { #category : #defaults }
 CardDeck >> defaultClassName [
 	"The class where this CardDeck is stored as a generating method."
@@ -173,6 +166,7 @@ CardDeck >> gtRelationsFor: aView [
 { #category : #'gt-extensions' }
 CardDeck >> gtStoreStringFor: aView [
 	"<gtView>"
+	<todo: 'set the title: of the pane'>
 
 	^ (super gtStoreStringFor: aView)
 		actionButtonIcon: BrGlamorousIcons save
@@ -233,12 +227,6 @@ CardDeck >> relationsMatching: aFilter [
 	^ relations select: [:rel | aFilter matches: rel].
 ]
 
-{ #category : #printing }
-CardDeck >> save [
-	"store the deck by generating a method that will recreate it"
-	^ self compileMethodString
-]
-
 { #category : #cards }
 CardDeck >> size [
 	^ cards size
@@ -270,14 +258,12 @@ CardDeck >> storageClassName: aString [
 { #category : #printing }
 CardDeck >> storeCardsOn: aStream [
 	self cards
-		do: [ :each |
-			aStream
-				nextPutAll: '  addCard: ('.
+		do: [ :each | 
+			aStream nextPutAll: '  addCard: ('.
 			each storeOn: aStream.
 			aStream
 				nextPutAll: ');';
-				cr.
-		]
+				cr ]
 ]
 
 { #category : #printing }
@@ -288,8 +274,7 @@ CardDeck >> storeOn: aStream [
 	self storePropertiesOn: aStream.
 	self storeCardsOn: aStream.
 	self storeRelationsOn: aStream.
-	aStream
-		nextPutAll: '  yourself'
+	aStream nextPutAll: '  yourself'
 ]
 
 { #category : #printing }
