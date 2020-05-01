@@ -133,6 +133,31 @@ CardDeckTestExamples >> emptyDeckEqualsEmptyDeck [
 	^ deck1 = deck2
 ]
 
+{ #category : #'as yet unclassified' }
+CardDeckTestExamples >> genCardDeckTestExamples [
+	"NB: generated method"
+
+	<gtExample>
+	^ CardDeck new
+		set: #storageClassName to: 'CardDeckTestExamples';
+		set: #name to: 'A Test Deck';
+		set: #description
+			to: 'I hold a bunch of boring examples to test core functionality.';
+		set: #generatingMethodName to: 'genCardDeckTestExamples';
+		addCard:
+			(Card new
+				set: #name to: 'Card1';
+				set: #description to: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				set: #name to: 'Card2';
+				set: #description to: 'I am Card2';
+				yourself);
+		addRelation: #friend fromCardNamed: 'Card2' toCardNamed: 'Card1';
+		yourself
+]
+
 { #category : #accessing }
 CardDeckTestExamples >> getCardOne [
 	<gtExample>
@@ -219,14 +244,30 @@ CardDeckTestExamples >> twoCardDeckNotEqualsOneCardDeck [
 
 { #category : #accessing }
 CardDeckTestExamples >> twoConnectedCardDeckEqualsGeneratedDeck [
-	<todo: 'test if generated deck is same as original deck'>
+	"cf twoConnectedCardDeckEqualsStoreStringDeck"
+
 	<gtExample>
 	| deck1 deck2 genMethod |
 	deck1 := self connectTwoCards.
 	deck1 compileMethodString.
-	genMethod := (deck1 storageClass >> deck1 genMethodName asSymbol).
+	genMethod := deck1 storageClass >> deck1 genMethodName asSymbol.
 	deck2 := genMethod valueWithReceiver: deck1 arguments: #().
 	genMethod removeFromSystem.
+	self assert: deck1 equals: deck2.
+	^ deck1 = deck2
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> twoConnectedCardDeckEqualsStoreStringDeck [
+	"cf twoConnectedCardDeckEqualsGeneratedDeck"
+
+	<gtExample>
+	| deck1 deck2 |
+	deck1 := self connectTwoCards.
+	deck1 compileMethodString.
+	deck2 := OpalCompiler new
+		source: deck1 storeString;
+		evaluate.
 	self assert: deck1 equals: deck2.
 	^ deck1 = deck2
 ]
