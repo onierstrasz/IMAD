@@ -30,7 +30,7 @@ CardModelEntity >> buildDescriptionPane [
 	contentPane
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
-			c vertical matchParent ].
+			c vertical fitContent ].
 	contentPane addChild: self buildLabel.
 	gtDoc := GtDocument new.
 	gtDoc text: self description.
@@ -40,14 +40,14 @@ CardModelEntity >> buildDescriptionPane [
 		icon: BrGlamorousVectorIcons accept;
 		label: 'Save';
 		action: [ self description: gtDoc text ].
-	contentPane addChild: aSaveButton.
 	gtDoc editor
 		when: BrTextEditorModifiedEvent
 		do: [ :anEvent | 
 			anEvent text asString = gtDoc text
 				ifTrue: [ aSaveButton visibility: BlVisibility hidden ]
 				ifFalse: [ aSaveButton visibility: BlVisibility visible ] ].
-	contentPane addChild: gtDoc asElementWithoutSaveAction.
+	contentPane addChild: gtDoc asElementWithoutSaveAction vFitContent.
+	contentPane addChild: aSaveButton.
 	^ contentPane
 ]
 
