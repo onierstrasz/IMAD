@@ -113,6 +113,15 @@ Card >> selfTargetFilter [
 	^ self targetFilter: self.
 ]
 
+{ #category : #properties }
+Card >> set: propertyKey to: aValue [
+	<todo: 'need to generalize the additional announcement of Card name changes for other cases?'>
+	super set: propertyKey to: aValue.
+	propertyKey = 'name'
+		ifTrue:
+			[ self deck ifNotNil: [ :d | d announcer announce: CardsUpdated new ] ]
+]
+
 { #category : #querying }
 Card >> sourceFilter: aCard [
 	^ CRSourceFilter new source: aCard

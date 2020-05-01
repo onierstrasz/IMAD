@@ -31,6 +31,7 @@ CardDeck >> = anObject [
 CardDeck >> addCard: aCard [
 	cards add: aCard.
 	aCard deck: self.
+	self announcer announce: CardsUpdated new
 ]
 
 { #category : #cards }
@@ -183,6 +184,9 @@ CardDeck >> generatingMethodName: aString [
 CardDeck >> gtCardsFor: aView [
 	<gtView>
 	<todo: 'add button to add a card'>
+	<todo:
+		'NB: Also update when the name of any card is updated.
+	Should we register to the PropertiesUpdated announcements of each card, or instead should each card override the name: method to ask the deck''s annpuncer to announce CardsUpdated?'>
 	^ aView forward
 		title: 'Cards';
 		priority: 1;
@@ -190,9 +194,10 @@ CardDeck >> gtCardsFor: aView [
 		view: #gtItemsFor:;
 		actionButtonIcon: BrGlamorousVectorIcons add
 			label: 'Add card'
-			action: [ UsefulExamples new openTextInOwnWindow: 'woohoo' ];
-			"If you need more buttons, use actionStencil:" 
-		updateWhen: PropertiesUpdated in: [ self announcer ]
+			action:
+				[ "UsefulExamples new openTextInOwnWindow: 'add a new card' " self addCard: Card new ];
+		"If you need more buttons, use actionStencil:"
+			updateWhen: CardsUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }

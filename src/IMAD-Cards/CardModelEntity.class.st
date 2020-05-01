@@ -71,11 +71,6 @@ CardModelEntity >> defaultDescription [
 ]
 
 { #category : #properties }
-CardModelEntity >> defaultName [
-	^ 'Unknown'
-]
-
-{ #category : #properties }
 CardModelEntity >> defaultValue [
 	^ '...'
 ]
@@ -100,6 +95,11 @@ CardModelEntity >> freshKey [
 		whileTrue: [ index := index + 1.
 			key := 'key' , index asString ].
 	^ key
+]
+
+{ #category : #properties }
+CardModelEntity >> freshName [
+	^ self class name, self identityHash asString
 ]
 
 { #category : #generation }
@@ -173,7 +173,7 @@ CardModelEntity >> initialize [
 	super initialize.
 	announcer := Announcer new.
 	properties := Dictionary new.
-	self name: self defaultName.
+	self name: self freshName.
 	self description: self defaultDescription
 ]
 
