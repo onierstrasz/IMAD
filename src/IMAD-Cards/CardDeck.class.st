@@ -88,7 +88,7 @@ CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
 
-{ #category : #generation }
+{ #category : #printing }
 CardDeck >> compileMethodString [
 	"NB: the properties className and methodName must be defined"
 	self storageClass compile: self generateMethodString
@@ -106,20 +106,7 @@ CardDeck >> defaultMethodName [
 	^ 'generateCardDeck'
 ]
 
-{ #category : #generation }
-CardDeck >> genCardsOn: aStream [
-	self cards
-		do: [ :each |
-			aStream
-				nextPutAll: '  addCard: ('.
-			each generateOn: aStream.
-			aStream
-				nextPutAll: ');';
-				cr.
-		]
-]
-
-{ #category : #generation }
+{ #category : #printing }
 CardDeck >> genMethodName [
 	| methodName |
 	methodName := self generatingMethodName.
@@ -128,22 +115,7 @@ CardDeck >> genMethodName [
 	^ methodName
 ]
 
-{ #category : #generation }
-CardDeck >> genRelationsOn: aStream [
-	self relations
-		do: [ :each | 
-			aStream
-				nextPutAll: '  addRelation: ';
-				print: each name;
-				nextPutAll: ' fromCardNamed: ';
-				print: each source name;
-				nextPutAll: ' toCardNamed: ';
-				print: each target name;
-				nextPutAll: ';';
-				cr ]
-]
-
-{ #category : #generation }
+{ #category : #printing }
 CardDeck >> generateMethodString [
 	| stream |
 	stream := WriteStream on: String new.
@@ -152,26 +124,13 @@ CardDeck >> generateMethodString [
 		nextPutAll: '  "NB: generated method"';
 		nextPutAll: '  <gtExample>';
 		nextPutAll: ' ^ '.
-	self generateOn: stream.
+	self storeOn: stream.
 	^ OpalCompiler new format: stream contents
-]
-
-{ #category : #generation }
-CardDeck >> generateOn: aStream [
-	aStream
-		nextPutAll: 'CardDeck new';
-		cr.
-	self genPropertiesOn: aStream.
-	self genCardsOn: aStream.
-	self genRelationsOn: aStream.
-	aStream
-		nextPutAll: '  yourself'
 ]
 
 { #category : #accessing }
 CardDeck >> generatingMethodName [
 	^ self get: #generatingMethodName
-
 ]
 
 { #category : #accessing }
@@ -217,12 +176,13 @@ CardDeck >> hasRelation: aSymbol [
 
 { #category : #initialization }
 CardDeck >> initialize [
-	<todo: 'Instead of OrderedCollections, we will need more clever implementations for cards and relations.'>
+	<todo:
+		'Instead of OrderedCollections, we will need more clever implementations for cards and relations.'>
 	super initialize.
 	cards := OrderedCollection new.
 	relations := OrderedCollection new.
 	self storageClassName: self defaultClassName.
-	self generatingMethodName: self defaultMethodName.
+	self generatingMethodName: self defaultMethodName
 ]
 
 { #category : #initialization }
@@ -254,7 +214,7 @@ CardDeck >> relationsMatching: aFilter [
 	^ relations select: [:rel | aFilter matches: rel].
 ]
 
-{ #category : #generation }
+{ #category : #printing }
 CardDeck >> save [
 	"store the deck by generating a method that will recreate it"
 	^ self compileMethodString
@@ -265,7 +225,7 @@ CardDeck >> size [
 	^ cards size
 ]
 
-{ #category : #generation }
+{ #category : #printing }
 CardDeck >> storageClass [
 	| className storageClass |
 	className := self storageClassName.
@@ -286,4 +246,44 @@ CardDeck >> storageClassName [
 CardDeck >> storageClassName: aString [
 	self set: #storageClassName to: aString
 
+]
+
+{ #category : #printing }
+CardDeck >> storeCardsOn: aStream [
+	self cards
+		do: [ :each |
+			aStream
+				nextPutAll: '  addCard: ('.
+			each storeOn: aStream.
+			aStream
+				nextPutAll: ');';
+				cr.
+		]
+]
+
+{ #category : #printing }
+CardDeck >> storeOn: aStream [
+	aStream
+		nextPutAll: 'CardDeck new';
+		cr.
+	self storePropertiesOn: aStream.
+	self storeCardsOn: aStream.
+	self storeRelationsOn: aStream.
+	aStream
+		nextPutAll: '  yourself'
+]
+
+{ #category : #printing }
+CardDeck >> storeRelationsOn: aStream [
+	self relations
+		do: [ :each | 
+			aStream
+				nextPutAll: '  addRelation: ';
+				print: each name;
+				nextPutAll: ' fromCardNamed: ';
+				print: each source name;
+				nextPutAll: ' toCardNamed: ';
+				print: each target name;
+				nextPutAll: ';';
+				cr ]
 ]

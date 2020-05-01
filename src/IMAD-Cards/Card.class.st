@@ -45,16 +45,6 @@ Card >> deck: aCardDeck [
 	self assert: self invariant
 ]
 
-{ #category : #generation }
-Card >> generateOn: aStream [
-	aStream
-		nextPutAll: 'Card new';
-		cr.
-	self genPropertiesOn: aStream.
-	aStream
-		nextPutAll: '  yourself'
-]
-
 { #category : #querying }
 Card >> hasA: relSymbol [
 	^ (self deck relationsMatching:
@@ -125,6 +115,16 @@ Card >> set: propertyKey to: aValue [
 { #category : #querying }
 Card >> sourceFilter: aCard [
 	^ CRSourceFilter new source: aCard
+]
+
+{ #category : #printing }
+Card >> storeOn: aStream [
+	aStream
+		nextPutAll: 'Card new';
+		cr.
+	self storePropertiesOn: aStream.
+	aStream
+		nextPutAll: '  yourself'
 ]
 
 { #category : #querying }

@@ -102,29 +102,6 @@ CardModelEntity >> freshName [
 	^ self class name, self identityHash asString
 ]
 
-{ #category : #generation }
-CardModelEntity >> genPropertiesOn: aStream [
-	properties
-		associationsDo: [ :each | 
-			aStream
-				nextPutAll: '  set: ';
-				print: each key;
-				nextPutAll: ' to: ';
-				print: each value;
-				nextPutAll: ';'.
-			aStream cr ]
-]
-
-{ #category : #generation }
-CardModelEntity >> genString [
-	^ String streamContents: [:s | self generateOn: s]
-]
-
-{ #category : #generation }
-CardModelEntity >> generateOn: aStream [
-	^ self subclassResponsibility
-]
-
 { #category : #properties }
 CardModelEntity >> get: propertyKey [
 	self assert: (properties includesKey: propertyKey).
@@ -165,6 +142,16 @@ CardModelEntity >> gtPropertiesFor: aView [
 			action: [ self set: self freshKey to: self defaultValue ];
 		updateWhen: PropertiesUpdated in: [ self announcer ];
 		send: [ :assoc | assoc value ]
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> gtStoreStringFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Serialized';
+		priority: 30;
+		stencil: [ (GtPharoSnippetCoder new source: self storeString) asElement
+				matchParent ]
 ]
 
 { #category : #initialization }
@@ -227,6 +214,19 @@ CardModelEntity >> rename: oldKey to: newKey [
 CardModelEntity >> set: propertyKey to: aValue [
 	self properties at: propertyKey put: aValue.
 	self announcer announce: PropertiesUpdated new
+]
+
+{ #category : #printing }
+CardModelEntity >> storePropertiesOn: aStream [
+	properties
+		associationsDo: [ :each | 
+			aStream
+				nextPutAll: '  set: ';
+				print: each key;
+				nextPutAll: ' to: ';
+				print: each value;
+				nextPutAll: ';'.
+			aStream cr ]
 ]
 
 { #category : #'gt-extensions' }
