@@ -27,6 +27,25 @@ CardDeck >> = anObject [
 		and: [ self relations = anObject relations ]
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> OLDaddSaveButtonTo: aView [
+	^ aView
+		actionButtonIcon: BrGlamorousIcons save
+		label: 'Save to method ' , self storageClassMethod
+		action: [ :button | 
+			| coder |
+			coder := (self classNamed: self storageClassName) isClass
+				ifTrue: [ GtMethodCoder
+						forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
+						source: self generateStorageMethodString ]
+				ifFalse: [ GtClassDefinitionCoder new
+						source: (self sourceForClassNamed: self storageClassName);
+						yourself ].
+			coder expanded: true.
+			button phlow
+				spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ]
+]
+
 { #category : #cards }
 CardDeck >> addCard: aCard [
 	cards add: aCard.
@@ -64,20 +83,22 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
 { #category : #'gt-extensions' }
 CardDeck >> addSaveButtonTo: aView [
 	^ aView
-		actionButtonIcon: BrGlamorousIcons save
-		label: 'Save to method ' , self storageClassMethod
-		action: [ :button | 
-			| coder |
-			coder := (self classNamed: self storageClassName) isClass
-				ifTrue: [ GtMethodCoder
-						forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
-						source: self generateStorageMethodString ]
-				ifFalse: [ GtClassDefinitionCoder new
-						source: (self sourceForClassNamed: self storageClassName);
-						yourself ].
-			coder expanded: true.
-			button phlow
-				spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ]
+		actionStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons save;
+				label: 'Save to method ' , self storageClassMethod;
+				action: [ :button | 
+					| coder |
+					coder := (self classNamed: self storageClassName) isClass
+						ifTrue: [ GtMethodCoder
+								forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
+								source: self generateStorageMethodString ]
+						ifFalse: [ GtClassDefinitionCoder new
+								source: (self sourceForClassNamed: self storageClassName);
+								yourself ].
+					coder expanded: true.
+					button phlow
+						spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ] ]
 ]
 
 { #category : #printing }
@@ -210,12 +231,13 @@ CardDeck >> gtCardsFor: aView [
 		priority: 1;
 		object: [ cards ];
 		view: #gtItemsFor:;
-		actionButtonIcon: BrGlamorousVectorIcons add
-			label: 'Add card'
-			action:
-				[ "UsefulExamples new openTextInOwnWindow: 'add a new card' " self addCard: Card new ];
-		"If you need more buttons, use actionStencil:"
-			updateWhen: CardsUpdated in: [ self announcer ]
+		actionStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons add;
+				label: 'Add card';
+				action: [ self addCard: Card new ] ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		updateWhen: CardsUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }

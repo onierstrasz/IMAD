@@ -136,12 +136,14 @@ CardModelEntity >> get: propertyKey [
 
 { #category : #'gt-extensions' }
 CardModelEntity >> gtDescriptionFor: aView [
-	<todo: 'have a more specific announcement just for change in name or description'>
+	<todo:
+		'have a more specific announcement just for change in name or description'>
 	<gtView>
 	^ aView explicit
 		title: 'Description';
 		priority: 0;
 		stencil: [ self buildDescriptionPane ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
@@ -178,6 +180,7 @@ CardModelEntity >> gtStoreStringFor: aView [
 		priority: 30;
 		stencil: [ (GtPharoSnippetCoder new source: self storeString) asElement
 				matchParent ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
@@ -239,6 +242,17 @@ CardModelEntity >> properties [
 { #category : #properties }
 CardModelEntity >> protectedKeys [
 	^ { 'name' . 'description' }
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> refreshButtonFor: aTab [
+	"Add this to an actionStencil: for a view"
+
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousVectorIcons refresh;
+		label: 'Refresh';
+		action: [ aTab viewContentElement phlow update ]
 ]
 
 { #category : #properties }
