@@ -61,6 +61,23 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> addSaveButtonTo: aView [
+	"<gtView>"
+
+	<todo: 'set the title: of the pane'>
+	^ aView
+		actionButtonIcon: BrGlamorousIcons save
+		label: 'Save to method ' , self storageMethod
+		action: [ :button | 
+			| coder |
+			coder := GtMethodCoder
+				forClass: self storageClass
+				source: self generateMethodString.
+			coder expanded: true.
+			button phlow spawnObject: coder asElement asScrollableElement ]
+]
+
 { #category : #cards }
 CardDeck >> cardNamed: aString [
 	"In general there is nothing to prohibit multiple cards with the same name, but using this method makes a strong assumption that the card exists and is uniquely named.
@@ -115,7 +132,8 @@ CardDeck >> generateMethodString [
 	stream := WriteStream on: String new.
 	stream
 		nextPutAll: self genMethodName;
-		nextPutAll: '  "NB: generated method"';
+		nextPutAll: '  "NB: generated method "';
+		nextPutAll: self storageMethod;
 		nextPutAll: '  <gtExample>';
 		nextPutAll: ' ^ '.
 	self storeOn: stream.
@@ -154,6 +172,11 @@ CardDeck >> gtCardsFor: aView [
 ]
 
 { #category : #'gt-extensions' }
+CardDeck >> gtDescriptionFor: aView [
+	^ self addSaveButtonTo: (super gtDescriptionFor: aView)
+]
+
+{ #category : #'gt-extensions' }
 CardDeck >> gtRelationsFor: aView [
 	<gtView>
 	^ aView forward
@@ -165,21 +188,7 @@ CardDeck >> gtRelationsFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtStoreStringFor: aView [
-	"<gtView>"
-	<todo: 'set the title: of the pane'>
-
-	^ (super gtStoreStringFor: aView)
-		actionButtonIcon: BrGlamorousIcons save
-		label:
-			'Save to method ' , self storageClassName , '>>#'
-				, self generatingMethodName
-		action: [ :button | 
-			| coder |
-			coder := GtMethodCoder
-				forClass: self storageClass
-				source: self generateMethodString.
-			coder expanded: true.
-			button phlow spawnObject: coder asElement asScrollableElement ]
+	^ self addSaveButtonTo: (super gtStoreStringFor: aView)
 ]
 
 { #category : #relations }
@@ -200,7 +209,14 @@ CardDeck >> initialize [
 
 { #category : #initialization }
 CardDeck >> invariant [
-	<todo: 'call this from somewhere'>
+	<todo: 'call this from store method'>
+	"
+	Invariants (for saving):
+	name and description are strings, not empty.
+	Cards and relations notNil, but may be empty.
+	Card names are unique.
+	
+	"
 	^ self properties isNotNil
 		and: [ self cards isNotNil and: [ self relations isNotNil ] ]
 ]
@@ -253,6 +269,11 @@ CardDeck >> storageClassName [
 CardDeck >> storageClassName: aString [
 	self set: #storageClassName to: aString
 
+]
+
+{ #category : #printing }
+CardDeck >> storageMethod [
+	^ self storageClassName , '>>#' , self generatingMethodName
 ]
 
 { #category : #printing }
