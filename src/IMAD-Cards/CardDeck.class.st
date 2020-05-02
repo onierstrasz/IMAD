@@ -234,7 +234,9 @@ CardDeck >> gtRelationsFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtStoreStringFor: aView [
-	^ self addSaveButtonTo: (super gtStoreStringFor: aView)
+	^ (self
+		addSaveButtonTo: (super gtStoreStringFor: aView))
+		updateWhen: CardsUpdated in: [ self announcer ]
 ]
 
 { #category : #relations }

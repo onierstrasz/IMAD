@@ -172,7 +172,8 @@ CardModelEntity >> gtStoreStringFor: aView [
 		title: 'Serialized';
 		priority: 30;
 		stencil: [ (GtPharoSnippetCoder new source: self storeString) asElement
-				matchParent ]
+				matchParent ];
+		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #'ui requests' }
