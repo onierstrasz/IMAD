@@ -63,20 +63,21 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
 
 { #category : #'gt-extensions' }
 CardDeck >> addSaveButtonTo: aView [
-	"<gtView>"
-
-	<todo: 'set the title: of the pane'>
 	^ aView
 		actionButtonIcon: BrGlamorousIcons save
 		label: 'Save to method ' , self storageClassMethod
 		action: [ :button | 
 			| coder |
-			self assertValidStorageMethod.
-			coder := GtMethodCoder
-				forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
-				source: self generateStorageMethodString.
+			coder := (self classNamed: self storageClassName) isClass
+				ifTrue: [ GtMethodCoder
+						forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
+						source: self generateStorageMethodString ]
+				ifFalse: [ GtClassDefinitionCoder new
+						source: (self sourceForClassNamed: self storageClassName);
+						yourself ].
 			coder expanded: true.
-			button phlow spawnObject: coder asElement asScrollableElement ]
+			button phlow
+				spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ]
 ]
 
 { #category : #printing }

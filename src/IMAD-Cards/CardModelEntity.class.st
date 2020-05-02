@@ -86,6 +86,11 @@ CardModelEntity >> buildLabel [
 	^ aNameEditor
 ]
 
+{ #category : #utilities }
+CardModelEntity >> classNamed: aClassName [
+	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
+]
+
 { #category : #properties }
 CardModelEntity >> defaultDescription [
 	^ 'To do'
@@ -249,6 +254,15 @@ CardModelEntity >> rename: oldKey to: newKey [
 CardModelEntity >> set: propertyKey to: aValue [
 	self properties at: propertyKey put: aValue.
 	self announcer announce: PropertiesUpdated new
+]
+
+{ #category : #utilities }
+CardModelEntity >> sourceForClassNamed: aClassName [
+	^ '"NB: Please create the storage class first"
+Object subclass: #' , aClassName, '
+	instanceVariableNames: ''''
+	classVariableNames: ''''
+	package: '''''
 ]
 
 { #category : #printing }
