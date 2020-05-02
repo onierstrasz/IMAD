@@ -82,11 +82,7 @@ CardDeck >> addSaveButtonTo: aView [
 CardDeck >> assertInvariant [
 	"
 	Invariants (for saving):
-	name and description are strings, not empty.
-	Cards and relations notNil, but may be empty.
-	Each card satisfies invariant.
-	Card names are unique.
-	
+	Card names are unique.	
 	"
 
 	<todo: 'call this from store method'>
