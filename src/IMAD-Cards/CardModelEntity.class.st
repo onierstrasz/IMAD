@@ -17,6 +17,27 @@ CardModelEntity >> announcer [
 	^ announcer
 ]
 
+{ #category : #initialization }
+CardModelEntity >> assertInvariant [
+	self
+		assert: properties isNotNil
+		description: 'properties must be defined'.
+	self assert: self name isNotNil description: 'name must be defined'.
+	self assert: self name isString description: 'name must be a string'.
+	self
+		assert: self name notEmpty
+		description: 'name must not be an empty string'.
+	self
+		assert: self description isNotNil
+		description: 'description must be defined'.
+	self
+		assert: self description isString
+		description: 'description must be a string'.
+	self
+		assert: self description notEmpty
+		description: 'description must not be an empty string'
+]
+
 { #category : #'gt-extensions' }
 CardModelEntity >> buildDescriptionPane [
 	| contentPane gtDoc aSaveButton |
@@ -34,7 +55,7 @@ CardModelEntity >> buildDescriptionPane [
 		visibility: BlVisibility hidden;
 		icon: BrGlamorousVectorIcons accept;
 		label: 'Save';
-		action: [ self description: gtDoc text ].
+		action: [ self description: gtDoc text asString ].
 	gtDoc editor
 		when: BrTextEditorModifiedEvent
 		do: [ :anEvent | 

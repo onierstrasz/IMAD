@@ -78,6 +78,32 @@ CardDeck >> addSaveButtonTo: aView [
 			button phlow spawnObject: coder asElement asScrollableElement ]
 ]
 
+{ #category : #initialization }
+CardDeck >> assertInvariant [
+	"
+	Invariants (for saving):
+	name and description are strings, not empty.
+	Cards and relations notNil, but may be empty.
+	Each card satisfies invariant.
+	Card names are unique.
+	
+	"
+
+	<todo: 'call this from store method'>
+	super assertInvariant.
+	self assert: self cards isNotNil description: 'cards must be defined'.
+	self
+		assert: self cards isCollection
+		description: 'cards must be a kind of collection'.
+	self cards do: [ :each | each assertInvariant ].
+	self
+		assert: self relations isNotNil
+		description: 'relations must be defined'.
+	self
+		assert: self relations isCollection
+		description: 'relations must be a kind of collection'
+]
+
 { #category : #cards }
 CardDeck >> cardNamed: aString [
 	"In general there is nothing to prohibit multiple cards with the same name, but using this method makes a strong assumption that the card exists and is uniquely named.
@@ -203,21 +229,8 @@ CardDeck >> initialize [
 	cards := OrderedCollection new.
 	relations := OrderedCollection new.
 	self storageClassName: self defaultClassName.
-	self generatingMethodName: self defaultMethodName
-]
-
-{ #category : #initialization }
-CardDeck >> invariant [
-	<todo: 'call this from store method'>
-	"
-	Invariants (for saving):
-	name and description are strings, not empty.
-	Cards and relations notNil, but may be empty.
-	Card names are unique.
-	
-	"
-	^ self properties isNotNil
-		and: [ self cards isNotNil and: [ self relations isNotNil ] ]
+	self generatingMethodName: self defaultMethodName.
+	self assertInvariant 
 ]
 
 { #category : #querying }

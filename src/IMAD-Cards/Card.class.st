@@ -28,6 +28,18 @@ Card >> = anObject [
 	^ self properties = anObject properties
 ]
 
+{ #category : #initialization }
+Card >> assertInvariant [
+	"NB: We can only assert the invariant after a card has been added to a deck.
+	A new Card is detached and will not satisfy the invariant."
+
+	super assertInvariant.
+	self assert: self deck isNotNil description: 'deck must be defined'.
+	self
+		assert: (self deck isKindOf: CardDeck)
+		description: 'deck must be a CardDeck'
+]
+
 { #category : #relations }
 Card >> become: relation of: aSourceCard [
 	"Convenience method"
@@ -42,7 +54,7 @@ Card >> deck [
 { #category : #accessing }
 Card >> deck: aCardDeck [
 	deck := aCardDeck.
-	self assert: self invariant
+	self assertInvariant
 ]
 
 { #category : #querying }
@@ -55,14 +67,8 @@ Card >> hasA: relSymbol [
 
 { #category : #initialization }
 Card >> initialize [
-	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
-]
-
-{ #category : #initialization }
-Card >> invariant [
-	^ self deck isNotNil
-		and: [ self properties isNotNil and: [ self name isNotNil ] ]
+	"self assertInvariant"
 ]
 
 { #category : #querying }

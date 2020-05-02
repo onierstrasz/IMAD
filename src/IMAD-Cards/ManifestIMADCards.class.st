@@ -8,6 +8,11 @@ Class {
 }
 
 { #category : #'code-critics' }
+ManifestIMADCards class >> ruleRBBadMessageRuleV1FalsePositive [
+	^ #(#(#(#RGMethodDefinition #(#Card #assertInvariant #false)) #'2020-05-02T08:47:09.495671+02:00') )
+]
+
+{ #category : #'code-critics' }
 ManifestIMADCards class >> ruleRBClassNotReferencedRuleV1FalsePositive [
 	^ #(#(#(#RGClassDefinition #(#CardDeckExamples)) #'2020-04-20T17:13:22.519368+02:00') #(#(#RGClassDefinition #(#CardDeckTestExamples)) #'2020-04-20T17:13:32.795256+02:00') )
 ]
