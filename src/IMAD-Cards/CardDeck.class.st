@@ -79,6 +79,17 @@ CardDeck >> addSaveButtonTo: aView [
 			button phlow spawnObject: coder asElement asScrollableElement ]
 ]
 
+{ #category : #printing }
+CardDeck >> assertGeneratedDeckEqualsSelf [
+	"If this happens, there is a bug in the code generation!"
+	self
+		assert:
+			(OpalCompiler new
+				source: self storeString;
+				evaluate) = self
+		description: 'Fatal error: generated storeString is not equal to card deck'
+]
+
 { #category : #initialization }
 CardDeck >> assertInvariant [
 	<todo: 'call this from store method'>
@@ -175,6 +186,7 @@ CardDeck >> defaultMethodName [
 CardDeck >> generateStorageMethodString [
 	| stream |
 	self assertValidStorageMethod.
+	self assertGeneratedDeckEqualsSelf.
 	stream := WriteStream on: String new.
 	stream
 		nextPutAll: self storageMethodName;

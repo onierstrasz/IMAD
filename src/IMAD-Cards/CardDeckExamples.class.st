@@ -17,13 +17,10 @@ Class {
 { #category : #accessing }
 CardDeckExamples >> builtModelEqualsGeneratedModel [
 	<gtExample>
-	| deck1 deck2 genMethod |
-	deck1 := self facultyDoodleDomain.
-	deck2 := OpalCompiler new
-		source: deck1 storeString;
-		evaluate.
-	self assert: deck1 equals: deck2.
-	^ deck1
+	| deck |
+	deck := self facultyDoodleDomain.
+	deck assertGeneratedDeckEqualsSelf.
+	^ deck
 ]
 
 { #category : #accessing }
