@@ -132,10 +132,9 @@ CardDeck >> generateMethodString [
 	stream := WriteStream on: String new.
 	stream
 		nextPutAll: self genMethodName;
-		nextPutAll: '  "NB: generated method "';
+		nextPutAll: ' "NB: generated method ';
 		nextPutAll: self storageMethod;
-		nextPutAll: '  <gtExample>';
-		nextPutAll: ' ^ '.
+		nextPutAll: '. Do not modify." <gtExample> ^ '.
 	self storeOn: stream.
 	^ OpalCompiler new format: stream contents
 ]
