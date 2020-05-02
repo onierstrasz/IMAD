@@ -149,8 +149,7 @@ CardModelEntity >> gtDescriptionFor: aView [
 
 { #category : #'gt-extensions' }
 CardModelEntity >> gtPropertiesFor: aView [
-	"NB: A column is an instance of GtPhlowColumn"
-
+	<todo: 'refresh not yet working for properties'>
 	<gtView>
 	^ aView columnedList
 		title: 'Properties';
@@ -166,8 +165,12 @@ CardModelEntity >> gtPropertiesFor: aView [
 			column
 				rowStencil: [ :assoc | self valueLabelFor: assoc ];
 				matchParent ];
-		actionButtonIcon: BrGlamorousVectorIcons add
-			action: [ self set: self freshKey to: self defaultValue ];
+		actionStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons add;
+				label: 'Add property';
+				action: [ self set: self freshKey to: self defaultValue ] ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: PropertiesUpdated in: [ self announcer ];
 		send: [ :assoc | assoc value ]
 ]
