@@ -82,16 +82,24 @@ CardDeck >> addSaveButtonTo: aView [
 CardDeck >> assertInvariant [
 	"
 	Invariants (for saving):
-	Card names are unique.	
+	
+		storageClass must exist as a class
+		generatingMethod must be a valid method name
 	"
 
 	<todo: 'call this from store method'>
+	| duplicates |
 	super assertInvariant.
 	self assert: self cards isNotNil description: 'cards must be defined'.
 	self
 		assert: self cards isCollection
 		description: 'cards must be a kind of collection'.
 	self cards do: [ :each | each assertInvariant ].
+	duplicates := self cards collect: #name.
+	duplicates removeAll: duplicates asSet.
+	self
+		assert: duplicates isEmpty
+		description: 'cards must have unique names'.
 	self
 		assert: self relations isNotNil
 		description: 'relations must be defined'.
