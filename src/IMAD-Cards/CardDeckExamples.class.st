@@ -38,7 +38,7 @@ CardDeckExamples >> facultyDoodleDomain [
 		name: 'Faculty Doodle Domain';
 		description: 'I represent the domain of doodles to organize Committee meetings for the Faculty of Science.';
 		storageClassName: 'CardDeckExamples';
-		generatingMethodName: 'genFacultyDoodleModelingExamples'.
+		storageMethodName: 'genFacultyDoodleModelingExamples'.
 	
 	deck
 		addCardNamed: 'Committee'

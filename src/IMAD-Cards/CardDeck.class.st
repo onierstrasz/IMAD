@@ -68,25 +68,19 @@ CardDeck >> addSaveButtonTo: aView [
 	<todo: 'set the title: of the pane'>
 	^ aView
 		actionButtonIcon: BrGlamorousIcons save
-		label: 'Save to method ' , self storageMethod
+		label: 'Save to method ' , self storageClassMethod
 		action: [ :button | 
 			| coder |
+			self assertValidStorageMethod.
 			coder := GtMethodCoder
-				forClass: self storageClass
-				source: self generateMethodString.
+				forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
+				source: self generateStorageMethodString.
 			coder expanded: true.
 			button phlow spawnObject: coder asElement asScrollableElement ]
 ]
 
 { #category : #initialization }
 CardDeck >> assertInvariant [
-	"
-	Invariants (for saving):
-	
-		storageClass must exist as a class
-		generatingMethod must be a valid method name
-	"
-
 	<todo: 'call this from store method'>
 	| duplicates |
 	super assertInvariant.
@@ -106,6 +100,36 @@ CardDeck >> assertInvariant [
 	self
 		assert: self relations isCollection
 		description: 'relations must be a kind of collection'
+]
+
+{ #category : #printing }
+CardDeck >> assertValidStorageMethod [
+	"NB: This is not part of the class invariant. Only needs to be true as a precondition for storing."
+	| methodName className |
+	methodName := self storageMethodName.
+	self
+		assert: methodName notNil
+		description: 'storage method name must be defined'.
+	self
+		assert: methodName isString
+		description: 'storage method name must be as string'.
+	self
+		assert:
+			(methodName
+				detect: [ :c | c isAlphaNumeric not ]
+				ifFound: [ false ]
+				ifNone: [ true ])
+		description: 'storage method name must be alphanumeric'.
+	className := self storageClassName.
+	self
+		assert: className notNil
+		description: 'storage class name must be defined'.
+	self
+		assert: className isString
+		description: 'storage class name must be a string'.
+	self
+		assert: (Smalltalk at: className asSymbol ifAbsent: [ nil ]) isClass
+		description: 'storage class name must refer to an existing class'
 ]
 
 { #category : #cards }
@@ -148,36 +172,17 @@ CardDeck >> defaultMethodName [
 ]
 
 { #category : #printing }
-CardDeck >> genMethodName [
-	| methodName |
-	methodName := self generatingMethodName.
-	self assert: methodName notNil.
-	self assert: methodName isString.
-	^ methodName
-]
-
-{ #category : #printing }
-CardDeck >> generateMethodString [
+CardDeck >> generateStorageMethodString [
 	| stream |
+	self assertValidStorageMethod.
 	stream := WriteStream on: String new.
 	stream
-		nextPutAll: self genMethodName;
+		nextPutAll: self storageMethodName;
 		nextPutAll: ' "NB: generated method ';
-		nextPutAll: self storageMethod;
+		nextPutAll: self storageClassMethod;
 		nextPutAll: '. Do not modify." <gtExample> ^ '.
 	self storeOn: stream.
 	^ OpalCompiler new format: stream contents
-]
-
-{ #category : #accessing }
-CardDeck >> generatingMethodName [
-	^ self get: #generatingMethodName
-]
-
-{ #category : #accessing }
-CardDeck >> generatingMethodName: aString [
-	self set: #generatingMethodName to: aString
-
 ]
 
 { #category : #'gt-extensions' }
@@ -233,7 +238,7 @@ CardDeck >> initialize [
 	cards := OrderedCollection new.
 	relations := OrderedCollection new.
 	self storageClassName: self defaultClassName.
-	self generatingMethodName: self defaultMethodName.
+	self storageMethodName: self defaultMethodName.
 	self assertInvariant 
 ]
 
@@ -265,14 +270,8 @@ CardDeck >> size [
 ]
 
 { #category : #printing }
-CardDeck >> storageClass [
-	| className storageClass |
-	className := self storageClassName.
-	self assert: className notNil.
-	storageClass := OpalCompiler new evaluate: className.
-	self assert: storageClass notNil.
-	self assert: storageClass isClass.
-	^ storageClass
+CardDeck >> storageClassMethod [
+	^ self storageClassName , '>>#' , self storageMethodName
 ]
 
 { #category : #accessing }
@@ -287,9 +286,15 @@ CardDeck >> storageClassName: aString [
 
 ]
 
-{ #category : #printing }
-CardDeck >> storageMethod [
-	^ self storageClassName , '>>#' , self generatingMethodName
+{ #category : #accessing }
+CardDeck >> storageMethodName [
+	^ self get: #storageMethodName
+]
+
+{ #category : #accessing }
+CardDeck >> storageMethodName: aString [
+	self set: #storageMethodName to: aString
+
 ]
 
 { #category : #printing }

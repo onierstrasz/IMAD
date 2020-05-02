@@ -118,7 +118,7 @@ CardDeckTestExamples >> emptyDeck [
 		description: 'I hold a bunch of boring examples to test core functionality.'.
 	deck
 		storageClassName: 'CardDeckTestExamples';
-		generatingMethodName: 'genCardDeckTestExamples'.
+		storageMethodName: 'genCardDeckTestExamples'.
 	self assert: deck isEmpty.
 	^ deck
 ]

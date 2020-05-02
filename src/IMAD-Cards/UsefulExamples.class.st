@@ -301,7 +301,7 @@ UsefulExamples >> scrollableMethodCoder [
 	<gtExample>
 	^ ((GtMethodCoder
 		forClass: CardDeckExamples
-		source: CardDeckExamples new facultyDoodleDomain generateMethodString)
+		source: CardDeckExamples new facultyDoodleDomain generateStorageMethodString)
 		expanded: true;
 		asElement) asScrollableElement
 ]
