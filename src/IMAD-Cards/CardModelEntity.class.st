@@ -136,8 +136,6 @@ CardModelEntity >> get: propertyKey [
 
 { #category : #'gt-extensions' }
 CardModelEntity >> gtDescriptionFor: aView [
-	<todo:
-		'have a more specific announcement just for change in name or description'>
 	<gtView>
 	^ aView explicit
 		title: 'Description';
@@ -202,7 +200,6 @@ CardModelEntity >> inform: aString [
 
 { #category : #initialization }
 CardModelEntity >> initialize [
-	<todo: 'Should properties be an IdentityDictionary?'>
 	super initialize.
 	announcer := Announcer new.
 	properties := Dictionary new.

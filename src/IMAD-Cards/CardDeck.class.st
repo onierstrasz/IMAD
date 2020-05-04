@@ -74,7 +74,6 @@ CardDeck >> assertGeneratedDeckEqualsSelf [
 
 { #category : #initialization }
 CardDeck >> assertInvariant [
-	<todo: 'call this from store method'>
 	| duplicates |
 	super assertInvariant.
 	self assert: self cards isNotNil description: 'cards must be defined'.
@@ -182,10 +181,6 @@ CardDeck >> generateStorageMethodString [
 { #category : #'gt-extensions' }
 CardDeck >> gtCardsFor: aView [
 	<gtView>
-	<todo: 'add button to add a card'>
-	<todo:
-		'NB: Also update when the name of any card is updated.
-	Should we register to the PropertiesUpdated announcements of each card, or instead should each card override the name: method to ask the deck''s annpuncer to announce CardsUpdated?'>
 	^ aView forward
 		title: 'Cards';
 		priority: 1;
@@ -247,14 +242,12 @@ CardDeck >> hasRelation: aSymbol [
 
 { #category : #initialization }
 CardDeck >> initialize [
-	<todo:
-		'Instead of OrderedCollections, we will need more clever implementations for cards and relations.'>
 	super initialize.
 	cards := OrderedCollection new.
 	relations := OrderedCollection new.
 	self storageClassName: self defaultClassName.
 	self storageMethodName: self defaultMethodName.
-	self assertInvariant 
+	self assertInvariant
 ]
 
 { #category : #querying }
@@ -270,7 +263,6 @@ CardDeck >> listTodos [
 
 { #category : #relations }
 CardDeck >> relations [
-	<todo: 'hide this behind a Facade?'>
 	^ relations
 ]
 

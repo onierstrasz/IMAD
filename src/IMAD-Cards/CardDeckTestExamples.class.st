@@ -87,25 +87,19 @@ CardDeckTestExamples >> cardTwoName [
 
 { #category : #accessing }
 CardDeckTestExamples >> connectTwoCards [
-	<todo: 'specify relationships'>
-	<gtExample>
 	"Test compact interface to add cards"
+
+	<gtExample>
 	| deck card1 card2 |
 	deck := self addCardTwoWithDeckAPI.
 	card1 := deck cardNamed: self cardOneName.
 	card2 := deck cardNamed: self cardTwoName.
-
-	card1 become: #friend of: card2. "can the same relationship be added multiple times?"
-	
+	card1 become: #friend of: card2.	"can the same relationship be added multiple times?"
 	self assert: (card2 hasA: #friend).
 	self assert: (card1 isA: #friend).
 	self assert: (card1 is: #friend of: card2).
-	
 	self assert: (deck hasRelation: #friend).
-	
 	^ deck
-	
-
 ]
 
 { #category : #accessing }
