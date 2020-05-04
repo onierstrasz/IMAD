@@ -27,27 +27,11 @@ CardDeck >> = anObject [
 		and: [ self relations = anObject relations ]
 ]
 
-{ #category : #'gt-extensions' }
-CardDeck >> OLDgtCardsFor: aView [
-	"<gtView>"
-	^ aView forward
-		title: 'Cards';
-		priority: 1;
-		object: [ cards ];
-		view: #gtItemsFor:;
-		actionStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousVectorIcons add;
-				label: 'Add card';
-				action: [ self addCard: Card new ] ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
-		updateWhen: CardsUpdated in: [ self announcer ]
-]
-
 { #category : #cards }
 CardDeck >> addCard: aCard [
 	cards add: aCard.
 	aCard deck: self.
+	self assertInvariant.
 	self announcer announce: CardsUpdated new
 ]
 
