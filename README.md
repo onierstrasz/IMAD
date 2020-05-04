@@ -16,7 +16,10 @@ Metacello new
 Interactive modeling of domain concepts using decks of cards.
 
 Example of using a deck of cards, where each card represents a domain concept for the Faculty Doodle domain.
-Browse: `FacultyDoodleModelingExamples`
+
+Inspect: 
+- `CardDeckExamples new facultyDoodleDomain `
+- `CardDeck new`
 
 Other stuff:
 
@@ -27,11 +30,8 @@ Other stuff:
 ## FSA (IMAD-FSA)
 
 Experiments to see how to model FSAs and Petri Nets with Mondrian.
-
-```
-FSA eg4nodes view.
-FSA eg10nodes view.
-```
+Inspect:
+`FSAExamples`
 
 ## Executable Graph Models (IMAD-EGM)
 
