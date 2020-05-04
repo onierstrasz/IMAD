@@ -40,6 +40,15 @@ Card >> assertInvariant [
 		description: 'deck must be a CardDeck'
 ]
 
+{ #category : #initialization }
+Card >> assertUniqueName: aString [
+	self deck
+		ifNotNil: [ :d | 
+			self
+				assert: ((d cards collect: #name) includes: aString) not
+				description: 'cards must be uniquely named' ]
+]
+
 { #category : #relations }
 Card >> become: relation of: aSourceCard [
 	"Convenience method"
@@ -111,6 +120,8 @@ Card >> selfTargetFilter [
 
 { #category : #properties }
 Card >> set: propertyKey to: aValue [
+	propertyKey = 'name'
+		ifTrue: [ self assertUniqueName: aValue ].
 	super set: propertyKey to: aValue.
 	propertyKey = 'name'
 		ifTrue:

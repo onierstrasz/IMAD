@@ -70,6 +70,7 @@ CardModelEntity >> buildDescriptionPane [
 { #category : #'gt-extensions' }
 CardModelEntity >> buildLabel [
 	"See also GtBehaviorCoderElement>>#buildClassLabel"
+
 	| aNameEditor |
 	aNameEditor := BrEditableLabel new
 		look:
@@ -82,7 +83,12 @@ CardModelEntity >> buildLabel [
 		margin: (BlInsets all: 0).
 	aNameEditor
 		when: BrEditorAcceptWish
-		do: [ :aWish | self name: aWish text asString ].
+		do: [ :aWish | 
+			| previousName |
+			previousName := self name.
+			[ self name: aWish text asString ]
+				on: AssertionFailure
+				do: [ aNameEditor text: previousName ] ].
 	^ aNameEditor
 ]
 
@@ -147,7 +153,11 @@ CardModelEntity >> gtDescriptionFor: aView [
 
 { #category : #'gt-extensions' }
 CardModelEntity >> gtPropertiesFor: aView [
-	<todo: 'refresh not yet working for properties'>
+	"NB: refresh is broken due to a bug in GtPhlowColumnedListView>>#updateContent:.
+	Patch as follows:
+	(GtPhlowColumnedListView>>#updateContent:) removeFromSystem
+	"
+
 	<gtView>
 	^ aView columnedList
 		title: 'Properties';
@@ -163,14 +173,19 @@ CardModelEntity >> gtPropertiesFor: aView [
 			column
 				rowStencil: [ :assoc | self valueLabelFor: assoc ];
 				matchParent ];
+		column: ' '
+			do: [ :column | 
+			"Dummy column to enable easy clicking to next pane"
+			column
+				rowStencil: [ BrLabel new ];
+				matchParent ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add property';
 				action: [ self set: self freshKey to: self defaultValue ] ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
-		updateWhen: PropertiesUpdated in: [ self announcer ];
-		send: [ :assoc | assoc value ]
+		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }
@@ -301,7 +316,11 @@ CardModelEntity >> valueLabelFor: assoc [
 		text: assoc value.
 	label
 		when: BrEditorAcceptWish
-		do:
-			[ :aWish | self set: assoc key to: aWish text asString ].
+		do: [ :aWish | 
+			| previousName |
+			previousName := assoc value.
+			[ self set: assoc key to: aWish text asString ]
+				on: AssertionFailure
+				do: [ label text: previousName ] ].
 	^ label
 ]

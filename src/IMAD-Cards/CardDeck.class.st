@@ -27,6 +27,23 @@ CardDeck >> = anObject [
 		and: [ self relations = anObject relations ]
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> OLDgtCardsFor: aView [
+	"<gtView>"
+	^ aView forward
+		title: 'Cards';
+		priority: 1;
+		object: [ cards ];
+		view: #gtItemsFor:;
+		actionStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons add;
+				label: 'Add card';
+				action: [ self addCard: Card new ] ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		updateWhen: CardsUpdated in: [ self announcer ]
+]
+
 { #category : #cards }
 CardDeck >> addCard: aCard [
 	cards add: aCard.
@@ -61,6 +78,16 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
+{ #category : #initialization }
+CardDeck >> assertCardsUniquelyNamed [
+	| duplicates |
+	duplicates := self cards collect: #name.
+	duplicates removeAll: duplicates asSet.
+	self
+		assert: duplicates isEmpty
+		description: 'cards must have unique names'
+]
+
 { #category : #printing }
 CardDeck >> assertGeneratedDeckEqualsSelf [
 	"If this happens, there is a bug in the code generation!"
@@ -74,18 +101,13 @@ CardDeck >> assertGeneratedDeckEqualsSelf [
 
 { #category : #initialization }
 CardDeck >> assertInvariant [
-	| duplicates |
 	super assertInvariant.
 	self assert: self cards isNotNil description: 'cards must be defined'.
 	self
 		assert: self cards isCollection
 		description: 'cards must be a kind of collection'.
 	self cards do: [ :each | each assertInvariant ].
-	duplicates := self cards collect: #name.
-	duplicates removeAll: duplicates asSet.
-	self
-		assert: duplicates isEmpty
-		description: 'cards must have unique names'.
+	self assertCardsUniquelyNamed.
 	self
 		assert: self relations isNotNil
 		description: 'relations must be defined'.
@@ -122,6 +144,24 @@ CardDeck >> assertValidStorageMethod [
 	self
 		assert: (Smalltalk at: className asSymbol ifAbsent: [ nil ]) isClass
 		description: 'storage class name must refer to an existing class'
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> cardLabelFor: aCard [
+	| label |
+	label := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
+		text: aCard name.
+	label
+		when: BrEditorAcceptWish
+		do: [ :aWish | 
+			| previousName |
+			previousName := aCard name.
+			[ aCard name: aWish text asString ]
+				on: AssertionFailure
+				do: [ label text: previousName ] ].
+	^ label
 ]
 
 { #category : #cards }
@@ -181,28 +221,55 @@ CardDeck >> generateStorageMethodString [
 { #category : #'gt-extensions' }
 CardDeck >> gtCardsFor: aView [
 	<gtView>
-	^ aView forward
+	^ aView columnedList
 		title: 'Cards';
 		priority: 1;
-		object: [ cards ];
-		view: #gtItemsFor:;
+		items: [ self cards ];
+		column: 'Cards'
+			do: [ :column | 
+			column
+				rowStencil: [ :aCard | self cardLabelFor: aCard ];
+				matchParent ];
+		column: ' '
+			do: [ :column | 
+			"Dummy column to enable easy clicking to next pane"
+			column
+				rowStencil: [ BrLabel new ];
+				matchParent ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
-				label: 'Add card';
-				action: [ self addCard: Card new ] ];
+				label: 'Add property';
+				action: [ self set: self freshKey to: self defaultValue ] ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
-		updateWhen: CardsUpdated in: [ self announcer ]
+		updateWhen: CardsUpdated in: [ self announcer ];
+		send: [ :aCard | aCard ]
 ]
 
 { #category : #'gt-extensions' }
 CardDeck >> gtRelationsFor: aView [
+	<todo:
+		'
+	- Update when relation added
+	- Dialog to select cards and relation name?
+	'>
 	<gtView>
 	^ aView forward
 		title: 'Relations';
 		priority: 2;
 		object: [ relations ];
-		view: #gtItemsFor:
+		view: #gtItemsFor:;
+		actionDropdownButtonIcon: (BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons add)
+			label: nil
+			content: [ self inform: 'add new relation' ];
+		"actionStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons add;
+				label: 'Add relation';
+				action: [ self inform: 'add new relation' ] ];"
+		actionStencil: [ :aTab | "updateWhen: CardsUpdated in: [ self announcer ]" self refreshButtonFor: aTab ]
 ]
 
 { #category : #'gt-extensions' }
