@@ -27,47 +27,6 @@ CardDeck >> = anObject [
 		and: [ self relations = anObject relations ]
 ]
 
-{ #category : #'gt-extensions' }
-CardDeck >> NEWgtRelationsFor: aView [
-	<todo:
-		'
-	- Update when relation added
-	- Dialog to select cards and relation name?
-	'>
-	"<gtView>"
-	^ aView columnedList
-		title: 'Relations';
-		priority: 10;
-		items: [ self relations ];
-		column: 'Relation'
-			do: [ :column | 
-			column
-				rowStencil: [ :relation | BrLabel new text: relation name ];
-				matchParent ];
-		column: 'Source'
-			do: [ :column | 
-			column
-				rowStencil: [ :relation | "self valueLabelFor: assoc" relation source ];
-				matchParent ];
-		column: 'Target'
-			do: [ :column | 
-			column
-				rowStencil: [ :relation | "self valueLabelFor: assoc" relation target ];
-				matchParent ];
-		column: ' '
-			do: [ :column | 
-			"Dummy column to enable easy clicking to next pane"
-			column
-				rowStencil: [ BrLabel new ];
-				matchParent ];
-		actionStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousVectorIcons add;
-				label: 'Add relation';
-				action: [ self inform: 'add new relation' ] ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ]
-]
-
 { #category : #cards }
 CardDeck >> addCard: aCard [
 	cards add: aCard.
@@ -87,13 +46,23 @@ CardDeck >> addCardNamed: cardName description: cardDescription [
 ]
 
 { #category : #relations }
+CardDeck >> addDummyRelation [
+	self
+		addRelation: '_CHANGE_ME_' , Object new identityHash asString
+		from: self cards first
+		to: self cards first
+]
+
+{ #category : #relations }
 CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 	| rel |
 	rel := CardRelation new.
-	rel name: aSymbol;
+	rel
+		name: aSymbol;
 		source: aSourceCard;
 		target: aTargetCard.
 	relations add: rel.
+	self announcer announce: RelationsUpdated new.
 	^ rel
 ]
 
@@ -259,26 +228,53 @@ CardDeck >> gtCardsFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtRelationsFor: aView [
+	<gtView>
 	<todo:
 		'
 	- Update when relation added
-	- Dialog to select cards and relation name?
 	'>
-	<gtView>
-	
-		^ aView forward
+	^ aView columnedList
 		title: 'Relations';
-		priority: 2;
-		object: [ relations ];
-		view: #gtItemsFor:;
+		priority: 10;
+		items: [ self relations ];
+		column: 'Relation :'
+			do: [ :column | 
+			column
+				rowStencil: [ :relation | 
+					self
+						editableLabelFor: relation name
+						withSetter: [ :arg | relation name: arg ] ];
+				matchParent ];
+		column: 'Source ->'
+			do: [ :column | 
+			column
+				rowStencil: [ :relation | 
+					self
+						editableLabelFor: relation source
+						withSetter: [ :arg | relation source: (self cardNamed: arg) ] ];
+				matchParent ];
+		column: 'Target'
+			do: [ :column | 
+			column
+				rowStencil: [ :relation | 
+					self
+						editableLabelFor: relation target
+						withSetter: [ :arg | relation target: (self cardNamed: arg) ] ];
+				matchParent ];
+		column: ' '
+			do: [ :column | 
+			"Dummy column to enable easy clicking to next pane"
+			column
+				rowStencil: [ BrLabel new ];
+				matchParent ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add relation';
-				action: [ self inform: 'add new relation' ] ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ].
-
-
+				action: [ self addDummyRelation ] ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		updateWhen: RelationsUpdated in: [ self announcer ];
+		updateWhen: CardsUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }
