@@ -27,6 +27,47 @@ CardDeck >> = anObject [
 		and: [ self relations = anObject relations ]
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> NEWgtRelationsFor: aView [
+	<todo:
+		'
+	- Update when relation added
+	- Dialog to select cards and relation name?
+	'>
+	"<gtView>"
+	^ aView columnedList
+		title: 'Relations';
+		priority: 10;
+		items: [ self relations ];
+		column: 'Relation'
+			do: [ :column | 
+			column
+				rowStencil: [ :relation | BrLabel new text: relation name ];
+				matchParent ];
+		column: 'Source'
+			do: [ :column | 
+			column
+				rowStencil: [ :relation | "self valueLabelFor: assoc" relation source ];
+				matchParent ];
+		column: 'Target'
+			do: [ :column | 
+			column
+				rowStencil: [ :relation | "self valueLabelFor: assoc" relation target ];
+				matchParent ];
+		column: ' '
+			do: [ :column | 
+			"Dummy column to enable easy clicking to next pane"
+			column
+				rowStencil: [ BrLabel new ];
+				matchParent ];
+		actionStencil: [ BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons add;
+				label: 'Add relation';
+				action: [ self inform: 'add new relation' ] ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ]
+]
+
 { #category : #cards }
 CardDeck >> addCard: aCard [
 	cards add: aCard.
@@ -130,24 +171,6 @@ CardDeck >> assertValidStorageMethod [
 		description: 'storage class name must refer to an existing class'
 ]
 
-{ #category : #'gt-extensions' }
-CardDeck >> cardLabelFor: aCard [
-	| label |
-	label := BrEditableLabel new
-		look:
-			(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
-		text: aCard name.
-	label
-		when: BrEditorAcceptWish
-		do: [ :aWish | 
-			| previousName |
-			previousName := aCard name.
-			[ aCard name: aWish text asString ]
-				on: AssertionFailure
-				do: [ label text: previousName ] ].
-	^ label
-]
-
 { #category : #cards }
 CardDeck >> cardNamed: aString [
 	"In general there is nothing to prohibit multiple cards with the same name, but using this method makes a strong assumption that the card exists and is uniquely named.
@@ -212,7 +235,11 @@ CardDeck >> gtCardsFor: aView [
 		column: 'Cards'
 			do: [ :column | 
 			column
-				rowStencil: [ :aCard | self cardLabelFor: aCard ];
+				rowStencil: [ :aCard | 
+					self
+						editableLabelFor:
+							aCard name
+						withSetter: [ :newKey | aCard name: newKey ] ];
 				matchParent ];
 		column: ' '
 			do: [ :column | 
@@ -238,22 +265,20 @@ CardDeck >> gtRelationsFor: aView [
 	- Dialog to select cards and relation name?
 	'>
 	<gtView>
-	^ aView forward
+	
+		^ aView forward
 		title: 'Relations';
 		priority: 2;
 		object: [ relations ];
 		view: #gtItemsFor:;
-		actionDropdownButtonIcon: (BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousVectorIcons add)
-			label: nil
-			content: [ self inform: 'add new relation' ];
-		"actionStencil: [ BrButton new
+		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add relation';
-				action: [ self inform: 'add new relation' ] ];"
-		actionStencil: [ :aTab | "updateWhen: CardsUpdated in: [ self announcer ]" self refreshButtonFor: aTab ]
+				action: [ self inform: 'add new relation' ] ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ].
+
+
 ]
 
 { #category : #'gt-extensions' }

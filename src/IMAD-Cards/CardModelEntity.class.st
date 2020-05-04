@@ -71,25 +71,16 @@ CardModelEntity >> buildDescriptionPane [
 CardModelEntity >> buildLabel [
 	"See also GtBehaviorCoderElement>>#buildClassLabel"
 
-	| aNameEditor |
-	aNameEditor := BrEditableLabel new
+	^ (self
+		editableLabelFor: self name
+		withSetter: [ :newName | self name: newName ])
 		look:
 			(BrGlamorousEditableLabelLook new
 				defaultBackground: Color transparent;
 				glamorousCodeFont;
 				bold;
 				fontSize: 20);
-		text: self name;
-		margin: (BlInsets all: 0).
-	aNameEditor
-		when: BrEditorAcceptWish
-		do: [ :aWish | 
-			| previousName |
-			previousName := self name.
-			[ self name: aWish text asString ]
-				on: AssertionFailure
-				do: [ aNameEditor text: previousName ] ].
-	^ aNameEditor
+		margin: (BlInsets all: 0)
 ]
 
 { #category : #utilities }
@@ -116,6 +107,22 @@ CardModelEntity >> description [
 CardModelEntity >> description: aString [
 	self set: #description to: aString
 
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock [
+	| label |
+	label := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
+		text: aString.
+	label
+		when: BrEditorAcceptWish
+		do: [ :aWish | 
+			[ aOneArgumentBlock value: aWish text asString ]
+				on: AssertionFailure
+				do: [ label text: aString ] ].
+	^ label
 ]
 
 { #category : #properties }
@@ -166,12 +173,18 @@ CardModelEntity >> gtPropertiesFor: aView [
 		column: 'Key'
 			do: [ :column | 
 			column
-				rowStencil: [ :assoc | self keyLabelFor: assoc ];
+				rowStencil: [ :assoc | 
+					self
+						editableLabelFor: assoc key
+						withSetter: [ :newKey | self rename: assoc key to: newKey ] ];
 				matchParent ];
 		column: 'Value'
 			do: [ :column | 
 			column
-				rowStencil: [ :assoc | self valueLabelFor: assoc ];
+				rowStencil: [ :assoc | 
+					self
+						editableLabelFor: assoc value
+						withSetter: [ :newValue | self set: assoc key to: newValue ] ];
 				matchParent ];
 		column: ' '
 			do: [ :column | 
@@ -220,22 +233,6 @@ CardModelEntity >> initialize [
 	properties := Dictionary new.
 	self name: self freshName.
 	self description: self defaultDescription
-]
-
-{ #category : #'gt-extensions' }
-CardModelEntity >> keyLabelFor: assoc [
-	| label |
-	label := BrEditableLabel new
-		look:
-			(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
-		text: assoc key.
-	label
-		when: BrEditorAcceptWish
-		do: [ :aWish | 
-			[ self rename: assoc key to: aWish text asString ]
-				on: AssertionFailure
-				do: [ label text: assoc key ] ].
-	^ label
 ]
 
 { #category : #accessing }
@@ -305,22 +302,4 @@ CardModelEntity >> storePropertiesOn: aStream [
 				print: each value;
 				nextPutAll: ';'.
 			aStream cr ]
-]
-
-{ #category : #'gt-extensions' }
-CardModelEntity >> valueLabelFor: assoc [
-	| label |
-	label := BrEditableLabel new
-		look:
-			(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
-		text: assoc value.
-	label
-		when: BrEditorAcceptWish
-		do: [ :aWish | 
-			| previousName |
-			previousName := assoc value.
-			[ self set: assoc key to: aWish text asString ]
-				on: AssertionFailure
-				do: [ label text: previousName ] ].
-	^ label
 ]
