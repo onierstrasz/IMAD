@@ -27,25 +27,6 @@ CardDeck >> = anObject [
 		and: [ self relations = anObject relations ]
 ]
 
-{ #category : #'gt-extensions' }
-CardDeck >> OLDaddSaveButtonTo: aView [
-	^ aView
-		actionButtonIcon: BrGlamorousIcons save
-		label: 'Save to method ' , self storageClassMethod
-		action: [ :button | 
-			| coder |
-			coder := (self classNamed: self storageClassName) isClass
-				ifTrue: [ GtMethodCoder
-						forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
-						source: self generateStorageMethodString ]
-				ifFalse: [ GtClassDefinitionCoder new
-						source: (self sourceForClassNamed: self storageClassName);
-						yourself ].
-			coder expanded: true.
-			button phlow
-				spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ]
-]
-
 { #category : #cards }
 CardDeck >> addCard: aCard [
 	cards add: aCard.
@@ -78,27 +59,6 @@ CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
 	"Convenience method"
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> addSaveButtonTo: aView [
-	^ aView
-		actionStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousIcons save;
-				label: 'Save to method ' , self storageClassMethod;
-				action: [ :button | 
-					| coder |
-					coder := (self classNamed: self storageClassName) isClass
-						ifTrue: [ GtMethodCoder
-								forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
-								source: self generateStorageMethodString ]
-						ifFalse: [ GtClassDefinitionCoder new
-								source: (self sourceForClassNamed: self storageClassName);
-								yourself ].
-					coder expanded: true.
-					button phlow
-						spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ] ]
 ]
 
 { #category : #printing }
@@ -241,11 +201,6 @@ CardDeck >> gtCardsFor: aView [
 ]
 
 { #category : #'gt-extensions' }
-CardDeck >> gtDescriptionFor: aView [
-	^ self addSaveButtonTo: (super gtDescriptionFor: aView)
-]
-
-{ #category : #'gt-extensions' }
 CardDeck >> gtRelationsFor: aView [
 	<gtView>
 	^ aView forward
@@ -256,10 +211,33 @@ CardDeck >> gtRelationsFor: aView [
 ]
 
 { #category : #'gt-extensions' }
+CardDeck >> gtSaveActionFor: anAction [
+	<gtAction>
+	^ anAction button
+		icon: BrGlamorousIcons save;
+		forViewDefinedIn: #gtDescriptionFor:;
+		forViewDefinedIn: #gtStoreStringFor:;
+		priority: 1;
+		label: 'Save to method ' , self storageClassMethod;
+		action: [ :button | 
+			| coder |
+			coder := (self classNamed: self storageClassName) isClass
+				ifTrue: [ GtMethodCoder
+						forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
+						source: self generateStorageMethodString ]
+				ifFalse: [ GtClassDefinitionCoder new
+						source: (self sourceForClassNamed: self storageClassName);
+						yourself ].
+			coder expanded: true.
+			button phlow
+				spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ]
+]
+
+{ #category : #'gt-extensions' }
 CardDeck >> gtStoreStringFor: aView [
-	^ (self
-		addSaveButtonTo: (super gtStoreStringFor: aView))
-		updateWhen: CardsUpdated in: [ self announcer ]
+	^ (super gtStoreStringFor: aView)
+		updateWhen: CardsUpdated
+		in: [ self announcer ]
 ]
 
 { #category : #relations }
