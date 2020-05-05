@@ -48,7 +48,7 @@ CardDeck >> addCardNamed: cardName description: cardDescription [
 { #category : #relations }
 CardDeck >> addDummyRelation [
 	self
-		addRelation: '_CHANGE_ME_' , Object new identityHash asString
+		addRelation: '_rel' , Object new identityHash asString
 		from: self cards first
 		to: self cards first
 ]
@@ -57,10 +57,7 @@ CardDeck >> addDummyRelation [
 CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 	| rel |
 	rel := CardRelation new.
-	rel
-		name: aSymbol;
-		source: aSourceCard;
-		target: aTargetCard.
+	rel initializeDeck: self name: aSymbol source: aSourceCard target: aTargetCard.
 	relations add: rel.
 	self announcer announce: RelationsUpdated new.
 	^ rel

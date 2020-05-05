@@ -16,13 +16,17 @@ CardDeckRepository >> generateTestCardDeck [
 		set: #storageMethodName to: 'generateTestCardDeck';
 		addCard:
 			(Card new
-				set: #name to: 'Card A';
+				set: #name to: 'A';
 				set: #description to: 'To do';
 				yourself);
 		addCard:
 			(Card new
-				set: #name to: 'Card B';
+				set: #name to: 'B';
 				set: #description to: 'To do';
 				yourself);
+		addRelation: 'x' fromCardNamed: 'A' toCardNamed: 'A';
+		addRelation: 'x' fromCardNamed: 'A' toCardNamed: 'B';
+		addRelation: 'y' fromCardNamed: 'B' toCardNamed: 'A';
+		addRelation: 'y' fromCardNamed: 'B' toCardNamed: 'B';
 		yourself
 ]

@@ -9,7 +9,7 @@ Class {
 
 { #category : #'code-critics' }
 ManifestIMADCards class >> ruleRBBadMessageRuleV1FalsePositive [
-	^ #(#(#(#RGMethodDefinition #(#Card #assertInvariant #false)) #'2020-05-02T08:47:09.495671+02:00') )
+	^ #(#(#(#RGMethodDefinition #(#Card #assertInvariant #false)) #'2020-05-02T08:47:09.495671+02:00') #(#(#RGMethodDefinition #(#CardRelation #assertInvariant #false)) #'2020-05-05T13:32:13.182526+02:00') )
 ]
 
 { #category : #'code-critics' }
