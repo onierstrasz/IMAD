@@ -199,7 +199,7 @@ CardDeck >> gtCardsFor: aView [
 	^ aView columnedList
 		title: 'Cards';
 		priority: 1;
-		items: [ self cards ];
+		items: [ self cards sort: [ :a :b | a name <= b name ] ];
 		column: 'Cards'
 			do: [ :column | 
 			column
@@ -235,7 +235,7 @@ CardDeck >> gtRelationsFor: aView [
 	^ aView columnedList
 		title: 'Relations';
 		priority: 10;
-		items: [ self relations ];
+		items: [ self relations sort ];
 		column: 'Relation :'
 			do: [ :column | 
 			column

@@ -172,7 +172,7 @@ CardModelEntity >> gtPropertiesFor: aView [
 	^ aView columnedList
 		title: 'Properties';
 		priority: 10;
-		items: [ self properties associations ];
+		items: [ self properties associations sort: [ :a :b | a key <= b key ] ];
 		column: 'Key'
 			do: [ :column | 
 			column

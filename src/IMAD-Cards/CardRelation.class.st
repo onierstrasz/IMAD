@@ -16,6 +16,16 @@ Class {
 }
 
 { #category : #comparing }
+CardRelation >> <= aRelation [
+	<todo: 'write some tests'>
+	^ self name < aRelation name
+		or: [ self name = aRelation name
+				and: [ self source name < aRelation source name
+						or: [ self source name = aRelation source name
+								and: [ self target name <= aRelation target name ] ] ] ]
+]
+
+{ #category : #comparing }
 CardRelation >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -23,8 +33,10 @@ CardRelation >> = anObject [
 		ifTrue: [ ^ true ].
 	self class = anObject class
 		ifFalse: [ ^ false ].
-	^ self name = anObject name
-		and: [ self source = anObject source and: [ self target = anObject target ] ]
+	^ self deck = anObject deck
+		and: [ self name = anObject name
+				and:
+					[ self source = anObject source and: [ self target = anObject target ] ] ]
 ]
 
 { #category : #initialization }
