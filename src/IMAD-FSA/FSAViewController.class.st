@@ -107,12 +107,11 @@ FSAViewController >> handleClickEvents [
 FSAViewController >> inform: aString [
 	<todo:
 		'instead post this information inside the content pane (make hidden with a checkbox)'>
-	| aSpace aText |
-	aText := BlRopedText string: aString.
+	| aSpace |
 	aSpace := BlSpace new.
 	aSpace title: aString.
 	aSpace extent: 500 @ 50.
-	aSpace addChild: (BlTextElement new text: aText).
+	aSpace addChild: (BlTextElement new text: aString asRopedText).
 	aSpace withHalos.
 	aSpace show
 ]
