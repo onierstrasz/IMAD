@@ -73,7 +73,7 @@ FSA >> go: target [
 	self changed
 ]
 
-{ #category : #ui }
+{ #category : #'gt-extensions' }
 FSA >> gtMondrianFor: aView [
 	<gtView>
 	^ aView mondrian
