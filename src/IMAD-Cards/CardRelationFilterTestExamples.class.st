@@ -12,6 +12,20 @@ Class {
 }
 
 { #category : #accessing }
+CardRelationFilterTestExamples >> cardAHasOneSourceRelation [
+	<gtExample>
+	self assert: (deck cardNamed: 'A') sourceRelations  size equals: 1.
+	^ (deck cardNamed: 'A') sourceRelations
+]
+
+{ #category : #accessing }
+CardRelationFilterTestExamples >> cardAHasTwoTargetRelations [
+	<gtExample>
+	self assert: (deck cardNamed: 'A') targetRelations size equals: 2.
+	^ (deck cardNamed: 'A') targetRelations
+]
+
+{ #category : #accessing }
 CardRelationFilterTestExamples >> deckHasOneSourceCardNamedA [
 	<gtExample>
 	| filter result |

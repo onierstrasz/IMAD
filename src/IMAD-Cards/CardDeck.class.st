@@ -138,6 +138,23 @@ CardDeck >> assertValidStorageMethod [
 		description: 'storage class name must refer to an existing class'
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> cardElementFor: aCard [
+	^ BlElement new
+		layout: BlFrameLayout new;
+		border: (BlBorder paint: Color black);
+		geometry: BlRectangle  new;
+		size: 60@40;
+		addChild:
+			(BlTextElement new
+				text: (aCard name asRopedText fontSize: 10);
+				constraintsDo: [ :c | 
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ];
+				yourself);
+		yourself
+]
+
 { #category : #cards }
 CardDeck >> cardNamed: aString [
 	| result |
@@ -168,15 +185,30 @@ CardDeck >> cardsNamed: aString [
 ]
 
 { #category : #defaults }
-CardDeck >> defaultClassName [
+CardDeck >> defaultStorageClassName [
 	"The class where this CardDeck is stored as a generating method."
 	^ 'CardDeckRepository'
 ]
 
 { #category : #defaults }
-CardDeck >> defaultMethodName [
+CardDeck >> defaultStorageMethodName [
 	"The name of the generating method to recreate this CardDeck."
 	^ 'generateCardDeck'
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> directedCurvedEdge [
+	^ BlParabollaArcElement new
+		zIndex: 0;
+		curvatureFraction: 0.2;
+		border: (BlBorder paint: Color gray width: 2);
+		toHead:
+			(BlArrowheadSimpleArrow new
+				border:
+					(BlBorder builder
+						paint: Color gray;
+						width: 2;
+						build))
 ]
 
 { #category : #printing }
@@ -199,7 +231,7 @@ CardDeck >> gtCardsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Cards';
-		priority: 1;
+		priority: 20;
 		items: [ self cards sort: [ :a :b | a name <= b name ] ];
 		column: 'Cards'
 			do: [ :column | 
@@ -208,36 +240,62 @@ CardDeck >> gtCardsFor: aView [
 					self
 						editableLabelFor:
 							aCard name
-						withSetter: [ :newKey | aCard name: newKey ] ];
+						withSetter: [ :newCardName | aCard name: newCardName ] ];
 				matchParent ];
 		column: ' '
 			do: [ :column | 
 			"Dummy column to enable easy clicking to next pane"
 			column
-				rowStencil: [ BrLabel new ];
+				rowStencil: [ BlTextElement new text: '' asRopedText ];
 				matchParent ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
-				label: 'Add property';
-				action: [ self set: self freshKey to: self defaultValue ] ];
+				label: 'Add card';
+				action: [ self addCard: Card new ] ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: CardsUpdated in: [ self announcer ];
 		send: [ :aCard | aCard ]
 ]
 
 { #category : #'gt-extensions' }
-CardDeck >> gtRelationsFor: aView [
-	<gtView>
+CardDeck >> gtMondrianFor: aView [
 	<todo:
 		'
-	- Update when relation added
-	'>
+		- refresh button and updates not working (check FSA)
+		- how to make the canvas equal to the space available?
+		- layout needs work
+		- how to label edges?
+		- how to react to mouse clicks? (on nodes, edges, or outside)
+		- hovering over nodes and edges?
+		'>
+	<gtView>
+	^ aView mondrian
+		title: 'Graph';
+		priority: 10;
+		painting: [ :m | 
+			m nodes
+				shape: [ :x | self cardElementFor: x ];
+				with: self cards.
+			m edges
+				shape: [ :edge | self directedCurvedEdge ];
+				fromNearestBounds;
+				toNearestBounds;
+				connectToAll: [ :x | x sourceRelations collect: #target ].
+			m layout tree ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		updateWhen: RelationsUpdated in: [ self announcer ];
+		updateWhen: CardsUpdated in: [ self announcer ]
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> gtRelationsFor: aView [
+	<gtView>
 	^ aView columnedList
 		title: 'Relations';
-		priority: 10;
+		priority: 60;
 		items: [ self relations sort ];
-		column: 'Relation :'
+		column: 'Relation'
 			do: [ :column | 
 			column
 				rowStencil: [ :relation | 
@@ -245,7 +303,7 @@ CardDeck >> gtRelationsFor: aView [
 						editableLabelFor: relation name
 						withSetter: [ :arg | relation name: arg ] ];
 				matchParent ];
-		column: 'Source ->'
+		column: 'Source'
 			do: [ :column | 
 			column
 				rowStencil: [ :relation | 
@@ -263,9 +321,8 @@ CardDeck >> gtRelationsFor: aView [
 				matchParent ];
 		column: ' '
 			do: [ :column | 
-			"Dummy column to enable easy clicking to next pane"
 			column
-				rowStencil: [ BrLabel new ];
+				rowStencil: [ BlTextElement new text: '' asRopedText ];
 				matchParent ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
@@ -279,12 +336,9 @@ CardDeck >> gtRelationsFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtSaveActionFor: anAction [
-	<todo:
-		'For some reason the button only appears in one of the two tabs. How to fix this?'>
 	<gtAction>
 	^ anAction button
 		icon: BrGlamorousIcons save;
-		forViewDefinedIn: #gtDescriptionFor:;
 		forViewDefinedIn: #gtStoreStringFor:;
 		priority: 1;
 		label: 'Save to method ' , self storageClassMethod;
@@ -300,6 +354,15 @@ CardDeck >> gtSaveActionFor: anAction [
 			coder expanded: true.
 			button phlow
 				spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ]
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> gtSaveMainActionFor: anAction [
+	"Copy save action to main tab as well"
+
+	<gtAction>
+	^ (self gtSaveActionFor: anAction)
+		forViewDefinedIn: #gtDescriptionFor:
 ]
 
 { #category : #'gt-extensions' }
@@ -319,8 +382,8 @@ CardDeck >> initialize [
 	super initialize.
 	cards := OrderedCollection new.
 	relations := OrderedCollection new.
-	self storageClassName: self defaultClassName.
-	self storageMethodName: self defaultMethodName.
+	self storageClassName: self defaultStorageClassName.
+	self storageMethodName: self defaultStorageMethodName.
 	self assertInvariant
 ]
 

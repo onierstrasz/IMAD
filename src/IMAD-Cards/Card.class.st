@@ -133,6 +133,11 @@ Card >> sourceFilter: aCard [
 	^ CRSourceFilter new source: aCard
 ]
 
+{ #category : #querying }
+Card >> sourceRelations [
+	^ self deck relationsMatching: self selfSourceFilter
+]
+
 { #category : #printing }
 Card >> storeOn: aStream [
 	aStream
@@ -146,4 +151,9 @@ Card >> storeOn: aStream [
 { #category : #querying }
 Card >> targetFilter: aCard [
 	^ CRTargetFilter new target: aCard
+]
+
+{ #category : #querying }
+Card >> targetRelations [
+	^ self deck relationsMatching: self selfTargetFilter
 ]

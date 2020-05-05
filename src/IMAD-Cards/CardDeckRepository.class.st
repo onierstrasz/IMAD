@@ -24,9 +24,14 @@ CardDeckRepository >> generateTestCardDeck [
 				set: #name to: 'B';
 				set: #description to: 'To do';
 				yourself);
-		addRelation: 'x' fromCardNamed: 'A' toCardNamed: 'A';
+		addCard:
+			(Card new
+				set: #name to: 'C';
+				set: #description to: 'To do';
+				yourself);
 		addRelation: 'x' fromCardNamed: 'A' toCardNamed: 'B';
-		addRelation: 'y' fromCardNamed: 'B' toCardNamed: 'A';
-		addRelation: 'y' fromCardNamed: 'B' toCardNamed: 'B';
+		addRelation: 'x' fromCardNamed: 'A' toCardNamed: 'C';
+		addRelation: 'y' fromCardNamed: 'B' toCardNamed: 'C';
+		addRelation: 'z' fromCardNamed: 'C' toCardNamed: 'B';
 		yourself
 ]

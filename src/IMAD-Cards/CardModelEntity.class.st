@@ -171,7 +171,7 @@ CardModelEntity >> gtPropertiesFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Properties';
-		priority: 10;
+		priority: 40;
 		items: [ self properties associations sort: [ :a :b | a key <= b key ] ];
 		column: 'Key'
 			do: [ :column | 
@@ -193,7 +193,8 @@ CardModelEntity >> gtPropertiesFor: aView [
 			do: [ :column | 
 			"Dummy column to enable easy clicking to next pane"
 			column
-				rowStencil: [ BrLabel new ];
+				rowStencil: [ 
+					BlTextElement new text: '' asRopedText  ];
 				matchParent ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
@@ -209,7 +210,7 @@ CardModelEntity >> gtStoreStringFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Serialized';
-		priority: 30;
+		priority: 80;
 		stencil: [ (GtPharoSnippetCoder new source: self storeString) asElement
 				matchParent ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
@@ -221,12 +222,11 @@ CardModelEntity >> inform: aString [
 	"NB: just a placeholder for a real gt version of #inform:"
 
 	<todo: 'Build a better implementation of #inform:'>
-	| aSpace aText |
-	aText := BlRopedText string: aString.
+	| aSpace |
 	aSpace := BlSpace new.
 	aSpace title: aString.
 	aSpace extent: 500 @ 50.
-	aSpace addChild: (BlTextElement new text: aText).
+	aSpace addChild: (BlTextElement new text: aString asRopedText).
 	aSpace withHalos.
 	aSpace show
 ]

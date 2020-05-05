@@ -267,12 +267,12 @@ UsefulExamples >> lookSubtraction [
 
 { #category : #utilities }
 UsefulExamples >> openTextInOwnWindow: aString [
-	| aSpace aText |
-	aText := BlRopedText string: aString.
+	"UsefulExamples new openTextInOwnWindow: 'hello'"
+	| aSpace |
 	aSpace := BlSpace new.
 	aSpace title: aString.
 	aSpace extent: 500 @ 50.
-	aSpace addChild: (BlTextElement new text: aText). "NB: Could be any kind of BlElement"
+	aSpace addChild: (BlTextElement new text: aString asRopedText). "NB: Could be any kind of BlElement"
 	aSpace withHalos.
 	aSpace show
 ]
