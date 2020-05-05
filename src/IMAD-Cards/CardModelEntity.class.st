@@ -121,7 +121,9 @@ CardModelEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock [
 		do: [ :aWish | 
 			[ aOneArgumentBlock value: aWish text asString ]
 				on: AssertionFailure
-				do: [ label text: aString ] ].
+				do: [ :e | 
+					label text: aString.
+					self inform: e printString ] ].
 	^ label
 ]
 
@@ -143,7 +145,7 @@ CardModelEntity >> freshName [
 
 { #category : #properties }
 CardModelEntity >> get: propertyKey [
-	self assert: (properties includesKey: propertyKey).
+	self assert: (properties includesKey: propertyKey) description: 'key to lookup must exist'.
 	^ properties at: propertyKey ifAbsent: nil
 ]
 
@@ -216,6 +218,8 @@ CardModelEntity >> gtStoreStringFor: aView [
 { #category : #'ui requests' }
 CardModelEntity >> inform: aString [
 	"NB: just a placeholder for a real gt version of #inform:"
+
+	<todo: 'Build a better implementation of #inform:'>
 	| aSpace aText |
 	aText := BlRopedText string: aString.
 	aSpace := BlSpace new.
@@ -269,9 +273,9 @@ CardModelEntity >> refreshButtonFor: aTab [
 
 { #category : #properties }
 CardModelEntity >> rename: oldKey to: newKey [
-	self assert: (self properties includesKey: oldKey).
-	self assert: (self properties includesKey: newKey) not.
-	self assert: (self protectedKeys includes: oldKey) not.
+	self assert: (self properties includesKey: oldKey) description: 'key to rename must exist'.
+	self assert: (self properties includesKey: newKey) not description: 'new name of key must not exist'.
+	self assert: (self protectedKeys includes: oldKey) not description: 'cannot rename a protected key'.
 	self properties at: newKey put: (self properties removeKey: oldKey).
 	self announcer announce: PropertiesUpdated new
 ]
