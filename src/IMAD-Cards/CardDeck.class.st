@@ -82,6 +82,7 @@ CardDeck >> assertCardsUniquelyNamed [
 { #category : #printing }
 CardDeck >> assertGeneratedDeckEqualsSelf [
 	"If this happens, there is a bug in the code generation!"
+
 	self
 		assert:
 			(OpalCompiler new
@@ -278,6 +279,8 @@ CardDeck >> gtRelationsFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtSaveActionFor: anAction [
+	<todo:
+		'For some reason the button only appears in one of the two tabs. How to fix this?'>
 	<gtAction>
 	^ anAction button
 		icon: BrGlamorousIcons save;

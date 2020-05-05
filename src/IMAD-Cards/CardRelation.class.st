@@ -27,16 +27,16 @@ CardRelation >> <= aRelation [
 
 { #category : #comparing }
 CardRelation >> = anObject [
-	"Answer whether the receiver and anObject represent the same object."
+	"Answer whether the receiver and anObject represent the same object.
+	NB: Do NOT also compare if the decks are equal, or this will lead to infinite recursion!"
 
 	self == anObject
 		ifTrue: [ ^ true ].
 	self class = anObject class
 		ifFalse: [ ^ false ].
-	^ self deck = anObject deck
-		and: [ self name = anObject name
-				and:
-					[ self source = anObject source and: [ self target = anObject target ] ] ]
+	^ self name = anObject name
+		and:
+			[ self source = anObject source and: [ self target = anObject target ] ]
 ]
 
 { #category : #initialization }
