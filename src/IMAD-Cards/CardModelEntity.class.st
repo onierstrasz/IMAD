@@ -119,11 +119,12 @@ CardModelEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock [
 	label
 		when: BrEditorAcceptWish
 		do: [ :aWish | 
-			[ aOneArgumentBlock value: aWish text asString ]
-				on: AssertionFailure
-				do: [ :e | 
-					label text: aString.
-					self inform: e printString ] ].
+			aString ~= aWish text asString
+				ifTrue: [ [ aOneArgumentBlock value: aWish text asString ]
+						on: AssertionFailure
+						do: [ :e | 
+							label text: aString.
+							self inform: e printString ] ] ].
 	^ label
 ]
 

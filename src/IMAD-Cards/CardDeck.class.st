@@ -142,12 +142,14 @@ CardDeck >> assertValidStorageMethod [
 
 { #category : #cards }
 CardDeck >> cardNamed: aString [
-	"In general there is nothing to prohibit multiple cards with the same name, but using this method makes a strong assumption that the card exists and is uniquely named.
-	(Is this a good idea?)"
-
 	| result |
 	result := self cardsNamed: aString.
-	self assert: result size equals: 1.
+	self
+		assert: result notEmpty
+		description: 'no card exists named ' , aString.
+	self
+		assert: result size = 1
+		description: 'multiple cards exist named ' , aString.
 	^ result at: 1
 ]
 
