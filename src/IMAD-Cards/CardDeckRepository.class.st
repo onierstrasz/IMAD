@@ -5,33 +5,33 @@ Class {
 }
 
 { #category : #accessing }
-CardDeckRepository >> atmModel [
+CardDeckRepository >> atmDomain [
 	<gtExample>
 	^ CardDeck new
 		set: #storageClassName to: 'CardDeckRepository';
-		set: #name to: 'ATM domain';
-		set: #description
-			to: 'I describe the domain of automated teller machines.';
-		set: #storageMethodName to: 'atmModel';
+		set: #name to: 'ATM';
+		set: #description to: 'I model a Bank with ATMs';
+		set: #storageMethodName to: 'atmDomain';
+		addCard:
+			(Card new
+				set: #name to: 'ATM';
+				set: #description to: 'To do';
+				yourself);
 		addCard:
 			(Card new
 				set: #name to: 'Account';
-				set: #description
-					to: 'I am an account for a customer. I have a balance.
-';
+				set: #description to: 'To do';
 				yourself);
 		addCard:
 			(Card new
 				set: #name to: 'Bank';
-				set: #description to: 'I am a bank offering ATM services.';
+				set: #description to: 'I am a bank with customers and ATMs';
 				yourself);
 		addCard:
 			(Card new
 				set: #name to: 'Customer';
 				set: #description
-					to: 'I am a customer of a bank with an account.
-';
-				set: 'customerName' to: '...';
+					to: 'I have an account and would like to use an ATM';
 				yourself);
 		addRelation: 'account'
 			fromCardNamed: 'Customer'

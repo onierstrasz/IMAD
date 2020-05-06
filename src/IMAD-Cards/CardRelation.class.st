@@ -17,7 +17,6 @@ Class {
 
 { #category : #comparing }
 CardRelation >> <= aRelation [
-	<todo: 'write some tests'>
 	^ self source name < aRelation source name
 		or: [ self source name = aRelation source name
 				and: [ self name < aRelation name

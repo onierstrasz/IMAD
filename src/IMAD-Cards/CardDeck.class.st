@@ -258,7 +258,6 @@ CardDeck >> gtCardsFor: aView [
 CardDeck >> gtMondrianFor: aView [
 	<todo:
 		'
-		- refresh button and updates not working (check FSA)
 		- how to make the canvas equal to the space available?
 		- layout needs work
 		- how to label edges?
