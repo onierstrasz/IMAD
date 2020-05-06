@@ -12,6 +12,17 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
+{ #category : #comparing }
+CardModelEntity >> = anObject [
+	"Answer whether the receiver and anObject represent the same object."
+
+	self == anObject
+		ifTrue: [ ^ true ].
+	self class = anObject class
+		ifFalse: [ ^ false ].
+	^ self properties = anObject properties
+]
+
 { #category : #accessing }
 CardModelEntity >> announcer [
 	^ announcer
@@ -215,6 +226,11 @@ CardModelEntity >> gtStoreStringFor: aView [
 				matchParent ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: PropertiesUpdated in: [ self announcer ]
+]
+
+{ #category : #comparing }
+CardModelEntity >> hash [
+	^ self name hash
 ]
 
 { #category : #'ui requests' }

@@ -17,17 +17,6 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
-{ #category : #comparing }
-Card >> = anObject [
-	"Answer whether the receiver and anObject represent the same object."
-
-	self == anObject
-		ifTrue: [ ^ true ].
-	self class = anObject class
-		ifFalse: [ ^ false ].
-	^ self properties = anObject properties
-]
-
 { #category : #initialization }
 Card >> assertInvariant [
 	"NB: We can only assert the invariant after a card has been added to a deck.
@@ -123,9 +112,7 @@ Card >> set: propertyKey to: aValue [
 	propertyKey = 'name'
 		ifTrue: [ self assertUniqueName: aValue ].
 	super set: propertyKey to: aValue.
-	propertyKey = 'name'
-		ifTrue:
-			[ self deck ifNotNil: [ :d | d announcer announce: CardsUpdated new ] ]
+	self deck ifNotNil: [ :d | d announcer announce: CardsUpdated new ]
 ]
 
 { #category : #querying }
