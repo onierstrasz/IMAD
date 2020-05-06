@@ -247,7 +247,22 @@ CardDeck >> gtCardsFor: aView [
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add card';
-				action: [ self addCard: Card new ] ];
+				action: [
+					: button |
+					| card |
+					card := Card new.
+ 					 self addCard: card .
+					
+					
+				button phlow spawnObject: 
+					card
+					
+					] .
+				
+				
+				
+				
+				];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: CardsUpdated in: [ self announcer ];
 		send: [ :aCard | aCard ]
