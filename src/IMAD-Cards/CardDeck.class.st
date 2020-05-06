@@ -214,9 +214,7 @@ CardDeck >> generateStorageMethodString [
 	stream := WriteStream on: String new.
 	stream
 		nextPutAll: self storageMethodName;
-		nextPutAll: ' "NB: generated method ';
-		nextPutAll: self storageClassMethod;
-		nextPutAll: '. Do not modify." <gtExample> ^ '.
+		nextPutAll: ' <gtExample> ^ '.
 	self storeOn: stream.
 	^ OpalCompiler new format: stream contents
 ]
@@ -291,16 +289,8 @@ CardDeck >> gtRelationsFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Relations';
-		priority: 60;
+		priority: 40;
 		items: [ self relations sort ];
-		column: 'Relation'
-			do: [ :column | 
-			column
-				rowStencil: [ :relation | 
-					self
-						editableLabelFor: relation name
-						withSetter: [ :arg | relation name: arg ] ];
-				matchParent ];
 		column: 'Source'
 			do: [ :column | 
 			column
@@ -308,6 +298,14 @@ CardDeck >> gtRelationsFor: aView [
 					self
 						editableLabelFor: relation source
 						withSetter: [ :arg | relation source: (self cardNamed: arg) ] ];
+				matchParent ];
+		column: 'Relation'
+			do: [ :column | 
+			column
+				rowStencil: [ :relation | 
+					self
+						editableLabelFor: relation name
+						withSetter: [ :arg | relation name: arg ] ];
 				matchParent ];
 		column: 'Target'
 			do: [ :column | 

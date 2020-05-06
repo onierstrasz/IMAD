@@ -18,10 +18,10 @@ Class {
 { #category : #comparing }
 CardRelation >> <= aRelation [
 	<todo: 'write some tests'>
-	^ self name < aRelation name
-		or: [ self name = aRelation name
-				and: [ self source name < aRelation source name
-						or: [ self source name = aRelation source name
+	^ self source name < aRelation source name
+		or: [ self source name = aRelation source name
+				and: [ self name < aRelation name
+						or: [ self name = aRelation name
 								and: [ self target name <= aRelation target name ] ] ] ]
 ]
 
