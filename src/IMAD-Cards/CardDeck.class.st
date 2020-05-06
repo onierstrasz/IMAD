@@ -233,8 +233,7 @@ CardDeck >> gtCardsFor: aView [
 			column
 				rowStencil: [ :aCard | 
 					self
-						editableLabelFor:
-							aCard name
+						editableLabelFor: aCard name
 						withSetter: [ :newCardName | aCard name: newCardName ] ];
 				matchParent ];
 		column: ' '
@@ -247,22 +246,11 @@ CardDeck >> gtCardsFor: aView [
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add card';
-				action: [
-					: button |
+				action: [ :button | 
 					| card |
 					card := Card new.
- 					 self addCard: card .
-					
-					
-				button phlow spawnObject: 
-					card
-					
-					] .
-				
-				
-				
-				
-				];
+					self addCard: card.
+					button phlow spawnObject: card ] ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: CardsUpdated in: [ self announcer ];
 		send: [ :aCard | aCard ]
