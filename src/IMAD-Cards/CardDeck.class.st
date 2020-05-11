@@ -367,6 +367,28 @@ CardDeck >> gtStoreStringFor: aView [
 		in: [ self announcer ]
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> gtTESTSaveActionFor: anAction [
+	<todo:
+		'generate a dropdown dialog:
+		- check storage class and method
+		- generate class if missing
+		- open coder on method'>
+	<gtAction>
+	^ anAction dropdown
+		icon: BrGlamorousIcons debug;
+		"save"
+			forViewDefinedIn: #gtDescriptionFor:;
+		priority: 1;
+		"label: 'Save to method ' , self storageClassMethod;"
+		"look: BrGlamorousButtonWithIconLook;"
+		content: [ 
+			
+			'todo'
+			
+			 ]
+]
+
 { #category : #relations }
 CardDeck >> hasRelation: aSymbol [
 	^ (self relationsMatching:(CRRelNameFilter new name: aSymbol)) isNotEmpty
