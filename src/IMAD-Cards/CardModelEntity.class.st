@@ -305,8 +305,7 @@ CardModelEntity >> set: propertyKey to: aValue [
 
 { #category : #utilities }
 CardModelEntity >> sourceForClassNamed: aClassName [
-	^ '"NB: Please create the storage class first"
-Object subclass: #' , aClassName, '
+	^ 'Object subclass: #' , aClassName, '
 	instanceVariableNames: ''''
 	classVariableNames: ''''
 	package: '''''

@@ -206,6 +206,16 @@ CardDeck >> directedCurvedEdge [
 						build))
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> dropDownElement [
+	^ BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c padding: (BlInsets all: 5).
+			c vertical exact: 400.
+			c horizontal exact: 400 ]
+]
+
 { #category : #printing }
 CardDeck >> generateStorageMethodString [
 	| stream |
@@ -369,6 +379,8 @@ CardDeck >> gtStoreStringFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtTESTSaveActionFor: anAction [
+	"How to open coder in new pane after dialogue is complete?"
+
 	<todo:
 		'generate a dropdown dialog:
 		- check storage class and method
@@ -377,16 +389,19 @@ CardDeck >> gtTESTSaveActionFor: anAction [
 	<gtAction>
 	^ anAction dropdown
 		icon: BrGlamorousIcons debug;
-		"save"
-			forViewDefinedIn: #gtDescriptionFor:;
+		forViewDefinedIn: #gtDescriptionFor:;
 		priority: 1;
-		"label: 'Save to method ' , self storageClassMethod;"
-		"look: BrGlamorousButtonWithIconLook;"
-		content: [ 
-			
-			'todo'
-			
-			 ]
+		content: [ | container |
+			container := self dropDownElement.
+			(self classNamed: self storageClassName) isClass
+				ifTrue: [ 
+					self inform: self storageClassName, 'exists' ]
+				ifFalse: [ container
+						addChild: (self newLabel text: 'NB: Please create the storage class first');
+						addChild:
+							(self
+								newEditFieldWith: (self sourceForClassNamed: self storageClassName)) ].
+			container ]
 ]
 
 { #category : #relations }
@@ -413,6 +428,36 @@ CardDeck >> isEmpty [
 CardDeck >> listTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> newEditFieldWith: aString [
+	"Copied and adapted from XdShareDialogStencil"
+
+	^ BrEditor new
+		text: aString;
+		look:
+			BrGlamorousInputFieldSpacingLook
+				+ (BrGlamorousRegularEditorLook - BrLayoutResizerLook);
+		margin: (BlInsets top: 5 right: 2);
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent.
+			c grid horizontal alignLeft.
+			c grid vertical alignTop ];
+		yourself
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> newLabel [
+	"Copied from XdShareDialogStencil"
+	^ BrLabel new
+		look: (BrGlamorousLabelLook new glamorousRegularFontAndSize foreground: Color gray; fontSize: 12);
+		focusability: BlFocusability none;
+		margin: (BlInsets top: 5 right: 2);
+		constraintsDo: [ :c | 
+			c grid horizontal alignLeft.
+			c grid vertical alignTop. ]
 ]
 
 { #category : #relations }
