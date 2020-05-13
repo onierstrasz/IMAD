@@ -224,7 +224,8 @@ CardDeck >> dropDownElement [
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
 			c padding: (BlInsets all: 5).
-			c vertical exact: 400.
+			"c vertical exact: 200."
+			c vertical fitContent .
 			c horizontal exact: 400 ]
 ]
 
@@ -354,23 +355,20 @@ CardDeck >> gtRelationsFor: aView [
 { #category : #'gt-extensions' }
 CardDeck >> gtSaveActionFor: anAction [
 	<gtAction>
-	^ anAction button
+	^ anAction dropdown
 		icon: BrGlamorousIcons save;
 		forViewDefinedIn: #gtStoreStringFor:;
 		priority: 1;
 		label: 'Save to method ' , self storageClassMethod;
+		content: [ :button | 
+			| next |
+			next := self dropDownElement.
+			(self classNamed: self storageClassName) isClass
+				ifFalse: [ next addChild: (self newClassDefinitionForPhlow: button phlow) ].
+			next ];
 		action: [ :button | 
-			| coder |
-			coder := (self classNamed: self storageClassName) isClass
-				ifTrue: [ GtMethodCoder
-						forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
-						source: self generateStorageMethodString ]
-				ifFalse: [ GtClassDefinitionCoder new
-						source: (self sourceForClassNamed: self storageClassName);
-						yourself ].
-			coder expanded: true.
-			button phlow
-				spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ]
+			(self classNamed: self storageClassName) isClass
+				ifTrue: [ self coderForPhlow: button phlow ] ]
 ]
 
 { #category : #'gt-extensions' }
@@ -384,35 +382,10 @@ CardDeck >> gtSaveMainActionFor: anAction [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtStoreStringFor: aView [
+	"Serialized view"
 	^ (super gtStoreStringFor: aView)
 		updateWhen: CardsUpdated
 		in: [ self announcer ]
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> gtTESTSaveActionFor: anAction [
-	"How to open coder in new pane after dialogue is complete?"
-
-	<todo:
-		'generate a dropdown dialog:
-		- check storage class and method
-		- generate class if missing
-		- open coder on method'>
-	<gtAction>
-	^ anAction dropdown
-		icon: BrGlamorousIcons debug;
-		forViewDefinedIn: #gtDescriptionFor:;
-		priority: 1;
-		label: 'Save to method ' , self storageClassMethod;
-		content: [ :button | 
-			| next |
-			next := self dropDownElement.
-			(self classNamed: self storageClassName) isClass
-				ifFalse: [ next addChild: (self newClassDefinitionForPhlow: button phlow) ].
-			next ];
-		action: [ :button | 
-			(self classNamed: self storageClassName) isClass
-				ifTrue: [ self coderForPhlow: button phlow ] ]
 ]
 
 { #category : #relations }
@@ -448,9 +421,11 @@ CardDeck >> newClassDefinitionForPhlow: aPhlow [
 	theSuperClass := 'Object' asBrEditableLabel.
 	theClass := self storageClassName asBrEditableLabel.
 	thePackage := '' asBrEditableLabel.
-	container
-		addChild: 'Please edit and create the storage class first.' asBrLabel.
-	container
+	^ container
+		addChild:
+			(BrLabel new
+				look: BrGlamorousLabelLook new bold;
+				text: 'Please edit and create the storage class first.');
 		addChild:
 			(self newLinearBoxedLayout
 				addChild:
@@ -466,52 +441,22 @@ CardDeck >> newClassDefinitionForPhlow: aPhlow [
 						addChildren:
 							{'package: ''' asBrLabel.
 							thePackage.
-							'''' asBrLabel})).
-	container
+							'''' asBrLabel}));
 		addChild:
 			(BrButton new
 				look: BrGlamorousButtonWithLabelLook;
 				label: 'Create class';
 				action: [ :button | 
-					| text |
 					self storageClassName: theClass text asString.
-					text := self
-						sourceForClassNamed: theClass text asString
-						subclassOf: theSuperClass text asString
-						inPackage: thePackage text asString.
-					[ OpalCompiler new evaluate: text.
+					[ OpalCompiler new
+						evaluate:
+							(self
+								createClassNamed: theClass text asString
+								subclassOf: theSuperClass text asString
+								inPackage: thePackage text asString).
 					self coderForPhlow: aPhlow ]
 						on: Exception
-						do: [ :e | self inform: e description ] ]).
-	^ container
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> newEditFieldWith: aString [
-	"Copied and adapted from XdShareDialogStencil"
-
-	^ BrEditor new
-		text: aString;
-		look:
-			BrGlamorousInputFieldSpacingLook
-				+ (BrGlamorousRegularEditorLook - BrLayoutResizerLook);
-		margin: (BlInsets top: 5 right: 2);
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical fitContent.
-			c grid horizontal alignLeft.
-			c grid vertical alignTop ];
-		yourself
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> newEditLabelWith: aString [
-	| label |
-	label := BrEditableLabel new
-		look:
-			(BrGlamorousEditableLabelLook new defaultBackground: Color veryVeryLightGray);
-		text: aString.
-	^ label
+						do: [ :e | self inform: e description ] ])
 ]
 
 { #category : #'gt-extensions' }

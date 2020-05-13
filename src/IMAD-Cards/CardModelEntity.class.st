@@ -99,6 +99,16 @@ CardModelEntity >> classNamed: aClassName [
 	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
 ]
 
+{ #category : #utilities }
+CardModelEntity >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackage [
+	^ aSuperclass , ' subclass: #' , aClass
+		,
+			'
+	instanceVariableNames: ''''
+	classVariableNames: ''''
+	package: ''' , aPackage , ''''
+]
+
 { #category : #properties }
 CardModelEntity >> defaultDescription [
 	^ 'To do'
@@ -320,27 +330,6 @@ CardModelEntity >> rename: oldKey to: newKey [
 CardModelEntity >> set: propertyKey to: aValue [
 	self properties at: propertyKey put: aValue.
 	self announcer announce: PropertiesUpdated new
-]
-
-{ #category : #utilities }
-CardModelEntity >> sourceForClassNamed: aClassName [
-	"^ 'Object subclass: #' , aClassName, '
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: '''''"
-
-	^ self
-		sourceForClassNamed: aClassName
-		subclassOf: 'Object'
-		inPackage: ''
-]
-
-{ #category : #utilities }
-CardModelEntity >> sourceForClassNamed: aClassName subclassOf: aSuperClassName inPackage: aPackageName [
-	^ aSuperClassName, ' subclass: #' , aClassName, '
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''', aPackageName, ''''
 ]
 
 { #category : #printing }
