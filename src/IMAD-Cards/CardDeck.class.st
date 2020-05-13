@@ -179,6 +179,18 @@ CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> coderForPhlow: aPhlow [
+	| coder |
+	coder := GtMethodCoder
+		forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
+		source: self generateStorageMethodString.
+	coder expanded: true.
+	aPhlow
+		spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod).
+	^ coder
+]
+
 { #category : #defaults }
 CardDeck >> defaultStorageClassName [
 	"The class where this CardDeck is stored as a generating method."
@@ -387,27 +399,20 @@ CardDeck >> gtTESTSaveActionFor: anAction [
 		- generate class if missing
 		- open coder on method'>
 	<gtAction>
-	| classExists |
-	classExists := (self classNamed: self storageClassName) isClass.
 	^ anAction dropdown
 		icon: BrGlamorousIcons debug;
 		forViewDefinedIn: #gtDescriptionFor:;
 		priority: 1;
 		label: 'Save to method ' , self storageClassMethod;
-		content: [ | next |
+		content: [ :button | 
+			| next |
 			next := self dropDownElement.
-			classExists
-				ifFalse: [ next addChild: self newClassDefinition ].
+			(self classNamed: self storageClassName) isClass
+				ifFalse: [ next addChild: (self newClassDefinitionForPhlow: button phlow) ].
 			next ];
 		action: [ :button | 
-			classExists
-				ifTrue: [ | coder |
-					coder := GtMethodCoder
-						forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
-						source: self generateStorageMethodString.
-					coder expanded: true.
-					button phlow
-						spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ] ]
+			(self classNamed: self storageClassName) isClass
+				ifTrue: [ self coderForPhlow: button phlow ] ]
 ]
 
 { #category : #relations }
@@ -437,31 +442,47 @@ CardDeck >> listTodos [
 ]
 
 { #category : #'gt-extensions' }
-CardDeck >> newClassDefinition [
-	| container box theSuperClass theClass thePackage |
+CardDeck >> newClassDefinitionForPhlow: aPhlow [
+	| container theSuperClass theClass thePackage |
 	container := self newLinearLayout.
-	theSuperClass := self newEditLabelWith: 'Object'.
-	theClass := self newEditLabelWith: self storageClassName.
-	thePackage := self newEditLabelWith: ''.
+	theSuperClass := 'Object' asBrEditableLabel.
+	theClass := self storageClassName asBrEditableLabel.
+	thePackage := '' asBrEditableLabel.
 	container
-		addChild: (self newLabel text: 'NB: Please create the storage class first').
-	"box := self newLinearLayout.
-	box"
+		addChild: 'Please edit and create the storage class first.' asBrLabel.
 	container
-		addChildren:
-			{(self newFlowElement
-				addChildren:
-					{theSuperClass.
-					' subclass: #' asBrLabel.
-					theClass}).
-			'	instanceVariableNames: ''''' asBrLabel.
-			'classVariableNames: ''''' asBrLabel.
-			(self newFlowElement
-				addChildren:
-					{'package: ''' asBrLabel.
-					thePackage.
-					'''' asBrLabel})}.
-	"container addChild: box."
+		addChild:
+			(self newLinearBoxedLayout
+				addChild:
+					(self newFlowElement
+						addChildren:
+							{theSuperClass.
+							' subclass: #' asBrLabel.
+							theClass});
+				addChild: '	instanceVariableNames: ''''' asBrLabel;
+				addChild: 'classVariableNames: ''''' asBrLabel;
+				addChild:
+					(self newFlowElement
+						addChildren:
+							{'package: ''' asBrLabel.
+							thePackage.
+							'''' asBrLabel})).
+	container
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithLabelLook;
+				label: 'Create class';
+				action: [ :button | 
+					| text |
+					self storageClassName: theClass text asString.
+					text := self
+						sourceForClassNamed: theClass text asString
+						subclassOf: theSuperClass text asString
+						inPackage: thePackage text asString.
+					[ OpalCompiler new evaluate: text.
+					self coderForPhlow: aPhlow ]
+						on: Exception
+						do: [ :e | self inform: e description ] ]).
 	^ container
 ]
 
@@ -500,27 +521,6 @@ CardDeck >> newFlowElement [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical fitContent ]
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> newLabel [
-	"Copied from XdShareDialogStencil"
-	^ BrLabel new
-		look: (BrGlamorousLabelLook new glamorousRegularFontAndSize foreground: Color gray; fontSize: 12);
-		focusability: BlFocusability none;
-		margin: (BlInsets top: 5 right: 2);
-		constraintsDo: [ :c | 
-			c grid horizontal alignLeft.
-			c grid vertical alignTop. ]
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> newLabelWith: aString [
-	| label |
-	label := BrLabel new
-		look: BrGlamorousLabelLook;
-		text: aString.
-	^ label
 ]
 
 { #category : #relations }

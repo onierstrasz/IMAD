@@ -268,12 +268,22 @@ CardModelEntity >> name: aString [
 ]
 
 { #category : #'gt-extensions' }
+CardModelEntity >> newLinearBoxedLayout [
+	^ BlElement new
+		layout: BlLinearLayout vertical;
+		look: BrGlamorousInputFieldSpacingLook;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ]
+]
+
+{ #category : #'gt-extensions' }
 CardModelEntity >> newLinearLayout [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
-			c vertical fitContent ]
+			c vertical matchParent ]
 ]
 
 { #category : #properties }
@@ -314,10 +324,23 @@ CardModelEntity >> set: propertyKey to: aValue [
 
 { #category : #utilities }
 CardModelEntity >> sourceForClassNamed: aClassName [
-	^ 'Object subclass: #' , aClassName, '
+	"^ 'Object subclass: #' , aClassName, '
 	instanceVariableNames: ''''
 	classVariableNames: ''''
-	package: '''''
+	package: '''''"
+
+	^ self
+		sourceForClassNamed: aClassName
+		subclassOf: 'Object'
+		inPackage: ''
+]
+
+{ #category : #utilities }
+CardModelEntity >> sourceForClassNamed: aClassName subclassOf: aSuperClassName inPackage: aPackageName [
+	^ aSuperClassName, ' subclass: #' , aClassName, '
+	instanceVariableNames: ''''
+	classVariableNames: ''''
+	package: ''', aPackageName, ''''
 ]
 
 { #category : #printing }
