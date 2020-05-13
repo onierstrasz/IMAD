@@ -387,21 +387,27 @@ CardDeck >> gtTESTSaveActionFor: anAction [
 		- generate class if missing
 		- open coder on method'>
 	<gtAction>
+	| classExists |
+	classExists := (self classNamed: self storageClassName) isClass.
 	^ anAction dropdown
 		icon: BrGlamorousIcons debug;
 		forViewDefinedIn: #gtDescriptionFor:;
 		priority: 1;
-		content: [ | container |
-			container := self dropDownElement.
-			(self classNamed: self storageClassName) isClass
-				ifTrue: [ 
-					self inform: self storageClassName, 'exists' ]
-				ifFalse: [ container
-						addChild: (self newLabel text: 'NB: Please create the storage class first');
-						addChild:
-							(self
-								newEditFieldWith: (self sourceForClassNamed: self storageClassName)) ].
-			container ]
+		label: 'Save to method ' , self storageClassMethod;
+		content: [ | next |
+			next := self dropDownElement.
+			classExists
+				ifFalse: [ next addChild: self newClassDefinition ].
+			next ];
+		action: [ :button | 
+			classExists
+				ifTrue: [ | coder |
+					coder := GtMethodCoder
+						forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
+						source: self generateStorageMethodString.
+					coder expanded: true.
+					button phlow
+						spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod) ] ]
 ]
 
 { #category : #relations }
@@ -431,6 +437,35 @@ CardDeck >> listTodos [
 ]
 
 { #category : #'gt-extensions' }
+CardDeck >> newClassDefinition [
+	| container box theSuperClass theClass thePackage |
+	container := self newLinearLayout.
+	theSuperClass := self newEditLabelWith: 'Object'.
+	theClass := self newEditLabelWith: self storageClassName.
+	thePackage := self newEditLabelWith: ''.
+	container
+		addChild: (self newLabel text: 'NB: Please create the storage class first').
+	"box := self newLinearLayout.
+	box"
+	container
+		addChildren:
+			{(self newFlowElement
+				addChildren:
+					{theSuperClass.
+					' subclass: #' asBrLabel.
+					theClass}).
+			'	instanceVariableNames: ''''' asBrLabel.
+			'classVariableNames: ''''' asBrLabel.
+			(self newFlowElement
+				addChildren:
+					{'package: ''' asBrLabel.
+					thePackage.
+					'''' asBrLabel})}.
+	"container addChild: box."
+	^ container
+]
+
+{ #category : #'gt-extensions' }
 CardDeck >> newEditFieldWith: aString [
 	"Copied and adapted from XdShareDialogStencil"
 
@@ -449,6 +484,25 @@ CardDeck >> newEditFieldWith: aString [
 ]
 
 { #category : #'gt-extensions' }
+CardDeck >> newEditLabelWith: aString [
+	| label |
+	label := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new defaultBackground: Color veryVeryLightGray);
+		text: aString.
+	^ label
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> newFlowElement [
+	^ BlElement new
+		layout: BlFlowLayout horizontal;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ]
+]
+
+{ #category : #'gt-extensions' }
 CardDeck >> newLabel [
 	"Copied from XdShareDialogStencil"
 	^ BrLabel new
@@ -458,6 +512,15 @@ CardDeck >> newLabel [
 		constraintsDo: [ :c | 
 			c grid horizontal alignLeft.
 			c grid vertical alignTop. ]
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> newLabelWith: aString [
+	| label |
+	label := BrLabel new
+		look: BrGlamorousLabelLook;
+		text: aString.
+	^ label
 ]
 
 { #category : #relations }

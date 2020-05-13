@@ -267,6 +267,15 @@ CardModelEntity >> name: aString [
 
 ]
 
+{ #category : #'gt-extensions' }
+CardModelEntity >> newLinearLayout [
+	^ BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ]
+]
+
 { #category : #properties }
 CardModelEntity >> properties [
 	^ properties
