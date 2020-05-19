@@ -33,3 +33,30 @@ IMAD >> findAllTodos [
 	<gtExample>
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
+
+{ #category : #accessing }
+IMAD >> loadAMT [
+	<gtExample>
+	^ Metacello new
+		baseline: 'AMT';
+		repository: 'https://github.com/artthik/ActorModelingTool';
+		load
+]
+
+{ #category : #accessing }
+IMAD >> loadEpic [
+	<gtExample>
+	^ Metacello new
+		baseline: 'Epic';
+		repository: 'github://vaano94/SCG_EpicGit';
+		load
+]
+
+{ #category : #accessing }
+IMAD >> loadForkedAMT [
+	<gtExample>
+	^ Metacello new
+		baseline: 'AMT';
+		repository: 'https://github.com/onierstrasz/ActorModelingTool';
+		load
+]
