@@ -25,7 +25,8 @@ IMAD class >> todos [
 { #category : #accessing }
 IMAD >> allExamples [
 	<gtExample>
-	^ ('IMAD' gtPackageMatches & #gtExample gtReferences) gtExamples
+	^ ('IMAD' gtPackageMatches & #gtExample gtReferences
+		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
 ]
 
 { #category : #accessing }
