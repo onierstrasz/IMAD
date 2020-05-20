@@ -22,6 +22,19 @@ CardDeck >> = anObject [
 				and: [ self relations = anObject relations ] ]
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> _addCardButton [
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousVectorIcons add;
+		label: 'Add card';
+		action: [ :button | 
+			| card |
+			card := Card new.
+			self addCard: card.
+			button phlow spawnObject: card ]
+]
+
 { #category : #cards }
 CardDeck >> addCard: aCard [
 	cards add: aCard.
@@ -263,15 +276,7 @@ CardDeck >> gtCardsFor: aView [
 			column
 				rowStencil: [ BlTextElement new text: '' asRopedText ];
 				matchParent ];
-		actionStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousVectorIcons add;
-				label: 'Add card';
-				action: [ :button | 
-					| card |
-					card := Card new.
-					self addCard: card.
-					button phlow spawnObject: card ] ];
+		actionStencil: [ self _addCardButton ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: CardsUpdated in: [ self announcer ];
 		send: [ :aCard | aCard ]
@@ -281,6 +286,7 @@ CardDeck >> gtCardsFor: aView [
 CardDeck >> gtMondrianFor: aView [
 	<todo:
 		'
+		- button to add a card
 		- how to make the canvas equal to the space available?
 		- layout needs work
 		- how to label edges?
@@ -302,6 +308,7 @@ CardDeck >> gtMondrianFor: aView [
 				connectToAll: [ :x | x sourceRelations collect: #target ].
 			m layout tree ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		actionStencil: [ self _addCardButton ];
 		updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ]
 ]
