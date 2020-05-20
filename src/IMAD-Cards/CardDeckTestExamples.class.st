@@ -103,6 +103,26 @@ CardDeckTestExamples >> connectTwoCards [
 ]
 
 { #category : #accessing }
+CardDeckTestExamples >> deckWithThreeCardCycle [
+	<gtExample>
+	| deck a b c |
+	deck := self emptyDeck.
+	a := Card new name: 'A'.
+	b := Card new name: 'B'.
+	c := Card new name: 'C'.
+	deck
+		addCard: a;
+		addCard: b;
+		addCard: c.
+	a become: #x of: b.
+	b become: #y of: c.
+	c become: #z of: a.
+	self assert: deck cards size equals: 3.
+	self assert: deck relations size equals: 3.
+	^ deck
+]
+
+{ #category : #accessing }
 CardDeckTestExamples >> emptyDeck [
 	<gtExample>
 	| deck |
@@ -188,6 +208,22 @@ CardDeckTestExamples >> renameProtectedPropertyFails [
 			false ]
 				on: AssertionFailure
 				do: [ true ]).
+	^ deck
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> threeCardCycleRemoved [
+	<gtExample>
+	<todo: 'How to removed a relation?'>
+	"
+	What is the right API?
+	Retrieve a relation and remove it?
+	Or just ask the deck to remove the named relation?
+	Presupposes a way to retrieve a specific relation.
+	"
+	| deck a b c |
+	deck := self deckWithThreeCardCycle.
+	
 	^ deck
 ]
 

@@ -55,6 +55,8 @@ CardDeck >> addCardNamed: cardName description: cardDescription [
 
 { #category : #relations }
 CardDeck >> addDummyRelation [
+	"Add a valid relation from the first card to itself. To be edited to something useful by the user."
+
 	self
 		addRelation: '_rel' , Object new identityHash asString
 		from: self cards first
@@ -113,7 +115,8 @@ CardDeck >> assertInvariant [
 		description: 'relations must be defined'.
 	self
 		assert: self relations isCollection
-		description: 'relations must be a kind of collection'
+		description: 'relations must be a kind of collection'.
+	self relations do: [ :each | each assertInvariant ]
 ]
 
 { #category : #printing }

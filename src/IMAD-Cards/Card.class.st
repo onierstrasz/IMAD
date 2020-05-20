@@ -97,6 +97,13 @@ Card >> relFilter: aSymbol [
 	^ CRRelNameFilter new name: aSymbol
 ]
 
+{ #category : #accessing }
+Card >> remove [
+	self sourceRelations do: [ :each | each remove ].
+	self targetRelations do: [ :each | each remove ].
+	self deck removeCard: self
+]
+
 { #category : #querying }
 Card >> selfSourceFilter [
 	^ self sourceFilter: self.

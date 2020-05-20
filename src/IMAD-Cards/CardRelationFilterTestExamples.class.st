@@ -14,7 +14,7 @@ Class {
 { #category : #accessing }
 CardRelationFilterTestExamples >> cardAHasOneSourceRelation [
 	<gtExample>
-	self assert: (deck cardNamed: 'A') sourceRelations  size equals: 1.
+	self assert: (deck cardNamed: 'A') sourceRelations size equals: 1.
 	^ (deck cardNamed: 'A') sourceRelations
 ]
 
