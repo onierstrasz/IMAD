@@ -7,7 +7,7 @@ The implementations of cards and relations are naive to start (collections). To 
 "
 Class {
 	#name : #CardDeck,
-	#superclass : #CardModelEntity,
+	#superclass : #CardModelNamedEntity,
 	#instVars : [
 		'cards',
 		'relations'
@@ -192,7 +192,12 @@ CardDeck >> cards [
 
 { #category : #cards }
 CardDeck >> cardsNamed: aString [
-	^ cards select: [:each | each name = aString]
+	^ cards select: [ :each | each name = aString ]
+]
+
+{ #category : #utilities }
+CardDeck >> classNamed: aClassName [
+	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
 ]
 
 { #category : #'gt-extensions' }
@@ -205,6 +210,16 @@ CardDeck >> coderForPhlow: aPhlow [
 	aPhlow
 		spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod).
 	^ coder
+]
+
+{ #category : #utilities }
+CardDeck >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackage [
+	^ aSuperclass , ' subclass: #' , aClass
+		,
+			'
+	instanceVariableNames: ''''
+	classVariableNames: ''''
+	package: ''' , aPackage , ''''
 ]
 
 { #category : #defaults }
@@ -580,6 +595,7 @@ CardDeck >> storeOn: aStream [
 	aStream
 		nextPutAll: 'CardDeck new';
 		cr.
+	self storeNameAndDescriptionOn: aStream.
 	self storePropertiesOn: aStream.
 	self storeCardsOn: aStream.
 	self storeRelationsOn: aStream.

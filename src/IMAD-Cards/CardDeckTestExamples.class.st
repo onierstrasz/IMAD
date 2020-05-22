@@ -47,12 +47,12 @@ CardDeckTestExamples >> addFreshPropertyToDeck [
 	<gtExample>
 	| deck key value |
 	deck := self emptyDeck.
-	self assert: deck properties size equals: 4.
+	self assert: deck properties size equals: 2.
 	key := deck freshKey.
 	value := 'xyz'.
 	self assert: (deck properties includesKey: key) not.
 	deck set: key to: value.
-	self assert: deck properties size equals: 5.
+	self assert: deck properties size equals: 3.
 	self assert: (deck properties includesKey: key).
 	self assert: (deck get: key) equals: value.
 	^ deck
@@ -63,13 +63,13 @@ CardDeckTestExamples >> addPropertyAbcToDeck [
 	<gtExample>
 	| deck key value |
 	deck := self emptyDeck.
-	self assert: deck properties size equals: 4.
+	self assert: deck properties size equals: 2.
 	key := 'abc'.
 	value := 'xyz'.
 	self assert: (deck properties includesKey: key) not.
 	deck set: key to: value.
 	
-	self assert: deck properties size equals: 5.
+	self assert: deck properties size equals: 3.
 	self assert: (deck properties includesKey: key).
 	self assert: (deck get: key) equals: value.
 	^ deck
@@ -127,11 +127,11 @@ CardDeckTestExamples >> deleteFreshPropertyFromDeck [
 	<gtExample>
 	| deck key |
 	deck := self addFreshPropertyToDeck.
-	self assert: deck properties size equals: 5.
-	key := 'key4'.
+	self assert: deck properties size equals: 3.
+	key := 'key2'.
 	self assert: (deck properties includesKey: key).
 	deck removePropertyWithKey: key.
-	self assert: deck properties size equals: 4.
+	self assert: deck properties size equals: 2.
 	self assert: (deck properties includesKey: key) not.
 	^ deck
 ]
@@ -203,25 +203,6 @@ CardDeckTestExamples >> renamePropertyAbcToAbcdInDeck [
 	self assert: (deck properties includesKey: oldKey) not.
 	self assert: (deck properties includesKey: newKey).
 	self assert: (deck get: newKey) equals: value.
-	^ deck
-]
-
-{ #category : #accessing }
-CardDeckTestExamples >> renameProtectedPropertyFails [
-	<gtExample>
-	| deck oldKey newKey value |
-	deck := self addPropertyAbcToDeck.
-	oldKey := 'name'.
-	newKey := 'name2'.
-	value := 'xyz'.
-	self assert: (deck properties includesKey: oldKey).
-	self assert: (deck properties includesKey: newKey) not.
-	self
-		assert:
-			([ deck rename: oldKey to: newKey.
-			false ]
-				on: AssertionFailure
-				do: [ true ]).
 	^ deck
 ]
 
