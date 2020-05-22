@@ -118,6 +118,11 @@ CardRelation >> printOn: aStream [
 	self target printOn: aStream
 ]
 
+{ #category : #removing }
+CardRelation >> remove [
+	self deck removeRelation: self
+]
+
 { #category : #accessing }
 CardRelation >> source [
 	^ source

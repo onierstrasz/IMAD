@@ -49,8 +49,6 @@ UsefulExamples >> autofitElementToContainer [
 { #category : #accessing }
 UsefulExamples >> buildDifferentKindsOfTabs [
 	<gtExample>
-	<todo: 'Add more examples of different kinds of tabs.'>
-	<todo: 'Add a list tab example (simpsons)'>
 	| tabs |
 	"Sources:
 	BrExamplesShowroom>>#glamorousTabs

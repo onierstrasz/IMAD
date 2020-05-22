@@ -295,6 +295,7 @@ CardDeck >> gtMondrianFor: aView [
 		- how to label edges?
 		- how to react to mouse clicks? (on nodes, edges, or outside)
 		- hovering over nodes and edges?
+		- replace with pure Brick version?
 		'>
 	<gtView>
 	^ aView mondrian
@@ -486,6 +487,17 @@ CardDeck >> relations [
 { #category : #querying }
 CardDeck >> relationsMatching: aFilter [
 	^ relations select: [:rel | aFilter matches: rel].
+]
+
+{ #category : #cards }
+CardDeck >> removeCard: aCard [
+	aCard removeRelations.
+	self cards remove: aCard ifAbsent: [  ]
+]
+
+{ #category : #relations }
+CardDeck >> removeRelation: aRelation [
+	self relations remove: aRelation ifAbsent: [  ]
 ]
 
 { #category : #cards }

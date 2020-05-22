@@ -214,16 +214,27 @@ CardDeckTestExamples >> renameProtectedPropertyFails [
 { #category : #accessing }
 CardDeckTestExamples >> threeCardCycleRemoved [
 	<gtExample>
-	<todo: 'How to removed a relation?'>
-	"
-	What is the right API?
-	Retrieve a relation and remove it?
-	Or just ask the deck to remove the named relation?
-	Presupposes a way to retrieve a specific relation.
-	"
-	| deck a b c |
+	<todo: 'How to remove a relation?'>
+	| deck a |
 	deck := self deckWithThreeCardCycle.
-	
+	a := deck cardNamed: 'A'.
+	self assert: a sourceRelations size equals: 1.
+	a sourceRelations do: [ :each | each remove ].
+	self assert: a sourceRelations isEmpty.
+	^ deck
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> threeCardNodeRemoved [
+	<gtExample>
+	| deck a |
+	deck := self deckWithThreeCardCycle.
+	a := deck cardNamed: 'A'.
+	self assert: deck cards size equals: 3.
+	self assert: deck relations size equals: 3.
+	a remove.	 "removes A as well as A->B and C->A"
+	self assert: deck cards size equals: 2.
+	self assert: deck relations size equals: 1.
 	^ deck
 ]
 

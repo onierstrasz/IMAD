@@ -26,7 +26,6 @@ CardDeckExamples >> builtModelEqualsGeneratedModel [
 { #category : #accessing }
 CardDeckExamples >> facultyDoodleDomain [
 	<gtExample>
-	<todo: 'expand with missing concepts'>
 	| deck |
 	deck := CardDeck new.
 	self assert: deck isEmpty.

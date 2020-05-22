@@ -59,7 +59,7 @@ Card >> deck: aCardDeck [
 Card >> hasA: relSymbol [
 	^ (self deck relationsMatching:
 		(self relFilter: relSymbol)
-		& (self selfSourceFilter)) isNotEmpty
+		& (self sourceFilter)) isNotEmpty
 
 ]
 
@@ -73,21 +73,20 @@ Card >> initialize [
 Card >> is: relSymbol of: aCard [
 	^ (self deck relationsMatching:
 		(self relFilter: relSymbol)
-		& (self sourceFilter: aCard)
-		& (self selfTargetFilter)) isNotEmpty
+		& (aCard sourceFilter)
+		& (self targetFilter)) isNotEmpty
 ]
 
 { #category : #querying }
 Card >> isA: relSymbol [
 	^ (self deck relationsMatching:
 		(self relFilter: relSymbol)
-		& (self selfTargetFilter)) isNotEmpty
+		& (self targetFilter)) isNotEmpty
 
 ]
 
 { #category : #printing }
 Card >> printOn: aStream [
-	<todo: 'Add more information (kind of card, domain ...)'>
 	aStream
 		nextPutAll: self name
 ]
@@ -97,21 +96,21 @@ Card >> relFilter: aSymbol [
 	^ CRRelNameFilter new name: aSymbol
 ]
 
+{ #category : #querying }
+Card >> relations [
+	^ self sourceRelations
+		addAll: self targetRelations;
+		yourself
+]
+
 { #category : #accessing }
 Card >> remove [
-	self sourceRelations do: [ :each | each remove ].
-	self targetRelations do: [ :each | each remove ].
 	self deck removeCard: self
 ]
 
-{ #category : #querying }
-Card >> selfSourceFilter [
-	^ self sourceFilter: self.
-]
-
-{ #category : #querying }
-Card >> selfTargetFilter [
-	^ self targetFilter: self.
+{ #category : #relations }
+Card >> removeRelations [
+	self relations do: [ :each | each remove ]
 ]
 
 { #category : #properties }
@@ -123,13 +122,13 @@ Card >> set: propertyKey to: aValue [
 ]
 
 { #category : #querying }
-Card >> sourceFilter: aCard [
-	^ CRSourceFilter new source: aCard
+Card >> sourceFilter [
+	^ CRSourceFilter new source: self.
 ]
 
 { #category : #querying }
 Card >> sourceRelations [
-	^ self deck relationsMatching: self selfSourceFilter
+	^ self deck relationsMatching: self sourceFilter
 ]
 
 { #category : #printing }
@@ -143,11 +142,11 @@ Card >> storeOn: aStream [
 ]
 
 { #category : #querying }
-Card >> targetFilter: aCard [
-	^ CRTargetFilter new target: aCard
+Card >> targetFilter [
+	^ CRTargetFilter new target: self
 ]
 
 { #category : #querying }
 Card >> targetRelations [
-	^ self deck relationsMatching: self selfTargetFilter
+	^ self deck relationsMatching: self targetFilter
 ]
