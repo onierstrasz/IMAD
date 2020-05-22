@@ -5,7 +5,7 @@ I support filtering operations to retrieve relations.
 "
 Class {
 	#name : #CardRelation,
-	#superclass : #Object,
+	#superclass : #CardModelEntity,
 	#instVars : [
 		'name',
 		'source',
@@ -80,6 +80,14 @@ CardRelation >> hasSource: aCard [
 { #category : #accessing }
 CardRelation >> hasTarget: aCard [
 	^ target = aCard
+]
+
+{ #category : #comparing }
+CardRelation >> hash [
+	"Answer a SmallInteger whose value is related to the receiver's identity.
+	May be overridden, and should be overridden in any classes that define = "
+
+	^ self identityHash 
 ]
 
 { #category : #initialization }

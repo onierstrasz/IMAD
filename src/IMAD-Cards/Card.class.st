@@ -10,7 +10,7 @@ NB: properties should just hold (flat?) values, so the deck of a card should not
 "
 Class {
 	#name : #Card,
-	#superclass : #CardModelEntity,
+	#superclass : #CardModelNamedEntity,
 	#instVars : [
 		'deck'
 	],
