@@ -123,6 +123,20 @@ CardDeckTestExamples >> deckWithThreeCardCycle [
 ]
 
 { #category : #accessing }
+CardDeckTestExamples >> deleteFreshPropertyFromDeck [
+	<gtExample>
+	| deck key |
+	deck := self addFreshPropertyToDeck.
+	self assert: deck properties size equals: 5.
+	key := 'key4'.
+	self assert: (deck properties includesKey: key).
+	deck removePropertyWithKey: key.
+	self assert: deck properties size equals: 4.
+	self assert: (deck properties includesKey: key) not.
+	^ deck
+]
+
+{ #category : #accessing }
 CardDeckTestExamples >> emptyDeck [
 	<gtExample>
 	| deck |

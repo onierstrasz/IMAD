@@ -22,8 +22,16 @@ CardDeck >> = anObject [
 				and: [ self relations = anObject relations ] ]
 ]
 
+{ #category : #cards }
+CardDeck >> addCard: aCard [
+	cards add: aCard.
+	aCard deck: self.
+	self assertInvariant.
+	self announcer announce: CardsUpdated new
+]
+
 { #category : #'gt-extensions' }
-CardDeck >> _addCardButton [
+CardDeck >> addCardButton [
 	^ BrButton new
 		look: BrGlamorousButtonWithIconLook;
 		icon: BrGlamorousVectorIcons add;
@@ -33,14 +41,6 @@ CardDeck >> _addCardButton [
 			card := Card new.
 			self addCard: card.
 			button phlow spawnObject: card ]
-]
-
-{ #category : #cards }
-CardDeck >> addCard: aCard [
-	cards add: aCard.
-	aCard deck: self.
-	self assertInvariant.
-	self announcer announce: CardsUpdated new
 ]
 
 { #category : #cards }
@@ -279,7 +279,13 @@ CardDeck >> gtCardsFor: aView [
 			column
 				rowStencil: [ BlTextElement new text: '' asRopedText ];
 				matchParent ];
-		actionStencil: [ self _addCardButton ];
+		column: ' '
+			do: [ :column | 
+			column
+				rowStencil:
+						[ :aCard | self removeCardButtonFor: aCard ];
+				noResize ];
+		actionStencil: [ self addCardButton ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		updateWhen: CardsUpdated in: [ self announcer ];
 		send: [ :aCard | aCard ]
@@ -312,7 +318,7 @@ CardDeck >> gtMondrianFor: aView [
 				connectToAll: [ :x | x sourceRelations collect: #target ].
 			m layout tree ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
-		actionStencil: [ self _addCardButton ];
+		actionStencil: [ self addCardButton ];
 		updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ]
 ]
@@ -353,6 +359,11 @@ CardDeck >> gtRelationsFor: aView [
 			column
 				rowStencil: [ BlTextElement new text: '' asRopedText ];
 				matchParent ];
+		column: ' '
+			do: [ :column | 
+			column
+				rowStencil: [ :aRelation | self removeRelationButtonFor: aRelation ];
+				noResize ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
@@ -496,10 +507,28 @@ CardDeck >> removeCard: aCard [
 	self announcer announce: CardsUpdated new
 ]
 
+{ #category : #'gt-extensions' }
+CardDeck >> removeCardButtonFor: aCard [
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousVectorIcons remove;
+		label: 'Remove ', aCard name;
+		action: [ :button | aCard remove ]
+]
+
 { #category : #relations }
 CardDeck >> removeRelation: aRelation [
 	self relations remove: aRelation ifAbsent: [  ].
 	self announcer announce: RelationsUpdated new
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> removeRelationButtonFor: aRelation [
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousVectorIcons remove;
+		label: 'Remove ', aRelation asString;
+		action: [ :button | aRelation remove ]
 ]
 
 { #category : #cards }

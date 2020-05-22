@@ -214,9 +214,13 @@ CardModelEntity >> gtPropertiesFor: aView [
 			do: [ :column | 
 			"Dummy column to enable easy clicking to next pane"
 			column
-				rowStencil: [ 
-					BlTextElement new text: '' asRopedText  ];
+				rowStencil: [ BlTextElement new text: '' asRopedText ];
 				matchParent ];
+		column: ' '
+			do: [ :column | 
+			column
+				rowStencil: [ :assoc | self removePropertyButtonFor: assoc ];
+				noResize ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
@@ -315,6 +319,28 @@ CardModelEntity >> refreshButtonFor: aTab [
 		icon: BrGlamorousVectorIcons refresh;
 		label: 'Refresh';
 		action: [ aTab viewContentElement phlow update ]
+]
+
+{ #category : #'gt-extensions' }
+CardModelEntity >> removePropertyButtonFor: anAssociation [
+	<todo: 'implement delete property'>
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousVectorIcons remove;
+		label: 'Remove ', anAssociation key;
+		action: [ :button | self removePropertyWithKey: anAssociation key  ]
+]
+
+{ #category : #properties }
+CardModelEntity >> removePropertyWithKey: aKey [
+	self
+		assert: (self properties includesKey: aKey)
+		description: 'key of property to remove must exist'.
+	self
+		assert: (self protectedKeys includes: aKey) not
+		description: 'cannot remove a property with a protected key'.
+	self properties removeKey: aKey.
+	self announcer announce: PropertiesUpdated new
 ]
 
 { #category : #properties }
