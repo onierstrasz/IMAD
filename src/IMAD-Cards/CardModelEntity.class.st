@@ -41,9 +41,42 @@ CardModelEntity >> defaultValue [
 ]
 
 { #category : #properties }
+
+CardModelEntity >> freshKey [
+	| index key |
+	index := self properties size.
+	key := 'key' , index asString.
+	[ self properties includesKey: key ]
+		whileTrue: [ index := index + 1.
+			key := 'key' , index asString ].
+	^ key
+]
+
+{ #category : #properties }
+
 CardModelEntity >> get: propertyKey [
 	self assert: (properties includesKey: propertyKey) description: 'key to lookup must exist'.
 	^ properties at: propertyKey ifAbsent: nil
+]
+
+
+{ #category : #comparing }
+CardModelEntity >> hash [
+	^ self name hash
+]
+
+{ #category : #'ui requests' }
+CardModelEntity >> inform: aString [
+	"NB: just a placeholder for a real gt version of #inform:"
+
+	<todo: 'Build a better implementation of #inform:'>
+	| aSpace |
+	aSpace := BlSpace new.
+	aSpace title: aString.
+	aSpace extent: 500 @ 50.
+	aSpace addChild: (BlTextElement new text: aString asRopedText).
+	aSpace withHalos.
+	aSpace show
 ]
 
 { #category : #initialization }

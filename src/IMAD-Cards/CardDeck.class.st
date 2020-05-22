@@ -200,6 +200,11 @@ CardDeck >> classNamed: aClassName [
 	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
 ]
 
+{ #category : #utilities }
+CardDeck >> classNamed: aClassName [
+	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
+]
+
 { #category : #'gt-extensions' }
 CardDeck >> coderForPhlow: aPhlow [
 	| coder |

@@ -1,10 +1,11 @@
 "
-I serve as a common superclass for shared behaviour of Card model entities with a name and a description.
 
+I serve as a common superclass for shared behaviour of Card model entities with a name and a description.
 "
 Class {
 	#name : #CardModelNamedEntity,
 	#superclass : #CardModelEntity,
+
 	#instVars : [
 		'name',
 		'description'
@@ -106,11 +107,14 @@ CardModelNamedEntity >> createClassNamed: aClass subclassOf: aSuperclass inPacka
 { #category : #accessing }
 CardModelNamedEntity >> description [
 	^ description
+
 ]
 
 { #category : #accessing }
 CardModelNamedEntity >> description: aString [
 	description := aString
+	self set: #description to: aString
+
 ]
 
 { #category : #'gt-extensions' }
