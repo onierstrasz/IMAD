@@ -492,12 +492,14 @@ CardDeck >> relationsMatching: aFilter [
 { #category : #cards }
 CardDeck >> removeCard: aCard [
 	aCard removeRelations.
-	self cards remove: aCard ifAbsent: [  ]
+	self cards remove: aCard ifAbsent: [  ].
+	self announcer announce: CardsUpdated new
 ]
 
 { #category : #relations }
 CardDeck >> removeRelation: aRelation [
-	self relations remove: aRelation ifAbsent: [  ]
+	self relations remove: aRelation ifAbsent: [  ].
+	self announcer announce: RelationsUpdated new
 ]
 
 { #category : #cards }
