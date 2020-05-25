@@ -2,6 +2,8 @@
 I represent a named relationship from one card (the source) to another (the target).
 I support filtering operations to retrieve relations.
 
+NB: my name is a symbol rather than a string.
+
 "
 Class {
 	#name : #CardRelation,

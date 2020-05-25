@@ -1,5 +1,5 @@
 "
-I serve as a common superclass for named entities (Cards and Card Decks)
+I serve as a common superclass for entities with a name and a description (Cards and Card Decks)
 "
 Class {
 	#name : #CardModelNamedEntity,
@@ -195,8 +195,8 @@ CardModelNamedEntity >> hash [
 { #category : #initialization }
 CardModelNamedEntity >> initialize [
 	super initialize.
-	self name: self freshName.
-	self description: self defaultDescription
+	name := self freshName.
+	description := self defaultDescription
 ]
 
 { #category : #accessing }
