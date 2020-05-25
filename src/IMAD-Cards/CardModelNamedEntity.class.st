@@ -4,8 +4,19 @@ I serve as a common superclass for named entities (Cards and Card Decks)
 Class {
 	#name : #CardModelNamedEntity,
 	#superclass : #CardModelEntity,
+	#instVars : [
+		'name',
+		'description'
+	],
 	#category : #'IMAD-Cards-Model'
 }
+
+{ #category : #comparing }
+CardModelNamedEntity >> = anObject [
+	^ super = anObject
+		and: [ self name = anObject name
+				and: [ self description = anObject description ] ]
+]
 
 { #category : #initialization }
 CardModelNamedEntity >> assertInvariant [
@@ -73,13 +84,12 @@ CardModelNamedEntity >> buildLabel [
 
 { #category : #accessing }
 CardModelNamedEntity >> description [
-	^ self get: #description
+	^ description
 ]
 
 { #category : #accessing }
 CardModelNamedEntity >> description: aString [
-	self set: #description to: aString
-
+	description := aString
 ]
 
 { #category : #'gt-extensions' }
@@ -177,6 +187,11 @@ CardModelNamedEntity >> gtStoreStringFor: aView [
 		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
+{ #category : #comparing }
+CardModelNamedEntity >> hash [
+	^ super hash bitXor: self name hash
+]
+
 { #category : #initialization }
 CardModelNamedEntity >> initialize [
 	super initialize.
@@ -186,13 +201,12 @@ CardModelNamedEntity >> initialize [
 
 { #category : #accessing }
 CardModelNamedEntity >> name [
-	^ self get: #name
+	^ name
 ]
 
 { #category : #accessing }
 CardModelNamedEntity >> name: aString [
-	self set: #name to: aString
-
+	name := aString
 ]
 
 { #category : #'gt-extensions' }
@@ -240,4 +254,17 @@ CardModelNamedEntity >> removePropertyButtonFor: anAssociation [
 		icon: BrGlamorousVectorIcons remove;
 		label: 'Remove ', anAssociation key;
 		action: [ :button | self removePropertyWithKey: anAssociation key  ]
+]
+
+{ #category : #printing }
+CardModelNamedEntity >> storeNameAndDescriptionOn: aStream [
+	aStream
+		nextPutAll: '  name: ';
+		print: self name;
+		nextPutAll: ';';
+		cr;
+		nextPutAll: '  description: ';
+		print: self description;
+		nextPutAll: ';';
+		cr
 ]

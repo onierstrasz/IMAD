@@ -605,6 +605,7 @@ CardDeck >> storeOn: aStream [
 	aStream
 		nextPutAll: 'CardDeck new';
 		cr.
+	self storeNameAndDescriptionOn: aStream.
 	self storePropertiesOn: aStream.
 	self storeCardsOn: aStream.
 	self storeRelationsOn: aStream.

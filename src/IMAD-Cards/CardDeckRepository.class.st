@@ -8,14 +8,19 @@ Class {
 CardDeckRepository >> garageDoorRemote [
 	<gtExample>
 	^ CardDeck new
+		name: #CardDeck1008278528;
+		description: 'To do';
 		set: #storageClassName to: 'CardDeckRepository';
 		set: #name to: 'Garage Door Remote';
 		set: #description
-			to: '(State machine example from EI Computational Thinking lecture.)
+			to:
+			'(State machine example from EI Computational Thinking lecture.)
 ';
 		set: #storageMethodName to: 'garageDoorRemote';
 		addCard:
 			(Card new
+				name: #Card345367040;
+				description: 'To do';
 				set: #name to: 'Garage Door';
 				set: #description
 					to:

@@ -2,7 +2,8 @@
 I am a holder of information about a domain concept in a domain model.
 I provide a UI to enter, edit and manipulate this information.
 
-I have a title, a description, and other properties.
+I have a name, a description, and other properties.
+My name is unique within a Card Deck.
 
 NB: properties should just hold (flat?) values, so the deck of a card should not be modeled as a property.
 
@@ -136,9 +137,9 @@ Card >> storeOn: aStream [
 	aStream
 		nextPutAll: 'Card new';
 		cr.
+	self storeNameAndDescriptionOn: aStream.
 	self storePropertiesOn: aStream.
-	aStream
-		nextPutAll: '  yourself'
+	aStream nextPutAll: '  yourself'
 ]
 
 { #category : #querying }

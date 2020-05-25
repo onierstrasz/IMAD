@@ -64,7 +64,7 @@ CardModelEntity >> get: propertyKey [
 
 { #category : #comparing }
 CardModelEntity >> hash [
-	^ self name hash
+	^ super hash bitXor: self properties hash
 ]
 
 { #category : #'ui requests' }
