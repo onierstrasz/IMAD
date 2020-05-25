@@ -516,6 +516,16 @@ CardDeck >> relationsMatching: aFilter [
 ]
 
 { #category : #cards }
+CardDeck >> removeAllCardsAndRelations [
+	self cards do: [ :each | each deck: nil ].
+	cards := OrderedCollection new.
+	self relations do: [ :each | each deck: nil ].
+	relations := OrderedCollection new.
+	self announcer announce: CardsUpdated new.
+	self announcer announce: RelationsUpdated new
+]
+
+{ #category : #cards }
 CardDeck >> removeCard: aCard [
 	aCard removeRelations.
 	self cards remove: aCard ifAbsent: [  ].

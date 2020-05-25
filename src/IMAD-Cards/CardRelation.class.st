@@ -68,8 +68,7 @@ CardRelation >> deck [
 
 { #category : #accessing }
 CardRelation >> deck: aCardDeck [
-	deck := aCardDeck.
-	self assertInvariant
+	deck := aCardDeck
 ]
 
 { #category : #accessing }
@@ -128,7 +127,8 @@ CardRelation >> printOn: aStream [
 
 { #category : #removing }
 CardRelation >> remove [
-	self deck removeRelation: self
+	self deck removeRelation: self.
+	self deck: nil
 ]
 
 { #category : #accessing }

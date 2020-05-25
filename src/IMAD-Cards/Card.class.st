@@ -51,8 +51,7 @@ Card >> deck [
 
 { #category : #accessing }
 Card >> deck: aCardDeck [
-	deck := aCardDeck.
-	self assertInvariant
+	deck := aCardDeck
 ]
 
 { #category : #querying }
@@ -105,7 +104,8 @@ Card >> relations [
 
 { #category : #accessing }
 Card >> remove [
-	self deck removeCard: self
+	self deck removeCard: self.
+	self deck: nil
 ]
 
 { #category : #relations }
