@@ -49,5 +49,14 @@ Stopped (while closing).
 The door changes state when it receives a signal from the remote, or from a sensor.
 ';
 				yourself);
+		addCard:
+			(Card new
+				name: 'Remote Control';
+				description:
+					'The remote has a single button. Pressing it causes the door to change state, i.e., from closed to opening, etc.';
+				yourself);
+		addRelation: 'controls'
+			fromCardNamed: 'Remote Control'
+			toCardNamed: 'Garage Door';
 		yourself
 ]
