@@ -78,13 +78,13 @@ CardDeckTestExamples >> addPropertyAbcToDeck [
 { #category : #accessing }
 CardDeckTestExamples >> addTagsToCardOne [
 	<gtExample>
-	"Test compact interface to add cards"
 	| deck card |
 	deck := self addCardOneToDeck.
 	card := deck cardNamed: self cardOneName.
 	self assert: card tags isEmpty.
 	card addTag: 'm1'.
 	card addTag: 'testScenario'.
+	self assert: (card tags includes: 'm1').
 	self assert: card tags size equals: 2.
 	deck assertGeneratedDeckEqualsSelf.
 	^ deck
@@ -206,6 +206,19 @@ CardDeckTestExamples >> oneCardDeckEqualsOneCardDeck [
 ]
 
 { #category : #accessing }
+CardDeckTestExamples >> removeTagInCardOne [
+	<gtExample>
+	| deck card |
+	deck := self renameTagInCardOne.
+	card := deck cardNamed: self cardOneName.
+	card removeTagNamed: 'm2'.
+	self assert: (card tags includes: 'm2') not.
+	self assert: card tags size equals: 1.
+	deck assertGeneratedDeckEqualsSelf.
+	^ deck
+]
+
+{ #category : #accessing }
 CardDeckTestExamples >> renamePropertyAbcToAbcdInDeck [
 	<gtExample>
 	| deck oldKey newKey value |
@@ -219,6 +232,20 @@ CardDeckTestExamples >> renamePropertyAbcToAbcdInDeck [
 	self assert: (deck properties includesKey: oldKey) not.
 	self assert: (deck properties includesKey: newKey).
 	self assert: (deck get: newKey) equals: value.
+	^ deck
+]
+
+{ #category : #accessing }
+CardDeckTestExamples >> renameTagInCardOne [
+	<gtExample>
+	| deck card |
+	deck := self addTagsToCardOne.
+	card := deck cardNamed: self cardOneName.
+	card renameTagNamed: 'm1' to: 'm2'.
+	self assert: (card tags includes: 'm1') not.
+	self assert: (card tags includes: 'm2').
+	self assert: card tags size equals: 2.
+	deck assertGeneratedDeckEqualsSelf.
 	^ deck
 ]
 

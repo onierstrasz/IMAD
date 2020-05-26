@@ -69,6 +69,31 @@ Card >> become: relation of: aSourceCard [
 ]
 
 { #category : #accessing }
+Card >> buildHeader [
+	^ self buildTagHeader
+]
+
+{ #category : #accessing }
+Card >> buildTagHeader [
+	"See BrTagger>>#newGlamorousTagger"
+
+	<todo: 'remove and rename tags'>
+	^ BrTagger new
+		look: BrGlamorousTaggerEditableLook new;
+		namedTags: self tags;
+		when: BrTaggerAddTagRequest
+			do:
+				[ :aRequest | aRequest tag name ifNotEmpty: [ self addTag: aRequest tag name ] ];
+		when: BrTaggerRemoveTagRequest
+			do: [ :aRequest | self removeTagNamed: aRequest tag name ];
+		when: BrTaggerRenameTagRequest
+			do: [ :aRequest | 
+			aRequest newName trimmed
+				ifEmpty: [ self removeTagNamed: aRequest tag name ]
+				ifNotEmpty: [ :aNewName | self renameTagNamed: aRequest tag name to: aNewName ] ]
+]
+
+{ #category : #accessing }
 Card >> deck [
 	^ deck
 ]
@@ -149,6 +174,23 @@ Card >> remove [
 { #category : #relations }
 Card >> removeRelations [
 	self relations do: [ :each | each remove ]
+]
+
+{ #category : #accessing }
+Card >> removeTagNamed: aTagString [
+	(tags includes: aTagString)
+		ifFalse: [ ^ self ].
+	tags remove: aTagString.
+	self announcer announce: PropertiesUpdated new
+]
+
+{ #category : #accessing }
+Card >> renameTagNamed: aTagString to: aNewTagString [
+	(tags includes: aTagString)
+		ifFalse: [ ^ self ].
+	tags remove: aTagString.
+	tags add: aNewTagString.
+	self announcer announce: PropertiesUpdated new
 ]
 
 { #category : #properties }

@@ -47,6 +47,7 @@ CardModelNamedEntity >> buildDescriptionPane [
 			c horizontal matchParent.
 			c vertical fitContent ].
 	contentPane addChild: self buildLabel.
+	contentPane addChild: self buildHeader.
 	gtDoc := GtDocument new.
 	gtDoc text: self description.
 	aSaveButton := BrButton new.
@@ -66,6 +67,15 @@ CardModelNamedEntity >> buildDescriptionPane [
 	contentPane addChild: gtDoc asElementWithoutSaveAction vFitContent.
 	contentPane addChild: aSaveButton.
 	^ contentPane
+]
+
+{ #category : #accessing }
+CardModelNamedEntity >> buildHeader [
+	"A placeholder for subclasses to add something."
+	^ BlElement new
+		height: 0;
+		visibility: BlVisibility hidden;
+		yourself
 ]
 
 { #category : #'gt-extensions' }
