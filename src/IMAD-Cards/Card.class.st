@@ -99,6 +99,7 @@ Card >> isA: relSymbol [
 
 { #category : #accessing }
 Card >> name: aString [
+	self assertUniqueName: aString.
 	super name: aString.
 	self announceUpdate
 ]
@@ -134,8 +135,6 @@ Card >> removeRelations [
 
 { #category : #properties }
 Card >> set: propertyKey to: aValue [
-	propertyKey = 'name'
-		ifTrue: [ self assertUniqueName: aValue ].
 	super set: propertyKey to: aValue.
 	self announceUpdate
 ]
