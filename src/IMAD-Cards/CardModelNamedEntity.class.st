@@ -144,11 +144,6 @@ CardModelNamedEntity >> gtInspectorWindowFor: anAction [
 
 { #category : #'gt-extensions' }
 CardModelNamedEntity >> gtPropertiesFor: aView [
-	"NB: refresh is broken due to a bug in GtPhlowColumnedListView>>#updateContent:.
-	Patch as follows:
-	(GtPhlowColumnedListView>>#updateContent:) removeFromSystem
-	"
-
 	<gtView>
 	^ aView columnedList
 		title: 'Properties';

@@ -76,6 +76,22 @@ CardDeckTestExamples >> addPropertyAbcToDeck [
 ]
 
 { #category : #accessing }
+CardDeckTestExamples >> addTagsToCardOne [
+	<gtExample>
+	"Test compact interface to add cards"
+	| deck card |
+	deck := self addCardOneToDeck.
+	card := deck cardNamed: self cardOneName.
+	self assert: card tags isEmpty.
+	card addTag: 'm1'.
+	card addTag: 'testScenario'.
+	self assert: card tags size equals: 2.
+	deck assertGeneratedDeckEqualsSelf.
+	^ deck
+	
+]
+
+{ #category : #accessing }
 CardDeckTestExamples >> cardOneName [
 	^ 'Card1'
 ]
@@ -258,13 +274,10 @@ CardDeckTestExamples >> twoConnectedCardDeckEqualsStoreStringDeck [
 	"cf twoConnectedCardDeckEqualsGeneratedDeck"
 
 	<gtExample>
-	| deck1 deck2 |
-	deck1 := self connectTwoCards.
-	deck2 := OpalCompiler new
-		source: deck1 storeString;
-		evaluate.
-	self assert: deck1 equals: deck2.
-	^ deck1
+	| deck |
+	deck := self connectTwoCards.
+	deck assertGeneratedDeckEqualsSelf.
+	^ deck
 ]
 
 { #category : #accessing }

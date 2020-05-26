@@ -18,8 +18,8 @@ Class {
 { #category : #comparing }
 CardDeck >> = anObject [
 	^ super = anObject
-		and: [ self cards = anObject cards
-				and: [ self relations = anObject relations ] ]
+		and: [ self cards sort = anObject cards sort
+				and: [ self relations sort = anObject relations sort ] ]
 ]
 
 { #category : #cards }
@@ -93,11 +93,12 @@ CardDeck >> assertCardsUniquelyNamed [
 CardDeck >> assertGeneratedDeckEqualsSelf [
 	"If this happens, there is a bug in the code generation!"
 
+	| deck |
+	deck := OpalCompiler new
+		source: self storeString;
+		evaluate.
 	self
-		assert:
-			(OpalCompiler new
-				source: self storeString;
-				evaluate) = self
+		assert: deck = self
 		description: 'Fatal error: generated storeString is not equal to card deck'
 ]
 

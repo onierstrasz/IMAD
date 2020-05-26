@@ -13,10 +13,27 @@ Class {
 	#name : #Card,
 	#superclass : #CardModelNamedEntity,
 	#instVars : [
-		'deck'
+		'deck',
+		'tags'
 	],
 	#category : #'IMAD-Cards-Model'
 }
+
+{ #category : #accessing }
+Card >> <= aCard [
+	^ self name <= aCard name
+]
+
+{ #category : #accessing }
+Card >> = anObject [
+	^ super = anObject and: [ self tags = anObject tags ]
+]
+
+{ #category : #accessing }
+Card >> addTag: aString [
+	tags add: aString.
+	self announcer announce: PropertiesUpdated new
+]
 
 { #category : #accessing }
 Card >> announceUpdate [
@@ -78,6 +95,7 @@ Card >> hasA: relSymbol [
 { #category : #initialization }
 Card >> initialize [
 	super initialize.
+	tags := OrderedCollection new
 	"self assertInvariant"
 ]
 
@@ -154,9 +172,27 @@ Card >> storeOn: aStream [
 	aStream
 		nextPutAll: 'Card new';
 		cr.
-	self storeNameAndDescriptionOn: aStream.
-	self storePropertiesOn: aStream.
+	self
+		storeNameAndDescriptionOn: aStream;
+		storeTagsOn: aStream;
+		storePropertiesOn: aStream.
 	aStream nextPutAll: '  yourself'
+]
+
+{ #category : #accessing }
+Card >> storeTagsOn: aStream [
+	tags
+		associationsDo: [ :each | 
+			aStream
+				nextPutAll: '  addTag: ';
+				print: each;
+				nextPutAll: ';'.
+			aStream cr ]
+]
+
+{ #category : #accessing }
+Card >> tags [
+	^ tags
 ]
 
 { #category : #querying }
