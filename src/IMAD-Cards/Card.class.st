@@ -18,6 +18,12 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
+{ #category : #accessing }
+Card >> announceUpdate [
+	self deck ifNotNil: [ :d | d announcer announce: CardsUpdated new ]
+
+]
+
 { #category : #initialization }
 Card >> assertInvariant [
 	"NB: We can only assert the invariant after a card has been added to a deck.
@@ -55,6 +61,12 @@ Card >> deck: aCardDeck [
 	deck := aCardDeck
 ]
 
+{ #category : #accessing }
+Card >> description: aString [
+	super description: aString.
+	self announceUpdate
+]
+
 { #category : #querying }
 Card >> hasA: relSymbol [
 	^ (self deck relationsMatching:
@@ -83,6 +95,12 @@ Card >> isA: relSymbol [
 		(self relFilter: relSymbol)
 		& (self targetFilter)) isNotEmpty
 
+]
+
+{ #category : #accessing }
+Card >> name: aString [
+	super name: aString.
+	self announceUpdate
 ]
 
 { #category : #printing }
@@ -119,7 +137,7 @@ Card >> set: propertyKey to: aValue [
 	propertyKey = 'name'
 		ifTrue: [ self assertUniqueName: aValue ].
 	super set: propertyKey to: aValue.
-	self deck ifNotNil: [ :d | d announcer announce: CardsUpdated new ]
+	self announceUpdate
 ]
 
 { #category : #querying }

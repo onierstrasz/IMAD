@@ -14,9 +14,9 @@ CardDeckRepository >> garageDoorRemote [
 
 Entities are:
 - A Garage Door
-- A Sensor
-- A car
 - A remote control
+- A car
+- A Sensor
 
 A garage door can be in one of the following states:
 
