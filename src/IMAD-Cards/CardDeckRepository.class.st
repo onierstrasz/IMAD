@@ -51,10 +51,26 @@ The door changes state when it receives a signal from the remote, or from a sens
 				yourself);
 		addCard:
 			(Card new
+				name: 'Homer''s Garage Door';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Homer''s Remote';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
 				name: 'Remote Control';
 				description:
 					'The remote has a single button. Pressing it causes the door to change state, i.e., from closed to opening, etc.';
 				yourself);
+		addRelation: 'instanceOf'
+			fromCardNamed: 'Homer''s Garage Door'
+			toCardNamed: 'Garage Door';
+		addRelation: 'instanceOf'
+			fromCardNamed: 'Homer''s Remote'
+			toCardNamed: 'Remote Control';
 		addRelation: 'controls'
 			fromCardNamed: 'Remote Control'
 			toCardNamed: 'Garage Door';

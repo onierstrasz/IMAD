@@ -91,7 +91,8 @@ CardModelNamedEntity >> description [
 
 { #category : #accessing }
 CardModelNamedEntity >> description: aString [
-	description := aString
+	description := aString.
+	self announcer announce: PropertiesUpdated new
 ]
 
 { #category : #'gt-extensions' }
@@ -220,7 +221,8 @@ CardModelNamedEntity >> name [
 
 { #category : #accessing }
 CardModelNamedEntity >> name: aString [
-	name := aString
+	name := aString.
+	self announcer announce: PropertiesUpdated new
 ]
 
 { #category : #'gt-extensions' }
