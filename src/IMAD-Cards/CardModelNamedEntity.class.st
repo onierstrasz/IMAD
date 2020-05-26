@@ -129,6 +129,18 @@ CardModelNamedEntity >> gtDescriptionFor: aView [
 		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
+{ #category : #accessing }
+CardModelNamedEntity >> gtInspectorWindowFor: anAction [
+	<gtAction>
+	^ anAction button
+		icon: BrGlamorousVectorIcons inspect;
+		forViewDefinedIn: #gtDescriptionFor:;
+		priority: 50;
+		label: 'New inspector window';
+		action: [ :button | 
+			self inspect ]
+]
+
 { #category : #'gt-extensions' }
 CardModelNamedEntity >> gtPropertiesFor: aView [
 	"NB: refresh is broken due to a bug in GtPhlowColumnedListView>>#updateContent:.
