@@ -49,12 +49,14 @@ CardModelNamedEntity >> buildDescriptionPane [
 	contentPane addChild: self buildLabel.
 	gtDoc := GtDocument new.
 	gtDoc text: self description.
-	aSaveButton := BrButton new
+	aSaveButton := BrButton new.
+	aSaveButton
 		look: BrGlamorousButtonWithIconLook;
 		visibility: BlVisibility hidden;
 		icon: BrGlamorousVectorIcons accept;
 		label: 'Save';
-		action: [ self description: gtDoc text asString ].
+		action: [ self description: gtDoc text asString.
+			aSaveButton visibility: BlVisibility hidden ].
 	gtDoc editor
 		when: BrTextEditorModifiedEvent
 		do: [ :anEvent | 
