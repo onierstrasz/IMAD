@@ -307,22 +307,54 @@ CardDeck >> gtCardsFor: aView [
 		send: [ :aCard | aCard ]
 ]
 
-{ #category : #'gt-extensions' }
-CardDeck >> gtMondrianFor: aView [
-	<todo:
-		'
-		- button to add a card
-		- how to make the canvas equal to the space available?
-		- layout needs work
-		- how to label edges?
-		- how to react to mouse clicks? (on nodes, edges, or outside)
-		- hovering over nodes and edges?
-		- replace with pure Brick version?
-		'>
+{ #category : #accessing }
+CardDeck >> gtGraphFor: aView [
+	<todo: 'Build an interactive graph view of the Card Deck.
+	- add edges
+	- play with layouts
+	- make nodes individually draggable
+	- reduce sizes of nodes (cards)
+	- make text fit cards
+	'>
 	<gtView>
-	^ aView mondrian
+	^ aView explicit
 		title: 'Graph';
 		priority: 10;
+		stencil: [ | root |
+			root := BlElement new
+				constraintsDo: [ :c | 
+					c horizontal fitContent.
+					c vertical fitContent ].
+			self cards
+				do: [ :each | root addChild: (self cardElementFor: each) ].
+			root
+				layout:
+					(BlGridLayout new
+						columnCount: root children size sqrt asInteger;
+						cellSpacing: 2).
+			root asPannableElement ];
+		"painting: [ :m | 
+			m nodes
+				shape: [ :x | self cardElementFor: x ];
+				with: self cards.
+			m edges
+				shape: [ :edge | self directedCurvedEdge ];
+				fromNearestBounds;
+				toNearestBounds;
+				connectToAll: [ :x | x sourceRelations collect: #target ].
+			m layout tree ];"
+			actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		actionStencil: [ self addCardButton ];
+		updateWhen: RelationsUpdated in: [ self announcer ];
+		updateWhen: CardsUpdated in: [ self announcer ]
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> gtMondrianFor: aView [
+	<gtView>
+	^ aView mondrian
+		title: 'Mondrian';
+		priority: 15;
 		painting: [ :m | 
 			m nodes
 				shape: [ :x | self cardElementFor: x ];

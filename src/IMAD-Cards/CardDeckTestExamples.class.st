@@ -252,7 +252,6 @@ CardDeckTestExamples >> renameTagInCardOne [
 { #category : #accessing }
 CardDeckTestExamples >> threeCardCycleRemoved [
 	<gtExample>
-	<todo: 'How to remove a relation?'>
 	| deck a |
 	deck := self deckWithThreeCardCycle.
 	a := deck cardNamed: 'A'.

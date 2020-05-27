@@ -77,7 +77,6 @@ Card >> buildHeader [
 Card >> buildTagHeader [
 	"See BrTagger>>#newGlamorousTagger"
 
-	<todo: 'remove and rename tags'>
 	^ BrTagger new
 		look: BrGlamorousTaggerEditableLook new;
 		namedTags: self tags;

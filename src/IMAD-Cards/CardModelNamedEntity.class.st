@@ -269,7 +269,6 @@ CardModelNamedEntity >> refreshButtonFor: aTab [
 
 { #category : #'gt-extensions' }
 CardModelNamedEntity >> removePropertyButtonFor: anAssociation [
-	<todo: 'implement delete property'>
 	^ BrButton new
 		look: BrGlamorousButtonWithIconLook;
 		icon: BrGlamorousVectorIcons remove;

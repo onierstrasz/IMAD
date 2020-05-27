@@ -71,7 +71,6 @@ CardModelEntity >> hash [
 CardModelEntity >> inform: aString [
 	"NB: just a placeholder for a real gt version of #inform:"
 
-	<todo: 'Build a better implementation of #inform:'>
 	| aSpace |
 	aSpace := BlSpace new.
 	aSpace title: aString.
