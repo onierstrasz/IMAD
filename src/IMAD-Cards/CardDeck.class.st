@@ -309,41 +309,51 @@ CardDeck >> gtCardsFor: aView [
 
 { #category : #accessing }
 CardDeck >> gtGraphFor: aView [
-	<todo: 'Build an interactive graph view of the Card Deck.
+	<todo:
+		'Build an interactive graph view of the Card Deck.
 	- add edges
 	- play with layouts
-	- make nodes individually draggable
+	- make nodes individually draggable (each should be Pannable?)
 	- reduce sizes of nodes (cards)
 	- make text fit cards
+	- add zoom buttons (see GLMBlocMondrianPresentation>>#defaultActions)
 	'>
 	<gtView>
 	^ aView explicit
 		title: 'Graph';
 		priority: 10;
-		stencil: [ | root |
+		stencil: [ | root dict |
+			dict := Dictionary new.
 			root := BlElement new
 				constraintsDo: [ :c | 
 					c horizontal fitContent.
 					c vertical fitContent ].
 			self cards
-				do: [ :each | root addChild: (self cardElementFor: each) ].
+				do: [ :each | 
+					| elt |
+					elt := self cardElementFor: each.
+					elt graph beNode.
+					elt addEventHandler: BlPullHandler new.
+					dict at: each put: elt.
+					root addChild: elt ].
+			self cards
+				do: [ :source | 
+					source sourceRelations
+						do: [ :rel | 
+							| line |
+							(dict at: source) graph connectTo: (dict at: rel target).
+							line := BlLineElement new.
+							line constraints ignoreByLayout.
+							line
+								zIndex: -1;
+								border: (BlBorder paint: (Color gray alpha: 0.2) width: 5);
+								fromAnchor: (BlElementBottomCenterAnchor element: (dict at: source));
+								toAnchor: (BlElementTopCenterAnchor element: (dict at: rel target)).
+							root addChild: line ] ].
 			root
-				layout:
-					(BlGridLayout new
-						columnCount: root children size sqrt asInteger;
-						cellSpacing: 2).
+				layout: (BlOnceLayout new layout: GtGradVerticalTreeLayout new).
 			root asPannableElement ];
-		"painting: [ :m | 
-			m nodes
-				shape: [ :x | self cardElementFor: x ];
-				with: self cards.
-			m edges
-				shape: [ :edge | self directedCurvedEdge ];
-				fromNearestBounds;
-				toNearestBounds;
-				connectToAll: [ :x | x sourceRelations collect: #target ].
-			m layout tree ];"
-			actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		actionStencil: [ self addCardButton ];
 		updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ]
