@@ -159,7 +159,7 @@ CardDeck >> cardElementFor: aCard [
 		size: 60@40;
 		addChild:
 			(BlTextElement new
-				text: (aCard name asRopedText fontSize: 10);
+				text: (aCard name asRopedText fontSize: 6);
 				constraintsDo: [ :c | 
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter ];
