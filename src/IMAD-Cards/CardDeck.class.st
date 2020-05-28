@@ -351,7 +351,7 @@ CardDeck >> gtGraphFor: aView [
 								toAnchor: (BlElementTopCenterAnchor element: (dict at: rel target)).
 							root addChild: line ] ].
 			root
-				layout: (BlOnceLayout new layout: GtGradVerticalTreeLayout new).
+				layout: (BlFitOnceLayout new layout: GtGradVerticalTreeLayout new).
 			root asPannableElement ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		actionStencil: [ self addCardButton ];
