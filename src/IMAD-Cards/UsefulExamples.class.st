@@ -159,6 +159,63 @@ UsefulExamples >> findExamplesOfAClass [
 ]
 
 { #category : #accessing }
+UsefulExamples >> graphWithoutClipping [
+	"When you build a graph, with or without Mondrian, where nodes can eb dragged around, the bounding box is always smaller than the available space, so nodes are clipped when they are dragged outstide of this area.
+	This example should show how to fix this.
+	AC: From the top of my head all graph layouts are subclasses of BlFitLayout that sets the size of the element based on the position of the children (as computed by the layout). Every element also has a clipChildren property. In BlElement the clipping area is the same as the geometry of the element. To not have that behaviour the view could be placed in a parent that matches parent and uses clipChildren: false. It worked like that initially in mondrian, just we had some problems as clipping children can be a very expensive operation and don't have another solution at the moment (https://github.com/feenkcom/gtoolkit/issues/520)"
+
+	<todo: 'implement graph with draggable nodes but no clipping
+	- working mostly, but breaks if we drag the background
+	'>
+	<gtExample>
+	| root dict |
+	dict := Dictionary new.
+	root := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+		"constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ]."
+	{'A' . 'B' . 'C'}
+		do: [ :each | 
+			| elt |
+			elt := BlElement new
+				layout: BlFrameLayout new;
+				border: (BlBorder paint: Color black);
+				geometry: BlRectangle new;
+				size: 60 @ 40;
+				addChild:
+					(BlTextElement new
+						text: (each asRopedText fontSize: 12);
+						constraintsDo: [ :c | 
+							c frame horizontal alignCenter.
+							c frame vertical alignCenter ];
+						yourself);
+				yourself.
+			elt graph beNode.
+			elt addEventHandler: BlPullHandler new.
+			dict at: each put: elt.
+			root addChild: elt ].
+	{('A' -> 'B').
+	('A' -> 'C')}
+		do: [ :rel | 
+			| line |
+			(dict at: rel key) graph connectTo: (dict at: rel value).
+			line := BlLineElement new.
+			line constraints ignoreByLayout.
+			line
+				zIndex: -1;
+				border: (BlBorder paint: (Color gray alpha: 0.2) width: 5);
+				fromAnchor: (BlElementBottomCenterAnchor element: (dict at: rel key));
+				toAnchor: (BlElementTopCenterAnchor element: (dict at: rel value)).
+			root addChild: line ].
+	root layout: (BlOnceLayout new layout: GtGradVerticalTreeLayout new).
+	root clipChildren: false.
+	^ root asPannableElement
+]
+
+{ #category : #accessing }
 UsefulExamples >> gtToolsMenu [
 	<gtExample>
 	"See GtWorldElement>>#newSubSpaceButton and GtToolsMenu"
