@@ -165,8 +165,8 @@ UsefulExamples >> graphWithoutClipping [
 
 	<todo: 'works mostly, but breaks if we drag the background'>
 	<gtExample>
-	| root dict |
-	dict := Dictionary new.
+	| root elts |
+	elts := Dictionary new.
 	root := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -178,22 +178,24 @@ UsefulExamples >> graphWithoutClipping [
 			elt := self rectangleWithText: each.
 			elt graph beNode.
 			elt addEventHandler: BlPullHandler new.
-			dict at: each put: elt.
+			elts at: each put: elt.
 			root addChild: elt ].
 	{('A' -> 'B').
 	('A' -> 'C')}
 		do: [ :rel | 
-			| line |
-			(dict at: rel key) graph connectTo: (dict at: rel value).
-			line := BlLineElement new.
-			line constraints ignoreByLayout.
-			line
+			| source target line |
+			source := elts at: rel key.
+			target := elts at: rel value.
+			source graph connectTo: target.
+			line := BlLineElement new
 				zIndex: -1;
-				border: (BlBorder paint: (Color gray alpha: 0.2) width: 5);
-				fromAnchor: (BlElementBottomCenterAnchor element: (dict at: rel key));
-				toAnchor: (BlElementTopCenterAnchor element: (dict at: rel value)).
+				border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
+			line
+				fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: target from: source);
+				toAnchor: (BlNearestPositionBoundsAnchor nearestTo: source from: target).
 			root addChild: line ].
-	root layout: (BlOnceLayout new layout: GtGradVerticalTreeLayout new).
+	root layout:
+		(BlOnceLayout new layout: GtGradCircleLayout new).	"GtGradVerticalTreeLayout"
 	root clipChildren: false.
 	^ root asPannableElement
 ]
