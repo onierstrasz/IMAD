@@ -79,6 +79,35 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
+{ #category : #accessing }
+CardDeck >> addZoomButtonsFor: aView [
+	^ aView
+		actionStencil: [ :aTab | 
+			BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomin;
+				label: 'Zoom In';
+				action: [ self findPannableIn: aTab andDo: #zoomIn ] ];
+		actionStencil: [ :aTab | 
+			BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomout;
+				label: 'Zoom Out';
+				action: [ self findPannableIn: aTab andDo: #zoomOut ] ];
+		actionStencil: [ :aTab | 
+			BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomtofit;
+				label: 'Fit';
+				action: [ self findPannableIn: aTab andDo: #zoomToFit ] ];
+		actionStencil: [ :aTab | 
+			BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons actualsize;
+				label: 'Resize';
+				action: [ self findPannableIn: aTab andDo: #zoomToActualSize ] ]
+]
+
 { #category : #initialization }
 CardDeck >> assertCardsUniquelyNamed [
 	| duplicates |
@@ -261,6 +290,13 @@ CardDeck >> dropDownElement [
 			c horizontal exact: 400 ]
 ]
 
+{ #category : #accessing }
+CardDeck >> findPannableIn: aTab andDo: aValueBlock [
+	^ aTab viewContentElement
+		allChildrenBreadthFirstDetect: [ :each | each isKindOf: BlPannableElement ]
+		ifFound: [ :pannable | aValueBlock value: pannable ]
+]
+
 { #category : #printing }
 CardDeck >> generateStorageMethodString [
 	| stream |
@@ -316,8 +352,8 @@ CardDeck >> gtGraphFor: aView [
 		- try force based layout
 	'>
 	<gtView>
-	| aPannable |
-	^ aView explicit
+	| view |
+	view := aView explicit
 		title: 'Graph';
 		priority: 10;
 		stencil: [ | elts root |
@@ -352,36 +388,18 @@ CardDeck >> gtGraphFor: aView [
 							root addChild: line ] ].
 			root layout: (BlOnceLayout new layout: GtGradCircleLayout new).
 			root clipChildren: false.
-			aPannable := root asPannableElement .
-			aPannable];
+			root asPannableElement ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		actionStencil: [ self addCardButton ];
-		actionStencil: [ 
-			BrButton new 
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousIcons zoomin asElement;
-				label: 'Zoom In' asRopedText;
-				action: [ aPannable zoomIn ] ];
-		actionStencil: [ 
-			BrButton new 
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousIcons zoomout asElement;
-				label: 'Zoom Out' asRopedText;
-				action: [ aPannable zoomOut ] ];
-		actionStencil: [ 
-			BrButton new 
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousIcons zoomtofit asElement;
-				label: 'Fit' asRopedText;
-				action: [ aPannable zoomToFit ] ];
-		actionStencil: [ 
+		actionStencil: [ :aTab | 
 			BrButton new
 				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousIcons actualsize asElement;
-				label: 'Resize' asRopedText;
-				action: [ aPannable zoomToActualSize ] ];
+				icon: BrGlamorousIcons inspect asElement;
+				label: 'Inspect tab' asRopedText;
+				action: [ aTab inspect ] ];
 		updateWhen: RelationsUpdated in: [ self announcer ];
-		updateWhen: CardsUpdated in: [ self announcer ]
+		updateWhen: CardsUpdated in: [ self announcer ].
+	^ self addZoomButtonsFor: view
 ]
 
 { #category : #'gt-extensions' }
