@@ -156,10 +156,10 @@ CardDeck >> cardElementFor: aCard [
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
 		geometry: BlRectangle  new;
-		size: 60@40;
+		size: 120@80;
 		addChild:
 			(BlTextElement new
-				text: (aCard name asRopedText fontSize: 6);
+				text: (aCard name asRopedText fontSize: 12);
 				constraintsDo: [ :c | 
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter ];
@@ -311,47 +311,46 @@ CardDeck >> gtCardsFor: aView [
 CardDeck >> gtGraphFor: aView [
 	<todo:
 		'Build an interactive graph view of the Card Deck.
-	- add edges
-	- play with layouts
-	- make nodes individually draggable (each should be Pannable?)
-	- reduce sizes of nodes (cards)
-	- make text fit cards
+	- make edges into arrows
 	- add zoom buttons (see GLMBlocMondrianPresentation>>#defaultActions)
+	- try force based layout
 	'>
 	<gtView>
 	^ aView explicit
 		title: 'Graph';
 		priority: 10;
-		stencil: [ | root dict |
-			dict := Dictionary new.
+		stencil: [ | root elts |
+			elts := Dictionary new.
 			root := BlElement new
 				constraintsDo: [ :c | 
-					c horizontal fitContent.
-					c vertical fitContent ].
+					c horizontal matchParent.
+					c vertical matchParent ].
 			self cards
 				do: [ :each | 
 					| elt |
 					elt := self cardElementFor: each.
 					elt graph beNode.
 					elt addEventHandler: BlPullHandler new.
-					dict at: each put: elt.
+					elts at: each put: elt.
 					root addChild: elt ].
 			self cards
 				do: [ :source | 
 					source sourceRelations
 						do: [ :rel | 
-							| line |
-							(dict at: source) graph connectTo: (dict at: rel target).
+							| sourceElt targetElt line |
+							sourceElt := elts at: source.
+							targetElt := elts at: rel target.
+							sourceElt graph connectTo: targetElt.
 							line := BlLineElement new.
-							line constraints ignoreByLayout.
 							line
 								zIndex: -1;
-								border: (BlBorder paint: (Color gray alpha: 0.2) width: 5);
-								fromAnchor: (BlElementBottomCenterAnchor element: (dict at: source));
-								toAnchor: (BlElementTopCenterAnchor element: (dict at: rel target)).
+								border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
+							line
+								fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
+								toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
 							root addChild: line ] ].
-			root
-				layout: (BlFitOnceLayout new layout: GtGradVerticalTreeLayout new).
+			root layout: (BlOnceLayout new layout: GtGradCircleLayout new).
+			root clipChildren: false.
 			root asPannableElement ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		actionStencil: [ self addCardButton ];
