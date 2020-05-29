@@ -180,6 +180,43 @@ CardDeck >> assertValidStorageMethod [
 ]
 
 { #category : #'gt-extensions' }
+CardDeck >> buildGraph [
+	| elts root |
+	elts := Dictionary new.
+	root := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	self cards
+		do: [ :each | 
+			| elt |
+			elt := self cardElementFor: each.
+			elt graph beNode.
+			elt addEventHandler: BlPullHandler new.
+			elts at: each put: elt.
+			root addChild: elt ].
+	self cards
+		do: [ :source | 
+			source sourceRelations
+				do: [ :rel | 
+					| sourceElt targetElt line |
+					sourceElt := elts at: source.
+					targetElt := elts at: rel target.
+					sourceElt graph connectTo: targetElt.
+					line := BlLineElement new.
+					line
+						zIndex: -1;
+						border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
+					line
+						fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
+						toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
+					root addChild: line ] ].
+	root layout: (BlOnceLayout new layout: GtGradCircleLayout new).
+	root clipChildren: false.
+	^ root asPannableElement
+]
+
+{ #category : #'gt-extensions' }
 CardDeck >> cardElementFor: aCard [
 	^ BlElement new
 		layout: BlFrameLayout new;
@@ -356,47 +393,9 @@ CardDeck >> gtGraphFor: aView [
 	view := aView explicit
 		title: 'Graph';
 		priority: 10;
-		stencil: [ | elts root |
-			elts := Dictionary new.
-			root := BlElement new
-				constraintsDo: [ :c | 
-					c horizontal matchParent.
-					c vertical matchParent ].
-			self cards
-				do: [ :each | 
-					| elt |
-					elt := self cardElementFor: each.
-					elt graph beNode.
-					elt addEventHandler: BlPullHandler new.
-					elts at: each put: elt.
-					root addChild: elt ].
-			self cards
-				do: [ :source | 
-					source sourceRelations
-						do: [ :rel | 
-							| sourceElt targetElt line |
-							sourceElt := elts at: source.
-							targetElt := elts at: rel target.
-							sourceElt graph connectTo: targetElt.
-							line := BlLineElement new.
-							line
-								zIndex: -1;
-								border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
-							line
-								fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
-								toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
-							root addChild: line ] ].
-			root layout: (BlOnceLayout new layout: GtGradCircleLayout new).
-			root clipChildren: false.
-			root asPannableElement ];
+		stencil: [ self buildGraph ];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		actionStencil: [ self addCardButton ];
-		actionStencil: [ :aTab | 
-			BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousIcons inspect asElement;
-				label: 'Inspect tab' asRopedText;
-				action: [ aTab inspect ] ];
 		updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ].
 	^ self addZoomButtonsFor: view
