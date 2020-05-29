@@ -311,15 +311,16 @@ CardDeck >> gtCardsFor: aView [
 CardDeck >> gtGraphFor: aView [
 	<todo:
 		'Build an interactive graph view of the Card Deck.
-	- make edges into arrows
-	- add zoom buttons (see GLMBlocMondrianPresentation>>#defaultActions)
-	- try force based layout
+		- refactor to helper methods
+		- make edges into arrows
+		- try force based layout
 	'>
 	<gtView>
+	| aPannable |
 	^ aView explicit
 		title: 'Graph';
 		priority: 10;
-		stencil: [ | root elts |
+		stencil: [ | elts root |
 			elts := Dictionary new.
 			root := BlElement new
 				constraintsDo: [ :c | 
@@ -351,9 +352,34 @@ CardDeck >> gtGraphFor: aView [
 							root addChild: line ] ].
 			root layout: (BlOnceLayout new layout: GtGradCircleLayout new).
 			root clipChildren: false.
-			root asPannableElement ];
+			aPannable := root asPannableElement .
+			aPannable];
 		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
 		actionStencil: [ self addCardButton ];
+		actionStencil: [ 
+			BrButton new 
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomin asElement;
+				label: 'Zoom In' asRopedText;
+				action: [ aPannable zoomIn ] ];
+		actionStencil: [ 
+			BrButton new 
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomout asElement;
+				label: 'Zoom Out' asRopedText;
+				action: [ aPannable zoomOut ] ];
+		actionStencil: [ 
+			BrButton new 
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomtofit asElement;
+				label: 'Fit' asRopedText;
+				action: [ aPannable zoomToFit ] ];
+		actionStencil: [ 
+			BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons actualsize asElement;
+				label: 'Resize' asRopedText;
+				action: [ aPannable zoomToActualSize ] ];
 		updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ]
 ]
