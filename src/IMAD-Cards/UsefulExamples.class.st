@@ -125,7 +125,7 @@ UsefulExamples >> buttonWithActions [
 UsefulExamples >> coderHeaderElementForClass [
 	<gtExample>
 	"Example of new UI prototype for classes"
-	GtClassCoderHeaderElementExamples new coderHeaderElementForClass
+	^ GtClassCoderHeaderElementExamples new coderHeaderElementForClass
 ]
 
 { #category : #accessing }
@@ -160,13 +160,10 @@ UsefulExamples >> findExamplesOfAClass [
 
 { #category : #accessing }
 UsefulExamples >> graphWithoutClipping [
-	"When you build a graph, with or without Mondrian, where nodes can eb dragged around, the bounding box is always smaller than the available space, so nodes are clipped when they are dragged outstide of this area.
-	This example should show how to fix this.
-	AC: From the top of my head all graph layouts are subclasses of BlFitLayout that sets the size of the element based on the position of the children (as computed by the layout). Every element also has a clipChildren property. In BlElement the clipping area is the same as the geometry of the element. To not have that behaviour the view could be placed in a parent that matches parent and uses clipChildren: false. It worked like that initially in mondrian, just we had some problems as clipping children can be a very expensive operation and don't have another solution at the moment (https://github.com/feenkcom/gtoolkit/issues/520)"
+	"Shows how to have a graph with draggable nodes that can use the full available area instead of a clipped area.
+	AC: Every element has a clipChildren property. In BlElement the clipping area is the same as the geometry of the element. To not have that behaviour the view could be placed in a parent that matches parent and uses clipChildren: false. It worked like that initially in mondrian, but we had some problems as clipping children can be a very expensive operation (https://github.com/feenkcom/gtoolkit/issues/520)"
 
-	<todo: 'implement graph with draggable nodes but no clipping
-	- working mostly, but breaks if we drag the background
-	'>
+	<todo: 'works mostly, but breaks if we drag the background'>
 	<gtExample>
 	| root dict |
 	dict := Dictionary new.
@@ -174,25 +171,11 @@ UsefulExamples >> graphWithoutClipping [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ].
-		"constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ]."
+	"Using fitContent instead of matchParent will zoom the graph to maximum size."
 	{'A' . 'B' . 'C'}
 		do: [ :each | 
 			| elt |
-			elt := BlElement new
-				layout: BlFrameLayout new;
-				border: (BlBorder paint: Color black);
-				geometry: BlRectangle new;
-				size: 60 @ 40;
-				addChild:
-					(BlTextElement new
-						text: (each asRopedText fontSize: 12);
-						constraintsDo: [ :c | 
-							c frame horizontal alignCenter.
-							c frame vertical alignCenter ];
-						yourself);
-				yourself.
+			elt := self rectangleWithText: each.
 			elt graph beNode.
 			elt addEventHandler: BlPullHandler new.
 			dict at: each put: elt.
@@ -349,6 +332,29 @@ UsefulExamples >> paneWithTabs [
 	contentPane addChild: label.
 	contentPane addChild: self buildDifferentKindsOfTabs.
 	^ contentPane
+]
+
+{ #category : #accessing }
+UsefulExamples >> rectangleWithText [
+	<gtExample>
+	^ self rectangleWithText: 'woohoo'
+]
+
+{ #category : #accessing }
+UsefulExamples >> rectangleWithText: aString [
+	^ BlElement new
+		layout: BlFrameLayout new;
+		border: (BlBorder paint: Color black);
+		geometry: BlRectangle new;
+		size: 60 @ 40;
+		addChild:
+			(BlTextElement new
+				text: (aString asRopedText fontSize: 12);
+				constraintsDo: [ :c | 
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ];
+				yourself);
+		yourself
 ]
 
 { #category : #accessing }
