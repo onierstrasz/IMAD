@@ -47,7 +47,6 @@ How to load IMAD:
 
 PharoLightTheme beCurrent.
 Metacello new baseline: ''IMAD''; repository: ''github://onierstrasz/IMAD/src''; load.
-(''../patches/GtPhlowDropdownAction-newButtonLook.st'' asFileReference) fileIn.
 Smalltalk saveAs: ''IMAD.1''.
 
 Some decks to load:
@@ -58,11 +57,6 @@ IMAD new imadDesignCardDeck.
 ';
 		set: #storageClassName to: 'IMAD';
 		set: #storageMethodName to: 'imadDesignCardDeck';
-		addCard:
-			(Card new
-				name: 'Long term to-dos';
-				description: 'To do';
-				yourself);
 		addCard:
 			(Card new
 				name: 'Short term to-dos';

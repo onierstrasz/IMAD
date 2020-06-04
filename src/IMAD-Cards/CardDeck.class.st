@@ -479,6 +479,15 @@ CardDeck >> gtSaveActionFor: anAction [
 				ifTrue: [ self coderForPhlow: button phlow ] ]
 ]
 
+{ #category : #accessing }
+CardDeck >> gtSaveGraphActionFor: anAction [
+	"Copy save action to main tab as well"
+
+	<gtAction>
+	^ (self gtSaveActionFor: anAction)
+		forViewDefinedIn: #gtGraphFor:
+]
+
 { #category : #'gt-extensions' }
 CardDeck >> gtSaveMainActionFor: anAction [
 	"Copy save action to main tab as well"
