@@ -94,9 +94,7 @@ IMAD new imadDesignCardDeck.
 - instead of typing tags, select from available tags?
 
 - look at GtHome
-
-- Check out new tooltip API
-    - https://github.com/feenkcom/gtoolkit/issues/1036';
+';
 				yourself);
 		yourself
 ]

@@ -147,7 +147,7 @@ CardModelNamedEntity >> gtInspectorWindowFor: anAction [
 		icon: BrGlamorousVectorIcons inspect;
 		forViewDefinedIn: #gtDescriptionFor:;
 		priority: 50;
-		label: 'New inspector window';
+		tooltip: 'New inspector window';
 		action: [ :button | 
 			self inspect ]
 ]

@@ -462,7 +462,7 @@ CardDeck >> gtSaveActionFor: anAction [
 		icon: BrGlamorousIcons save;
 		forViewDefinedIn: #gtStoreStringFor:;
 		priority: 1;
-		label: 'Save to method ' , self storageClassMethod;
+		tooltip: 'Save to method ' , self storageClassMethod;
 		content: [ :button | 
 			| next |
 			next := self dropDownElement.
