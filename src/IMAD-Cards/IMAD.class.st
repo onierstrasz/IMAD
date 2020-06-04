@@ -64,7 +64,7 @@ IMAD new imadDesignCardDeck.
 					'
 - factor out graphWithoutClipping example
     - how to make node view a gtExample with an argument?
-
+- add save button to Card view 
 - create new Graph view
     - create pure Brick version
     - tags for subviews
@@ -73,7 +73,6 @@ IMAD new imadDesignCardDeck.
     - button to select layouts
         - force-based layout
     - interactively create/delete cards and links
-
 - expand Garage door example
     - states are also cards?
 
