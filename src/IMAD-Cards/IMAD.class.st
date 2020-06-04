@@ -67,9 +67,7 @@ IMAD new imadDesignCardDeck.
 			(Card new
 				name: 'Short term to-dos';
 				description:
-					'- Graph view is broken!
-	- does not work for empty deck
-
+					'
 - factor out graphWithoutClipping example
     - how to make node view a gtExample with an argument?
 

@@ -159,31 +159,36 @@ CardDeck >> buildGraph [
 			c horizontal matchParent.
 			c vertical matchParent ].
 	self cards
-		do: [ :each | 
-			| elt |
-			elt := self cardElementFor: each.
-			elt graph beNode.
-			elt addEventHandler: BlPullHandler new.
-			elts at: each put: elt.
-			root addChild: elt ].
-	self cards
-		do: [ :source | 
-			source sourceRelations
-				do: [ :rel | 
-					| sourceElt targetElt line |
-					sourceElt := elts at: source.
-					targetElt := elts at: rel target.
-					sourceElt graph connectTo: targetElt.
-					line := BlLineElement new.
-					line
-						zIndex: -1;
-						border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
-					line
-						fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
-						toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
-					root addChild: line ] ].
-	root layout: (BlOnceLayout new layout: GtGradCircleLayout new).
-	root clipChildren: false.
+		ifNotEmpty: [ self cards
+				do: [ :each | 
+					| elt |
+					elt := self cardElementFor: each.
+					elt graph beNode.
+					elt addEventHandler: BlPullHandler new.
+					elts at: each put: elt.
+					root addChild: elt ].
+			self cards
+				do: [ :source | 
+					source sourceRelations
+						do: [ :rel | 
+							| sourceElt targetElt line |
+							sourceElt := elts at: source.
+							targetElt := elts at: rel target.
+							sourceElt graph connectTo: targetElt.
+							line := BlLineElement new.
+							line
+								zIndex: -1;
+								border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
+							line
+								fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
+								toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
+							root addChild: line ] ].
+			root
+				layout:
+					(self cards size > 1
+						ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
+						ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
+			root clipChildren: false ].
 	^ root asPannableElement
 ]
 
