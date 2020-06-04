@@ -53,13 +53,16 @@ Smalltalk saveAs: ''IMAD.1''.
 Some decks to load:
 
 CardDeckRepository new garageDoorRemote.
-
 CardDeckExamples new facultyDoodleDomain.
-
-IMAD new imadDesignCardDeck
+IMAD new imadDesignCardDeck.
 ';
 		set: #storageClassName to: 'IMAD';
 		set: #storageMethodName to: 'imadDesignCardDeck';
+		addCard:
+			(Card new
+				name: 'Long term to-dos';
+				description: 'To do';
+				yourself);
 		addCard:
 			(Card new
 				name: 'Short term to-dos';
