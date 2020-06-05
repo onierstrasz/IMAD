@@ -10,6 +10,16 @@ Class {
 }
 
 { #category : #accessing }
+UsefulExamples class >> forceBasedLayout [
+	| m |
+	m := GtMondrian new.
+	m nodes with: Collection withAllSubclasses.
+	m edges connectFrom: #superclass.
+	m layout force.
+	^ m
+]
+
+{ #category : #accessing }
 UsefulExamples >> attachGtDocToModel [
 	<gtExample>
 	| dict doc |
