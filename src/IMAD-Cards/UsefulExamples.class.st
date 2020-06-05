@@ -11,6 +11,7 @@ Class {
 
 { #category : #accessing }
 UsefulExamples class >> forceBasedLayout [
+	<gtExample>
 	| m |
 	m := GtMondrian new.
 	m nodes with: Collection withAllSubclasses.

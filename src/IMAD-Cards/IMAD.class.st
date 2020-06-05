@@ -43,17 +43,25 @@ IMAD >> imadDesignCardDeck [
 		description:
 			'This deck one the one hand documents the IMAD prototype design, to-dos and pending topics, and on the other hand serves as a test  case for IMAD itself.
 
-How to load IMAD:
+!How to load IMAD:
 
 PharoLightTheme beCurrent.
 Metacello new baseline: ''IMAD''; repository: ''github://onierstrasz/IMAD/src''; load.
 Smalltalk saveAs: ''IMAD.1''.
 
-Some decks to load:
+!Some decks to load:
 
-CardDeckRepository new garageDoorRemote.
-CardDeckExamples new facultyDoodleDomain.
-IMAD new imadDesignCardDeck.
+[[[
+CardDeckRepository new garageDoorRemote
+]]]
+
+[[[
+CardDeckExamples new facultyDoodleDomain
+]]]
+
+[[[
+IMAD new imadDesignCardDeck
+]]]
 ';
 		set: #storageClassName to: 'IMAD';
 		set: #storageMethodName to: 'imadDesignCardDeck';
@@ -63,7 +71,6 @@ IMAD new imadDesignCardDeck.
 				description:
 					'
 - add save button to Card view 
-- description views must be scrollable!
 
 - factor out graphWithoutClipping example
     - how to make node view a gtExample with an argument?
@@ -91,6 +98,35 @@ IMAD new imadDesignCardDeck.
 
 
 ';
+				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Tag';
+				description:
+					'!Overview
+Tags (for cards) can be seen as subsets of cards, hyperedges between them, or as "types".
+Possible usages: 
+- distinguish m1 and m2 entities
+- identify all entities of a scenario or a use case (name of use case)
+- identify types of nodes (state, event, entity, instance)
+
+!Querying
+Tags can be used to identify subsets of nodes.
+For a given graph view, could select a number of tags to indicate the intersection of tags.
+Could also use disjuntive normal form for a more complex query (unions of intersections).
+It would be useful to be able to save a query as a card (a "view").
+Could then also associate a "visualization style" with that view.
+(Specification how to map nodes and edges to visualizations, possibly by tags.)
+!Standard tags
+There should be a set of standard tags available (m1, m2, actor, state, etc.).
+A given card deck could augment it with some default tags relevant for that deck.
+Then ad hoc tags are those that appear when assigned to a given card.
+A view would have access to the union of all available tags.
+!To do
+- tag interface for cards (already done)
+- tag queries for Graph view';
+				addTag: 'm2';
 				yourself);
 		yourself
 ]
