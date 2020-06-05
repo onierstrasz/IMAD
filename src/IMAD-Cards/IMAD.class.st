@@ -70,6 +70,9 @@ IMAD new imadDesignCardDeck
 				name: 'Short term to-dos';
 				description:
 					'
+!To do
+
+- double click Card to open view
 - add save button to Card view 
 
 - factor out graphWithoutClipping example
