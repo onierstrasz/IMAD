@@ -165,6 +165,14 @@ CardDeck >> buildGraph [
 					elt := self cardElementFor: each.
 					elt graph beNode.
 					elt addEventHandler: BlPullHandler new.
+					elt
+						addEventHandler:
+							(BlEventHandler
+								on: BlDoubleClickEvent
+								do: [ :evt | 
+								each inspect
+								
+								 ]).
 					elts at: each put: elt.
 					root addChild: elt ].
 			self cards

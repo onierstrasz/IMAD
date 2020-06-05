@@ -108,6 +108,15 @@ Card >> description: aString [
 	self announceUpdate
 ]
 
+{ #category : #accessing }
+Card >> gtSaveMainActionFor: anAction [
+	"Copy save action to main tab as well"
+
+	<gtAction>
+	^ (self deck gtSaveActionFor: anAction)
+		forViewDefinedIn: #gtDescriptionFor:
+]
+
 { #category : #querying }
 Card >> hasA: relSymbol [
 	^ (self deck relationsMatching:

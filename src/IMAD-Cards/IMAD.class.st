@@ -41,7 +41,7 @@ IMAD >> imadDesignCardDeck [
 	^ CardDeck new
 		name: 'IMAD Design';
 		description:
-			'This deck one the one hand documents the IMAD prototype design, to-dos and pending topics, and on the other hand serves as a test  case for IMAD itself.
+			'This deck on the one hand documents the IMAD prototype design, to-dos and pending topics, and on the other hand serves as a test  case for IMAD itself.
 
 !How to load IMAD:
 
@@ -72,12 +72,6 @@ IMAD new imadDesignCardDeck
 					'
 !To do
 
-- double click Card to open view
-- add save button to Card view 
-
-- factor out graphWithoutClipping example
-    - how to make node view a gtExample with an argument?
- 
 - create new Graph view
     - create pure Brick version
     - tags for subviews
