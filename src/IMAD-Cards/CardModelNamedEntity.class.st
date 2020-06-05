@@ -45,7 +45,7 @@ CardModelNamedEntity >> buildDescriptionPane [
 	contentPane
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
-			c vertical fitContent ].
+			c vertical matchParent ].
 	contentPane addChild: self buildLabel.
 	contentPane addChild: self buildHeader.
 	gtDoc := GtDocument new.
@@ -64,7 +64,7 @@ CardModelNamedEntity >> buildDescriptionPane [
 			anEvent text asString = gtDoc text
 				ifTrue: [ aSaveButton visibility: BlVisibility hidden ]
 				ifFalse: [ aSaveButton visibility: BlVisibility visible ] ].
-	contentPane addChild: gtDoc asElementWithoutSaveAction vFitContent.
+	contentPane addChild: gtDoc asElementWithoutSaveAction matchParent.
 	contentPane addChild: aSaveButton.
 	^ contentPane
 ]
