@@ -276,6 +276,50 @@ CardDeckRepository new gtOverview inspect
 		set: #storageMethodName to: 'imadTodos';
 		addCard:
 			(Card new
+				name: 'Card';
+				description:
+					'A Card is a modeling entity. It can be a domain concept, i.e., a metamodel (m2) entity, or it could be an instance of a concept (m1). It could also be another kind of modeling entity, such as an actor (same as an instance), a state, an event, a use case, a scenario etc etc.
+
+A card has a name and a description. It also has a set of properties (key-value pairs) and a set of named tags. The properties can be used for details of the entity being modeled. Tags are rather used to classify, group and type cards. 
+
+Cards can be displayed in different ways, cependinbg on their tags, their properties and the context. For example, a state might be shown as a circle in an FSA, or as a blob in a statechart.
+
+A card is implemented by the class ${class:name=Card}$. 
+';
+				addTag: 'm2';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Card Deck';
+				description:
+					'A Card Deck is a collection of cards used to model various aspects of some domain.
+
+It is implemented by the class ${class:name=CardDeck}$.
+';
+				addTag: 'm2';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Card Deck View';
+				description:
+					'A view of a card deck offers a graph-based view of a subset of the cards in a deck.
+It could select, for example, just the meta-model (m2 tags), or a partciular use case or scenario, or a state-machine view of a given actor.
+
+A view consists of two key parts:
+
+1. a query that selects the subset of cards of a deck
+2. a specification of the visualization style for the view
+
+The query could be a set of tags, or possible a disjunctive normal form (unions of intersections). It could also include some queries or filters over other properties of the cards.
+
+The style should determine how nodes (cards) and edges (relations) are rendered, how they are laid out, and what interactions are supported. Mostly this should be restricted to a set of prepackaged styles, but perhaps there could be some ad hoc configuration, eg to select display types of nodes and edges (circles, rectangles, colours etc).
+
+It should be possible to save a view as a card with the tag "view".
+';
+				addTag: 'm2';
+				yourself);
+		addCard:
+			(Card new
 				name: 'Tag';
 				description:
 					'!Overview
@@ -347,5 +391,8 @@ A view would have access to the union of all available tags.
 ';
 				addTag: 'todo';
 				yourself);
+		addRelation: 'belongsTo'
+			fromCardNamed: 'Card'
+			toCardNamed: 'Card Deck';
 		yourself
 ]
