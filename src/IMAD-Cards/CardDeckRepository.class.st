@@ -364,6 +364,7 @@ A view would have access to the union of all available tags.
 - Choice of views for nodes and edges
 - Edges: straight, curved, labeled, arrows, colors, thickness
 - Nodes: Boxes, rounded boxes, circles, ellipses, bars, icons, closed
+- NB: Explore looks as a way to dynamically change the appearance of elements.
 
 !Tags
 - select tags to view
@@ -384,7 +385,7 @@ A view would have access to the union of all available tags.
 
 !To study
 - look at ${class:name=GtHome}$
-
+- find examples of using Looks to dynamically  change views
 
 
 
