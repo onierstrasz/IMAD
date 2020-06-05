@@ -62,9 +62,12 @@ IMAD new imadDesignCardDeck.
 				name: 'Short term to-dos';
 				description:
 					'
+- add save button to Card view 
+- description views must be scrollable!
+
 - factor out graphWithoutClipping example
     - how to make node view a gtExample with an argument?
-- add save button to Card view 
+ 
 - create new Graph view
     - create pure Brick version
     - tags for subviews
@@ -85,6 +88,8 @@ IMAD new imadDesignCardDeck.
 - instead of typing tags, select from available tags?
 
 - look at GtHome
+
+
 ';
 				yourself);
 		yourself
