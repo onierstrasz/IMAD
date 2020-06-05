@@ -234,7 +234,7 @@ Is a view an Element? If not, what''s the difference?';
 CardDeckRepository >> imadTodos [
 	<gtExample>
 	^ CardDeck new
-		name: 'IMAD Design';
+		name: 'IMAD Design Todos';
 		description:
 			'This deck on the one hand documents the IMAD prototype design, to-dos and pending topics, and on the other hand serves as a test  case for IMAD itself.
 
@@ -244,20 +244,29 @@ PharoLightTheme beCurrent.
 Metacello new baseline: ''IMAD''; repository: ''github://onierstrasz/IMAD/src''; load.
 Smalltalk saveAs: ''IMAD.1''.
 
+!Github repo
+
+[[[]
+WebBrowser openOn: ''https://github.com/onierstrasz/IMAD''
+]]]
+
 !Some decks to load:
-
-[[[
-CardDeckRepository new garageDoorRemote inspect
-]]]
-
-[[[
-CardDeckExamples new facultyDoodleDomain inspect
-]]]
-
+This deck:
 [[[
 CardDeckRepository new imadTodos inspect
 ]]]
 
+A state diagram (in progress):
+[[[
+CardDeckRepository new garageDoorRemote inspect
+]]]
+
+A faculty modeling example (in progress):
+[[[
+CardDeckExamples new facultyDoodleDomain inspect
+]]]
+
+Overview of Gt concepts (in progress):
 [[[
 CardDeckRepository new gtOverview inspect
 ]]]
