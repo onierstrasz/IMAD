@@ -52,16 +52,21 @@ Smalltalk saveAs: ''IMAD.1''.
 !Some decks to load:
 
 [[[
-CardDeckRepository new garageDoorRemote
+CardDeckRepository new garageDoorRemote inspect
 ]]]
 
 [[[
-CardDeckExamples new facultyDoodleDomain
+CardDeckExamples new facultyDoodleDomain inspect
 ]]]
 
 [[[
-IMAD new imadDesignCardDeck
+IMAD new imadDesignCardDeck inspect
 ]]]
+
+[[[
+CardDeckRepository new gtOverview inspect
+]]]
+
 ';
 		set: #storageClassName to: 'IMAD';
 		set: #storageMethodName to: 'imadDesignCardDeck';
