@@ -267,38 +267,6 @@ CardDeckRepository new gtOverview inspect
 		set: #storageMethodName to: 'imadTodos';
 		addCard:
 			(Card new
-				name: 'Short term to-dos';
-				description:
-					'
-!To do
-
-- create new Graph view
-    - create pure Brick version
-    - tags for subviews
-        - add tag view filter
-    - better display of text
-    - button to select layouts
-        - force-based layout
-    - interactively create/delete cards and links
-- expand Garage door example
-    - states are also cards?
-
-- BlNearestPositionBoundsAnchor stinks
-    - need a better version that grows through centers?
-
-- add Card features
-    - need more property types? (lists, dictionaries?)
-
-- instead of typing tags, select from available tags?
-
-- look at GtHome
-
-
-';
-				addTag: 'todo';
-				yourself);
-		addCard:
-			(Card new
 				name: 'Tag';
 				description:
 					'!Overview
@@ -324,6 +292,51 @@ A view would have access to the union of all available tags.
 - tag interface for cards (already done)
 - tag queries for Graph view';
 				addTag: 'm2';
+				yourself);
+		addCard:
+			(Card new
+				name: 'To do';
+				description:
+					'
+!!Graph view
+- Factor out the Graph view into a separate class
+
+!Interactions
+- Create a relation
+- Double-click on relation to open details
+- Tags to filter
+- Change/select layout
+
+!Styles (views)
+- Choice of views for nodes and edges
+- Edges: straight, curved, labeled, arrows, colors, thickness
+- Nodes: Boxes, rounded boxes, circles, ellipses, bars, icons, closed
+
+!Tags
+- select tags to view
+- advanced: compose tag filter (disjunctive NF?)
+- save view as a card?
+!Layouts
+
+- Force-based layout
+- Circle layout
+- Tree layout (root?)
+- Manual layout (how to remember?)
+
+!Examples    
+- expand Garage door example (states as cards?)
+
+!Gt improvements
+- ${class:name=BlNearestPositionBoundsAnchor}$ stinks -- need a better version that grows through centers?
+
+!To study
+- look at ${class:name=GtHome}$
+
+
+
+
+';
+				addTag: 'todo';
 				yourself);
 		yourself
 ]
