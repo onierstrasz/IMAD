@@ -253,7 +253,11 @@ CardDeck >> classNamed: aClassName [
 
 { #category : #'gt-extensions' }
 CardDeck >> coderForPhlow: aPhlow [
+	<todo: 'remove this method?'>
 	| coder |
+	self
+		deprecated:
+			'Don''t spawn a coder, but just compile the method instead. Use saveState instead.'.
 	coder := GtMethodCoder
 		forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
 		source: self generateStorageMethodString.
@@ -306,9 +310,8 @@ CardDeck >> dropDownElement [
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
 			c padding: (BlInsets all: 5).
-			"c vertical exact: 200."
-			c vertical fitContent .
-			c horizontal exact: 400 ]
+			c vertical fitContent.
+			c horizontal fitContent ]
 ]
 
 { #category : #accessing }
@@ -470,21 +473,23 @@ CardDeck >> gtRelationsFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtSaveActionFor: anAction [
+	<todo:
+		'If the class is missing, the dropdown should show the dialogue, and then say "saved". If it is not missing, it should just say "saved". Do we need to change the "look" to do this?'>
 	<gtAction>
 	^ anAction dropdown
 		icon: BrGlamorousIcons save;
 		forViewDefinedIn: #gtStoreStringFor:;
 		priority: 1;
 		tooltip: 'Save to method ' , self storageClassMethod;
-		content: [ :button | 
+		content: [
 			| next |
 			next := self dropDownElement.
 			(self classNamed: self storageClassName) isClass
-				ifFalse: [ next addChild: (self newClassDefinitionForPhlow: button phlow) ].
-			next ];
-		action: [ :button | 
-			(self classNamed: self storageClassName) isClass
-				ifTrue: [ self coderForPhlow: button phlow ] ]
+				ifTrue: [ self saveState.
+					next
+						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
+				ifFalse: [ next addChild: self newClassDefinitionDialog ].
+			next ]
 ]
 
 { #category : #accessing }
@@ -539,9 +544,59 @@ CardDeck >> listTodos [
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
 
+{ #category : #accessing }
+CardDeck >> newClassDefinitionDialog [
+	| container theSuperClass theClass thePackage |
+	container := self newLinearLayout.
+	theSuperClass := 'Object' asBrEditableLabel.
+	theClass := self storageClassName asBrEditableLabel.
+	thePackage := '' asBrEditableLabel.
+	^ container
+		addChild:
+			(BrLabel new
+				look: BrGlamorousLabelLook new bold;
+				text: 'Please edit and create the storage class first.');
+		addChild:
+			(self newLinearBoxedLayout
+				addChild:
+					(self newFlowElement
+						addChildren:
+							{theSuperClass.
+							' subclass: #' asBrLabel.
+							theClass});
+				addChild: '	instanceVariableNames: ''''' asBrLabel;
+				addChild: 'classVariableNames: ''''' asBrLabel;
+				addChild:
+					(self newFlowElement
+						addChildren:
+							{'package: ''' asBrLabel.
+							thePackage.
+							'''' asBrLabel}));
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithLabelLook;
+				label: 'Create class';
+				action: [ :button | 
+					self storageClassName: theClass text asString.
+					[ OpalCompiler new
+						evaluate:
+							(self
+								createClassNamed: theClass text asString
+								subclassOf: theSuperClass text asString
+								inPackage: thePackage text asString).
+					self saveState.
+					container removeChildren.
+					container
+						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
+						on: Exception
+						do: [ :e | self inform: e description ] ])
+]
+
 { #category : #'gt-extensions' }
 CardDeck >> newClassDefinitionForPhlow: aPhlow [
+	<todo: 'remove this method?'>
 	| container theSuperClass theClass thePackage |
+	self deprecated: 'use newClassDefinitionDialog instead'.
 	container := self newLinearLayout.
 	theSuperClass := 'Object' asBrEditableLabel.
 	theClass := self storageClassName asBrEditableLabel.
@@ -642,6 +697,16 @@ CardDeck >> removeRelationButtonFor: aRelation [
 		icon: BrGlamorousVectorIcons remove;
 		label: 'Remove ', aRelation asString;
 		action: [ :button | aRelation remove ]
+]
+
+{ #category : #accessing }
+CardDeck >> saveState [
+	| storageClass |
+	storageClass := self classNamed: self storageClassName.
+	self
+		assert: storageClass isClass
+		description: 'Storage class ' , self storageClassName , ' must exist.'.
+	storageClass compile: self generateStorageMethodString
 ]
 
 { #category : #cards }

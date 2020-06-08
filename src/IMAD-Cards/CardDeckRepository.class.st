@@ -351,6 +351,9 @@ A view would have access to the union of all available tags.
 				name: 'To do';
 				description:
 					'
+!!Small things to do
+- Navigate from card to deck view
+
 !!Graph view
 - Factor out the Graph view into a separate class
 
@@ -370,8 +373,8 @@ A view would have access to the union of all available tags.
 - select tags to view
 - advanced: compose tag filter (disjunctive NF?)
 - save view as a card?
-!Layouts
 
+!Layouts
 - Force-based layout
 - Circle layout
 - Tree layout (root?)
@@ -385,9 +388,10 @@ A view would have access to the union of all available tags.
 
 !To study
 - look at ${class:name=GtHome}$
-- find examples of using Looks to dynamically  change views
+- find examples of using Looks to dynamically  change views. ${class:name=BrLookChangeExamples}$.
 
-
+!!Nice to have
+- "dirty" flag for modified deck; clear when saved (change colour of save button when dirty)
 
 ';
 				addTag: 'todo';

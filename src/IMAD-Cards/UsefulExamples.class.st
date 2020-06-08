@@ -113,7 +113,7 @@ UsefulExamples >> buttonWithActions [
 						stencil: [ | aList |
 							aList := BrGlamorousSimpleContextMenuContent new.
 							aList
-								display:
+								items:
 									{('Action 1' -> [ 'action 1' inspect ]).
 									('Action 2' -> [ self openTextInOwnWindow: 'action 2' ]).
 									('Action 3' -> [ self openTextInOwnWindow: 'action 3' ])}.
@@ -137,6 +137,33 @@ UsefulExamples >> coderHeaderElementForClass [
 	<gtExample>
 	"Example of new UI prototype for classes"
 	^ GtClassCoderHeaderElementExamples new coderHeaderElementForClass
+]
+
+{ #category : #accessing }
+UsefulExamples >> dropdownWithChangingContent [
+	<gtExample>
+	| anAction aButton |
+	anAction := GtPhlowAction noAction dropdown
+		icon: BrGlamorousIcons menu;
+		content: [ | menu |
+			menu := BlElement new
+				layout: BlLinearLayout vertical;
+				constraintsDo: [ :c | 
+					c padding: (BlInsets all: 5).
+					c vertical fitContent.
+					c horizontal exact: 100 ].
+			menu
+				addChild:
+					(BrButton new
+						look: BrGlamorousButtonWithLabelLook;
+						label: 'Do it!';
+						action: [ :button | 
+						menu removeChildren.
+							menu
+								addChild: (BlTextElement new text: ('Done!' asRopedText fontSize: 12)) ]).
+			menu ].
+	aButton := anAction asElement: [ :x | x ] withHostElement: nil.
+	^ anAction
 ]
 
 { #category : #accessing }
