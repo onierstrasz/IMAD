@@ -351,9 +351,6 @@ A view would have access to the union of all available tags.
 				name: 'To do';
 				description:
 					'
-!!Small things to do
-- Navigate from card to deck view
-
 !!Graph view
 - Factor out the Graph view into a separate class
 

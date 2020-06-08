@@ -109,6 +109,18 @@ Card >> description: aString [
 ]
 
 { #category : #accessing }
+Card >> gtDeckInspectorFor: anAction [
+	<gtAction>
+	^ anAction button
+		icon: BrGlamorousVectorIcons upwards;
+		forViewDefinedIn: #gtDescriptionFor:;
+		priority: 50;
+		tooltip: 'Inspect Card Deck';
+		action: [ :button | 
+			self deck inspect ]
+]
+
+{ #category : #accessing }
 Card >> gtSaveMainActionFor: anAction [
 	"Copy save action to main tab as well"
 
