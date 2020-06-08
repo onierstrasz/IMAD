@@ -79,6 +79,13 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
+{ #category : #accessing }
+CardDeck >> asElement [
+	^ CardDeckElement new
+		deck: self;
+		yourself
+]
+
 { #category : #initialization }
 CardDeck >> assertCardsUniquelyNamed [
 	| duplicates |
@@ -398,6 +405,15 @@ CardDeck >> gtGraphFor: aView [
 		updateWhen: CardsUpdated in: [ self announcer ]
 ]
 
+{ #category : #accessing }
+CardDeck >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live';
+		priority: 5;
+		stencil: [ self asElement ]
+]
+
 { #category : #'gt-extensions' }
 CardDeck >> gtMondrianFor: aView [
 	<gtView>
@@ -707,6 +723,13 @@ CardDeck >> saveState [
 		assert: storageClass isClass
 		description: 'Storage class ' , self storageClassName , ' must exist.'.
 	storageClass compile: self generateStorageMethodString
+]
+
+{ #category : #accessing }
+CardDeck >> show [
+	BlSpace new
+		addChild: self asElement;
+		show
 ]
 
 { #category : #cards }
