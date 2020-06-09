@@ -90,12 +90,8 @@ CardDeckElement >> buildGraphPane [
 
 { #category : #accessing }
 CardDeckElement >> buildHeader [
-	<todo:
-		'Add global button bar. Add separate name holder.
-	Buttons:
-	- Inspect CardDeck
-	- Save deck
-	'>
+	<todo: 'Migrate deck methods used below to this class.
+	Make the nameHolder an editable label.'>
 	| span buttonBar |
 	header := BlElement new
 		constraintsDo: [ :c | 
@@ -142,7 +138,14 @@ CardDeckElement >> buildHeader [
 												- BrGlamorousButtonExteriorLook;
 										icon: BrGlamorousIcons save;
 										label: 'Menu' ]
-								content: [ BlElement new ]);
+								content: [ | dropdown |
+									dropdown := self deck dropDownElement.
+									(self deck classNamed: self deck storageClassName) isClass
+										ifTrue: [ self deck saveState.
+											dropdown
+												addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
+										ifFalse: [ dropdown addChild: self deck newClassDefinitionDialog ].
+									dropdown ]);
 				icon: BrGlamorousIcons save;
 				label: 'Save to method ' , self deck storageClassMethod).
 	header
