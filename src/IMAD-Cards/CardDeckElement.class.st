@@ -18,8 +18,8 @@ CardDeckElement >> buildGraph [
 	elts := Dictionary new.
 	root := BlElement new
 		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ].
+			c horizontal fitContent.
+			c vertical fitContent ].
 	self cards
 		ifNotEmpty: [ self cards
 				do: [ :each | 
@@ -100,11 +100,18 @@ CardDeckElement >> deck: aCardDeck [
 { #category : #accessing }
 CardDeckElement >> initialize [
 	<todo: 'Move CardDeck graph implementation here'>
-	<todo: '
+	<todo:
+		'
 	- add notifications
 	- assert invariant -- initially deck should be a new empty deck?
 	- how do you refresh on an update?
 	'>
 	super initialize.
-	self addChild: (BlTextElement new text: ('A Deck' asRopedText fontSize: 12))
+	self
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	self layout: BlLinearLayout vertical.
+	self
+		addChild: (BlTextElement new text: ('A Deck' asRopedText fontSize: 12))
 ]
