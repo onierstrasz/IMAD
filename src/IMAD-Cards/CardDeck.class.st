@@ -159,6 +159,7 @@ CardDeck >> assertValidStorageMethod [
 
 { #category : #'gt-extensions' }
 CardDeck >> buildGraph [
+	<todo: 'move/migrate to CardDeckElement'>
 	| elts root |
 	elts := Dictionary new.
 	root := BlElement new
@@ -209,6 +210,7 @@ CardDeck >> buildGraph [
 
 { #category : #'gt-extensions' }
 CardDeck >> cardElementFor: aCard [
+	<todo: 'move/migrate to CardDeckElement'>
 	^ BlElement new
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
@@ -376,6 +378,7 @@ CardDeck >> gtCardsFor: aView [
 
 { #category : #accessing }
 CardDeck >> gtGraphFor: aView [
+	<todo: 'move/migrate to CardDeckElement'>
 	<todo:
 		'Build an interactive graph view of the Card Deck.
 		- refactor to helper methods
