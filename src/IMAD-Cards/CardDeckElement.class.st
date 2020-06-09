@@ -6,7 +6,11 @@ Class {
 	#name : #CardDeckElement,
 	#superclass : #BlElement,
 	#instVars : [
-		'deck'
+		'deck',
+		'tags',
+		'header',
+		'graphPane',
+		'nameHolder'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -63,6 +67,114 @@ CardDeckElement >> buildGraph [
 ]
 
 { #category : #accessing }
+CardDeckElement >> buildGraphPane [
+	<todo: 'Add button bar. Add separate graph area.
+	Buttons:
+	- add card
+	- zoom in
+	- zoom out
+	- refresh
+	'>
+	graphPane := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ];
+		padding: (BlInsets all: 5);
+		margin: (BlInsets all: 5);
+		border: (BlBorder paint: Color veryLightGray width: 1);
+		layout: BlLinearLayout vertical;
+		yourself.
+	self updateGraph.
+	^ graphPane
+]
+
+{ #category : #accessing }
+CardDeckElement >> buildHeader [
+	<todo:
+		'Add global button bar. Add separate name holder.
+	Buttons:
+	- Inspect CardDeck
+	- Save deck
+	'>
+	| span buttonBar |
+	header := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ];
+		padding: (BlInsets all: 5);
+		"border: (BlBorder paint: Color blue width: 1);"
+			layout: BlLinearLayout horizontal;
+		yourself.
+	nameHolder := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ];
+		layout: BlLinearLayout vertical;
+		yourself.
+	span := BlElement new.
+	span
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	buttonBar := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ];
+		layout: BlLinearLayout horizontal;
+		yourself.
+	buttonBar
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons inspect;
+				label: 'Open inspector window';
+				action: [ deck inspect ]).
+	buttonBar
+		addChild:
+			(BrButton new
+				look:
+					BrGlamorousButtonWithIconLook
+						+
+							(BrGlamorousWithDropdownLook
+								handle: [ BrButton new
+										look:
+											BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
+												- BrGlamorousButtonExteriorLook;
+										icon: BrGlamorousIcons save;
+										label: 'Menu' ]
+								content: [ BlElement new ]);
+				icon: BrGlamorousIcons save;
+				label: 'Save to method ' , self deck storageClassMethod).
+	header
+		addChildren:
+			{nameHolder.
+			span.
+			buttonBar}.
+	self updateHeader.
+	^ header
+]
+
+{ #category : #accessing }
+CardDeckElement >> buildTags [
+	tags := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ];
+		padding: (BlInsets all: 5);
+		margin:
+			(BlInsets
+				top: 0
+				right: 5
+				bottom: 0
+				left: 5);
+		border: (BlBorder paint: Color veryLightGray width: 1);
+		layout: BlLinearLayout vertical;
+		yourself.
+	self updateTags.
+	^ tags
+]
+
+{ #category : #accessing }
 CardDeckElement >> cardElementFor: aCard [
 	<todo: 'move/migrate to CardDeckElement'>
 	^ BlElement new
@@ -94,7 +206,8 @@ CardDeckElement >> deck [
 { #category : #accessing }
 CardDeckElement >> deck: aCardDeck [
 	deck := aCardDeck.
-	self addChild: self buildGraph
+	self updateHeader.
+	self updateGraph
 ]
 
 { #category : #accessing }
@@ -107,11 +220,33 @@ CardDeckElement >> initialize [
 	- how do you refresh on an update?
 	'>
 	super initialize.
+	deck := CardDeck new.
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ].
 	self layout: BlLinearLayout vertical.
-	self
-		addChild: (BlTextElement new text: ('A Deck' asRopedText fontSize: 12))
+	self addChild: self buildHeader.
+	self addChild: self buildTags.
+	self addChild: self buildGraphPane
+]
+
+{ #category : #accessing }
+CardDeckElement >> updateGraph [
+	graphPane removeChildren.
+	graphPane addChild: self buildGraph
+]
+
+{ #category : #accessing }
+CardDeckElement >> updateHeader [
+	nameHolder removeChildren.
+	nameHolder
+		addChild: (BlTextElement new text: (self deck name asRopedText fontSize: 30))
+]
+
+{ #category : #accessing }
+CardDeckElement >> updateTags [
+	tags removeChildren.
+	tags
+		addChild: (BlTextElement new text: ('Tags go here' asRopedText fontSize: 12))
 ]

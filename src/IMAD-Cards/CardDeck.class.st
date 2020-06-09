@@ -492,8 +492,6 @@ CardDeck >> gtRelationsFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtSaveActionFor: anAction [
-	<todo:
-		'If the class is missing, the dropdown should show the dialogue, and then say "saved". If it is not missing, it should just say "saved". Do we need to change the "look" to do this?'>
 	<gtAction>
 	^ anAction dropdown
 		icon: BrGlamorousIcons save;
