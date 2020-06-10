@@ -158,10 +158,8 @@ CardDeckElement >> buildGraphPane [
 
 { #category : #accessing }
 CardDeckElement >> buildHeader [
-	<todo:
-		'Migrate deck methods used below to this class.
-	Make the nameHolder an editable label.'>
-	| span header |
+	<todo: 'Make the nameHolder an editable label.'>
+	| header |
 	header := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -205,7 +203,12 @@ CardDeckElement >> buildHeader [
 										icon: BrGlamorousIcons save;
 										label: 'Menu' ]
 								content: [ | dropdown |
-									dropdown := self deck dropDownElement.
+									dropdown := BlElement new
+										layout: BlLinearLayout vertical;
+										constraintsDo: [ :c | 
+											c padding: (BlInsets all: 5).
+											c vertical fitContent.
+											c horizontal fitContent ].
 									(self deck classNamed: self deck storageClassName) isClass
 										ifTrue: [ self deck saveState.
 											dropdown
@@ -293,13 +296,8 @@ CardDeckElement >> directedCurvedEdge [
 
 { #category : #accessing }
 CardDeckElement >> initialize [
-	<todo: 'Move CardDeck graph implementation here'>
 	<todo:
-		'
-	- add notifications
-	- assert invariant -- initially deck should be a new empty deck?
-	- how do you refresh on an update?
-	'>
+		'- assert invariant -- initially deck should be a new empty deck?'>
 	super initialize.
 	deck := CardDeck new.
 	self

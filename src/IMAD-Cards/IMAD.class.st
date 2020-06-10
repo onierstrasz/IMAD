@@ -12,6 +12,16 @@ Class {
 	#category : #'IMAD-Cards-Utilities'
 }
 
+{ #category : #accessing }
+IMAD class >> deprecated [
+	^ self new deprecated
+]
+
+{ #category : #accessing }
+IMAD class >> deprecated2 [
+	^ self new deprecated
+]
+
 { #category : #converting }
 IMAD class >> gtExamples [
 	^ self new allExamples
@@ -27,6 +37,12 @@ IMAD >> allExamples [
 	<gtExample>
 	^ ('IMAD' gtPackageMatches & #gtExample gtReferences
 		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
+]
+
+{ #category : #accessing }
+IMAD >> deprecated [
+	<gtExample>
+	^ 'IMAD' gtPackageMatches & #deprecated: gtReferences
 ]
 
 { #category : #accessing }

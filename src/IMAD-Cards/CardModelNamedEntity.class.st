@@ -140,18 +140,6 @@ CardModelNamedEntity >> gtDescriptionFor: aView [
 		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
-{ #category : #accessing }
-CardModelNamedEntity >> gtInspectorWindowFor: anAction [
-	<gtAction>
-	^ anAction button
-		icon: BrGlamorousVectorIcons inspect;
-		forViewDefinedIn: #gtDescriptionFor:;
-		priority: 50;
-		tooltip: 'New inspector window';
-		action: [ :button | 
-			self inspect ]
-]
-
 { #category : #'gt-extensions' }
 CardModelNamedEntity >> gtPropertiesFor: aView [
 	<gtView>
@@ -259,7 +247,6 @@ CardModelNamedEntity >> protectedKeys [
 { #category : #'gt-extensions' }
 CardModelNamedEntity >> refreshButtonFor: aTab [
 	"Add this to an actionStencil: for a view"
-	<todo: 'remove this. migrated to CardDeckElement'>
 	self deprecated: 'delete me'.
 
 	^ BrButton new

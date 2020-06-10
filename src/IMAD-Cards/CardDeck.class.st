@@ -32,7 +32,7 @@ CardDeck >> addCard: aCard [
 
 { #category : #'gt-extensions' }
 CardDeck >> addCardButton [
-	<todo: 'remove this. migrated to CardDeckElement'>
+	"NB: Still used in gtCardsFor:"
 	^ BrButton new
 		look: BrGlamorousButtonWithIconLook;
 		icon: BrGlamorousVectorIcons add;
@@ -80,7 +80,7 @@ CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetNa
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extensions' }
 CardDeck >> asElement [
 	^ CardDeckElement new
 		deck: self;
@@ -160,8 +160,8 @@ CardDeck >> assertValidStorageMethod [
 
 { #category : #'gt-extensions' }
 CardDeck >> buildGraph [
-	<todo: 'move/migrate to CardDeckElement'>
 	| elts root |
+	self deprecated: 'delete me'.
 	elts := Dictionary new.
 	root := BlElement new
 		constraintsDo: [ :c | 
@@ -263,7 +263,6 @@ CardDeck >> classNamed: aClassName [
 
 { #category : #'gt-extensions' }
 CardDeck >> coderForPhlow: aPhlow [
-	<todo: 'remove this method?'>
 	| coder |
 	self
 		deprecated:
@@ -301,7 +300,7 @@ CardDeck >> defaultStorageMethodName [
 
 { #category : #'gt-extensions' }
 CardDeck >> directedCurvedEdge [
-	<todo: 'move/migrate to CardElement'>
+	self deprecated: 'delete me'.
 	^ BlParabollaArcElement new
 		zIndex: 0;
 		curvatureFraction: 0.2;
@@ -317,6 +316,7 @@ CardDeck >> directedCurvedEdge [
 
 { #category : #'gt-extensions' }
 CardDeck >> dropDownElement [
+	self deprecated: 'delete me'.
 	^ BlElement new
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
@@ -379,16 +379,17 @@ CardDeck >> gtCardsFor: aView [
 		send: [ :aCard | aCard ]
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extensions' }
 CardDeck >> gtGraphFor: aView [
 	"<gtView>"
+
 	self deprecated: 'delete me'.
 	^ aView explicit
 		title: 'Graph';
 		priority: 10;
 		stencil: [ self buildGraph ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-		actionStencil: [ self addCardButton ];
+			actionStencil: [ self addCardButton ];
 		actionStencil: [ :aTab | 
 			BrButton new
 				look: BrGlamorousButtonWithIconLook;
@@ -405,7 +406,18 @@ CardDeck >> gtGraphFor: aView [
 		updateWhen: CardsUpdated in: [ self announcer ]
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extensions' }
+CardDeck >> gtInspectorWindowFor: anAction [
+	<gtAction>
+	^ anAction button
+		icon: BrGlamorousVectorIcons inspect;
+		forViewDefinedIn: #gtDescriptionFor:;
+		priority: 50;
+		tooltip: 'New inspector window';
+		action: [ :button | self inspect ]
+]
+
+{ #category : #'gt-extensions' }
 CardDeck >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit
@@ -417,6 +429,7 @@ CardDeck >> gtLiveFor: aView [
 { #category : #'gt-extensions' }
 CardDeck >> gtMondrianFor: aView [
 	"<gtView>"
+
 	self deprecated: 'delete me'.
 	^ aView mondrian
 		title: 'Mondrian';
@@ -432,7 +445,7 @@ CardDeck >> gtMondrianFor: aView [
 				connectToAll: [ :x | x sourceRelations collect: #target ].
 			m layout tree ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-		actionStencil: [ self addCardButton ];
+			actionStencil: [ self addCardButton ];
 		updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ]
 ]
@@ -493,36 +506,32 @@ CardDeck >> gtSaveActionFor: anAction [
 	<gtAction>
 	^ anAction dropdown
 		icon: BrGlamorousIcons save;
-		forViewDefinedIn: #gtStoreStringFor:;
+		forViewDefinedIn: #gtDescriptionFor:;
 		priority: 1;
 		tooltip: 'Save to method ' , self storageClassMethod;
-		content: [
-			| next |
-			next := self dropDownElement.
+		content: [ | dropdown |
+			dropdown := BlElement new
+				layout: BlLinearLayout vertical;
+				constraintsDo: [ :c | 
+					c padding: (BlInsets all: 5).
+					c vertical fitContent.
+					c horizontal fitContent ];
+				yourself.
 			(self classNamed: self storageClassName) isClass
 				ifTrue: [ self saveState.
-					next
+					dropdown
 						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
-				ifFalse: [ next addChild: self newClassDefinitionDialog ].
-			next ]
-]
-
-{ #category : #accessing }
-CardDeck >> gtSaveGraphActionFor: anAction [
-	"Copy save action to main tab as well"
-
-	<gtAction>
-	^ (self gtSaveActionFor: anAction)
-		forViewDefinedIn: #gtGraphFor:
+				ifFalse: [ dropdown addChild: self newClassDefinitionDialog ].
+			dropdown ]
 ]
 
 { #category : #'gt-extensions' }
-CardDeck >> gtSaveMainActionFor: anAction [
-	"Copy save action to main tab as well"
+CardDeck >> gtSaveSerializedActionFor: anAction [
+	"Copy save action to serialized tab as well"
 
 	<gtAction>
 	^ (self gtSaveActionFor: anAction)
-		forViewDefinedIn: #gtDescriptionFor:
+		forViewDefinedIn: #gtStoreStringFor:
 ]
 
 { #category : #'gt-extensions' }
@@ -559,7 +568,7 @@ CardDeck >> listTodos [
 	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extensions' }
 CardDeck >> newClassDefinitionDialog [
 	| container theSuperClass theClass thePackage |
 	container := self newLinearLayout.
@@ -609,7 +618,6 @@ CardDeck >> newClassDefinitionDialog [
 
 { #category : #'gt-extensions' }
 CardDeck >> newClassDefinitionForPhlow: aPhlow [
-	<todo: 'remove this method?'>
 	| container theSuperClass theClass thePackage |
 	self deprecated: 'use newClassDefinitionDialog instead'.
 	container := self newLinearLayout.
@@ -714,7 +722,7 @@ CardDeck >> removeRelationButtonFor: aRelation [
 		action: [ :button | aRelation remove ]
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 CardDeck >> saveState [
 	| storageClass |
 	storageClass := self classNamed: self storageClassName.
