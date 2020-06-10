@@ -269,7 +269,9 @@ CardDeckElement >> deck [
 
 { #category : #accessing }
 CardDeckElement >> deck: aCardDeck [
+	self unsubscribe.
 	deck := aCardDeck.
+	self subscribe.
 	self updateHeaderName.
 	self updateGraph
 ]
@@ -292,7 +294,23 @@ CardDeckElement >> initialize [
 	self layout: BlLinearLayout vertical.
 	self addChild: self buildHeader.
 	self addChild: self buildTags.
-	self addChild: self buildGraphPane
+	self addChild: self buildGraphPane.
+	self subscribe
+	
+]
+
+{ #category : #accessing }
+CardDeckElement >> subscribe [
+	self deck announcer
+		when: PropertiesUpdated
+		do: [ self updateHeaderName ].
+	self deck announcer when: CardsUpdated do: [ self updateGraph ].
+	self deck announcer when: RelationsUpdated do: [ self updateGraph ]
+]
+
+{ #category : #accessing }
+CardDeckElement >> unsubscribe [
+	self deck announcer unsubscribe: self
 ]
 
 { #category : #accessing }
