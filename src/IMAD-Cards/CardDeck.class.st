@@ -32,6 +32,7 @@ CardDeck >> addCard: aCard [
 
 { #category : #'gt-extensions' }
 CardDeck >> addCardButton [
+	<todo: 'remove this. migrated to CardDeckElement'>
 	^ BrButton new
 		look: BrGlamorousButtonWithIconLook;
 		icon: BrGlamorousVectorIcons add;
@@ -323,8 +324,9 @@ CardDeck >> dropDownElement [
 			c horizontal fitContent ]
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extensions' }
 CardDeck >> findPannableIn: aTab andDo: aValueBlock [
+	<todo: 'remove this. migrated to CardDeckElement'>
 	^ aTab viewContentElement
 		allChildrenBreadthFirstDetect: [ :each | each isKindOf: BlPannableElement ]
 		ifFound: [ :pannable | aValueBlock value: pannable ]

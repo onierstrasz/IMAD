@@ -8,16 +8,15 @@ Class {
 	#instVars : [
 		'deck',
 		'tags',
-		'header',
-		'graphPane',
-		'nameHolder'
+		'nameHolder',
+		'graphHolder',
+		'theGraph'
 	],
 	#category : #'IMAD-Cards-View'
 }
 
 { #category : #accessing }
 CardDeckElement >> buildGraph [
-	<todo: 'move/migrate to CardDeckElement'>
 	| elts root |
 	elts := Dictionary new.
 	root := BlElement new
@@ -63,18 +62,19 @@ CardDeckElement >> buildGraph [
 						ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
 						ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
 			root clipChildren: false ].
-	^ root asPannableElement
+	theGraph := root asPannableElement.
+^ theGraph
 ]
 
 { #category : #accessing }
 CardDeckElement >> buildGraphPane [
-	<todo: 'Add button bar. Add separate graph area.
+	<todo:
+		'Add announcements.
 	Buttons:
-	- add card
 	- zoom in
 	- zoom out
-	- refresh
 	'>
+	| graphPane buttonBar span |
 	graphPane := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -84,15 +84,84 @@ CardDeckElement >> buildGraphPane [
 		border: (BlBorder paint: Color veryLightGray width: 1);
 		layout: BlLinearLayout vertical;
 		yourself.
+	buttonBar := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ];
+		layout: BlLinearLayout horizontal;
+		yourself.
+	buttonBar
+		addChild:
+			(BlElement new
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical matchParent ];
+				yourself).
+	buttonBar
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons add;
+				label: 'Add card';
+				action: [ self deck addCard: Card new ]).	"With announcements the graph should update automatically"
+	buttonBar
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomin;
+				label: 'Zoom In';
+				action: [ theGraph zoomIn ]).
+	buttonBar
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomout;
+				label: 'Zoom Out';
+				action: [ theGraph zoomOut ]).
+	buttonBar
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons zoomtofit;
+				label: 'Fit';
+				action: [ theGraph zoomToFit ]).
+	buttonBar
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons actualsize;
+				label: 'Resize';
+				action: [ theGraph zoomToActualSize ]).
+	buttonBar
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons refresh;
+				label: 'Refresh';
+				action: [ self updateGraph ]).
+	graphHolder := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ];
+		padding: (BlInsets all: 5);
+		margin: (BlInsets all: 5);
+		"border: (BlBorder paint: Color veryLightGray width: 1);"
+			layout: BlLinearLayout vertical;
+		yourself.
+	graphPane
+		addChildren:
+			{buttonBar.
+			graphHolder}.
 	self updateGraph.
 	^ graphPane
 ]
 
 { #category : #accessing }
 CardDeckElement >> buildHeader [
-	<todo: 'Migrate deck methods used below to this class.
+	<todo:
+		'Migrate deck methods used below to this class.
 	Make the nameHolder an editable label.'>
-	| span buttonBar |
+	| span header |
 	header := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -107,25 +176,22 @@ CardDeckElement >> buildHeader [
 			c vertical fitContent ];
 		layout: BlLinearLayout vertical;
 		yourself.
-	span := BlElement new.
-	span
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ].
-	buttonBar := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ];
-		layout: BlLinearLayout horizontal;
-		yourself.
-	buttonBar
+	header addChild: nameHolder.
+	header
+		addChild:
+			(BlElement new
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical matchParent ];
+				yourself).
+	header
 		addChild:
 			(BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons inspect;
 				label: 'Open inspector window';
 				action: [ deck inspect ]).
-	buttonBar
+	header
 		addChild:
 			(BrButton new
 				look:
@@ -148,12 +214,7 @@ CardDeckElement >> buildHeader [
 									dropdown ]);
 				icon: BrGlamorousIcons save;
 				label: 'Save to method ' , self deck storageClassMethod).
-	header
-		addChildren:
-			{nameHolder.
-			span.
-			buttonBar}.
-	self updateHeader.
+	self updateHeaderName.
 	^ header
 ]
 
@@ -209,7 +270,7 @@ CardDeckElement >> deck [
 { #category : #accessing }
 CardDeckElement >> deck: aCardDeck [
 	deck := aCardDeck.
-	self updateHeader.
+	self updateHeaderName.
 	self updateGraph
 ]
 
@@ -236,12 +297,12 @@ CardDeckElement >> initialize [
 
 { #category : #accessing }
 CardDeckElement >> updateGraph [
-	graphPane removeChildren.
-	graphPane addChild: self buildGraph
+	graphHolder removeChildren.
+	graphHolder addChild: self buildGraph
 ]
 
 { #category : #accessing }
-CardDeckElement >> updateHeader [
+CardDeckElement >> updateHeaderName [
 	nameHolder removeChildren.
 	nameHolder
 		addChild: (BlTextElement new text: (self deck name asRopedText fontSize: 30))

@@ -259,6 +259,7 @@ CardModelNamedEntity >> protectedKeys [
 { #category : #'gt-extensions' }
 CardModelNamedEntity >> refreshButtonFor: aTab [
 	"Add this to an actionStencil: for a view"
+	<todo: 'remove this. migrated to CardDeckElement'>
 
 	^ BrButton new
 		look: BrGlamorousButtonWithIconLook;
