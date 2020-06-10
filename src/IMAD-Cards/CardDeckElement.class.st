@@ -68,12 +68,6 @@ CardDeckElement >> buildGraph [
 
 { #category : #accessing }
 CardDeckElement >> buildGraphPane [
-	<todo:
-		'Add announcements.
-	Buttons:
-	- zoom in
-	- zoom out
-	'>
 	| graphPane buttonBar span |
 	graphPane := BlElement new
 		constraintsDo: [ :c | 
@@ -296,8 +290,7 @@ CardDeckElement >> directedCurvedEdge [
 
 { #category : #accessing }
 CardDeckElement >> initialize [
-	<todo:
-		'- assert invariant -- initially deck should be a new empty deck?'>
+	<todo: 'assert invariant -- initially deck should be a new empty deck?'>
 	super initialize.
 	deck := CardDeck new.
 	self
@@ -309,7 +302,6 @@ CardDeckElement >> initialize [
 	self addChild: self buildTags.
 	self addChild: self buildGraphPane.
 	self subscribe
-	
 ]
 
 { #category : #accessing }

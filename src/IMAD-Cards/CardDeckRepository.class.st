@@ -351,10 +351,7 @@ A view would have access to the union of all available tags.
 				name: 'To do';
 				description:
 					'
-!!Graph view
-- Factor out the Graph view into a separate class
-
-!Interactions
+!Graph view Interactions
 - Create a relation
 - Double-click on relation to open details
 - Tags to filter
@@ -387,7 +384,7 @@ A view would have access to the union of all available tags.
 - look at ${class:name=GtHome}$
 - find examples of using Looks to dynamically  change views. ${class:name=BrLookChangeExamples}$.
 
-!!Nice to have
+!Nice to have
 - "dirty" flag for modified deck; clear when saved (change colour of save button when dirty)
 
 ';
