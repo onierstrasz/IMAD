@@ -330,8 +330,7 @@ CardDeckElement >> updateGraph [
 { #category : #accessing }
 CardDeckElement >> updateHeaderName [
 	nameHolder removeChildren.
-	nameHolder
-		addChild: (BlTextElement new text: (self deck name asRopedText fontSize: 30))
+	nameHolder addChild: self deck buildLabel
 ]
 
 { #category : #accessing }
