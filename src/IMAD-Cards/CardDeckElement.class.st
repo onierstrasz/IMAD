@@ -10,15 +10,19 @@ Class {
 		'tags',
 		'nameHolder',
 		'graphHolder',
-		'theGraph'
+		'theGraph',
+		'graphElementsDictionary'
 	],
 	#category : #'IMAD-Cards-View'
 }
 
 { #category : #accessing }
 CardDeckElement >> buildGraph [
-	| elts root |
-	elts := Dictionary new.
+	"NB: The dictionary is needed because for each edge to create we have to look up the element corresponding to the other end of the relation.
+	NB: We can also use this to map relations to their edges, if needed."
+
+	| root |
+	graphElementsDictionary := Dictionary new.
 	root := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
@@ -28,42 +32,32 @@ CardDeckElement >> buildGraph [
 				do: [ :each | 
 					| elt |
 					elt := self cardElementFor: each.
-					elt graph beNode.
-					elt addEventHandler: BlPullHandler new.
-					elt
-						addEventHandler:
-							(BlEventHandler
-								on: BlDoubleClickEvent
-								do: [ :evt | 
-								each inspect
-								
-								 ]).
-					elts at: each put: elt.
-					root addChild: elt ].
-			self cards
-				do: [ :source | 
-					source sourceRelations
-						do: [ :rel | 
-							| sourceElt targetElt line |
-							sourceElt := elts at: source.
-							targetElt := elts at: rel target.
-							sourceElt graph connectTo: targetElt.
-							line := BlLineElement new.
-							line
-								zIndex: -1;
-								border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
-							line
-								fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
-								toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
-							root addChild: line ] ].
-			root
-				layout:
-					(self cards size > 1
-						ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
-						ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
-			root clipChildren: false ].
+					self mapModelEntity: each toElement: elt.
+					root addChild: elt ] ].
+	self cards
+		do: [ :source | 
+			source sourceRelations
+				do: [ :rel | 
+					| sourceElt targetElt line |
+					sourceElt := self elementFor: source.
+					targetElt := self elementFor: rel target.
+					sourceElt graph connectTo: targetElt.
+					line := BlLineElement new.
+					line
+						zIndex: -1;
+						border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
+					line
+						fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
+						toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
+					root addChild: line ] ].
+	root
+		layout:
+			(self cards size > 1
+				ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
+				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
+	root clipChildren: false.
 	theGraph := root asPannableElement.
-^ theGraph
+	^ theGraph
 ]
 
 { #category : #accessing }
@@ -210,19 +204,33 @@ CardDeckElement >> buildTags [
 
 { #category : #accessing }
 CardDeckElement >> cardElementFor: aCard [
-	^ BlElement new
+	| elt |
+	elt := BlElement new
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
-		geometry: BlRectangle  new;
-		size: 120@80;
+		geometry: BlRectangle new;
+		size: 120 @ 80;
 		addChild:
 			(BlTextElement new
 				text: (aCard name asRopedText fontSize: 12);
 				constraintsDo: [ :c | 
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter ];
-				yourself);
-		yourself
+				yourself).
+	elt graph model: aCard.
+	elt graph beNode.
+	
+
+					elt addEventHandler: BlPullHandler new.
+					elt
+						addEventHandler:
+							(BlEventHandler
+								on: BlDoubleClickEvent
+								do: [ :evt | aCard inspect ]).
+	
+	
+	
+	^ elt
 ]
 
 { #category : #accessing }
@@ -262,10 +270,17 @@ CardDeckElement >> directedCurvedEdge [
 ]
 
 { #category : #accessing }
+CardDeckElement >> elementFor: anEntity [
+	self assert: (graphElementsDictionary includesKey: anEntity).
+	^ graphElementsDictionary at: anEntity
+]
+
+{ #category : #accessing }
 CardDeckElement >> initialize [
 	<todo: 'assert invariant -- initially deck should be a new empty deck?'>
 	super initialize.
 	deck := CardDeck new.
+	graphElementsDictionary := Dictionary new.
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -275,6 +290,11 @@ CardDeckElement >> initialize [
 	self addChild: self buildTags.
 	self addChild: self buildGraphPane.
 	self subscribe
+]
+
+{ #category : #accessing }
+CardDeckElement >> mapModelEntity: entity toElement: anElement [
+	graphElementsDictionary at: entity put: anElement
 ]
 
 { #category : #accessing }
