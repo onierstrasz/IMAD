@@ -18,7 +18,8 @@ Class {
 
 { #category : #accessing }
 CardDeckElement >> buildGraph [
-	"NB: The dictionary is needed because for each edge to create we have to look up the element corresponding to the other end of the relation.
+	"NB: The dictionary is needed because for each edge to create we have
+	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."
 
 	| root |
@@ -29,27 +30,16 @@ CardDeckElement >> buildGraph [
 			c vertical fitContent ].
 	self cards
 		ifNotEmpty: [ self cards
-				do: [ :each | 
-					| elt |
-					elt := self cardElementFor: each.
-					self mapModelEntity: each toElement: elt.
-					root addChild: elt ] ].
+				do: [ :aCard | 
+					| cardElement |
+					cardElement := self cardElementFor: aCard.
+					self mapModelEntity: aCard toElement: cardElement.
+					root addChild: cardElement ] ].
 	self cards
 		do: [ :source | 
 			source sourceRelations
-				do: [ :rel | 
-					| sourceElt targetElt line |
-					sourceElt := self elementFor: source.
-					targetElt := self elementFor: rel target.
-					sourceElt graph connectTo: targetElt.
-					line := BlLineElement new.
-					line
-						zIndex: -1;
-						border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
-					line
-						fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
-						toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
-					root addChild: line ] ].
+				do:
+					[ :rel | root addChild: (self edgeElementFrom: source to: rel target) ] ].
 	root
 		layout:
 			(self cards size > 1
@@ -219,17 +209,12 @@ CardDeckElement >> cardElementFor: aCard [
 				yourself).
 	elt graph model: aCard.
 	elt graph beNode.
-	
-
-					elt addEventHandler: BlPullHandler new.
-					elt
-						addEventHandler:
-							(BlEventHandler
-								on: BlDoubleClickEvent
-								do: [ :evt | aCard inspect ]).
-	
-	
-	
+	elt addEventHandler: BlPullHandler new.
+	elt
+		addEventHandler:
+			(BlEventHandler
+				on: BlDoubleClickEvent
+				do: [ :evt | aCard inspect ]).
 	^ elt
 ]
 
@@ -267,6 +252,26 @@ CardDeckElement >> directedCurvedEdge [
 						paint: Color gray;
 						width: 2;
 						build))
+]
+
+{ #category : #accessing }
+CardDeckElement >> edgeElementFrom: source to: target [
+	<todo: 'find a better way to draw directed edges'>
+	| sourceElt targetElt line |
+	sourceElt := self elementFor: source.
+	targetElt := self elementFor: target.
+	sourceElt graph connectTo: targetElt.
+	line := BlLineElement new.
+	line
+		zIndex: -1;
+		border: (BlBorder paint: Color gray width: 3).
+	line
+		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
+		toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt);
+		toHead:
+			(BlArrowheadSimpleArrow new
+				border: (BlBorder paint: Color gray width: 3)).
+	^ line
 ]
 
 { #category : #accessing }
