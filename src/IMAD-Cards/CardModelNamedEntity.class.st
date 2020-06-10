@@ -136,7 +136,7 @@ CardModelNamedEntity >> gtDescriptionFor: aView [
 		title: 'Description';
 		priority: 0;
 		stencil: [ self buildDescriptionPane ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
@@ -191,7 +191,7 @@ CardModelNamedEntity >> gtPropertiesFor: aView [
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add property';
 				action: [ self set: self freshKey to: self defaultValue ] ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
@@ -203,7 +203,7 @@ CardModelNamedEntity >> gtStoreStringFor: aView [
 		priority: 80;
 		stencil: [ (GtPharoSnippetCoder new source: self storeString) asElement
 				matchParent ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
@@ -260,6 +260,7 @@ CardModelNamedEntity >> protectedKeys [
 CardModelNamedEntity >> refreshButtonFor: aTab [
 	"Add this to an actionStencil: for a view"
 	<todo: 'remove this. migrated to CardDeckElement'>
+	self deprecated: 'delete me'.
 
 	^ BrButton new
 		look: BrGlamorousButtonWithIconLook;

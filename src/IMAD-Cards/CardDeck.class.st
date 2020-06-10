@@ -211,7 +211,7 @@ CardDeck >> buildGraph [
 
 { #category : #'gt-extensions' }
 CardDeck >> cardElementFor: aCard [
-	<todo: 'move/migrate to CardDeckElement'>
+	self deprecated: 'delete me'.
 	^ BlElement new
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
@@ -301,6 +301,7 @@ CardDeck >> defaultStorageMethodName [
 
 { #category : #'gt-extensions' }
 CardDeck >> directedCurvedEdge [
+	<todo: 'move/migrate to CardElement'>
 	^ BlParabollaArcElement new
 		zIndex: 0;
 		curvatureFraction: 0.2;
@@ -326,7 +327,7 @@ CardDeck >> dropDownElement [
 
 { #category : #'gt-extensions' }
 CardDeck >> findPannableIn: aTab andDo: aValueBlock [
-	<todo: 'remove this. migrated to CardDeckElement'>
+	self deprecated: 'delete me'.
 	^ aTab viewContentElement
 		allChildrenBreadthFirstDetect: [ :each | each isKindOf: BlPannableElement ]
 		ifFound: [ :pannable | aValueBlock value: pannable ]
@@ -373,26 +374,20 @@ CardDeck >> gtCardsFor: aView [
 						[ :aCard | self removeCardButtonFor: aCard ];
 				noResize ];
 		actionStencil: [ self addCardButton ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 		updateWhen: CardsUpdated in: [ self announcer ];
 		send: [ :aCard | aCard ]
 ]
 
 { #category : #accessing }
 CardDeck >> gtGraphFor: aView [
-	<todo: 'move/migrate to CardDeckElement'>
-	<todo:
-		'Build an interactive graph view of the Card Deck.
-		- refactor to helper methods
-		- make edges into arrows
-		- try force based layout
-	'>
-	<gtView>
+	"<gtView>"
+	self deprecated: 'delete me'.
 	^ aView explicit
 		title: 'Graph';
 		priority: 10;
 		stencil: [ self buildGraph ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 		actionStencil: [ self addCardButton ];
 		actionStencil: [ :aTab | 
 			BrButton new
@@ -421,7 +416,8 @@ CardDeck >> gtLiveFor: aView [
 
 { #category : #'gt-extensions' }
 CardDeck >> gtMondrianFor: aView [
-	<gtView>
+	"<gtView>"
+	self deprecated: 'delete me'.
 	^ aView mondrian
 		title: 'Mondrian';
 		priority: 15;
@@ -435,7 +431,7 @@ CardDeck >> gtMondrianFor: aView [
 				toNearestBounds;
 				connectToAll: [ :x | x sourceRelations collect: #target ].
 			m layout tree ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 		actionStencil: [ self addCardButton ];
 		updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ]
@@ -487,7 +483,7 @@ CardDeck >> gtRelationsFor: aView [
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add relation';
 				action: [ self addDummyRelation ] ];
-		actionStencil: [ :aTab | self refreshButtonFor: aTab ];
+		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 		updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ]
 ]

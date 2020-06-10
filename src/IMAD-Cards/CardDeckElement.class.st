@@ -240,7 +240,6 @@ CardDeckElement >> buildTags [
 
 { #category : #accessing }
 CardDeckElement >> cardElementFor: aCard [
-	<todo: 'move/migrate to CardDeckElement'>
 	^ BlElement new
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
@@ -274,6 +273,22 @@ CardDeckElement >> deck: aCardDeck [
 	self subscribe.
 	self updateHeaderName.
 	self updateGraph
+]
+
+{ #category : #accessing }
+CardDeckElement >> directedCurvedEdge [
+	<todo: 'Use this to build graphs?'>
+	^ BlParabollaArcElement new
+		zIndex: 0;
+		curvatureFraction: 0.2;
+		border: (BlBorder paint: Color gray width: 2);
+		toHead:
+			(BlArrowheadSimpleArrow new
+				border:
+					(BlBorder builder
+						paint: Color gray;
+						width: 2;
+						build))
 ]
 
 { #category : #accessing }
