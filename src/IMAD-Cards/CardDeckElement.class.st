@@ -183,34 +183,7 @@ CardDeckElement >> buildHeader [
 				icon: BrGlamorousVectorIcons inspect;
 				label: 'Open inspector window';
 				action: [ deck inspect ]).
-	header
-		addChild:
-			(BrButton new
-				look:
-					BrGlamorousButtonWithIconLook
-						+
-							(BrGlamorousWithDropdownLook
-								handle: [ BrButton new
-										look:
-											BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
-												- BrGlamorousButtonExteriorLook;
-										icon: BrGlamorousIcons save;
-										label: 'Menu' ]
-								content: [ | dropdown |
-									dropdown := BlElement new
-										layout: BlLinearLayout vertical;
-										constraintsDo: [ :c | 
-											c padding: (BlInsets all: 5).
-											c vertical fitContent.
-											c horizontal fitContent ].
-									(self deck classNamed: self deck storageClassName) isClass
-										ifTrue: [ self deck saveState.
-											dropdown
-												addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
-										ifFalse: [ dropdown addChild: self deck newClassDefinitionDialog ].
-									dropdown ]);
-				icon: BrGlamorousIcons save;
-				label: 'Save to method ' , self deck storageClassMethod).
+	header addChild: self saveButton.
 	self updateHeaderName.
 	^ header
 ]
@@ -302,6 +275,36 @@ CardDeckElement >> initialize [
 	self addChild: self buildTags.
 	self addChild: self buildGraphPane.
 	self subscribe
+]
+
+{ #category : #accessing }
+CardDeckElement >> saveButton [
+	^ BrButton new
+		look:
+			BrGlamorousButtonWithIconLook
+				+
+					(BrGlamorousWithDropdownLook
+						handle: [ BrButton new
+								look:
+									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
+										- BrGlamorousButtonExteriorLook;
+								icon: BrGlamorousIcons save;
+								label: 'Save to method ' , self deck storageClassMethod ]
+						content: [ | dropdown |
+							dropdown := BlElement new
+								layout: BlLinearLayout vertical;
+								constraintsDo: [ :c | 
+									c padding: (BlInsets all: 5).
+									c vertical fitContent.
+									c horizontal fitContent ].
+							(self deck classNamed: self deck storageClassName) isClass
+								ifTrue: [ self deck saveState.
+									dropdown
+										addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
+								ifFalse: [ dropdown addChild: self deck newClassDefinitionDialog ].
+							dropdown ]);
+		icon: BrGlamorousIcons save;
+		label: 'Save to method ' , self deck storageClassMethod
 ]
 
 { #category : #accessing }

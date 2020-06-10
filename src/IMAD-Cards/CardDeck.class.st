@@ -158,75 +158,6 @@ CardDeck >> assertValidStorageMethod [
 		description: 'storage class name must refer to an existing class'
 ]
 
-{ #category : #'gt-extensions' }
-CardDeck >> buildGraph [
-	| elts root |
-	self deprecated: 'delete me'.
-	elts := Dictionary new.
-	root := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ].
-	self cards
-		ifNotEmpty: [ self cards
-				do: [ :each | 
-					| elt |
-					elt := self cardElementFor: each.
-					elt graph beNode.
-					elt addEventHandler: BlPullHandler new.
-					elt
-						addEventHandler:
-							(BlEventHandler
-								on: BlDoubleClickEvent
-								do: [ :evt | 
-								each inspect
-								
-								 ]).
-					elts at: each put: elt.
-					root addChild: elt ].
-			self cards
-				do: [ :source | 
-					source sourceRelations
-						do: [ :rel | 
-							| sourceElt targetElt line |
-							sourceElt := elts at: source.
-							targetElt := elts at: rel target.
-							sourceElt graph connectTo: targetElt.
-							line := BlLineElement new.
-							line
-								zIndex: -1;
-								border: (BlBorder paint: (Color gray alpha: 0.2) width: 5).
-							line
-								fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
-								toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt).
-							root addChild: line ] ].
-			root
-				layout:
-					(self cards size > 1
-						ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
-						ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
-			root clipChildren: false ].
-	^ root asPannableElement
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> cardElementFor: aCard [
-	self deprecated: 'delete me'.
-	^ BlElement new
-		layout: BlFrameLayout new;
-		border: (BlBorder paint: Color black);
-		geometry: BlRectangle  new;
-		size: 120@80;
-		addChild:
-			(BlTextElement new
-				text: (aCard name asRopedText fontSize: 12);
-				constraintsDo: [ :c | 
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter ];
-				yourself);
-		yourself
-]
-
 { #category : #cards }
 CardDeck >> cardNamed: aString [
 	| result |
@@ -261,21 +192,6 @@ CardDeck >> classNamed: aClassName [
 	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
 ]
 
-{ #category : #'gt-extensions' }
-CardDeck >> coderForPhlow: aPhlow [
-	| coder |
-	self
-		deprecated:
-			'Don''t spawn a coder, but just compile the method instead. Use saveState instead.'.
-	coder := GtMethodCoder
-		forClass: (Smalltalk at: self storageClassName asSymbol ifAbsent: [ nil ])
-		source: self generateStorageMethodString.
-	coder expanded: true.
-	aPhlow
-		spawnObject: (coder asElement asScrollableElement labeled: self storageClassMethod).
-	^ coder
-]
-
 { #category : #utilities }
 CardDeck >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackage [
 	^ aSuperclass , ' subclass: #' , aClass
@@ -296,41 +212,6 @@ CardDeck >> defaultStorageClassName [
 CardDeck >> defaultStorageMethodName [
 	"The name of the generating method to recreate this CardDeck."
 	^ 'generateCardDeck'
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> directedCurvedEdge [
-	self deprecated: 'delete me'.
-	^ BlParabollaArcElement new
-		zIndex: 0;
-		curvatureFraction: 0.2;
-		border: (BlBorder paint: Color gray width: 2);
-		toHead:
-			(BlArrowheadSimpleArrow new
-				border:
-					(BlBorder builder
-						paint: Color gray;
-						width: 2;
-						build))
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> dropDownElement [
-	self deprecated: 'delete me'.
-	^ BlElement new
-		layout: BlLinearLayout vertical;
-		constraintsDo: [ :c | 
-			c padding: (BlInsets all: 5).
-			c vertical fitContent.
-			c horizontal fitContent ]
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> findPannableIn: aTab andDo: aValueBlock [
-	self deprecated: 'delete me'.
-	^ aTab viewContentElement
-		allChildrenBreadthFirstDetect: [ :each | each isKindOf: BlPannableElement ]
-		ifFound: [ :pannable | aValueBlock value: pannable ]
 ]
 
 { #category : #printing }
@@ -380,33 +261,6 @@ CardDeck >> gtCardsFor: aView [
 ]
 
 { #category : #'gt-extensions' }
-CardDeck >> gtGraphFor: aView [
-	"<gtView>"
-
-	self deprecated: 'delete me'.
-	^ aView explicit
-		title: 'Graph';
-		priority: 10;
-		stencil: [ self buildGraph ];
-		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-			actionStencil: [ self addCardButton ];
-		actionStencil: [ :aTab | 
-			BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousIcons zoomin;
-				label: 'Zoom In';
-				action: [ self findPannableIn: aTab andDo: #zoomIn ] ];
-		actionStencil: [ :aTab | 
-			BrButton new
-				look: BrGlamorousButtonWithIconLook;
-				icon: BrGlamorousIcons zoomout;
-				label: 'Zoom Out';
-				action: [ self findPannableIn: aTab andDo: #zoomOut ] ];
-		updateWhen: RelationsUpdated in: [ self announcer ];
-		updateWhen: CardsUpdated in: [ self announcer ]
-]
-
-{ #category : #'gt-extensions' }
 CardDeck >> gtInspectorWindowFor: anAction [
 	<gtAction>
 	^ anAction button
@@ -424,30 +278,6 @@ CardDeck >> gtLiveFor: aView [
 		title: 'Live';
 		priority: 5;
 		stencil: [ self asElement ]
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> gtMondrianFor: aView [
-	"<gtView>"
-
-	self deprecated: 'delete me'.
-	^ aView mondrian
-		title: 'Mondrian';
-		priority: 15;
-		painting: [ :m | 
-			m nodes
-				shape: [ :x | self cardElementFor: x ];
-				with: self cards.
-			m edges
-				shape: [ :edge | self directedCurvedEdge ];
-				fromNearestBounds;
-				toNearestBounds;
-				connectToAll: [ :x | x sourceRelations collect: #target ].
-			m layout tree ];
-		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-			actionStencil: [ self addCardButton ];
-		updateWhen: RelationsUpdated in: [ self announcer ];
-		updateWhen: CardsUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }
@@ -612,52 +442,6 @@ CardDeck >> newClassDefinitionDialog [
 					container removeChildren.
 					container
 						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
-						on: Exception
-						do: [ :e | self inform: e description ] ])
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> newClassDefinitionForPhlow: aPhlow [
-	| container theSuperClass theClass thePackage |
-	self deprecated: 'use newClassDefinitionDialog instead'.
-	container := self newLinearLayout.
-	theSuperClass := 'Object' asBrEditableLabel.
-	theClass := self storageClassName asBrEditableLabel.
-	thePackage := '' asBrEditableLabel.
-	^ container
-		addChild:
-			(BrLabel new
-				look: BrGlamorousLabelLook new bold;
-				text: 'Please edit and create the storage class first.');
-		addChild:
-			(self newLinearBoxedLayout
-				addChild:
-					(self newFlowElement
-						addChildren:
-							{theSuperClass.
-							' subclass: #' asBrLabel.
-							theClass});
-				addChild: '	instanceVariableNames: ''''' asBrLabel;
-				addChild: 'classVariableNames: ''''' asBrLabel;
-				addChild:
-					(self newFlowElement
-						addChildren:
-							{'package: ''' asBrLabel.
-							thePackage.
-							'''' asBrLabel}));
-		addChild:
-			(BrButton new
-				look: BrGlamorousButtonWithLabelLook;
-				label: 'Create class';
-				action: [ :button | 
-					self storageClassName: theClass text asString.
-					[ OpalCompiler new
-						evaluate:
-							(self
-								createClassNamed: theClass text asString
-								subclassOf: theSuperClass text asString
-								inPackage: thePackage text asString).
-					self coderForPhlow: aPhlow ]
 						on: Exception
 						do: [ :e | self inform: e description ] ])
 ]

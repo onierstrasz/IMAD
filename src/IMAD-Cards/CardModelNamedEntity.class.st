@@ -245,18 +245,6 @@ CardModelNamedEntity >> protectedKeys [
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> refreshButtonFor: aTab [
-	"Add this to an actionStencil: for a view"
-	self deprecated: 'delete me'.
-
-	^ BrButton new
-		look: BrGlamorousButtonWithIconLook;
-		icon: BrGlamorousVectorIcons refresh;
-		label: 'Refresh';
-		action: [ aTab viewContentElement phlow update ]
-]
-
-{ #category : #'gt-extensions' }
 CardModelNamedEntity >> removePropertyButtonFor: anAssociation [
 	^ BrButton new
 		look: BrGlamorousButtonWithIconLook;
