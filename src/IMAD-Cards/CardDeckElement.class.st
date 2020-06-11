@@ -209,7 +209,8 @@ CardDeckElement >> cardElementFor: aCard [
 				yourself).
 	elt graph model: aCard.
 	elt graph beNode.
-	elt addEventHandler: BlPullHandler new.
+	elt addEventHandler: BlNoCtrlEventsPullHandler new.
+	elt addEventHandler: EdgeCreationHandler new.
 	elt
 		addEventHandler:
 			(BlEventHandler
