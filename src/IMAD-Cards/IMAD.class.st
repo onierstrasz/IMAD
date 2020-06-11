@@ -52,6 +52,38 @@ IMAD >> findAllTodos [
 ]
 
 { #category : #accessing }
+IMAD >> garbageCollectionTestScript [
+
+<todo: 'adapt this to test strategies for enabling garbage collection'>
+
+|report|
+
+report := 'Initally:
+'.
+report := report, 'There are ', CardDeck allInstances size asString, ' instances of CardDeck, and ', Card allInstances size asString, ' instances of Card.
+'.
+
+(CardDeck gtReferences & #gtExample gtPragmas) gtExamples do: #run.
+
+report := report, '
+After running all examples:
+'.
+report := report, 'There are ', CardDeck allInstances size asString, ' instances of CardDeck, and ', Card allInstances size asString, ' instances of Card.
+'.
+
+
+Smalltalk garbageCollect.
+
+report := report, '
+After garbage collection:
+'.
+report := report, 'There are ', CardDeck allInstances size asString, ' instances of CardDeck, and ', Card allInstances size asString, ' instances of Card.
+'.
+
+^ report
+]
+
+{ #category : #accessing }
 IMAD >> loadAMT [
 	<gtExample>
 	^ Metacello new
