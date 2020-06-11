@@ -55,32 +55,32 @@ IMAD >> findAllTodos [
 IMAD >> garbageCollectionTestScript [
 
 <todo: 'adapt this to test strategies for enabling garbage collection'>
+<gtExample>
 
-|report|
+|report updateReport|
+updateReport := [report := report, 'There are ', CardDeck allInstances size asString, ' instances of CardDeck, and ', Card allInstances size asString, ' instances of Card.
+'.].
 
 report := 'Initally:
 '.
-report := report, 'There are ', CardDeck allInstances size asString, ' instances of CardDeck, and ', Card allInstances size asString, ' instances of Card.
-'.
+updateReport value.
 
-(CardDeck gtReferences & #gtExample gtPragmas) gtExamples do: #run.
+(CardDeck gtReferences & #gtExample gtPragmas & (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples do: #run.
 
 report := report, '
 After running all examples:
 '.
-report := report, 'There are ', CardDeck allInstances size asString, ' instances of CardDeck, and ', Card allInstances size asString, ' instances of Card.
-'.
-
+updateReport value.
 
 Smalltalk garbageCollect.
 
 report := report, '
 After garbage collection:
 '.
-report := report, 'There are ', CardDeck allInstances size asString, ' instances of CardDeck, and ', Card allInstances size asString, ' instances of Card.
-'.
+updateReport value.
 
 ^ report
+
 ]
 
 { #category : #accessing }
