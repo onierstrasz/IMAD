@@ -194,15 +194,32 @@ CardDeckElement >> buildTags [
 
 { #category : #accessing }
 CardDeckElement >> cardElementFor: aCard [
+<todo: '
+
+- cards
+    - right click to open menu
+    - double click on background to add a Card
+    - click on Card name to edit its name
+- edges
+    - implement a better layout along the shortest path between the centers
+    - add space between multiple edges along same path
+    - add tooltip with name
+    - double click on edge to edit
+
+'>
 	| elt |
 	elt := BlElement new
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
 		geometry: BlRectangle new;
-		size: 120 @ 80;
-		addChild:
-			(BlTextElement new
-				text: (aCard name asRopedText fontSize: 12);
+		background: Color white;
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ];
+		padding: (BlInsets all: 5);
+		"size: 120 @ 80;"
+			addChild:
+			((BlTextElement new text: (aCard name asRopedText fontSize: 12))
 				constraintsDo: [ :c | 
 					c frame horizontal alignCenter.
 					c frame vertical alignCenter ];
@@ -211,6 +228,14 @@ CardDeckElement >> cardElementFor: aCard [
 	elt graph beNode.
 	elt addEventHandler: BlNoCtrlEventsPullHandler new.
 	elt addEventHandler: EdgeCreationHandler new.
+	elt
+		addEventHandler:
+			(BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | 
+					evt modifiers isCmd
+						ifTrue:
+							[ "here we could replace the text by an editable label ..." ] ]).
 	elt
 		addEventHandler:
 			(BlEventHandler
