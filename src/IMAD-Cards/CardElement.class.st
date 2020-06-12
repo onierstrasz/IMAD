@@ -3,10 +3,23 @@ Class {
 	#superclass : #CardDeckElement,
 	#instVars : [
 		'card',
-		'xyz'
+		'isEditable'
 	],
 	#category : #'IMAD-Cards-View'
 }
+
+{ #category : #accessing }
+CardElement >> beEditable [
+	isEditable := true.
+	self removeChildren.
+	self
+		addChild:
+			(card buildLabel
+				constraintsDo: [ :c | 
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ];
+				yourself)
+]
 
 { #category : #accessing }
 CardElement >> card: aCard [
@@ -21,7 +34,7 @@ CardElement >> initialize [
 - cards
     - right click to open menu
     - double click on background to add a Card
-    - click on Card name to edit its name
+    - Cmd-click on Card name to edit its name
 - edges
     - implement a better layout along the shortest path between the centers
     - add space between multiple edges along same path
@@ -31,6 +44,7 @@ CardElement >> initialize [
 '>
 	super initialize.
 	card := Card new.
+	isEditable := false.
 	self
 		layout: BlFrameLayout new;
 		border: (BlBorder paint: Color black);
@@ -50,19 +64,21 @@ CardElement >> initialize [
 				on: BlClickEvent
 				do: [ :evt | 
 					evt modifiers isCmd
-						ifTrue: [ "here we could replace the text by an editable label ..." ] ]).
+						ifTrue: [ self beEditable ] ]).
 	self
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | 
 					evt consumed: true.
-					card inspect ]).
+					isEditable
+						ifFalse: [ card inspect ] ]).
 	^ self
 ]
 
 { #category : #accessing }
 CardElement >> updateCard [
+	isEditable := false.
 	self removeChildren.
 	self
 		addChild:
