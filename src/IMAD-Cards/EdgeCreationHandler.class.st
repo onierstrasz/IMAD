@@ -9,7 +9,8 @@ Class {
 		'edgeStarted',
 		'startNode',
 		'lineElement',
-		'mousePositionElement'
+		'mousePositionElement',
+		'container'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -21,7 +22,13 @@ EdgeCreationHandler >> dragEndEvent: anEvent [
 	<todo:
 		'check that we are on a card node and create the relation from the card of the start node to this card'>
 	edgeStarted
-		ifTrue: [ anEvent consumed: true ]
+		ifTrue: [ | endNode |
+			anEvent consumed: true.
+			endNode := anEvent currentTarget.
+			endNode graph isNode
+				ifTrue: [ self halt ].
+			container removeChild: mousePositionElement.
+			container removeChild: lineElement ]
 ]
 
 { #category : #accessing }
@@ -29,7 +36,8 @@ EdgeCreationHandler >> dragEvent: anEvent [
 	<todo: 'update a proto-line from the start node to where we are now'>
 	edgeStarted
 		ifTrue: [ anEvent consumed: true.
-			mousePositionElement relocate: anEvent position ]
+			mousePositionElement
+				relocate: (anEvent currentTarget globalPointToParent: anEvent position) ]
 ]
 
 { #category : #accessing }
@@ -39,13 +47,16 @@ EdgeCreationHandler >> dragStartEvent: anEvent [
 	startNode graph isNode
 		ifTrue: [ edgeStarted := true.
 			anEvent consumed: true.
-			mousePositionElement relocate: anEvent position.
+			container := startNode parent.
+			container addChild: mousePositionElement.
+			mousePositionElement relocate: startNode position.
 			lineElement := BlLineElement new.
 			lineElement
 				zIndex: -1;
 				border: (BlBorder paint: Color blue width: 1);
-				fromAnchor: (BlAbsolutePositionAnchor position: anEvent position);
-				toAnchor: (BlElementCenterAnchor element: mousePositionElement) ]
+				fromAnchor: (BlElementCenterAnchor element: startNode);
+				toAnchor: (BlElementCenterAnchor element: mousePositionElement).
+			container addChild: lineElement ]
 ]
 
 { #category : #accessing }
@@ -58,6 +69,11 @@ EdgeCreationHandler >> initialize [
 	super initialize.
 	edgeStarted := false.
 	mousePositionElement := BlElement new
+		geometry: BlEllipse new;
+		size: 10@10;
+		background: Color blue;
+		border: BlBorder empty.
+	mousePositionElement relocate: 0 @ 0
 ]
 
 { #category : #accessing }
