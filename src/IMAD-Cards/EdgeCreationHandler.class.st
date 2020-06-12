@@ -1,6 +1,8 @@
 "
 I handle a Ctrl-click and drag event between two nodes to create an edge.
 I must be on a node when starting and stopping.
+
+This would be better done using separate drag and drop events, but it seems that BlDropEvent is currently (2020-06-12) broken (sent to the dragged element instead of the drop location). 
 "
 Class {
 	#name : #EdgeCreationHandler,
@@ -24,9 +26,18 @@ EdgeCreationHandler >> dragEndEvent: anEvent [
 	edgeStarted
 		ifTrue: [ | endNode |
 			anEvent consumed: true.
-			endNode := anEvent currentTarget.
+			endNode := container findMouseEventTargetAt: anEvent position.
 			endNode graph isNode
-				ifTrue: [ self halt ].
+				ifTrue: [ | fromCard toCard |
+					fromCard := startNode graph model.
+					toCard := endNode graph model.
+					self
+						assert: (fromCard isKindOf: Card)
+						description: fromCard asString , ' should be an instance of Card'.
+					self
+						assert: (toCard isKindOf: Card)
+						description: toCard asString , ' should be an instance of Card'.
+					fromCard connectTo: toCard ].
 			container removeChild: mousePositionElement.
 			container removeChild: lineElement ]
 ]

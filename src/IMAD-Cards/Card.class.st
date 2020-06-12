@@ -93,6 +93,16 @@ Card >> buildTagHeader [
 ]
 
 { #category : #accessing }
+Card >> connectTo: aTargetCard [
+	"Convenience method"
+
+	self deck
+		addRelation: '_rel' , Object new identityHash asString
+		from: self
+		to: aTargetCard
+]
+
+{ #category : #accessing }
 Card >> deck [
 	^ deck
 ]
