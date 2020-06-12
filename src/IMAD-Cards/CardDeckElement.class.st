@@ -75,13 +75,13 @@ CardDeckElement >> buildGraphPane [
 					c horizontal matchParent.
 					c vertical matchParent ];
 				yourself).
-	buttonBar
+	"buttonBar
 		addChild:
 			(BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add card';
-				action: [ self deck addCard: Card new ]).	"With announcements the graph should update automatically"
+				action: [ self deck addCard: Card new ])."
 	buttonBar
 		addChild:
 			(BrButton new
@@ -126,6 +126,11 @@ CardDeckElement >> buildGraphPane [
 		"border: (BlBorder paint: Color veryLightGray width: 1);"
 			layout: BlLinearLayout vertical;
 		yourself.
+	graphHolder
+		addEventHandler:
+			(BlEventHandler
+				on: BlDoubleClickEvent
+				do: [ :evt | self deck addCard: Card new ]).
 	graphPane
 		addChildren:
 			{buttonBar.
@@ -194,54 +199,9 @@ CardDeckElement >> buildTags [
 
 { #category : #accessing }
 CardDeckElement >> cardElementFor: aCard [
-<todo: '
-
-- cards
-    - right click to open menu
-    - double click on background to add a Card
-    - click on Card name to edit its name
-- edges
-    - implement a better layout along the shortest path between the centers
-    - add space between multiple edges along same path
-    - add tooltip with name
-    - double click on edge to edit
-
-'>
-	| elt |
-	elt := BlElement new
-		layout: BlFrameLayout new;
-		border: (BlBorder paint: Color black);
-		geometry: BlRectangle new;
-		background: Color white;
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ];
-		padding: (BlInsets all: 5);
-		"size: 120 @ 80;"
-			addChild:
-			((BlTextElement new text: (aCard name asRopedText fontSize: 12))
-				constraintsDo: [ :c | 
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter ];
-				yourself).
-	elt graph model: aCard.
-	elt graph beNode.
-	elt addEventHandler: BlNoCtrlEventsPullHandler new.
-	elt addEventHandler: EdgeCreationHandler new.
-	elt
-		addEventHandler:
-			(BlEventHandler
-				on: BlClickEvent
-				do: [ :evt | 
-					evt modifiers isCmd
-						ifTrue:
-							[ "here we could replace the text by an editable label ..." ] ]).
-	elt
-		addEventHandler:
-			(BlEventHandler
-				on: BlDoubleClickEvent
-				do: [ :evt | aCard inspect ]).
-	^ elt
+	^ CardElement new
+		card: aCard;
+		yourself
 ]
 
 { #category : #accessing }
