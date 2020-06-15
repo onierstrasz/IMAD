@@ -347,8 +347,12 @@ CardDeckElement >> unsubscribe [
 
 { #category : #accessing }
 CardDeckElement >> updateGraph [
+	| newGraph |
+	newGraph := self buildGraph.
+	graphHolder children
+		ifNotEmpty: [ newGraph zoomTo: graphHolder children first zoomLevel ].
 	graphHolder removeChildren.
-	graphHolder addChild: self buildGraph
+	graphHolder addChild: newGraph
 ]
 
 { #category : #accessing }
