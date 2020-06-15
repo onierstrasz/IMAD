@@ -26,18 +26,20 @@ EdgeCreationHandler >> dragEndEvent: anEvent [
 	edgeStarted
 		ifTrue: [ | endNode |
 			anEvent consumed: true.
-			endNode := container findMouseEventTargetAt: anEvent position.
-			endNode graph isNode
-				ifTrue: [ | fromCard toCard |
-					fromCard := startNode graph model.
-					toCard := endNode graph model.
-					self
-						assert: (fromCard isKindOf: Card)
-						description: fromCard asString , ' should be an instance of Card'.
-					self
-						assert: (toCard isKindOf: Card)
-						description: toCard asString , ' should be an instance of Card'.
-					fromCard connectTo: toCard ].
+			"endNode := container findMouseEventTargetAt: anEvent position."
+			endNode := self findCardElementAt: anEvent position.
+			endNode
+				ifNotNil: [ endNode graph isNode
+						ifTrue: [ | fromCard toCard |
+							fromCard := startNode graph model.
+							toCard := endNode graph model.
+							self
+								assert: (fromCard isKindOf: Card)
+								description: fromCard asString , ' should be an instance of Card'.
+							self
+								assert: (toCard isKindOf: Card)
+								description: toCard asString , ' should be an instance of Card'.
+							fromCard connectTo: toCard ] ].
 			container removeChild: mousePositionElement.
 			container removeChild: lineElement ]
 ]
@@ -73,6 +75,17 @@ EdgeCreationHandler >> dragStartEvent: anEvent [
 { #category : #accessing }
 EdgeCreationHandler >> eventsToHandle [
 	^ { BlDragStartEvent . BlDragEvent . BlDragEndEvent }
+]
+
+{ #category : #accessing }
+EdgeCreationHandler >> findCardElementAt: aPosition [
+	| element |
+	element := container findMouseEventTargetAt: aPosition.
+	[ element isKindOf: CardElement ]
+		whileFalse: [ (element = container or: [ element isNil ])
+				ifTrue: [ ^ nil ].
+			element := element parent ].
+	^ element
 ]
 
 { #category : #accessing }

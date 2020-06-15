@@ -47,13 +47,21 @@ CardElement >> initialize [
 	isEditable := false.
 	self
 		layout: BlFrameLayout new;
-		border: (BlBorder paint: Color black);
-		geometry: BlRectangle new;
+		"border: (BlBorder paint: Color black);"
+			geometry: BlRectangle new;
 		background: Color white;
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ];
 		padding: (BlInsets all: 5).
+	self
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look:
+			(BrInteractiveCommonLook new
+				default:
+						[ :anElement | anElement border: (BlBorder paint: Color black width: 1) ];
+				hovered:
+						[ :anElement | anElement border: (BlBorder paint: Color blue width: 1) ]).
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
