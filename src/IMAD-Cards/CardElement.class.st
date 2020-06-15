@@ -33,7 +33,6 @@ CardElement >> initialize [
 		'
 - cards
     - right click to open menu
-    - double click on background to add a Card
     - Cmd-click on Card name to edit its name
 - edges
     - implement a better layout along the shortest path between the centers
@@ -66,6 +65,14 @@ CardElement >> initialize [
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
 	self addEventHandler: EdgeCreationHandler new.
+	self
+		addEventHandler:
+			(BlEventHandler
+				on: BlMouseDownEvent
+				do: [ :evt | 
+					evt secondaryButtonPressed
+						ifTrue: [ evt inspect
+							"add a dropdown menu here" ] ]).
 	self
 		addEventHandler:
 			(BlEventHandler
