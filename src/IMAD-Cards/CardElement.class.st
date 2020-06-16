@@ -31,9 +31,6 @@ CardElement >> card: aCard [
 CardElement >> initialize [
 	<todo:
 		'
-- cards
-    - right click to open menu
-    - Cmd-click on Card name to edit its name
 - edges
     - implement a better layout along the shortest path between the centers
     - add space between multiple edges along same path
@@ -46,8 +43,7 @@ CardElement >> initialize [
 	isEditable := false.
 	self
 		layout: BlFrameLayout new;
-		"border: (BlBorder paint: Color black);"
-			geometry: BlRectangle new;
+		geometry: BlRectangle new;
 		background: Color white;
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
@@ -57,10 +53,14 @@ CardElement >> initialize [
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
 			(BrInteractiveCommonLook new
-				default:
-						[ :anElement | anElement border: (BlBorder paint: Color black width: 1) ];
-				hovered:
-						[ :anElement | anElement border: (BlBorder paint: Color blue width: 1) ]).
+				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
+				+
+					(BrGlamorousWithContextMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+								items:
+									{('Inspect' -> [ :e | card inspect ])};
+								yourself ]).
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
@@ -68,26 +68,11 @@ CardElement >> initialize [
 	self
 		addEventHandler:
 			(BlEventHandler
-				on: BlMouseDownEvent
-				do: [ :evt | 
-					evt secondaryButtonPressed
-						ifTrue: [ evt inspect
-							"add a dropdown menu here" ] ]).
-	self
-		addEventHandler:
-			(BlEventHandler
-				on: BlClickEvent
-				do: [ :evt | 
-					evt modifiers isCmd
-						ifTrue: [ self beEditable ] ]).
-	self
-		addEventHandler:
-			(BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | 
 					evt consumed: true.
 					isEditable
-						ifFalse: [ card inspect ] ]).
+						ifFalse: [ self beEditable ] ]).
 	^ self
 ]
 
