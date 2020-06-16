@@ -350,7 +350,10 @@ CardDeckElement >> updateGraph [
 	| newGraph |
 	newGraph := self buildGraph.
 	graphHolder children
-		ifNotEmpty: [ newGraph zoomTo: graphHolder children first zoomLevel ].
+		ifNotEmpty: [ | oldGraph |
+			oldGraph := graphHolder children first.
+			self assert: (oldGraph isKindOf: BlPannableElement).
+			newGraph zoomTo: oldGraph zoomLevel ].
 	graphHolder removeChildren.
 	graphHolder addChild: newGraph
 ]
