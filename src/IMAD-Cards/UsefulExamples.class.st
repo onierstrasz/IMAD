@@ -140,6 +140,26 @@ UsefulExamples >> coderHeaderElementForClass [
 ]
 
 { #category : #accessing }
+UsefulExamples >> dropdownOnRightClick [
+	"See: BrDropdownExamples>>#coloredDropdown"
+
+	<gtExample>
+	^ BrButton new
+		label: '';
+		look:
+			BrGlamorousButtonWithLabelLook
+				+
+					(BrGlamorousWithContextMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+								items:
+									{('Change to blue' -> [ :e | e background: Color blue ]).
+									('Change to red' -> [ :e | e background: Color red ]).
+									('Change to green' -> [ :e | e background: Color green ])};
+								yourself ]);
+		yourself
+]
+
+{ #category : #accessing }
 UsefulExamples >> dropdownWithChangingContent [
 	<gtExample>
 	| anAction aButton |
