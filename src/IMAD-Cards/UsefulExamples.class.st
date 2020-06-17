@@ -21,6 +21,13 @@ UsefulExamples class >> forceBasedLayout [
 ]
 
 { #category : #accessing }
+UsefulExamples >> allPragmas [
+	<gtExample>
+	^ (CompiledMethod allInstances
+		flatCollect: [ :m | m pragmas collect: #selector ]) asSet
+]
+
+{ #category : #accessing }
 UsefulExamples >> attachGtDocToModel [
 	<gtExample>
 	| dict doc |

@@ -6,6 +6,7 @@ Class {
 
 { #category : #accessing }
 CardDeckRepository >> garageDoorRemote [
+	<storedCardDeck>
 	<gtExample>
 	^ CardDeck new
 		name: 'Garage Door Remote';
@@ -77,8 +78,21 @@ The door changes state when it receives a signal from the remote, or from a sens
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+CardDeckRepository >> generateCardDeck [
+	<storedCardDeck>
+	<gtExample>
+	^ CardDeck new
+		name: #CardDeck757773824;
+		description: 'To do';
+		set: #storageClassName to: 'CardDeckRepository';
+		set: #storageMethodName to: 'generateCardDeck';
+		yourself
+]
+
 { #category : #accessing }
 CardDeckRepository >> gtOverview [
+	<storedCardDeck>
 	<gtExample>
 	^ CardDeck new
 		name: 'Gt Overview';
@@ -232,6 +246,7 @@ Is a view an Element? If not, what''s the difference?';
 
 { #category : #accessing }
 CardDeckRepository >> imadTodos [
+	<storedCardDeck>
 	<gtExample>
 	^ CardDeck new
 		name: 'IMAD Design Todos';

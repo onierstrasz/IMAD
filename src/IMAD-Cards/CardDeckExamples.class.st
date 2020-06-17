@@ -23,53 +23,53 @@ CardDeckExamples >> builtModelEqualsGeneratedModel [
 	^ deck
 ]
 
-{ #category : #accessing }
-CardDeckExamples >> facultyDoodleDomain [
+{ #category : #'as yet unclassified' }
+CardDeckExamples >> genFacultyDoodleModelingExamples [
+	<storedCardDeck>
 	<gtExample>
-	| deck |
-	deck := CardDeck new.
-	self assert: deck isEmpty.
-	
-	deck
+	^ CardDeck new
 		name: 'Faculty Doodle Domain';
-		description: 'I represent the domain of doodles to organize Committee meetings for the Faculty of Science.';
-		storageClassName: 'CardDeckExamples';
-		storageMethodName: 'genFacultyDoodleModelingExamples'.
-	
-	deck
-		addCardNamed: 'Committee'
 		description:
-			'I am a committee within the Faculty of Science of the University of Bern. I am formed to make decisions on various issues throughout the year (budgets, hiring of professors, teaching evaluations, etc.).'.
-
-	deck
-		addCardNamed: 'Member'
-		description:
-			'I am a Faculty member, or possibly an assistant or a student. I can be contacted by email or phone'.
-	deck cardNamed: 'Member' become: #member ofCardNamed: 'Committee'.
-	
-	self assert: ((deck cardNamed: 'Member') is: #member of: (deck cardNamed: 'Committee')).
-
-	deck
-		addCardNamed: 'Chair'
-		description: 'I chair the committee and am also a Faculty member.'.
-	deck cardNamed: 'Chair' become: #chair ofCardNamed: 'Committee'.
-
-	self assert: ((deck cardNamed: 'Chair') is: #chair of: (deck cardNamed: 'Committee')).
-
-	deck
-		addCardNamed: 'Meeting'
-		description:
-			'I am held on a given date, and produce a report to the Dean or the Faculty.'.
-	deck cardNamed: 'Meeting' become: #meeting ofCardNamed: 'Committee'.
-
-	self assert: ((deck cardNamed: 'Meeting') is: #meeting of: (deck cardNamed: 'Committee')).
-
-	deck addCardNamed: 'Report' description: '...'.	
-	"deck cardNamed: 'Report' become: #report ofCardNamed: 'Committee'."
-	deck addRelation: #report fromCardNamed: 'Committee' toCardNamed: 'Report'.
-	
-	self assert: ((deck cardNamed: 'Report') is: #report of: (deck cardNamed: 'Committee')).
-
-	self assert: deck size equals: 5.
-	^ deck
+			'I represent the domain of doodles to organize Committee meetings for the Faculty of Science.';
+		set: #storageClassName to: 'CardDeckExamples';
+		set: #storageMethodName to: 'genFacultyDoodleModelingExamples';
+		addCard:
+			(Card new
+				name: 'Chair';
+				description: 'I chair the committee and am also a Faculty member.';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Committee';
+				description:
+					'I am a committee within the Faculty of Science of the University of Bern. I am formed to make decisions on various issues throughout the year (budgets, hiring of professors, teaching evaluations, etc.).';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Meeting';
+				description:
+					'I am held on a given date, and produce a report to the Dean or the Faculty.';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Member';
+				description:
+					'I am a Faculty member, or possibly an assistant or a student. I can be contacted by email or phone';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Report';
+				description: '...';
+				yourself);
+		addRelation: #chair fromCardNamed: 'Committee' toCardNamed: 'Chair';
+		addRelation: #meeting
+			fromCardNamed: 'Committee'
+			toCardNamed: 'Meeting';
+		addRelation: #member
+			fromCardNamed: 'Committee'
+			toCardNamed: 'Member';
+		addRelation: #report
+			fromCardNamed: 'Committee'
+			toCardNamed: 'Report';
+		yourself
 ]

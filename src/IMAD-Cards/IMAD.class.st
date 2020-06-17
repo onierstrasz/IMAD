@@ -17,19 +17,19 @@ IMAD class >> deprecated [
 	^ self new deprecated
 ]
 
-{ #category : #accessing }
-IMAD class >> deprecated2 [
-	^ self new deprecated
-]
-
 { #category : #converting }
 IMAD class >> gtExamples [
-	^ self new allExamples
+	^ self new gtExamples
+]
+
+{ #category : #accessing }
+IMAD class >> storedCardDecks [
+	^ self new storedCardDecks
 ]
 
 { #category : #converting }
 IMAD class >> todos [
-	^ self new findAllTodos
+	^ self new todos
 ]
 
 { #category : #accessing }
@@ -43,12 +43,6 @@ IMAD >> allExamples [
 IMAD >> deprecated [
 	<gtExample>
 	^ 'IMAD' gtPackageMatches & #deprecated: gtReferences
-]
-
-{ #category : #accessing }
-IMAD >> findAllTodos [
-	<gtExample>
-	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
 
 { #category : #accessing }
@@ -84,6 +78,13 @@ updateReport value.
 ]
 
 { #category : #accessing }
+IMAD >> gtExamples [
+	<gtExample>
+	^ ('IMAD' gtPackageMatches & #gtExample gtReferences
+		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
+]
+
+{ #category : #accessing }
 IMAD >> loadAMT [
 	<gtExample>
 	^ Metacello new
@@ -108,4 +109,16 @@ IMAD >> loadForkedAMT [
 		baseline: 'AMT';
 		repository: 'https://github.com/onierstrasz/ActorModelingTool';
 		load
+]
+
+{ #category : #accessing }
+IMAD >> storedCardDecks [
+	<gtExample>
+	^ #storedCardDeck gtPragmas
+]
+
+{ #category : #accessing }
+IMAD >> todos [
+	<gtExample>
+	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]

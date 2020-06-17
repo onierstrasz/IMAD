@@ -222,7 +222,7 @@ CardDeck >> generateStorageMethodString [
 	stream := WriteStream on: String new.
 	stream
 		nextPutAll: self storageMethodName;
-		nextPutAll: ' <gtExample> ^ '.
+		nextPutAll: ' <storedCardDeck> <gtExample> ^ '.
 	self storeOn: stream.
 	^ OpalCompiler new format: stream contents
 ]
