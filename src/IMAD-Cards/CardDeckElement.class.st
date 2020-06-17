@@ -347,13 +347,10 @@ CardDeckElement >> unsubscribe [
 
 { #category : #accessing }
 CardDeckElement >> updateGraph [
-	| newGraph |
+	| newGraph oldGraph |
+	oldGraph := theGraph.
 	newGraph := self buildGraph.
-	graphHolder children
-		ifNotEmpty: [ | oldGraph |
-			oldGraph := graphHolder children first.
-			self assert: (oldGraph isKindOf: BlPannableElement).
-			newGraph zoomTo: oldGraph zoomLevel ].
+	oldGraph ifNotNil: [ newGraph zoomTo: oldGraph zoomLevel ].
 	graphHolder removeChildren.
 	graphHolder addChild: newGraph
 ]
