@@ -1,6 +1,6 @@
 "
 I  provide a dedicated view for a Card Deck, or a subset of Cards in a Deck.
-
+Eventually some of my parts should be factored out into separate Element classes.
 "
 Class {
 	#name : #CardDeckElement,
@@ -83,11 +83,14 @@ CardDeckElement >> buildButtonBar [
 
 { #category : #accessing }
 CardDeckElement >> buildGraph [
+<todo: 'delegat this all to CardGraphElement'>
 	"NB: The dictionary is needed because for each edge to create we have
 	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."
-
-	| root |
+	^ CardGraphElement new
+		forDeck: self deck
+	
+	"| root |
 	graphElementsDictionary := Dictionary new.
 	root := BlElement new
 		constraintsDo: [ :c | 
@@ -112,7 +115,7 @@ CardDeckElement >> buildGraph [
 				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
 	root clipChildren: false.
 	theGraph := root asPannableElement.
-	^ theGraph
+	^ theGraph"
 ]
 
 { #category : #accessing }
@@ -134,7 +137,6 @@ CardDeckElement >> buildGraphPane [
 			c vertical matchParent ];
 		padding: (BlInsets all: 5);
 		margin: (BlInsets all: 5);
-		"border: (BlBorder paint: Color veryLightGray width: 1);"
 			layout: BlLinearLayout vertical;
 		yourself.
 	graphHolder
@@ -212,6 +214,7 @@ CardDeckElement >> buildTags [
 
 { #category : #accessing }
 CardDeckElement >> cardElementFor: aCard [
+<todo: 'delete -- moved to CardGraphElement'>
 	^ CardElement new
 		card: aCard;
 		yourself
@@ -262,32 +265,22 @@ CardDeckElement >> directedCurvedEdge [
 
 { #category : #accessing }
 CardDeckElement >> edgeElementFrom: source to: target [
-	<todo: 'find a better way to draw directed edges'>
-	| sourceElt targetElt line |
-	sourceElt := self elementFor: source.
-	targetElt := self elementFor: target.
-	sourceElt graph connectTo: targetElt.
-	line := BlLineElement new.
-	line
-		zIndex: -1;
-		border: (BlBorder paint: Color gray width: 3).
-	line
-		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
-		toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt);
-		toHead:
-			(BlArrowheadSimpleArrow new
-				border: (BlBorder paint: Color gray width: 3)).
-	^ line
+<todo: 'delete -- moved to CardGraphElement'>
+	^ CardRelationElement new
+		from: (self elementFor: source) to: (self elementFor: target);
+		yourself
 ]
 
 { #category : #accessing }
 CardDeckElement >> elementFor: anEntity [
+<todo: 'delete -- moved to CardGraphElement'>
 	self assert: (graphElementsDictionary includesKey: anEntity).
 	^ graphElementsDictionary at: anEntity
 ]
 
 { #category : #accessing }
 CardDeckElement >> initialize [
+<todo: 'delete reference to graphElementsDictionary'>
 	super initialize.
 	deck := CardDeck new.
 	graphElementsDictionary := Dictionary new.
@@ -304,6 +297,7 @@ CardDeckElement >> initialize [
 
 { #category : #accessing }
 CardDeckElement >> mapModelEntity: entity toElement: anElement [
+<todo: 'delete -- moved to CardGraphElement'>
 	graphElementsDictionary at: entity put: anElement
 ]
 

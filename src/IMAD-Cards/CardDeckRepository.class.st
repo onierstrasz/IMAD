@@ -438,5 +438,14 @@ CardDeckRepository >> testDeck [
 				name: 'Santa''s Little Helper';
 				description: 'To do';
 				yourself);
+		addRelation: '_rel756505088'
+			fromCardNamed: 'Bart'
+			toCardNamed: 'Homer';
+		addRelation: '_rel986026752'
+			fromCardNamed: 'Homer'
+			toCardNamed: 'Lisa';
+		addRelation: '_rel899586816'
+			fromCardNamed: 'Maggie'
+			toCardNamed: 'Bart';
 		yourself
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #CardElement,
-	#superclass : #CardDeckElement,
+	#superclass : #BlElement,
 	#instVars : [
 		'card',
 		'isEditable'
