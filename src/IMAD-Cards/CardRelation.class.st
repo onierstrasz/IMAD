@@ -9,10 +9,10 @@ Class {
 	#name : #CardRelation,
 	#superclass : #CardModelEntity,
 	#instVars : [
-		'name',
 		'source',
 		'target',
-		'deck'
+		'deck',
+		'kind'
 	],
 	#category : #'IMAD-Cards-Model'
 }
@@ -21,8 +21,8 @@ Class {
 CardRelation >> <= aRelation [
 	^ self source name < aRelation source name
 		or: [ self source name = aRelation source name
-				and: [ self name < aRelation name
-						or: [ self name = aRelation name
+				and: [ self kind < aRelation kind
+						or: [ self kind = aRelation kind
 								and: [ self target name <= aRelation target name ] ] ] ]
 ]
 
@@ -35,7 +35,7 @@ CardRelation >> = anObject [
 		ifTrue: [ ^ true ].
 	self class = anObject class
 		ifFalse: [ ^ false ].
-	^ self name = anObject name
+	^ self kind = anObject kind
 		and:
 			[ self source = anObject source and: [ self target = anObject target ] ]
 ]
@@ -50,11 +50,11 @@ CardRelation >> assertInvariant [
 	self
 		assert: (self deck isKindOf: CardDeck)
 		description: 'deck must be a CardDeck'.
-	self assert: self name isNotNil description: 'name must be defined'.
-	self assert: self name isString description: 'name must be a string'.
+	self assert: self kind isNotNil description: 'kind of relation must be defined'.
+	self assert: self kind isString description: 'kind must be a string'.
 	self
-		assert: self name notEmpty
-		description: 'name must not be an empty string'.
+		assert: self kind notEmpty
+		description: 'kind must not be an empty string'.
 	self
 		assert: (source isKindOf: Card)
 		description: 'source must be a Card'.
@@ -91,10 +91,10 @@ CardRelation >> hash [
 	^ self identityHash 
 ]
 
-{ #category : #initialization }
-CardRelation >> initializeDeck: aDeck name: aSymbol source: aSourceCard target: aTargetCard [
+{ #category : #accessing }
+CardRelation >> initializeDeck: aDeck kind: aSymbol source: aSourceCard target: aTargetCard [
 	deck := aDeck.
-	name := aSymbol.
+	kind := aSymbol.
 	source := aSourceCard.
 	target := aTargetCard.
 	self assertInvariant
@@ -102,24 +102,37 @@ CardRelation >> initializeDeck: aDeck name: aSymbol source: aSourceCard target: 
 
 { #category : #accessing }
 CardRelation >> isNamed: aSymbol [
-	^ name = aSymbol
+	<todo: 'change to isOfKind:'>
+	^ kind = aSymbol
+]
+
+{ #category : #accessing }
+CardRelation >> kind [
+	^ kind
+]
+
+{ #category : #accessing }
+CardRelation >> kind: aSymbol [
+	kind := aSymbol.
+	self deck announcer announce: RelationsUpdated
 ]
 
 { #category : #accessing }
 CardRelation >> name [
-	^ name
+<todo: 'deprecate. Change name to ... kind'>
+	^ kind
 ]
 
 { #category : #accessing }
 CardRelation >> name: aSymbol [
-	name := aSymbol.
+	kind := aSymbol.
 	self deck announcer announce: RelationsUpdated
 ]
 
 { #category : #printing }
 CardRelation >> printOn: aStream [
 	aStream
-		nextPutAll: self name;
+		nextPutAll: self kind;
 		nextPutAll: ' : '.
 	self source printOn: aStream.
 	aStream

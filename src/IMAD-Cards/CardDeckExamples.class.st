@@ -24,7 +24,7 @@ CardDeckExamples >> builtModelEqualsGeneratedModel [
 ]
 
 { #category : #'as yet unclassified' }
-CardDeckExamples >> genFacultyDoodleModelingExamples [
+CardDeckExamples >> facultyDoodleDomain [
 	<storedCardDeck>
 	<gtExample>
 	^ CardDeck new
@@ -32,7 +32,7 @@ CardDeckExamples >> genFacultyDoodleModelingExamples [
 		description:
 			'I represent the domain of doodles to organize Committee meetings for the Faculty of Science.';
 		set: #storageClassName to: 'CardDeckExamples';
-		set: #storageMethodName to: 'genFacultyDoodleModelingExamples';
+		set: #storageMethodName to: 'facultyDoodleDomain';
 		addCard:
 			(Card new
 				name: 'Chair';

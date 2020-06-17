@@ -34,6 +34,8 @@ IMAD class >> gtExamples [
 
 { #category : #accessing }
 IMAD class >> migrateAllStoredCardDecks [
+	"Find and store again all stored decks. Useful if the storage API changed. Keep the old API active until after migration, then deprecate it. Note that saveState checks that the stored state equals the actual state."
+
 	^ self storedCardDecks result
 		collect:
 			[ :cm | (cm valueWithReceiver: cm methodClass arguments: {}) saveState ]

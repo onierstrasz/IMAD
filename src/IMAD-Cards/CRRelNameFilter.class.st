@@ -5,17 +5,23 @@ Class {
 	#name : #CRRelNameFilter,
 	#superclass : #CRFilter,
 	#instVars : [
-		'name'
+		'kind'
 	],
 	#category : #'IMAD-Cards-Filters'
 }
 
 { #category : #accessing }
+CRRelNameFilter >> kind: aSymbol [
+	kind := aSymbol
+]
+
+{ #category : #accessing }
 CRRelNameFilter >> matches: aCardRel [
-	^ aCardRel isNamed: name
+	^ aCardRel isNamed: kind
 ]
 
 { #category : #accessing }
 CRRelNameFilter >> name: aSymbol [
-	name := aSymbol
+<todo: 'delete'>
+	kind := aSymbol
 ]

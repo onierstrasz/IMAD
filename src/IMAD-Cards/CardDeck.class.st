@@ -68,7 +68,7 @@ CardDeck >> addDummyRelation [
 CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 	| rel |
 	rel := CardRelation new.
-	rel initializeDeck: self name: aSymbol source: aSourceCard target: aTargetCard.
+	rel initializeDeck: self kind: aSymbol source: aSourceCard target: aTargetCard.
 	relations add: rel.
 	self announcer announce: RelationsUpdated new.
 	^ rel
@@ -303,8 +303,8 @@ CardDeck >> gtRelationsFor: aView [
 			column
 				rowStencil: [ :relation | 
 					self
-						editableLabelFor: relation name
-						withSetter: [ :arg | relation name: arg ] ];
+						editableLabelFor: relation kind
+						withSetter: [ :arg | relation kind: arg ] ];
 				matchParent ];
 		column: 'Target'
 			do: [ :column | 
@@ -377,7 +377,7 @@ CardDeck >> gtStoreStringFor: aView [
 
 { #category : #relations }
 CardDeck >> hasRelation: aSymbol [
-	^ (self relationsMatching:(CRRelNameFilter new name: aSymbol)) isNotEmpty
+	^ (self relationsMatching:(CRRelNameFilter new kind: aSymbol)) isNotEmpty
 ]
 
 { #category : #initialization }
@@ -588,7 +588,7 @@ CardDeck >> storeRelationsOn: aStream [
 		do: [ :each | 
 			aStream
 				nextPutAll: '  addRelation: ';
-				print: each name;
+				print: each kind;
 				nextPutAll: ' fromCardNamed: ';
 				print: each source name;
 				nextPutAll: ' toCardNamed: ';

@@ -179,7 +179,7 @@ Card >> name: aString [
 
 { #category : #querying }
 Card >> relFilter: aSymbol [
-	^ CRRelNameFilter new name: aSymbol
+	^ CRRelNameFilter new kind: aSymbol
 ]
 
 { #category : #querying }

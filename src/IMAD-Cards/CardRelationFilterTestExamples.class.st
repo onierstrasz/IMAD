@@ -39,7 +39,7 @@ CardRelationFilterTestExamples >> deckHasOneSourceCardNamedA [
 CardRelationFilterTestExamples >> deckHasRelationX [
 	<gtExample>
 	| filter result |
-	filter := CRRelNameFilter new name: #x.
+	filter := CRRelNameFilter new kind: #x.
 	result := deck relationsMatching: filter.
 	self assert: result size equals: 2.
 	^ result
@@ -49,8 +49,8 @@ CardRelationFilterTestExamples >> deckHasRelationX [
 CardRelationFilterTestExamples >> deckHasRelationXorY [
 	<gtExample>
 	| filter filterX filterY result |
-	filterX := CRRelNameFilter new name: #x.
-	filterY := CRRelNameFilter new name: #y.
+	filterX := CRRelNameFilter new kind: #x.
+	filterY := CRRelNameFilter new kind: #y.
 	filter := filterX | filterY.
 	result := deck relations select: [:rel | filter matches: rel].
 	self assert: result size equals: 3.
@@ -70,7 +70,7 @@ CardRelationFilterTestExamples >> deckHasSourceAandRelationX [
 	| cardA filter filterA filterX result |
 	cardA := deck cardNamed: 'A'.
 	filterA := CRSourceFilter new source: cardA.
-	filterX := CRRelNameFilter new name: #x.
+	filterX := CRRelNameFilter new kind: #x.
 	filter := filterA & filterX.
 	result := deck relationsMatching: filter.
 	self assert: result size equals: 1.
