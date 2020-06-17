@@ -47,13 +47,15 @@ CardElement >> card: aCard [
 
 { #category : #accessing }
 CardElement >> contextMenu [
-	^ BrGlamorousSimpleContextMenuContent new
-		items: {
-		('Inspect card' -> [ :e | card inspect ]) .
-		
-		('Delete card')-> [ card delete ]
-		};
-		yourself
+	| menu |
+	menu := BrGlamorousSimpleContextMenuContent new
+		items:
+			{('Inspect card' -> [ card inspect ]).
+			('Delete card'
+				-> [ menu anchor: BlElement new.
+					card delete ])};
+		yourself.
+	^ menu
 ]
 
 { #category : #accessing }
