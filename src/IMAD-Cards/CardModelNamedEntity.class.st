@@ -94,6 +94,11 @@ CardModelNamedEntity >> buildLabel [
 		margin: (BlInsets all: 0)
 ]
 
+{ #category : #properties }
+CardModelNamedEntity >> defaultName [
+	^ self class name, self identityHash asString
+]
+
 { #category : #accessing }
 CardModelNamedEntity >> description [
 	^ description
@@ -122,11 +127,6 @@ CardModelNamedEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock 
 							label text: aString.
 							self inform: e printString ] ] ].
 	^ label
-]
-
-{ #category : #properties }
-CardModelNamedEntity >> freshName [
-	^ self class name, self identityHash asString
 ]
 
 { #category : #'gt-extensions' }
@@ -203,7 +203,7 @@ CardModelNamedEntity >> hash [
 { #category : #initialization }
 CardModelNamedEntity >> initialize [
 	super initialize.
-	name := self freshName.
+	name := self defaultName.
 	description := self defaultDescription
 ]
 

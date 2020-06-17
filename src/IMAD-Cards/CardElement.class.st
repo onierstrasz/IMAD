@@ -22,6 +22,24 @@ CardElement >> beEditable [
 ]
 
 { #category : #accessing }
+CardElement >> beText [
+	isEditable := false.
+	self removeChildren.
+	self
+		addChild:
+			((BlTextElement new
+				text:
+				(card name asRopedText
+				fontSize: 12;
+				glamorousCodeFont;
+				yourself))
+				constraintsDo: [ :c | 
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ];
+				yourself)
+]
+
+{ #category : #accessing }
 CardElement >> card: aCard [
 	card := aCard.
 	self updateCard
@@ -58,8 +76,7 @@ CardElement >> initialize [
 				+
 					(BrGlamorousWithContextMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
-								items:
-									{('Inspect' -> [ :e | card inspect ])};
+								items: {('Inspect' -> [ :e | card inspect ])};
 								yourself ]).
 	self updateCard.
 	self graph beNode.
@@ -78,19 +95,8 @@ CardElement >> initialize [
 
 { #category : #accessing }
 CardElement >> updateCard [
-	isEditable := false.
-	self removeChildren.
-	self
-		addChild:
-			((BlTextElement new
-				text:
-				(card name asRopedText
-				fontSize: 12;
-				glamorousCodeFont;
-				yourself))
-				constraintsDo: [ :c | 
-					c frame horizontal alignCenter.
-					c frame vertical alignCenter ];
-				yourself).
-	self graph model: card.
+	card name = card defaultName
+		ifTrue: [ self beEditable ]
+		ifFalse: [ self beText ].
+	self graph model: card
 ]
