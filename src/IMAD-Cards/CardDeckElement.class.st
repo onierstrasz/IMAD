@@ -83,13 +83,14 @@ CardDeckElement >> buildButtonBar [
 
 { #category : #accessing }
 CardDeckElement >> buildGraph [
-<todo: 'delegat this all to CardGraphElement'>
 	"NB: The dictionary is needed because for each edge to create we have
 	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."
-	^ CardGraphElement new
-		forDeck: self deck
-	
+
+	<todo: 'remove old code after zoom is working'>
+	theGraph := CardGraphElement new forDeck: self deck.
+	^ theGraph
+
 	"| root |
 	graphElementsDictionary := Dictionary new.
 	root := BlElement new
@@ -213,14 +214,6 @@ CardDeckElement >> buildTags [
 ]
 
 { #category : #accessing }
-CardDeckElement >> cardElementFor: aCard [
-<todo: 'delete -- moved to CardGraphElement'>
-	^ CardElement new
-		card: aCard;
-		yourself
-]
-
-{ #category : #accessing }
 CardDeckElement >> cards [
 	<todo: 'Apply the filter to select just the cards for this view'>
 	^ self deck cards
@@ -264,26 +257,11 @@ CardDeckElement >> directedCurvedEdge [
 ]
 
 { #category : #accessing }
-CardDeckElement >> edgeElementFrom: source to: target [
-<todo: 'delete -- moved to CardGraphElement'>
-	^ CardRelationElement new
-		from: (self elementFor: source) to: (self elementFor: target);
-		yourself
-]
-
-{ #category : #accessing }
-CardDeckElement >> elementFor: anEntity [
-<todo: 'delete -- moved to CardGraphElement'>
-	self assert: (graphElementsDictionary includesKey: anEntity).
-	^ graphElementsDictionary at: anEntity
-]
-
-{ #category : #accessing }
 CardDeckElement >> initialize [
 <todo: 'delete reference to graphElementsDictionary'>
 	super initialize.
 	deck := CardDeck new.
-	graphElementsDictionary := Dictionary new.
+	"graphElementsDictionary := Dictionary new."
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -293,12 +271,6 @@ CardDeckElement >> initialize [
 	self addChild: self buildTags.
 	self addChild: self buildGraphPane.
 	self subscribe
-]
-
-{ #category : #accessing }
-CardDeckElement >> mapModelEntity: entity toElement: anElement [
-<todo: 'delete -- moved to CardGraphElement'>
-	graphElementsDictionary at: entity put: anElement
 ]
 
 { #category : #accessing }

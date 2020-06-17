@@ -15,6 +15,11 @@ Class {
 }
 
 { #category : #accessing }
+CardGraphElement class >> forDeck: aDeck [
+	^ self new forDeck: aDeck
+]
+
+{ #category : #accessing }
 CardGraphElement >> cardElementFor: aCard [
 	^ CardElement new
 		card: aCard;
@@ -46,25 +51,18 @@ CardGraphElement >> elementFor: anEntity [
 
 { #category : #accessing }
 CardGraphElement >> forDeck: aDeck [
-<todo: '
-- move all graphElementsDictionary code here
-
-'>
-
 	"NB: The dictionary is needed because for each edge to create we have
 	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."
 
-
 	deck := aDeck.
 	graphElementsDictionary := Dictionary new.
-
 	self cards
 		ifNotEmpty: [ self cards
 				do: [ :aCard | 
 					| cardElement |
 					cardElement := self cardElementFor: aCard.
-					self mapModelEntity: aCard toElement: cardElement. "to do"
+					self mapModelEntity: aCard toElement: cardElement.	"to do"
 					self addChild: cardElement ] ].
 	self cards
 		do: [ :source | 
@@ -77,7 +75,7 @@ CardGraphElement >> forDeck: aDeck [
 				ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
 				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
 	self clipChildren: false.
-^ self
+	^ self
 ]
 
 { #category : #accessing }
