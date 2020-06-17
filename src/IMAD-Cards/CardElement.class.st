@@ -46,6 +46,13 @@ CardElement >> card: aCard [
 ]
 
 { #category : #accessing }
+CardElement >> contextMenu [
+	^ BrGlamorousSimpleContextMenuContent new
+		items: {('Inspect card' -> [ :e | card inspect ])};
+		yourself
+]
+
+{ #category : #accessing }
 CardElement >> initialize [
 	<todo:
 		'
@@ -75,9 +82,7 @@ CardElement >> initialize [
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
 				+
 					(BrGlamorousWithContextMenuLook
-						content: [ BrGlamorousSimpleContextMenuContent new
-								items: {('Inspect' -> [ :e | card inspect ])};
-								yourself ]).
+						content: [ self contextMenu ]).
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.

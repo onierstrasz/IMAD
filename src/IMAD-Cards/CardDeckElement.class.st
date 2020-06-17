@@ -140,6 +140,9 @@ CardDeckElement >> buildGraphPane [
 			layout: BlLinearLayout vertical;
 		yourself.
 	graphHolder
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
+	graphHolder
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
@@ -221,6 +224,13 @@ CardDeckElement >> cardElementFor: aCard [
 CardDeckElement >> cards [
 	<todo: 'Apply the filter to select just the cards for this view'>
 	^ self deck cards
+]
+
+{ #category : #accessing }
+CardDeckElement >> contextMenu [
+	^ BrGlamorousSimpleContextMenuContent new
+		items: {('Inspect deck' -> [ :e | deck inspect ])};
+		yourself
 ]
 
 { #category : #accessing }
