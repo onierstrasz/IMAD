@@ -177,12 +177,6 @@ Card >> name: aString [
 	self announceUpdate
 ]
 
-{ #category : #printing }
-Card >> printOn: aStream [
-	aStream
-		nextPutAll: self name
-]
-
 { #category : #querying }
 Card >> relFilter: aSymbol [
 	^ CRRelNameFilter new name: aSymbol

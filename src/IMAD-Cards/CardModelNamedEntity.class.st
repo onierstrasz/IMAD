@@ -237,6 +237,12 @@ CardModelNamedEntity >> newLinearLayout [
 			c vertical matchParent ]
 ]
 
+{ #category : #printing }
+CardModelNamedEntity >> printOn: aStream [
+	aStream
+		nextPutAll: self name
+]
+
 { #category : #properties }
 CardModelNamedEntity >> protectedKeys [
 	^ super protectedKeys
