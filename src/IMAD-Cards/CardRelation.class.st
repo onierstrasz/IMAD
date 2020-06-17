@@ -101,8 +101,7 @@ CardRelation >> initializeDeck: aDeck kind: aSymbol source: aSourceCard target: 
 ]
 
 { #category : #accessing }
-CardRelation >> isNamed: aSymbol [
-	<todo: 'change to isOfKind:'>
+CardRelation >> isOfKind: aSymbol [
 	^ kind = aSymbol
 ]
 
@@ -115,12 +114,6 @@ CardRelation >> kind [
 CardRelation >> kind: aSymbol [
 	kind := aSymbol.
 	self deck announcer announce: RelationsUpdated
-]
-
-{ #category : #accessing }
-CardRelation >> name [
-<todo: 'deprecate. Change name to ... kind'>
-	^ kind
 ]
 
 { #category : #accessing }

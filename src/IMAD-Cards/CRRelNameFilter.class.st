@@ -17,11 +17,5 @@ CRRelNameFilter >> kind: aSymbol [
 
 { #category : #accessing }
 CRRelNameFilter >> matches: aCardRel [
-	^ aCardRel isNamed: kind
-]
-
-{ #category : #accessing }
-CRRelNameFilter >> name: aSymbol [
-<todo: 'delete'>
-	kind := aSymbol
+	^ aCardRel isOfKind: kind
 ]

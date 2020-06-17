@@ -117,8 +117,6 @@ CardDeckElement >> buildGraph [
 
 { #category : #accessing }
 CardDeckElement >> buildGraphPane [
-	<todo:
-		'Instead of creating a new Card, open a dialogue to edit the card name'>
 	| graphPane buttonBar span |
 	graphPane := BlElement new
 		constraintsDo: [ :c | 
@@ -157,7 +155,6 @@ CardDeckElement >> buildGraphPane [
 
 { #category : #accessing }
 CardDeckElement >> buildHeader [
-	<todo: 'Make the nameHolder an editable label.'>
 	| header |
 	header := BlElement new
 		constraintsDo: [ :c | 
@@ -291,7 +288,6 @@ CardDeckElement >> elementFor: anEntity [
 
 { #category : #accessing }
 CardDeckElement >> initialize [
-	<todo: 'assert invariant -- initially deck should be a new empty deck?'>
 	super initialize.
 	deck := CardDeck new.
 	graphElementsDictionary := Dictionary new.

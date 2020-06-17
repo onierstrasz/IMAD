@@ -19,10 +19,6 @@ Class {
 
 { #category : #accessing }
 EdgeCreationHandler >> dragEndEvent: anEvent [
-	"anEvent inspect"
-
-	<todo:
-		'check that we are on a card node and create the relation from the card of the start node to this card'>
 	edgeStarted
 		ifTrue: [ | endNode |
 			anEvent consumed: true.
@@ -46,7 +42,6 @@ EdgeCreationHandler >> dragEndEvent: anEvent [
 
 { #category : #accessing }
 EdgeCreationHandler >> dragEvent: anEvent [
-	<todo: 'update a proto-line from the start node to where we are now'>
 	edgeStarted
 		ifTrue: [ anEvent consumed: true.
 			mousePositionElement
@@ -55,7 +50,6 @@ EdgeCreationHandler >> dragEvent: anEvent [
 
 { #category : #accessing }
 EdgeCreationHandler >> dragStartEvent: anEvent [
-	<todo: 'check that we are on a node and remember it as the start node'>
 	startNode := anEvent currentTarget.
 	startNode graph isNode
 		ifTrue: [ edgeStarted := true.
