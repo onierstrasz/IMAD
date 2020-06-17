@@ -6,7 +6,7 @@ I sit inside the graphHolder of the card deck element.
 "
 Class {
 	#name : #CardGraphElement,
-	#superclass : #BlPannableElement,
+	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
 		'deck'

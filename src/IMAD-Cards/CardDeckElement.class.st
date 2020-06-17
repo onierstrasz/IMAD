@@ -10,8 +10,7 @@ Class {
 		'tags',
 		'nameHolder',
 		'graphHolder',
-		'theGraph',
-		'graphElementsDictionary'
+		'theGraph'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -83,40 +82,9 @@ CardDeckElement >> buildButtonBar [
 
 { #category : #accessing }
 CardDeckElement >> buildGraph [
-	"NB: The dictionary is needed because for each edge to create we have
-	to look up the element corresponding to the other end of the relation.
-	NB: We can also use this to map relations to their edges, if needed."
-
-	<todo: 'remove old code after zoom is working'>
-	theGraph := CardGraphElement new forDeck: self deck.
+	theGraph := (CardGraphElement new forDeck: self deck)
+		asPannableElement.
 	^ theGraph
-
-	"| root |
-	graphElementsDictionary := Dictionary new.
-	root := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
-	self cards
-		ifNotEmpty: [ self cards
-				do: [ :aCard | 
-					| cardElement |
-					cardElement := self cardElementFor: aCard.
-					self mapModelEntity: aCard toElement: cardElement.
-					root addChild: cardElement ] ].
-	self cards
-		do: [ :source | 
-			source sourceRelations
-				do:
-					[ :rel | root addChild: (self edgeElementFrom: source to: rel target) ] ].
-	root
-		layout:
-			(self cards size > 1
-				ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
-				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
-	root clipChildren: false.
-	theGraph := root asPannableElement.
-	^ theGraph"
 ]
 
 { #category : #accessing }
@@ -138,7 +106,7 @@ CardDeckElement >> buildGraphPane [
 			c vertical matchParent ];
 		padding: (BlInsets all: 5);
 		margin: (BlInsets all: 5);
-			layout: BlLinearLayout vertical;
+		layout: BlLinearLayout vertical;
 		yourself.
 	graphHolder
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
@@ -258,10 +226,8 @@ CardDeckElement >> directedCurvedEdge [
 
 { #category : #accessing }
 CardDeckElement >> initialize [
-<todo: 'delete reference to graphElementsDictionary'>
 	super initialize.
 	deck := CardDeck new.
-	"graphElementsDictionary := Dictionary new."
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
