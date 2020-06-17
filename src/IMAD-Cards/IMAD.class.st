@@ -33,6 +33,13 @@ IMAD class >> gtExamples [
 ]
 
 { #category : #accessing }
+IMAD class >> migrateAllStoredCardDecks [
+	^ self storedCardDecks result
+		collect:
+			[ :cm | (cm valueWithReceiver: cm methodClass arguments: {}) saveState ]
+]
+
+{ #category : #accessing }
 IMAD class >> storedCardDecks [
 	^ self new storedCardDecks
 ]
