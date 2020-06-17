@@ -210,6 +210,37 @@ CardDeck >> defaultStorageMethodName [
 	^ 'generateCardDeck'
 ]
 
+{ #category : #cards }
+CardDeck >> deleteCard: aCard [
+	aCard deleteRelations.
+	self cards remove: aCard ifAbsent: [  ].
+	self announcer announce: CardsUpdated new
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> deleteCardButtonFor: aCard [
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousVectorIcons remove;
+		label: 'Delete ', aCard name;
+		action: [ :button | aCard delete ]
+]
+
+{ #category : #relations }
+CardDeck >> deleteRelation: aRelation [
+	self relations remove: aRelation ifAbsent: [  ].
+	self announcer announce: RelationsUpdated new
+]
+
+{ #category : #'gt-extensions' }
+CardDeck >> deleteRelationButtonFor: aRelation [
+	^ BrButton new
+		look: BrGlamorousButtonWithIconLook;
+		icon: BrGlamorousVectorIcons remove;
+		label: 'Remove ', aRelation asString;
+		action: [ :button | aRelation delete ]
+]
+
 { #category : #printing }
 CardDeck >> generateStorageMethodString [
 	| stream |
@@ -255,7 +286,7 @@ CardDeck >> gtCardsFor: aView [
 			do: [ :column | 
 			column
 				rowStencil:
-						[ :aCard | self removeCardButtonFor: aCard ];
+						[ :aCard | self deleteCardButtonFor: aCard ];
 				noResize ];
 		actionStencil: [ self addCardButton ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
@@ -322,7 +353,7 @@ CardDeck >> gtRelationsFor: aView [
 		column: ' '
 			do: [ :column | 
 			column
-				rowStencil: [ :aRelation | self removeRelationButtonFor: aRelation ];
+				rowStencil: [ :aRelation | self deleteRelationButtonFor: aRelation ];
 				noResize ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
@@ -478,35 +509,10 @@ CardDeck >> removeAllCardsAndRelations [
 	self announcer announce: RelationsUpdated new
 ]
 
-{ #category : #cards }
-CardDeck >> removeCard: aCard [
-	aCard removeRelations.
-	self cards remove: aCard ifAbsent: [  ].
-	self announcer announce: CardsUpdated new
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> removeCardButtonFor: aCard [
-	^ BrButton new
-		look: BrGlamorousButtonWithIconLook;
-		icon: BrGlamorousVectorIcons remove;
-		label: 'Remove ', aCard name;
-		action: [ :button | aCard remove ]
-]
-
 { #category : #relations }
 CardDeck >> removeRelation: aRelation [
 	self relations remove: aRelation ifAbsent: [  ].
 	self announcer announce: RelationsUpdated new
-]
-
-{ #category : #'gt-extensions' }
-CardDeck >> removeRelationButtonFor: aRelation [
-	^ BrButton new
-		look: BrGlamorousButtonWithIconLook;
-		icon: BrGlamorousVectorIcons remove;
-		label: 'Remove ', aRelation asString;
-		action: [ :button | aRelation remove ]
 ]
 
 { #category : #printing }

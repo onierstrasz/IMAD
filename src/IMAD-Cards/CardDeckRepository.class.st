@@ -78,18 +78,6 @@ The door changes state when it receives a signal from the remote, or from a sens
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
-CardDeckRepository >> generateCardDeck [
-	<storedCardDeck>
-	<gtExample>
-	^ CardDeck new
-		name: #CardDeck757773824;
-		description: 'To do';
-		set: #storageClassName to: 'CardDeckRepository';
-		set: #storageMethodName to: 'generateCardDeck';
-		yourself
-]
-
 { #category : #accessing }
 CardDeckRepository >> gtOverview [
 	<storedCardDeck>
@@ -408,5 +396,47 @@ A view would have access to the union of all available tags.
 		addRelation: 'belongsTo'
 			fromCardNamed: 'Card'
 			toCardNamed: 'Card Deck';
+		yourself
+]
+
+{ #category : #'as yet unclassified' }
+CardDeckRepository >> testDeck [
+	<storedCardDeck>
+	<gtExample>
+	^ CardDeck new
+		name: 'Test Deck';
+		description: 'To do';
+		set: #storageClassName to: 'CardDeckRepository';
+		set: #storageMethodName to: 'testDeck';
+		addCard:
+			(Card new
+				name: 'Bart';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Homer';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Lisa';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Maggie';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Marge';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Santa''s Little Helper';
+				description: 'To do';
+				yourself);
 		yourself
 ]

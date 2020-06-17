@@ -73,6 +73,12 @@ CardRelation >> deck: aCardDeck [
 	deck := aCardDeck
 ]
 
+{ #category : #removing }
+CardRelation >> delete [
+	self deck deleteRelation: self.
+	self deck: nil
+]
+
 { #category : #accessing }
 CardRelation >> hasSource: aCard [
 	^ source = aCard
@@ -131,12 +137,6 @@ CardRelation >> printOn: aStream [
 	aStream
 		nextPutAll: ' -> '.
 	self target printOn: aStream
-]
-
-{ #category : #removing }
-CardRelation >> remove [
-	self deck removeRelation: self.
-	self deck: nil
 ]
 
 { #category : #accessing }

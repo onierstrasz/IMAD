@@ -113,6 +113,17 @@ Card >> deck: aCardDeck [
 ]
 
 { #category : #accessing }
+Card >> delete [
+	self deck deleteCard: self.
+	self deck: nil
+]
+
+{ #category : #relations }
+Card >> deleteRelations [
+	self relations do: [ :each | each delete ]
+]
+
+{ #category : #accessing }
 Card >> description: aString [
 	super description: aString.
 	self announceUpdate
@@ -187,17 +198,6 @@ Card >> relations [
 	^ self sourceRelations
 		addAll: self targetRelations;
 		yourself
-]
-
-{ #category : #accessing }
-Card >> remove [
-	self deck removeCard: self.
-	self deck: nil
-]
-
-{ #category : #relations }
-Card >> removeRelations [
-	self relations do: [ :each | each remove ]
 ]
 
 { #category : #accessing }

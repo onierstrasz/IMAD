@@ -256,7 +256,7 @@ CardDeckTestExamples >> threeCardCycleRemoved [
 	deck := self deckWithThreeCardCycle.
 	a := deck cardNamed: 'A'.
 	self assert: a sourceRelations size equals: 1.
-	a sourceRelations do: [ :each | each remove ].
+	a sourceRelations do: [ :each | each delete ].
 	self assert: a sourceRelations isEmpty.
 	^ deck
 ]
@@ -269,7 +269,7 @@ CardDeckTestExamples >> threeCardNodeRemoved [
 	a := deck cardNamed: 'A'.
 	self assert: deck cards size equals: 3.
 	self assert: deck relations size equals: 3.
-	a remove.	 "removes A as well as A->B and C->A"
+	a delete.	 "removes A as well as A->B and C->A"
 	self assert: deck cards size equals: 2.
 	self assert: deck relations size equals: 1.
 	^ deck
