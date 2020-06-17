@@ -99,14 +99,10 @@ CardDeck >> assertCardsUniquelyNamed [
 
 { #category : #printing }
 CardDeck >> assertGeneratedDeckEqualsSelf [
-	"If this happens, there is a bug in the code generation!"
+	"If this fails, there is a bug in the code generation!"
 
-	| deck |
-	deck := OpalCompiler new
-		source: self storeString;
-		evaluate.
 	self
-		assert: deck = self
+		assert: self generatedDeckEqualsSelf
 		description: 'Fatal error: generated storeString is not equal to card deck'
 ]
 
@@ -225,6 +221,13 @@ CardDeck >> generateStorageMethodString [
 		nextPutAll: ' <storedCardDeck> <gtExample> ^ '.
 	self storeOn: stream.
 	^ OpalCompiler new format: stream contents
+]
+
+{ #category : #accessing }
+CardDeck >> generatedDeckEqualsSelf [
+	^ (OpalCompiler new
+		source: self storeString;
+		evaluate) = self
 ]
 
 { #category : #'gt-extensions' }

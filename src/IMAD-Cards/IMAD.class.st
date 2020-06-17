@@ -13,6 +13,16 @@ Class {
 }
 
 { #category : #accessing }
+IMAD class >> assertAllStoredCardDecksEqualSelf [
+	"IMAD assertAllStoredCardDecksEqualSelf"
+
+	self storedCardDecks result
+		do: [ :cm | 
+			(cm valueWithReceiver: cm methodClass arguments: {})
+				assertGeneratedDeckEqualsSelf ]
+]
+
+{ #category : #accessing }
 IMAD class >> deprecated [
 	^ self new deprecated
 ]
