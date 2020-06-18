@@ -359,7 +359,7 @@ UsefulExamples >> johnDoeContact [
 ]
 
 { #category : #accessing }
-UsefulExamples >> lineWithHoverAndContextMenu [
+UsefulExamples >> lineWithHoverAndContextMenuTOFIX [
 	<todo: 'this example does not work. How to fix it?'>
 	<gtExample>
 	| line |
@@ -393,6 +393,35 @@ UsefulExamples >> lookSubtraction [
 	look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
 	icon: BrGlamorousIcons hamburger asElement;
 	label: 'Menu'
+]
+
+{ #category : #accessing }
+UsefulExamples >> nestedMenuTOFIX [
+	<todo: 'This is just a skeleton. How to get the nesting?'>
+	<gtExample>
+	| main nested |
+	nested := BlTextElement new text: 'nested' asRopedText.
+	nested
+		look:
+			(BrGlamorousWithContextMenuLook
+				content: [ BrGlamorousSimpleContextMenuContent new
+						items:
+							{('Change to blue' -> [ :e | e background: Color blue ]).
+							('Change to red' -> [ :e | e background: Color red ]).
+							('Change to green' -> [ :e | e background: Color green ])};
+						yourself ]);
+		yourself.
+	main := BlElement new
+		background: Color red;
+		yourself.
+	main
+		look:
+			(BrGlamorousWithContextMenuLook
+				content: [ BrGlamorousSimpleContextMenuContent new
+						items: {(nested -> [  ])};
+						yourself ]);
+		yourself.
+	^ main
 ]
 
 { #category : #utilities }

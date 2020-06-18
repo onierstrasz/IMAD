@@ -39,7 +39,9 @@ CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
 
 { #category : #accessing }
 CardRelationElement >> from: sourceElt to: targetElt [
-	<todo: 'find a better way to draw directed edges'>
+	<todo: 'find a better way to draw directed edges
+	Replace this by forRelation:inGraph:
+	'>
 	sourceElt graph connectTo: targetElt.
 	self
 		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
