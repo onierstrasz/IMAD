@@ -359,8 +359,7 @@ UsefulExamples >> johnDoeContact [
 ]
 
 { #category : #accessing }
-UsefulExamples >> lineWithHoverAndContextMenuTOFIX [
-	<todo: 'this example does not work. How to fix it?'>
+UsefulExamples >> lineWithHoverAndContextMenu [
 	<gtExample>
 	| line |
 	line := BlLineElement new
@@ -378,9 +377,12 @@ UsefulExamples >> lineWithHoverAndContextMenuTOFIX [
 					(BrGlamorousWithContextMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 								items:
-									{('Change to blue' -> [ :e | e background: Color blue ]).
-									('Change to red' -> [ :e | e background: Color red ]).
-									('Change to green' -> [ :e | e background: Color green ])};
+									{('Change to blue'
+										-> [ line border: (BlBorder paint: Color blue width: 4) ]).
+									('Change to red'
+										-> [ line border: (BlBorder paint: Color red width: 4) ]).
+									('Change to green'
+										-> [ line border: (BlBorder paint: Color green width: 4) ])};
 								yourself ]).
 	^ line
 ]
