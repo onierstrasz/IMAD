@@ -114,10 +114,23 @@ IMAD >> loadAMT [
 
 { #category : #accessing }
 IMAD >> loadEpic [
+	"https://github.com/vaano94/SCG_EpicGit"
+
 	<gtExample>
 	^ Metacello new
 		baseline: 'Epic';
 		repository: 'github://vaano94/SCG_EpicGit';
+		load
+]
+
+{ #category : #accessing }
+IMAD >> loadEpicRN [
+	"https://github.com/rniem379349/SCG_EpicGit"
+
+	<gtExample>
+	^ Metacello new
+		baseline: 'Epic';
+		repository: 'github://rniem379349/SCG_EpicGit';
 		load
 ]
 
