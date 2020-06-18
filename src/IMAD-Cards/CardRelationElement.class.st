@@ -32,16 +32,18 @@ CardRelationElement >> contextMenu [
 
 { #category : #accessing }
 CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
-	<todo: 'save the relation and the graph
+	<todo:
+		'save the relation and the graph
 	build and return the edge (myself)'>
-	
-]
-
-{ #category : #accessing }
-CardRelationElement >> from: sourceElt to: targetElt [
-	<todo: 'find a better way to draw directed edges
+	<todo:
+		'find a better way to draw directed edges
 	Replace this by forRelation:inGraph:
 	'>
+	| sourceElt targetElt |
+	relation := aRelation.
+	cardGraph := aCardGraph.
+	sourceElt := cardGraph elementFor: relation source.
+	targetElt := cardGraph elementFor: relation target.
 	sourceElt graph connectTo: targetElt.
 	self
 		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);

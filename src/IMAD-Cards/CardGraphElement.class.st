@@ -20,13 +20,6 @@ CardGraphElement class >> forDeck: aDeck [
 ]
 
 { #category : #accessing }
-CardGraphElement >> cardElementFor: aCard [
-	^ CardElement new
-		card: aCard;
-		yourself
-]
-
-{ #category : #accessing }
 CardGraphElement >> cards [
 	^ self deck cards
 ]
@@ -37,9 +30,9 @@ CardGraphElement >> deck [
 ]
 
 { #category : #accessing }
-CardGraphElement >> edgeElementFrom: source to: target [
+CardGraphElement >> edgeElementFor: aRelation [
 	^ CardRelationElement new
-		from: (self elementFor: source) to: (self elementFor: target);
+		forRelation: aRelation inGraph: self;
 		yourself
 ]
 
@@ -61,14 +54,14 @@ CardGraphElement >> forDeck: aDeck [
 		ifNotEmpty: [ self cards
 				do: [ :aCard | 
 					| cardElement |
-					cardElement := self cardElementFor: aCard.
+					cardElement := self newCardElementFor: aCard.
 					self mapModelEntity: aCard toElement: cardElement.	"to do"
 					self addChild: cardElement ] ].
 	self cards
 		do: [ :source | 
 			source sourceRelations
 				do:
-					[ :rel | self addChild: (self edgeElementFrom: source to: rel target) ] ].
+					[ :rel | self addChild: (self edgeElementFor: rel) ] ].
 	self
 		layout:
 			(self cards size > 1
@@ -91,4 +84,11 @@ CardGraphElement >> initialize [
 { #category : #accessing }
 CardGraphElement >> mapModelEntity: entity toElement: anElement [
 	graphElementsDictionary at: entity put: anElement
+]
+
+{ #category : #accessing }
+CardGraphElement >> newCardElementFor: aCard [
+	^ CardElement new
+		card: aCard;
+		yourself
 ]
