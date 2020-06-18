@@ -86,9 +86,7 @@ CardElement >> initialize [
 			(BrInteractiveCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
-				+
-					(BrGlamorousWithContextMenuLook
-						content: [ self contextMenu ]).
+				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.

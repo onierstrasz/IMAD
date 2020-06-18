@@ -386,6 +386,36 @@ UsefulExamples >> lineWithHoverAndContextMenuTOFIX [
 ]
 
 { #category : #accessing }
+UsefulExamples >> linesDontRespondToEevents [
+	"Why can I pull the box but not the line?"
+
+	<gtExample>
+	| container line box |
+	container := BlElement new
+		background: Color white;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ];
+		yourself.
+	box := BlElement new
+		size: 100 @ 100;
+		background: (Color gray alpha: 0.1);
+		addEventHandler: BlPullHandler new;
+		yourself.
+	line := BlLineElement new
+		fromAnchor: (BlAbsolutePositionAnchor position: 75 @ 140);
+		toAnchor: (BlAbsolutePositionAnchor position: 200 @ 240);
+		border: (BlBorder paint: Color blue width: 4);
+		addEventHandler: BlPullHandler new;
+		yourself.
+	container
+		addChildren:
+			{line.
+			box}.
+	^ container
+]
+
+{ #category : #accessing }
 UsefulExamples >> lookSubtraction [
 	<gtExample>
 	"this simply means that we are not taking BrGlamorousButtonExteriorLook into account in this case, and we will get no border"
