@@ -18,6 +18,19 @@ Class {
 }
 
 { #category : #accessing }
+CardRelationElement >> contextMenu [
+	| menu |
+	menu := BrGlamorousSimpleContextMenuContent new
+		items:
+			{('Inspect relation' -> [ relation inspect ]).
+			('Delete relation'
+				-> [ menu anchor: BlElement new.
+					relation delete ])};
+		yourself.
+	^ menu
+]
+
+{ #category : #accessing }
 CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
 	<todo: 'save the relation and the graph
 	build and return the edge (myself)'>
@@ -34,13 +47,19 @@ CardRelationElement >> from: sourceElt to: targetElt [
 		toHead:
 			(BlArrowheadSimpleArrow new
 				border: (BlBorder paint: Color gray width: 3)).
+	self
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look:
+			(BrInteractiveCommonLook new
+				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 2) ])
+				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
 	^ self
 ]
 
 { #category : #accessing }
 CardRelationElement >> initialize [
 	super initialize.
-	self
-		zIndex: -1;
-		border: (BlBorder paint: Color gray width: 3)
+	self zIndex: -1.
+
 ]

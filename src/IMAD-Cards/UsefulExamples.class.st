@@ -359,6 +359,33 @@ UsefulExamples >> johnDoeContact [
 ]
 
 { #category : #accessing }
+UsefulExamples >> lineWithHoverAndContextMenu [
+	<todo: 'this example does not work. How to fix it?'>
+	<gtExample>
+	| line |
+	line := BlLineElement new
+		fromAnchor: (BlAbsolutePositionAnchor position: 75 @ 140);
+		toAnchor: (BlAbsolutePositionAnchor position: 200 @ 240);
+		border: (BlBorder paint: Color blue width: 4);
+		yourself.
+	line
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look:
+			(BrInteractiveCommonLook new
+				default: [ :elt | elt border: (BlBorder paint: Color gray width: 4) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 4) ])
+				+
+					(BrGlamorousWithContextMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+								items:
+									{('Change to blue' -> [ :e | e background: Color blue ]).
+									('Change to red' -> [ :e | e background: Color red ]).
+									('Change to green' -> [ :e | e background: Color green ])};
+								yourself ]).
+	^ line
+]
+
+{ #category : #accessing }
 UsefulExamples >> lookSubtraction [
 	<gtExample>
 	"this simply means that we are not taking BrGlamorousButtonExteriorLook into account in this case, and we will get no border"
