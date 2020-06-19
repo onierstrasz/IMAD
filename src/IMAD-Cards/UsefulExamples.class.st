@@ -65,6 +65,25 @@ UsefulExamples >> autofitElementToContainer [
 ]
 
 { #category : #accessing }
+UsefulExamples >> boxWithToolTip [
+	<gtExample>
+	| box tooltip |
+	box := BlElement new
+		geometry: (BlRectangle cornerRadius: 10);
+		size: 50 @ 50;
+		background: Color green;
+		yourself.
+	tooltip := BrLabel new
+		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+		padding: (BlInsets all: 5);
+		alignCenter;
+		text: 'woohoo' asRopedText;
+		yourself.
+	box look: (BrGlamorousWithTooltipLook2 content: tooltip).
+	^ box
+]
+
+{ #category : #accessing }
 UsefulExamples >> buildDifferentKindsOfTabs [
 	<gtExample>
 	| tabs |

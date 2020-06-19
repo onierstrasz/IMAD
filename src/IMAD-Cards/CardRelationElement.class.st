@@ -10,6 +10,8 @@ if I am deleted, ...
 Class {
 	#name : #CardRelationElement,
 	#superclass : #BlLineElement,
+	#traits : 'TCardModelElement',
+	#classTraits : 'TCardModelElement classTrait',
 	#instVars : [
 		'relation',
 		'cardGraph'
@@ -22,10 +24,10 @@ CardRelationElement >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
-			{('Inspect relation' -> [ relation inspect ]).
+			{('Inspect relation' -> [ self relation inspect ]).
 			('Delete relation'
 				-> [ menu anchor: BlElement new.
-					relation delete ])};
+					self relation delete ])};
 		yourself.
 	^ menu
 ]
@@ -42,8 +44,8 @@ CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
 	| sourceElt targetElt |
 	relation := aRelation.
 	cardGraph := aCardGraph.
-	sourceElt := cardGraph elementFor: relation source.
-	targetElt := cardGraph elementFor: relation target.
+	sourceElt := cardGraph elementFor: self relation source.
+	targetElt := cardGraph elementFor: self relation target.
 	sourceElt graph connectTo: targetElt.
 	self
 		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
@@ -56,14 +58,22 @@ CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
 		look:
 			(BrInteractiveCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 2) ])
-				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
+				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ])
+				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+				+
+					(BrGlamorousWithTooltipLook2 content: (self tooltipWithText: self relation kind)).
 	^ self
 ]
 
 { #category : #accessing }
 CardRelationElement >> initialize [
+	"NB: most of the initialization is in forRelation:inGraph:"
 	super initialize.
 	self zIndex: -1.
 
+]
+
+{ #category : #accessing }
+CardRelationElement >> relation [
+	^ relation
 ]

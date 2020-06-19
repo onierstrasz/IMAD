@@ -125,7 +125,12 @@ IMAD >> loadEpic [
 
 { #category : #accessing }
 IMAD >> loadEpicRN [
-	"https://github.com/rniem379349/SCG_EpicGit"
+	"Repo:
+	https://github.com/rniem379349/SCG_EpicGit
+
+	See TreeView of
+	EpicExamples new requirementContainerWithThreeEpics
+	"
 
 	<gtExample>
 	^ Metacello new
