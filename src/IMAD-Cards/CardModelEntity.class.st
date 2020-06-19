@@ -45,6 +45,27 @@ CardModelEntity >> defaultValue [
 	^ '...'
 ]
 
+{ #category : #utility }
+CardModelEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock [
+	"NB: stateless utility method"
+
+	| label |
+	label := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new defaultBackground: Color white);
+		text: aString.
+	label
+		when: BrEditorAcceptWish
+		do: [ :aWish | 
+			aString ~= aWish text asString
+				ifTrue: [ [ aOneArgumentBlock value: aWish text asString ]
+						on: AssertionFailure
+						do: [ :e | 
+							label text: aString.
+							self inform: e printString ] ] ].
+	^ label
+]
+
 { #category : #properties }
 CardModelEntity >> freshKey [
 	| index key |
@@ -85,6 +106,17 @@ CardModelEntity >> initialize [
 	super initialize.
 	announcer := Announcer new.
 	properties := Dictionary new.
+]
+
+{ #category : #accessing }
+CardModelEntity >> labelFor: aString [
+	"NB: stateless utility method"
+
+	| label |
+	label := BrEditableLabel new
+		look: BrGlamorousEditorLook new; "NB: not really editable"
+		text: aString.
+	^ label
 ]
 
 { #category : #properties }

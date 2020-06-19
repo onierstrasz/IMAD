@@ -80,6 +80,37 @@ CardRelation >> delete [
 ]
 
 { #category : #accessing }
+CardRelation >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live';
+		priority: 5;
+		stencil: [ | content |
+			content := BlElement new
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical fitContent ];
+				layout: BlLinearLayout horizontal.
+			content
+				addChildren:
+					{
+					(self
+						editableLabelFor: self source
+						withSetter: [ :arg | self source: (self deck cardNamed: arg) ]).
+					(self labelFor: 'is').
+					(self
+						editableLabelFor: self kind
+						withSetter: [ :arg | self kind: arg ]).
+					(self labelFor: 'of').
+					(self
+						editableLabelFor: self target
+						withSetter: [ :arg | self target: (self deck cardNamed: arg) ])}.
+			content ];
+		updateWhen: RelationsUpdated in: [ self announcer ];
+		updateWhen: CardsUpdated in: [ self announcer ]
+]
+
+{ #category : #accessing }
 CardRelation >> hasSource: aCard [
 	^ source = aCard
 ]

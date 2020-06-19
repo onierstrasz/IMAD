@@ -111,25 +111,6 @@ CardModelNamedEntity >> description: aString [
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock [
-	| label |
-	label := BrEditableLabel new
-		look:
-			(BrGlamorousEditableLabelLook new defaultBackground: Color transparent);
-		text: aString.
-	label
-		when: BrEditorAcceptWish
-		do: [ :aWish | 
-			aString ~= aWish text asString
-				ifTrue: [ [ aOneArgumentBlock value: aWish text asString ]
-						on: AssertionFailure
-						do: [ :e | 
-							label text: aString.
-							self inform: e printString ] ] ].
-	^ label
-]
-
-{ #category : #'gt-extensions' }
 CardModelNamedEntity >> gtDescriptionFor: aView [
 	<gtView>
 	^ aView explicit
