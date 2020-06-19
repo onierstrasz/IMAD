@@ -355,8 +355,6 @@ A view would have access to the union of all available tags.
 				description:
 					'
 !Graph view Interactions
-- Create a relation
-- Double-click on relation to open details
 - Tags to filter
 - Change/select layout
 
@@ -389,6 +387,11 @@ A view would have access to the union of all available tags.
 
 !Nice to have
 - "dirty" flag for modified deck; clear when saved (change colour of save button when dirty)
+- improved layout:
+    - implement a better layout along the shortest path between the centers
+    - add space between multiple edges along same path
+- tree menu for layouts? (Need alternative to ${class:name=BrGlamorousSimpleContextMenuContent}$ and ${class:name=BrGlamorousWithContextMenuLook}$)
+
 
 ';
 				addTag: 'todo';
