@@ -447,6 +447,36 @@ UsefulExamples >> lookSubtraction [
 ]
 
 { #category : #accessing }
+UsefulExamples >> mondrianWithButton [
+	<gtExample>
+	<todo: 'make the button add nodes to the mondrian graph'>
+	| mondrian container |
+	mondrian := GtMondrian new.
+	mondrian nodes
+		shape: [ :x | 
+			BlElement new
+				size: 50 @ 50;
+				background: Color black ];
+		with: (1 to: 15).
+	mondrian edges connectFrom: [ :x | x // 2 ].
+	mondrian layout tree.
+	container := BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ];
+		yourself.
+	container
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons add;
+				label: 'Menu').
+	container addChild: mondrian root.
+	^ container
+]
+
+{ #category : #accessing }
 UsefulExamples >> nestedMenuTOFIX [
 	<todo: 'This is just a skeleton. How to get the nesting?'>
 	<gtExample>
