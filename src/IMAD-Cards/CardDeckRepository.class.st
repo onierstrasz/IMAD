@@ -240,7 +240,6 @@ CardDeckRepository >> imadTodos [
 		name: 'IMAD Design Todos MindMap';
 		description:
 			'This deck on the one hand documents the IMAD prototype design, to-dos and pending topics, and on the other hand serves as a test  case for IMAD itself.
-
 !How to load IMAD:
 
 PharoLightTheme beCurrent.
@@ -290,12 +289,32 @@ What kinds of cards are valid mindmap nodes?
 				yourself);
 		addCard:
 			(Card new
+				name: 'Add choice of layouts (for styles)';
+				description:
+					'Force-based layout
+Circle layout
+Tree layout (root?)
+Manual layout (how to remember?)';
+				yourself);
+		addCard:
+			(Card new
 				name: 'Add filters';
 				description:
 					'Filter on presence or absence of tags.
 Compose filters (union or intersections).
 
+Can have both dynamic and persistent filters.
+Within a given view can turn tags off or on.
+Can also save as a card.
+
 How to specify as cards?
+
+A simple filter consist of (a conjunctions of) tags that must be or must not be present.
+Eg no meta/proto tags + FSA tags will show all FSAs.
+A use case tag will show only that use case.
+A filter is defined by a card?
+Can we combine filters (disjunctions)?
+
 ';
 				addTag: 'todo';
 				yourself);
@@ -312,7 +331,8 @@ NB: Explore looks as a way to dynamically change the appearance of elements.';
 		addCard:
 			(Card new
 				name: 'Add support for views';
-				description: 'Filters based on tags
+				description:
+					'Filters based on tags
 
 Select or change layout style
 ';
@@ -354,6 +374,11 @@ It is implemented by the class ${class:name=CardDeck}$.
 				yourself);
 		addCard:
 			(Card new
+				name: 'Examples (case studies)';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
 				name: 'FSA';
 				description: 'To do';
 				yourself);
@@ -381,12 +406,36 @@ Add CMD-click to access menu';
 				yourself);
 		addCard:
 			(Card new
+				name: 'Fix connection to nodes';
+				description:
+					'${class:name=BlNearestPositionBoundsAnchor}$ stinks -- need a better version that grows through centers?';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Garage Door Example';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Hovering should show card information';
+				description:
+					'With lots of cards, it''s hard to see the card names.
+Hovering should increase the card name, or possibly show a tooltip.';
+				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
 				name: 'IMAD';
 				description: 'To do';
 				yourself);
 		addCard:
 			(Card new
 				name: 'IMAD Metamodel';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Identify the Champion';
 				description: 'To do';
 				yourself);
 		addCard:
@@ -409,6 +458,16 @@ What kind of card is a valid mindmap node?';
 				yourself);
 		addCard:
 			(Card new
+				name: 'Nice to have';
+				description:
+					'"dirty" flag for modified deck; clear when saved (change colour of save button when dirty)
+
+Improved layout: add space between multiple edges along same path
+
+Tree menu for layouts? (Need alternative to ${class:name=BrGlamorousSimpleContextMenuContent}$ and ${class:name=BrGlamorousWithContextMenuLook}$)';
+				yourself);
+		addCard:
+			(Card new
 				name: 'Petri net';
 				description: 'To do';
 				yourself);
@@ -417,6 +476,15 @@ What kind of card is a valid mindmap node?';
 				name: 'Prepare Catalog of kind of cards';
 				description: 'To do';
 				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Study Gt features';
+				description:
+					'Look at ${class:name=GtHome}$
+
+Find examples of using Looks to dynamically  change views. ${class:name=BrLookChangeExamples}$.
+';
 				yourself);
 		addCard:
 			(Card new
@@ -483,6 +551,14 @@ FSAs
 ...';
 				addTag: 'm2';
 				yourself);
+		addCard:
+			(Card new
+				name: 'eVoting scenario';
+				description: 'To do';
+				yourself);
+		addRelation: '_rel702785280'
+			fromCardNamed: 'Add support for styles'
+			toCardNamed: 'Add choice of layouts (for styles)';
 		addRelation: '_rel772778496'
 			fromCardNamed: 'Add support for views'
 			toCardNamed: 'Add filters';
@@ -495,9 +571,21 @@ FSAs
 		addRelation: '_rel763160320'
 			fromCardNamed: 'Catalog'
 			toCardNamed: 'Kinds of Views/Models';
+		addRelation: '_rel389409792'
+			fromCardNamed: 'Examples (case studies)'
+			toCardNamed: 'Garage Door Example';
+		addRelation: '_rel492082432'
+			fromCardNamed: 'Examples (case studies)'
+			toCardNamed: 'Identify the Champion';
+		addRelation: '_rel499518464'
+			fromCardNamed: 'Examples (case studies)'
+			toCardNamed: 'eVoting scenario';
 		addRelation: '_rel242401792'
 			fromCardNamed: 'IMAD'
 			toCardNamed: 'To dos';
+		addRelation: '_rel356131584'
+			fromCardNamed: 'IMAD'
+			toCardNamed: 'Examples (case studies)';
 		addRelation: '_rel711725056'
 			fromCardNamed: 'IMAD'
 			toCardNamed: 'IMAD Metamodel';
@@ -528,12 +616,21 @@ FSAs
 		addRelation: '_rel991074816'
 			fromCardNamed: 'Kinds of Views/Models'
 			toCardNamed: 'Mindmap';
+		addRelation: '_rel164038656'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Study Gt features';
+		addRelation: '_rel320116736'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Hovering should show card information';
 		addRelation: '_rel344850432'
 			fromCardNamed: 'To dos'
 			toCardNamed: 'Add a Mindmap view';
 		addRelation: '_rel451127808'
 			fromCardNamed: 'To dos'
 			toCardNamed: 'Fix click interactions';
+		addRelation: '_rel465362944'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Fix connection to nodes';
 		addRelation: '_rel54148864'
 			fromCardNamed: 'To dos'
 			toCardNamed: 'Catalog kinds of views and cards';
