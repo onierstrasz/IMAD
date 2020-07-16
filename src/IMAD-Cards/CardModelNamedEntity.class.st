@@ -131,37 +131,37 @@ CardModelNamedEntity >> gtPropertiesFor: aView [
 		column: 'Key'
 			do: [ :column | 
 			column
-				rowStencil: [ :assoc | 
+				stencil: [ :assoc | 
 					self
 						editableLabelFor: assoc key
 						withSetter: [ :newKey | self rename: assoc key to: newKey ] ];
-				matchParent ];
+				weight: 1 ];
 		column: 'Value'
 			do: [ :column | 
 			column
-				rowStencil: [ :assoc | 
+				stencil: [ :assoc | 
 					self
 						editableLabelFor: assoc value
 						withSetter: [ :newValue | self set: assoc key to: newValue ] ];
-				matchParent ];
+				weight: 1 ];
 		column: ' '
 			do: [ :column | 
 			"Dummy column to enable easy clicking to next pane"
 			column
-				rowStencil: [ BlTextElement new text: '' asRopedText ];
-				matchParent ];
+				stencil: [ BlTextElement new text: '' asRopedText ];
+				weight: 1 ];
 		column: ' '
 			do: [ :column | 
 			column
-				rowStencil: [ :assoc | self removePropertyButtonFor: assoc ];
-				noResize ];
+				stencil: [ :assoc | self removePropertyButtonFor: assoc ];
+				noWidth ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add property';
 				action: [ self set: self freshKey to: self defaultValue ] ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-		updateWhen: PropertiesUpdated in: [ self announcer ]
+			updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }

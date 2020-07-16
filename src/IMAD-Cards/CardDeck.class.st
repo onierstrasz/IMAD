@@ -271,26 +271,25 @@ CardDeck >> gtCardsFor: aView [
 		column: 'Cards'
 			do: [ :column | 
 			column
-				rowStencil: [ :aCard | 
+				stencil: [ :aCard | 
 					self
 						editableLabelFor: aCard name
 						withSetter: [ :newCardName | aCard name: newCardName ] ];
-				matchParent ];
+				weight: 1 ];
 		column: ' '
 			do: [ :column | 
 			"Dummy column to enable easy clicking to next pane"
 			column
-				rowStencil: [ BlTextElement new text: '' asRopedText ];
-				matchParent ];
+				stencil: [ BlTextElement new text: '' asRopedText ];
+				weight: 1 ];
 		column: ' '
 			do: [ :column | 
 			column
-				rowStencil:
-						[ :aCard | self deleteCardButtonFor: aCard ];
-				noResize ];
+				stencil: [ :aCard | self deleteCardButtonFor: aCard ];
+				noWidth ];
 		actionStencil: [ self addCardButton ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-		updateWhen: CardsUpdated in: [ self announcer ];
+			updateWhen: CardsUpdated in: [ self announcer ];
 		send: [ :aCard | aCard ]
 ]
 
@@ -324,44 +323,44 @@ CardDeck >> gtRelationsFor: aView [
 		column: 'Source'
 			do: [ :column | 
 			column
-				rowStencil: [ :relation | 
+				stencil: [ :relation | 
 					self
 						editableLabelFor: relation source
 						withSetter: [ :arg | relation source: (self cardNamed: arg) ] ];
-				matchParent ];
+				weight: 1 ];
 		column: 'Relation'
 			do: [ :column | 
 			column
-				rowStencil: [ :relation | 
+				stencil: [ :relation | 
 					self
 						editableLabelFor: relation kind
 						withSetter: [ :arg | relation kind: arg ] ];
-				matchParent ];
+				weight: 1 ];
 		column: 'Target'
 			do: [ :column | 
 			column
-				rowStencil: [ :relation | 
+				stencil: [ :relation | 
 					self
 						editableLabelFor: relation target
 						withSetter: [ :arg | relation target: (self cardNamed: arg) ] ];
-				matchParent ];
+				weight: 1 ];
 		column: ' '
 			do: [ :column | 
 			column
-				rowStencil: [ BlTextElement new text: '' asRopedText ];
-				matchParent ];
+				stencil: [ BlTextElement new text: '' asRopedText ];
+				weight: 1 ];
 		column: ' '
 			do: [ :column | 
 			column
-				rowStencil: [ :aRelation | self deleteRelationButtonFor: aRelation ];
-				noResize ];
+				stencil: [ :aRelation | self deleteRelationButtonFor: aRelation ];
+				noWidth ];
 		actionStencil: [ BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add relation';
 				action: [ self addDummyRelation ] ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-		updateWhen: RelationsUpdated in: [ self announcer ];
+			updateWhen: RelationsUpdated in: [ self announcer ];
 		updateWhen: CardsUpdated in: [ self announcer ]
 ]
 

@@ -237,7 +237,7 @@ CardDeckRepository >> imadTodos [
 	<storedCardDeck>
 	<gtExample>
 	^ CardDeck new
-		name: 'IMAD Design Todos';
+		name: 'IMAD Design Todos MindMap';
 		description:
 			'This deck on the one hand documents the IMAD prototype design, to-dos and pending topics, and on the other hand serves as a test  case for IMAD itself.
 
@@ -279,6 +279,47 @@ CardDeckRepository new gtOverview inspect
 		set: #storageMethodName to: 'imadTodos';
 		addCard:
 			(Card new
+				name: 'Add a Mindmap view';
+				description:
+					'How to specify the root node?
+See mindmap view from Robert.
+
+What kinds of cards are valid mindmap nodes?
+';
+				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Add filters';
+				description:
+					'Filter on presence or absence of tags.
+Compose filters (union or intersections).
+
+How to specify as cards?
+';
+				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Add support for styles';
+				description:
+					'Choice of views for nodes and edges
+Edges: straight, curved, labeled, arrows, colors, thickness
+Nodes: Boxes, rounded boxes, circles, ellipses, bars, icons, closed
+NB: Explore looks as a way to dynamically change the appearance of elements.';
+				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Add support for views';
+				description: 'Filters based on tags
+
+Select or change layout style
+';
+				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
 				name: 'Card';
 				description:
 					'A Card is a modeling entity. It can be a domain concept, i.e., a metamodel (m2) entity, or it could be an instance of a concept (m1). It could also be another kind of modeling entity, such as an actor (same as an instance), a state, an event, a use case, a scenario etc etc.
@@ -303,27 +344,83 @@ It is implemented by the class ${class:name=CardDeck}$.
 				yourself);
 		addCard:
 			(Card new
-				name: 'Card Deck View';
-				description:
-					'A view of a card deck offers a graph-based view of a subset of the cards in a deck.
-It could select, for example, just the meta-model (m2 tags), or a partciular use case or scenario, or a state-machine view of a given actor.
-
-A view consists of two key parts:
-
-1. a query that selects the subset of cards of a deck
-2. a specification of the visualization style for the view
-
-The query could be a set of tags, or possible a disjunctive normal form (unions of intersections). It could also include some queries or filters over other properties of the cards.
-
-The style should determine how nodes (cards) and edges (relations) are rendered, how they are laid out, and what interactions are supported. Mostly this should be restricted to a set of prepackaged styles, but perhaps there could be some ad hoc configuration, eg to select display types of nodes and edges (circles, rectangles, colours etc).
-
-It should be possible to save a view as a card with the tag "view".
-';
-				addTag: 'm2';
+				name: 'Catalog';
+				description: 'Catalog of kinds of cards and views';
 				yourself);
 		addCard:
 			(Card new
-				name: 'Tag';
+				name: 'Catalog kinds of views and cards';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'FSA';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Filters';
+				description:
+					'A filter is a selection criterion over a set of cards.
+Filters can be composed (conjunction or disjunction).
+
+A basic filter is defined as a set of tags that must be present or must not be present.
+So we can define a filter to select only cards with the FSA tag and a the Garage Door tag.
+We can also exclude the prototype/metacard tag.
+
+How to define a filter as a card?';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Fix click interactions';
+				description:
+					'Double click should inspect / open card
+Rename should be in menu
+Add CMD-click to access menu';
+				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
+				name: 'IMAD';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'IMAD Metamodel';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Kinds of Views/Models';
+				description:
+					'Views are specifications of subsets of cards. Normally  these correspond to some meaningful subset, ie a model.';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Kinds of cards';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Mindmap';
+				description:
+					'A Mindmap is a tree view of cards with descriptions.
+What kind of card is a valid mindmap node?';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Petri net';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Prepare Catalog of kind of cards';
+				description: 'To do';
+				addTag: 'todo';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Tags';
 				description:
 					'!Overview
 Tags (for cards) can be seen as subsets of cards, hyperedges between them, or as "types".
@@ -351,54 +448,104 @@ A view would have access to the union of all available tags.
 				yourself);
 		addCard:
 			(Card new
-				name: 'To do';
-				description:
-					'
-!Graph view Interactions
-- Tags to filter
-- Change/select layout
-
-!Styles (views)
-- Choice of views for nodes and edges
-- Edges: straight, curved, labeled, arrows, colors, thickness
-- Nodes: Boxes, rounded boxes, circles, ellipses, bars, icons, closed
-- NB: Explore looks as a way to dynamically change the appearance of elements.
-
-!Tags
-- select tags to view
-- advanced: compose tag filter (disjunctive NF?)
-- save view as a card?
-
-!Layouts
-- Force-based layout
-- Circle layout
-- Tree layout (root?)
-- Manual layout (how to remember?)
-
-!Examples    
-- expand Garage door example (states as cards?)
-
-!Gt improvements
-- ${class:name=BlNearestPositionBoundsAnchor}$ stinks -- need a better version that grows through centers?
-
-!To study
-- look at ${class:name=GtHome}$
-- find examples of using Looks to dynamically  change views. ${class:name=BrLookChangeExamples}$.
-
-!Nice to have
-- "dirty" flag for modified deck; clear when saved (change colour of save button when dirty)
-- improved layout:
-    - implement a better layout along the shortest path between the centers
-    - add space between multiple edges along same path
-- tree menu for layouts? (Need alternative to ${class:name=BrGlamorousSimpleContextMenuContent}$ and ${class:name=BrGlamorousWithContextMenuLook}$)
-
-
-';
+				name: 'To dos';
+				description: 'Add todos here';
 				addTag: 'todo';
 				yourself);
-		addRelation: 'belongsTo'
-			fromCardNamed: 'Card'
+		addCard:
+			(Card new
+				name: 'UML class model (metamodel)';
+				description: 'To do';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Views';
+				description:
+					'A view of a card deck offers a graph-based view of a subset of the cards in a deck.
+The idea is that a deck consists of a set of models, and a view selects one of those models.
+
+It could select, for example, just the meta-model (m2 tags), or a partciular use case or scenario, or a state-machine view of a given actor.
+
+A view consists of two key parts:
+
+1. a query that selects the subset of cards of a deck
+2. a specification of the visualization style for the view
+
+The query could be a set of tags, or possible a disjunctive normal form (unions of intersections). It could also include some queries or filters over other properties of the cards.
+
+The style should determine how nodes (cards) and edges (relations) are rendered, how they are laid out, and what interactions are supported. Mostly this should be restricted to a set of prepackaged styles, but perhaps there could be some ad hoc configuration, eg to select display types of nodes and edges (circles, rectangles, colours etc).
+
+It should be possible to save a view as a card with the tag "view".
+
+!Examples:
+Mindmaps
+FSAs
+...';
+				addTag: 'm2';
+				yourself);
+		addRelation: '_rel772778496'
+			fromCardNamed: 'Add support for views'
+			toCardNamed: 'Add filters';
+		addRelation: '_rel840521216'
+			fromCardNamed: 'Add support for views'
+			toCardNamed: 'Add support for styles';
+		addRelation: '_rel602636032'
+			fromCardNamed: 'Catalog'
+			toCardNamed: 'Kinds of cards';
+		addRelation: '_rel763160320'
+			fromCardNamed: 'Catalog'
+			toCardNamed: 'Kinds of Views/Models';
+		addRelation: '_rel242401792'
+			fromCardNamed: 'IMAD'
+			toCardNamed: 'To dos';
+		addRelation: '_rel711725056'
+			fromCardNamed: 'IMAD'
+			toCardNamed: 'IMAD Metamodel';
+		addRelation: '_rel94639616'
+			fromCardNamed: 'IMAD'
+			toCardNamed: 'Catalog';
+		addRelation: '_rel34949632'
+			fromCardNamed: 'IMAD Metamodel'
+			toCardNamed: 'Views';
+		addRelation: '_rel749455360'
+			fromCardNamed: 'IMAD Metamodel'
+			toCardNamed: 'Tags';
+		addRelation: '_rel864587776'
+			fromCardNamed: 'IMAD Metamodel'
+			toCardNamed: 'Card';
+		addRelation: '_rel865499648'
+			fromCardNamed: 'IMAD Metamodel'
 			toCardNamed: 'Card Deck';
+		addRelation: '_rel371929856'
+			fromCardNamed: 'Kinds of Views/Models'
+			toCardNamed: 'UML class model (metamodel)';
+		addRelation: '_rel501687040'
+			fromCardNamed: 'Kinds of Views/Models'
+			toCardNamed: 'FSA';
+		addRelation: '_rel951882240'
+			fromCardNamed: 'Kinds of Views/Models'
+			toCardNamed: 'Petri net';
+		addRelation: '_rel991074816'
+			fromCardNamed: 'Kinds of Views/Models'
+			toCardNamed: 'Mindmap';
+		addRelation: '_rel344850432'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Add a Mindmap view';
+		addRelation: '_rel451127808'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Fix click interactions';
+		addRelation: '_rel54148864'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Catalog kinds of views and cards';
+		addRelation: '_rel543523584'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Add support for views';
+		addRelation: '_rel868526848'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Prepare Catalog of kind of cards';
+		addRelation: '_rel657983488'
+			fromCardNamed: 'Views'
+			toCardNamed: 'Filters';
 		yourself
 ]
 
