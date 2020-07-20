@@ -1,6 +1,8 @@
 "
 I  provide a dedicated view for a Card Deck, or a subset of Cards in a Deck.
 Eventually some of my parts should be factored out into separate Element classes.
+
+I consist of a Header, a Tags pane, and a Graph pane.
 "
 Class {
 	#name : #CardDeckElement,
@@ -82,24 +84,17 @@ CardDeckElement >> buildButtonBar [
 
 { #category : #accessing }
 CardDeckElement >> buildGraph [
+	"I am the actual graph held by the graphHolder within the graphPane"
 	theGraph := (CardGraphElement new forDeck: self deck)
 		asPannableElement.
 	^ theGraph
 ]
 
 { #category : #accessing }
-CardDeckElement >> buildGraphPane [
-	| graphPane buttonBar span |
-	graphPane := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ];
-		padding: (BlInsets all: 5);
-		margin: (BlInsets all: 5);
-		border: (BlBorder paint: Color veryLightGray width: 1);
-		layout: BlLinearLayout vertical;
-		yourself.
-	buttonBar := self buildButtonBar.
+CardDeckElement >> buildGraphHolder [
+	"I hold the actual graph (which may change), and handle mouse events."
+
+	<todo: 'Fix CMD-click code'>
 	graphHolder := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -110,16 +105,38 @@ CardDeckElement >> buildGraphPane [
 		yourself.
 	graphHolder
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
+	graphHolder
+		addEventHandler:
+			(BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | 
+					evt modifiers isPrimaryModifier
+						ifTrue: [ self contextMenu ] ]).	"CMD-click NOT WORKING"
 	graphHolder
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
-				do: [ :evt | self deck addCard: Card new ]).
+				do: [ :evt | self deck addCard: Card new ]).	"double-click"
+	^ graphHolder
+]
+
+{ #category : #accessing }
+CardDeckElement >> buildGraphPane [
+	| graphPane |
+	graphPane := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ];
+		padding: (BlInsets all: 5);
+		margin: (BlInsets all: 5);
+		border: (BlBorder paint: Color veryLightGray width: 1);
+		layout: BlLinearLayout vertical;
+		yourself.
 	graphPane
 		addChildren:
-			{buttonBar.
-			graphHolder}.
+			{self buildButtonBar.
+			self buildGraphHolder}.
 	self updateGraph.
 	^ graphPane
 ]
