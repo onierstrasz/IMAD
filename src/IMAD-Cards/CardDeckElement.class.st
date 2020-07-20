@@ -1,6 +1,8 @@
 "
 I  provide a dedicated view for a Card Deck, or a subset of Cards in a Deck.
 Eventually some of my parts should be factored out into separate Element classes.
+
+I consist of a Header, a Tags pane, and a Graph pane.
 "
 Class {
 	#name : #CardDeckElement,
@@ -82,6 +84,7 @@ CardDeckElement >> buildButtonBar [
 
 { #category : #accessing }
 CardDeckElement >> buildGraph [
+	"I am the actual graph held by the graphHolder within the graphPane"
 	theGraph := (CardGraphElement new forDeck: self deck)
 		asPannableElement.
 	^ theGraph
@@ -110,7 +113,7 @@ CardDeckElement >> buildGraphPane [
 		yourself.
 	graphHolder
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]). "to capture right-click"
 	graphHolder
 		addEventHandler:
 			(BlEventHandler
