@@ -91,18 +91,8 @@ CardDeckElement >> buildGraph [
 ]
 
 { #category : #accessing }
-CardDeckElement >> buildGraphPane [
-	| graphPane buttonBar span |
-	graphPane := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ];
-		padding: (BlInsets all: 5);
-		margin: (BlInsets all: 5);
-		border: (BlBorder paint: Color veryLightGray width: 1);
-		layout: BlLinearLayout vertical;
-		yourself.
-	buttonBar := self buildButtonBar.
+CardDeckElement >> buildGraphHolder [
+	"I hold the actual graph (which may change), and handle mouse events."
 	graphHolder := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -113,16 +103,31 @@ CardDeckElement >> buildGraphPane [
 		yourself.
 	graphHolder
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]). "to capture right-click"
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"to capture right-click"
 	graphHolder
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | self deck addCard: Card new ]).
+	^ graphHolder
+]
+
+{ #category : #accessing }
+CardDeckElement >> buildGraphPane [
+	| graphPane |
+	graphPane := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ];
+		padding: (BlInsets all: 5);
+		margin: (BlInsets all: 5);
+		border: (BlBorder paint: Color veryLightGray width: 1);
+		layout: BlLinearLayout vertical;
+		yourself.
 	graphPane
 		addChildren:
-			{buttonBar.
-			graphHolder}.
+			{self buildButtonBar.
+			self buildGraphHolder}.
 	self updateGraph.
 	^ graphPane
 ]

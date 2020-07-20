@@ -213,6 +213,24 @@ UsefulExamples >> dropdownWithChangingContent [
 ]
 
 { #category : #accessing }
+UsefulExamples >> elementHandlingClickEvents [
+	"I show how to react to different kinds of click events"
+
+	<gtExample>
+	| elt |
+	elt := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical exact: 300 ];
+		margin: (BlInsets all: 10);
+		background: (Color blue alpha: 0.2).
+	elt
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look: (BrGlamorousWithContextMenuLook content: [ self menuFor: 'Right-click' ]).
+	^ elt
+]
+
+{ #category : #accessing }
 UsefulExamples >> examplesExplorerForPackage [
 	<gtExample>
 	| baseline repo |
@@ -444,6 +462,13 @@ UsefulExamples >> lookSubtraction [
 	look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
 	icon: BrGlamorousIcons hamburger asElement;
 	label: 'Menu'
+]
+
+{ #category : #accessing }
+UsefulExamples >> menuFor: aString [
+	^ BrGlamorousSimpleContextMenuContent new
+		items: {(aString -> [ :e |  ])};
+		yourself
 ]
 
 { #category : #accessing }
