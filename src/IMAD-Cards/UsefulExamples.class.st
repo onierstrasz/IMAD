@@ -214,9 +214,10 @@ UsefulExamples >> dropdownWithChangingContent [
 
 { #category : #accessing }
 UsefulExamples >> elementHandlingClickEvents [
-	"I show how to react to different kinds of click events"
+	"I show how to react to different kinds of click events."
 
 	<gtExample>
+	<todo: 'add all the other click events'>
 	| elt |
 	elt := BlElement new
 		constraintsDo: [ :c | 
@@ -226,7 +227,33 @@ UsefulExamples >> elementHandlingClickEvents [
 		background: (Color blue alpha: 0.2).
 	elt
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self menuFor: 'Right-click' ]).
+		look:
+			(BrGlamorousWithContextMenuLook
+				content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Right-click' -> [ :e |  ])} ]);
+		addEventHandler:
+			(BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | 
+					evt modifiers isCtrl
+						ifTrue: [ 'CTRL-click' inspect ] ]);
+		"How do I open a dropdown menu instead?"
+			addEventHandler:
+			(BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | 
+					evt modifiers isAlt
+						ifTrue: [ 'ALT-click' inspect ] ]);
+		addEventHandler:
+			(BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | 
+					evt modifiers isCmd
+						ifTrue: [ 'CMD-click' inspect ] ]);
+		addEventHandler:
+			(BlEventHandler
+				on: BlDoubleClickEvent
+				do: [ :evt | 'Double-click' inspect ]).
 	^ elt
 ]
 
