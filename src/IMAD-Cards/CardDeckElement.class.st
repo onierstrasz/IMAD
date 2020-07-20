@@ -93,6 +93,8 @@ CardDeckElement >> buildGraph [
 { #category : #accessing }
 CardDeckElement >> buildGraphHolder [
 	"I hold the actual graph (which may change), and handle mouse events."
+
+	<todo: 'Add CMD-click'>
 	graphHolder := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -103,12 +105,12 @@ CardDeckElement >> buildGraphHolder [
 		yourself.
 	graphHolder
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"to capture right-click"
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
 	graphHolder
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
-				do: [ :evt | self deck addCard: Card new ]).
+				do: [ :evt | self deck addCard: Card new ]).	"Double-click"
 	^ graphHolder
 ]
 
