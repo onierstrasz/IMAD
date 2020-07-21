@@ -45,6 +45,11 @@ CardElement >> beText [
 ]
 
 { #category : #accessing }
+CardElement >> card [
+	^ card
+]
+
+{ #category : #accessing }
 CardElement >> card: aCard [
 	card := aCard.
 	self updateCard
@@ -74,7 +79,6 @@ CardElement >> initialize [
     - implement a better layout along the shortest path between the centers
     - add space between multiple edges along same path
     - add tooltip with name
-    - double click on edge to edit
 
 '>
 	super initialize.
@@ -100,7 +104,9 @@ CardElement >> initialize [
 				+
 					((VariableClickMenuLook content: [ self contextMenu ])
 						testModifier: #isCmd;
-						yourself).
+						yourself)
+										+
+					(BrGlamorousWithTooltipLook2 content: (self tooltipWithText: self card name)).
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
