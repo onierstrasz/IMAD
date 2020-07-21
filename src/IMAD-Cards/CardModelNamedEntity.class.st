@@ -170,7 +170,7 @@ CardModelNamedEntity >> gtStoreStringFor: aView [
 	^ aView explicit
 		title: 'Serialized';
 		priority: 80;
-		stencil: [ (GtPharoSnippetCoder new source: self storeString) asElement
+		stencil: [ (GtPharoSnippetCoder new forSource: self storeString) asElement
 				matchParent ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 		updateWhen: PropertiesUpdated in: [ self announcer ]
