@@ -1,5 +1,5 @@
 "
-I'm a BlPullHandler that does not listen to CTRL events (so they can be handled by the EdgeCreationHandler instead).
+I'm a ${class:BlPullHandler}$ that does not listen to CTRL events (so they can be handled by the ${class:EdgeCreationHandler}$ instead).
 
 AS says:
 

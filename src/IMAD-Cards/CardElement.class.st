@@ -1,6 +1,11 @@
+"
+I provide a dedicated view for a ${class:Card}$ instance.
+"
 Class {
 	#name : #CardElement,
 	#superclass : #BlElement,
+	#traits : 'TCardModelElement',
+	#classTraits : 'TCardModelElement classTrait',
 	#instVars : [
 		'card',
 		'isEditable'
@@ -86,7 +91,13 @@ CardElement >> initialize [
 			(BrInteractiveCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
-				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
+				+
+					(VariableClickMenuLook content: [ self contextMenu ])
+						useSecondaryMouseButton
+				+
+					((VariableClickMenuLook content: [ self contextMenu ])
+						testModifier: #isCmd;
+						yourself).
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.

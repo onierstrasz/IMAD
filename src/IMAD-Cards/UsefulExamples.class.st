@@ -232,26 +232,26 @@ UsefulExamples >> elementHandlingClickEvents [
 				default: [ :elt | elt border: (BlBorder paint: Color transparent width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
 				+
-					(IMADGlamorousWithVariableClickMenuLook
+					(VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 								items: {('Right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton
 				+
-					((IMADGlamorousWithVariableClickMenuLook
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Ctrl-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
 						testModifier: #isCtrl;
 						yourself)
 				+
-					((IMADGlamorousWithVariableClickMenuLook
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Alt-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
 						testModifier: #isAlt;
 						yourself)
 				+
-					((IMADGlamorousWithVariableClickMenuLook
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Cmd-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
@@ -262,23 +262,23 @@ UsefulExamples >> elementHandlingClickEvents [
 						content: [ BrGlamorousSimpleContextMenuContent new
 								items: {('Double-click' -> [ :e |  ])} ])"
 				+
-					(IMADGlamorousWithVariableClickMenuLook
+					(VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 								items: {('Click' -> [ :e |  ])} ])
 				+
-					((IMADGlamorousWithVariableClickMenuLook
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Ctrl-click' -> [ :e |  ])} ])
 						testModifier: #isCtrl;
 						yourself)
 				+
-					((IMADGlamorousWithVariableClickMenuLook
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Alt-click' -> [ :e |  ])} ])
 						testModifier: #isAlt;
 						yourself)
 				+
-					((IMADGlamorousWithVariableClickMenuLook
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Cmd-click' -> [ :e |  ])} ])
 						testModifier: #isCmd;

@@ -1,14 +1,20 @@
+"
+I extend ${class:BrGlamorousWithContextMenuLook}$ by allowing contextual menus to open on specific modified mouse events, namely CTRL-, ALT-, and CMD-click and right-click.
+
+See ${method:UsefulExamples>>#elementHandlingClickEvents}$ for usage examples.
+
+"
 Class {
-	#name : #IMADGlamorousWithVariableClickMenuLook,
+	#name : #VariableClickMenuLook,
 	#superclass : #BrGlamorousWithContextMenuLook,
 	#instVars : [
 		'testModifier'
 	],
-	#category : #'IMAD-Cards-Examples'
+	#category : #'IMAD-Cards-View'
 }
 
 { #category : #accessing }
-IMADGlamorousWithVariableClickMenuLook >> initialize [
+VariableClickMenuLook >> initialize [
 	"Adapted from BrWithContextMenuLook>>#initialize"
 
 	super initialize.
@@ -34,18 +40,18 @@ IMADGlamorousWithVariableClickMenuLook >> initialize [
 ]
 
 { #category : #accessing }
-IMADGlamorousWithVariableClickMenuLook >> testModifier [
+VariableClickMenuLook >> testModifier [
 	^ testModifier
 ]
 
 { #category : #accessing }
-IMADGlamorousWithVariableClickMenuLook >> testModifier: aSymbol [
+VariableClickMenuLook >> testModifier: aSymbol [
 	"Possible values: #isAlt, #isCmd, #isCtrl"
 	testModifier := aSymbol
 ]
 
 { #category : #accessing }
-IMADGlamorousWithVariableClickMenuLook >> useSecondaryMouseButton [
+VariableClickMenuLook >> useSecondaryMouseButton [
 	"Listen to right-click instead of left-click."
 	mouseButton := BlMouseButton secondary
 ]
