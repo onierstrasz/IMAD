@@ -55,7 +55,10 @@ CardElement >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
-			{('Inspect card' -> [ card inspect ]).
+			{('Rename card'
+				-> [ isEditable
+						ifFalse: [ self beEditable ] ]).
+			('Inspect card' -> [ card inspect ]).
 			('Delete card'
 				-> [ menu anchor: BlElement new.
 					card delete ])};
@@ -108,8 +111,7 @@ CardElement >> initialize [
 				on: BlDoubleClickEvent
 				do: [ :evt | 
 					evt consumed: true.
-					isEditable
-						ifFalse: [ self beEditable ] ]).
+					card inspect ]).
 	^ self
 ]
 
