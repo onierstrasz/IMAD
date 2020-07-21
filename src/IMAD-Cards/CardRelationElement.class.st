@@ -35,12 +35,15 @@ CardRelationElement >> contextMenu [
 { #category : #accessing }
 CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
 	<todo:
-		'save the relation and the graph
-	build and return the edge (myself)'>
-	<todo:
-		'find a better way to draw directed edges
-	Replace this by forRelation:inGraph:
-	'>
+		'
+	- save the relation and the graph
+	- build and return the edge (myself)
+	- find a better way to draw directed edges
+	- implement a better layout along the shortest path between the centers
+    - add space between multiple edges along same path
+    - add tooltip with name
+
+'>
 	| sourceElt targetElt |
 	relation := aRelation.
 	cardGraph := aCardGraph.
