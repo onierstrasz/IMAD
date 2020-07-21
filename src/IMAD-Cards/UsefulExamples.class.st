@@ -217,44 +217,80 @@ UsefulExamples >> elementHandlingClickEvents [
 	"I show how to react to different kinds of click events."
 
 	<gtExample>
-	<todo: 'add all the other click events'>
-	| elt |
-	elt := BlElement new
+	<todo: 'Strangely the click event conflicts with the double-click event. How to fix?'>
+	| clickElt |
+	clickElt := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical exact: 300 ];
 		margin: (BlInsets all: 10);
 		background: (Color blue alpha: 0.2).
-	elt
+	clickElt
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
-			(BrGlamorousWithContextMenuLook
-				content: [ BrGlamorousSimpleContextMenuContent new
-						items: {('Right-click' -> [ :e |  ])} ]);
-		addEventHandler:
-			(BlEventHandler
-				on: BlClickEvent
-				do: [ :evt | 
-					evt modifiers isCtrl
-						ifTrue: [ 'CTRL-click' inspect ] ]);
-		"How do I open a dropdown menu instead?"
-			addEventHandler:
-			(BlEventHandler
-				on: BlClickEvent
-				do: [ :evt | 
-					evt modifiers isAlt
-						ifTrue: [ 'ALT-click' inspect ] ]);
-		addEventHandler:
-			(BlEventHandler
-				on: BlClickEvent
-				do: [ :evt | 
-					evt modifiers isCmd
-						ifTrue: [ 'CMD-click' inspect ] ]);
+			(BrInteractiveCommonLook new
+				default: [ :elt | elt border: (BlBorder paint: Color transparent width: 1) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
+				+
+					(IMADGlamorousWithVariableClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+								items: {('Right-click' -> [ :e |  ])} ])
+						useSecondaryMouseButton
+				+
+					((IMADGlamorousWithVariableClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Ctrl-right-click' -> [ :e |  ])} ])
+						useSecondaryMouseButton;
+						testModifier: #isCtrl;
+						yourself)
+				+
+					((IMADGlamorousWithVariableClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Alt-right-click' -> [ :e |  ])} ])
+						useSecondaryMouseButton;
+						testModifier: #isAlt;
+						yourself)
+				+
+					((IMADGlamorousWithVariableClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Cmd-right-click' -> [ :e |  ])} ])
+						useSecondaryMouseButton;
+						testModifier: #isCmd;
+						yourself)
+				"+
+					(IMADGlamorousWithDoubleClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+								items: {('Double-click' -> [ :e |  ])} ])"
+				+
+					(IMADGlamorousWithVariableClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+								items: {('Click' -> [ :e |  ])} ])
+				+
+					((IMADGlamorousWithVariableClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Ctrl-click' -> [ :e |  ])} ])
+						testModifier: #isCtrl;
+						yourself)
+				+
+					((IMADGlamorousWithVariableClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Alt-click' -> [ :e |  ])} ])
+						testModifier: #isAlt;
+						yourself)
+				+
+					((IMADGlamorousWithVariableClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Cmd-click' -> [ :e |  ])} ])
+						testModifier: #isCmd;
+						yourself).
+	"clickElt
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
-				do: [ :evt | 'Double-click' inspect ]).
-	^ elt
+				do: [ :evt | 
+					evt consumed: true.
+					'Double-click' inspect ])."
+	^ clickElt
 ]
 
 { #category : #accessing }
