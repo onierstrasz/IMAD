@@ -95,7 +95,7 @@ CardElement >> initialize [
 					(VariableClickMenuLook2 content: [ self contextMenu ])
 						useSecondaryMouseButton
 				+
-					((VariableClickMenuLook content: [ self contextMenu ])
+					((VariableClickMenuLook2 content: [ self contextMenu ])
 						testModifier: #isCmd;
 						yourself)
 				+

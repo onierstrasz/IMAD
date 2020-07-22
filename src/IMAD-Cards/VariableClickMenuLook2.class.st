@@ -20,10 +20,9 @@ VariableClickMenuLook2 >> initialize [
 		do: [ :e | 
 			(e button = mouseButton
 				and: [ e modifiers perform: self testModifier ])
-				ifTrue: [ e consumed: true.
+				ifTrue: [ "e consumed: true."
 					self canHide
 						ifTrue: [ self hide ].
-					"position := e localPosition."
 					position := self root globalPointToLocal: e position.
 					self show ] ]
 ]
