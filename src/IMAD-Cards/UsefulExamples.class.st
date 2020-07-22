@@ -217,7 +217,6 @@ UsefulExamples >> elementHandlingClickEvents [
 	"I show how to react to different kinds of click events."
 
 	<gtExample>
-	<todo: 'Strangely the click event conflicts with the double-click event. How to fix?'>
 	| clickElt |
 	clickElt := BlElement new
 		constraintsDo: [ :c | 
@@ -257,10 +256,6 @@ UsefulExamples >> elementHandlingClickEvents [
 						useSecondaryMouseButton;
 						testModifier: #isCmd;
 						yourself)
-				"+
-					(DoubleClickMenuLook2
-						content: [ BrGlamorousSimpleContextMenuContent new
-								items: {('Double-click' -> [ :e |  ])} ])"
 				+
 					(VariableClickMenuLook2
 						content: [ BrGlamorousSimpleContextMenuContent new
@@ -283,13 +278,6 @@ UsefulExamples >> elementHandlingClickEvents [
 						items: {('Cmd-click' -> [ :e |  ])} ])
 						testModifier: #isCmd;
 						yourself).
-	"clickElt
-		addEventHandler:
-			(BlEventHandler
-				on: BlDoubleClickEvent
-				do: [ :evt | 
-					evt consumed: true.
-					'Double-click' inspect ])."
 	^ clickElt
 ]
 
