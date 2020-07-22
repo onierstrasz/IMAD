@@ -1,12 +1,6 @@
-"
-I extend ${class:BrGlamorousWithContextMenuLook}$ by allowing contextual menus to open on specific modified mouse events, namely CTRL-, ALT-, and CMD-click and right-click.
-
-See ${method:UsefulExamples>>#elementHandlingClickEvents}$ for usage examples.
-
-"
 Class {
-	#name : #VariableClickMenuLook,
-	#superclass : #BrGlamorousWithContextMenuLook,
+	#name : #VariableClickMenuLook2,
+	#superclass : #BrGlamorousWithContextMenuLook2,
 	#instVars : [
 		'testModifier'
 	],
@@ -14,7 +8,7 @@ Class {
 }
 
 { #category : #accessing }
-VariableClickMenuLook >> initialize [
+VariableClickMenuLook2 >> initialize [
 	"Adapted from BrWithContextMenuLook>>#initialize"
 
 	super initialize.
@@ -29,29 +23,24 @@ VariableClickMenuLook >> initialize [
 				ifTrue: [ e consumed: true.
 					self canHide
 						ifTrue: [ self hide ].
-					position := e localPosition.
-					self show ] ].
-	"self
-		addChange:
-			(BrLookChange new
-				up: [ :e | widget addEventHandler: clickEventHandler ];
-				down: [ :e | widget removeEventHandler: clickEventHandler ];
-				yourself)"
+					"position := e localPosition."
+					position := self root globalPointToLocal: e position.
+					self show ] ]
 ]
 
 { #category : #accessing }
-VariableClickMenuLook >> testModifier [
+VariableClickMenuLook2 >> testModifier [
 	^ testModifier
 ]
 
 { #category : #accessing }
-VariableClickMenuLook >> testModifier: aSymbol [
+VariableClickMenuLook2 >> testModifier: aSymbol [
 	"Possible values: #isAlt, #isCmd, #isCtrl"
 	testModifier := aSymbol
 ]
 
 { #category : #accessing }
-VariableClickMenuLook >> useSecondaryMouseButton [
+VariableClickMenuLook2 >> useSecondaryMouseButton [
 	"Listen to right-click instead of left-click."
 	mouseButton := BlMouseButton secondary
 ]

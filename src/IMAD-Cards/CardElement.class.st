@@ -92,7 +92,7 @@ CardElement >> initialize [
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
 				+
-					(VariableClickMenuLook content: [ self contextMenu ])
+					(VariableClickMenuLook2 content: [ self contextMenu ])
 						useSecondaryMouseButton
 				+
 					((VariableClickMenuLook content: [ self contextMenu ])
