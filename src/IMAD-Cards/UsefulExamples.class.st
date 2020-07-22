@@ -257,14 +257,14 @@ UsefulExamples >> elementHandlingClickEvents [
 						useSecondaryMouseButton;
 						testModifier: #isCmd;
 						yourself)
-				"+
-					(IMADGlamorousWithDoubleClickMenuLook
-						content: [ BrGlamorousSimpleContextMenuContent new
-								items: {('Double-click' -> [ :e |  ])} ])"
 				+
+					(DoubleClickMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+								items: {('Double-click' -> [ :e |  ])} ])
+				"+
 					(VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
-								items: {('Click' -> [ :e |  ])} ])
+								items: {('Click' -> [ :e |  ])} ])"
 				+
 					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
@@ -326,10 +326,12 @@ UsefulExamples >> findExamplesOfAClass [
 { #category : #accessing }
 UsefulExamples >> graphWithoutClipping [
 	"Shows how to have a graph with draggable nodes that can use the full available area instead of a clipped area.
-	AC: Every element has a clipChildren property. In BlElement the clipping area is the same as the geometry of the element. To not have that behaviour the view could be placed in a parent that matches parent and uses clipChildren: false. It worked like that initially in mondrian, but we had some problems as clipping children can be a very expensive operation (https://github.com/feenkcom/gtoolkit/issues/520)"
+	AC: Every element has a clipChildren property. In BlElement the clipping area is the same as the geometry of the element. To not have that behaviour the view could be placed in a parent that matches parent and uses clipChildren: false. It worked like that initially in mondrian, but we had some problems as clipping children can be a very expensive operation (https://github.com/feenkcom/gtoolkit/issues/520).
+	Fixed 2020-07-22 with ML. Need to also set clipChildren false on the pannable.
+	"
 
 	<gtExample>
-	| root elts |
+	| root elts pannable |
 	elts := Dictionary new.
 	root := BlElement new
 		constraintsDo: [ :c | 
@@ -360,7 +362,9 @@ UsefulExamples >> graphWithoutClipping [
 			root addChild: line ].
 	root layout: (BlOnceLayout new layout: GtGradCircleLayout new).	"GtGradVerticalTreeLayout"
 	root clipChildren: false.
-	^ root asPannableElement
+	pannable := root asPannableElement.
+	pannable zoomableElement clipChildren: false.
+	^ pannable
 ]
 
 { #category : #accessing }

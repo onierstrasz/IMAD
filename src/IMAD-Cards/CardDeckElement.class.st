@@ -85,8 +85,10 @@ CardDeckElement >> buildButtonBar [
 { #category : #accessing }
 CardDeckElement >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
+
 	theGraph := (CardGraphElement new forDeck: self deck)
 		asPannableElement.
+	theGraph zoomableElement clipChildren: false.
 	^ theGraph
 ]
 
