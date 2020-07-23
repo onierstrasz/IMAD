@@ -1,6 +1,6 @@
 Class {
 	#name : #VariableClickMenuLook2,
-	#superclass : #BrGlamorousWithContextMenuLook2,
+	#superclass : #BrGlamorousWithContextMenuLook,
 	#instVars : [
 		'testModifier'
 	],
@@ -10,21 +10,24 @@ Class {
 { #category : #accessing }
 VariableClickMenuLook2 >> initialize [
 	"Adapted from BrWithContextMenuLook>>#initialize"
+	
+	<todo: 'BROKEN -- replace by VariableClickMenuLook
+	TO BE DELETED'>
 
 	super initialize.
 	"self changes changes removeLast."
 	self usePrimaryMouseButton.
 	self testModifier: #isEmpty.
-	clickEventHandler := BlEventHandler
+	"clickEventHandler := BlEventHandler
 		on: BlMouseUpEvent
 		do: [ :e | 
 			(e button = mouseButton
 				and: [ e modifiers perform: self testModifier ])
-				ifTrue: [ "e consumed: true."
+				ifTrue: [ 
 					self canHide
 						ifTrue: [ self hide ].
 					position := self root globalPointToLocal: e position.
-					self show ] ]
+					self show ] "
 ]
 
 { #category : #accessing }

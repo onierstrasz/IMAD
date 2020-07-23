@@ -16,12 +16,14 @@ Class {
 { #category : #accessing }
 VariableClickMenuLook >> initialize [
 	"Adapted from BrWithContextMenuLook>>#initialize"
+	
+	<todo: 'BROKEN -- to be fixed'>
 
 	super initialize.
 	"self changes changes removeLast."
 	self usePrimaryMouseButton.
 	self testModifier: #isEmpty.
-	clickEventHandler := BlEventHandler
+	"clickEventHandler := BlEventHandler
 		on: BlMouseUpEvent
 		do: [ :e | 
 			(e button = mouseButton
@@ -30,7 +32,7 @@ VariableClickMenuLook >> initialize [
 					self canHide
 						ifTrue: [ self hide ].
 					position := e localPosition.
-					self show ] ].
+					self show ] ]."
 	"self
 		addChange:
 			(BrLookChange new

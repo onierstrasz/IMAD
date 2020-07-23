@@ -73,7 +73,7 @@ CardElement >> contextMenu [
 
 { #category : #accessing }
 CardElement >> initialize [
-
+	<todo: 'FIX to work with updated VariableClickMenuLook'>
 	super initialize.
 	card := Card new.
 	isEditable := false.
@@ -91,13 +91,13 @@ CardElement >> initialize [
 			(BrInteractiveCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
-				+
-					(VariableClickMenuLook2 content: [ self contextMenu ])
+				"+
+					(VariableClickMenuLook content: [ self contextMenu ])
 						useSecondaryMouseButton
 				+
-					((VariableClickMenuLook2 content: [ self contextMenu ])
+					((VariableClickMenuLook content: [ self contextMenu ])
 						testModifier: #isCmd;
-						yourself)
+						yourself)"
 				+
 					(BrGlamorousWithTooltipLook2
 						content: [ self tooltipWithText: self card name ]).

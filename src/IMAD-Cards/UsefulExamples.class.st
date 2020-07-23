@@ -217,6 +217,7 @@ UsefulExamples >> elementHandlingClickEvents [
 	"I show how to react to different kinds of click events."
 
 	<gtExample>
+	<todo: 'BROKEN -- check if it works with new VariableClickMenuLook'>
 	| clickElt |
 	clickElt := BlElement new
 		constraintsDo: [ :c | 
@@ -231,49 +232,49 @@ UsefulExamples >> elementHandlingClickEvents [
 				default: [ :elt | elt border: (BlBorder paint: Color transparent width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
 				+
-					(VariableClickMenuLook2
+					(VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 								items: {('Right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton
 				+
-					((VariableClickMenuLook2
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Ctrl-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
 						testModifier: #isCtrl;
 						yourself)
 				+
-					((VariableClickMenuLook2
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Alt-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
 						testModifier: #isAlt;
 						yourself)
 				+
-					((VariableClickMenuLook2
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Cmd-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
 						testModifier: #isCmd;
 						yourself)
 				+
-					(VariableClickMenuLook2
+					(VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 								items: {('Click' -> [ :e |  ])} ])
 				+
-					((VariableClickMenuLook2
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Ctrl-click' -> [ :e |  ])} ])
 						testModifier: #isCtrl;
 						yourself)
 				+
-					((VariableClickMenuLook2
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Alt-click' -> [ :e |  ])} ])
 						testModifier: #isAlt;
 						yourself)
 				+
-					((VariableClickMenuLook2
+					((VariableClickMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Cmd-click' -> [ :e |  ])} ])
 						testModifier: #isCmd;
