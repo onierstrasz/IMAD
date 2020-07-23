@@ -217,7 +217,6 @@ UsefulExamples >> elementHandlingClickEvents [
 	"I show how to react to different kinds of click events."
 
 	<gtExample>
-	<todo: 'BROKEN -- check if it works with new VariableClickMenuLook'>
 	| clickElt |
 	clickElt := BlElement new
 		constraintsDo: [ :c | 
@@ -232,52 +231,60 @@ UsefulExamples >> elementHandlingClickEvents [
 				default: [ :elt | elt border: (BlBorder paint: Color transparent width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
 				+
-					(VariableClickMenuLook
+					((BrGlamorousWithContextMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
-								items: {('Right-click' -> [ :e |  ])} ])
-						useSecondaryMouseButton
+						items: {('Click' -> [ :e |  ])} ])
+						usePrimaryMouseButton;
+						modifiersMatcher: #isEmpty;
+						yourself)
 				+
-					((VariableClickMenuLook
+					((BrGlamorousWithContextMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Ctrl-click' -> [ :e |  ])} ])
+						usePrimaryMouseButton;
+						modifiersMatcher: #isCtrl;
+						yourself)
+				+
+					((BrGlamorousWithContextMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Alt-click' -> [ :e |  ])} ])
+						usePrimaryMouseButton;
+						modifiersMatcher: #isAlt;
+						yourself)
+				+
+					((BrGlamorousWithContextMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Cmd-click' -> [ :e |  ])} ])
+						usePrimaryMouseButton;
+						modifiersMatcher: #isCmd;
+						yourself)
+				+
+					((BrGlamorousWithContextMenuLook
+						content: [ BrGlamorousSimpleContextMenuContent new
+						items: {('Right-click' -> [ :e |  ])} ])
+						useSecondaryMouseButton;
+						modifiersMatcher: #isEmpty;
+						yourself)
+				+
+					((BrGlamorousWithContextMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Ctrl-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
-						testModifier: #isCtrl;
+						modifiersMatcher: #isCtrl;
 						yourself)
 				+
-					((VariableClickMenuLook
+					((BrGlamorousWithContextMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Alt-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
-						testModifier: #isAlt;
+						modifiersMatcher: #isAlt;
 						yourself)
 				+
-					((VariableClickMenuLook
+					((BrGlamorousWithContextMenuLook
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Cmd-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
-						testModifier: #isCmd;
-						yourself)
-				+
-					(VariableClickMenuLook
-						content: [ BrGlamorousSimpleContextMenuContent new
-								items: {('Click' -> [ :e |  ])} ])
-				+
-					((VariableClickMenuLook
-						content: [ BrGlamorousSimpleContextMenuContent new
-						items: {('Ctrl-click' -> [ :e |  ])} ])
-						testModifier: #isCtrl;
-						yourself)
-				+
-					((VariableClickMenuLook
-						content: [ BrGlamorousSimpleContextMenuContent new
-						items: {('Alt-click' -> [ :e |  ])} ])
-						testModifier: #isAlt;
-						yourself)
-				+
-					((VariableClickMenuLook
-						content: [ BrGlamorousSimpleContextMenuContent new
-						items: {('Cmd-click' -> [ :e |  ])} ])
-						testModifier: #isCmd;
+						modifiersMatcher: #isCmd;
 						yourself).
 	^ clickElt
 ]

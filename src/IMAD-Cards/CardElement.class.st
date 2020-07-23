@@ -91,13 +91,16 @@ CardElement >> initialize [
 			(BrInteractiveCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
-				"+
-					(VariableClickMenuLook content: [ self contextMenu ])
-						useSecondaryMouseButton
 				+
-					((VariableClickMenuLook content: [ self contextMenu ])
-						testModifier: #isCmd;
-						yourself)"
+					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+						useSecondaryMouseButton;
+						modifiersMatcher: #isEmpty;
+						yourself)
+				+
+					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+						usePrimaryMouseButton;
+						modifiersMatcher: #isCmd;
+						yourself)
 				+
 					(BrGlamorousWithTooltipLook2
 						content: [ self tooltipWithText: self card name ]).
