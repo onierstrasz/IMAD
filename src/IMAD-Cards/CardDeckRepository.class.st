@@ -640,6 +640,9 @@ FSAs
 		addRelation: '_rel543523584'
 			fromCardNamed: 'To dos'
 			toCardNamed: 'Add support for views';
+		addRelation: '_rel738536704'
+			fromCardNamed: 'To dos'
+			toCardNamed: 'Nice to have';
 		addRelation: '_rel868526848'
 			fromCardNamed: 'To dos'
 			toCardNamed: 'Prepare Catalog of kind of cards';
