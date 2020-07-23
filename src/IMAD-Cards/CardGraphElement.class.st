@@ -64,9 +64,11 @@ CardGraphElement >> forDeck: aDeck [
 					[ :rel | self addChild: (self edgeElementFor: rel) ] ].
 	self
 		layout:
-			(self cards size > 1
+			"(self cards size > 1
 				ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
-				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ]).
+				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ])"
+				(BlOnceLayout new layout: GtGradHorizontalTreeLayout new)
+				.
 	self clipChildren: false.
 	^ self
 ]

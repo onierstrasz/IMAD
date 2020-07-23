@@ -73,13 +73,12 @@ CardElement >> contextMenu [
 
 { #category : #accessing }
 CardElement >> initialize [
-	<todo: 'FIX to work with updated VariableClickMenuLook'>
 	super initialize.
 	card := Card new.
 	isEditable := false.
 	self
 		layout: BlFrameLayout new;
-		geometry: BlRectangle new;
+		geometry: (BlRectangle cornerRadius: 4);
 		background: Color white;
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
