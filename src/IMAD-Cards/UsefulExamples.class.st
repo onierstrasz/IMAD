@@ -84,44 +84,62 @@ UsefulExamples >> boxWithToolTip [
 ]
 
 { #category : #accessing }
+UsefulExamples >> brokenBezier [
+
+	"Adapted from BlBezierElementExamples"
+	<gtExample>	
+	| redCurve attachFrom attachTo viaAttach fromLine toLine |
+	
+	redCurve := BlBezierElementExamples new redCurve.
+	
+	attachFrom := BlGeometryElementExamples new attachPoint.
+	attachFrom relocate: 10 @ 160.
+
+	viaAttach := BlGeometryElementExamples new attachPoint.
+	viaAttach relocate: 160 @ 160.
+	"viaAttach relocate: 160 @ 10."
+
+	attachTo := BlGeometryElementExamples new attachPoint.
+	attachTo relocate: 310 @ 160.
+
+	fromLine := BlBezierElementExamples new greyLine.
+	fromLine fromAnchor: (BlElementCenterAnchor element: attachFrom).
+	fromLine toAnchor: (BlElementCenterAnchor element: viaAttach).
+	
+	toLine := BlBezierElementExamples new greyLine.
+	toLine fromAnchor: (BlElementCenterAnchor element: viaAttach).
+	toLine toAnchor: (BlElementCenterAnchor element: attachTo).
+
+	redCurve fromAnchor: (BlElementCenterAnchor element: attachFrom).
+	redCurve viaAnchor: (BlElementCenterAnchor element: viaAttach).
+	redCurve toAnchor: (BlElementCenterAnchor element: attachTo).
+
+	^ BlBezierElementExamples new container
+		addChildren: { redCurve . attachFrom . viaAttach. attachTo . fromLine . toLine }
+]
+
+{ #category : #accessing }
 UsefulExamples >> brokenSigmoid [
 	"If the from and to anchors have the same x or y position, the sigmoid is not displayed!
 	Adapted from BlSigmoidElementExamples>>#sigmoidBendingMiddlePoint"
 
 	<gtExample>
 	| aSigmoid attachFrom attachTo |
-	aSigmoid := BlSigmoidElement new
-		zIndex: 10;
-		border: (BlBorder paint: Color red width: 4);
-		yourself.
+	aSigmoid := BlSigmoidElementExamples new newSigmoid.
 	aSigmoid bendingPoint: 0.5.
 	aSigmoid sharpness: 1.0.
-	attachFrom := BlElement new
-		geometry: BlEllipse new;
-		size: 30 @ 30;
-		background: (Color blue alpha: 0.3);
-		border: BlBorder empty;
-		addEventHandler: BlPullHandler new.
+	
+	attachFrom := BlSigmoidElementExamples new attachPoint.
 	attachFrom relocate: 100 @ 100.
-	attachTo := BlElement new
-		geometry: BlEllipse new;
-		size: 30 @ 30;
-		background: (Color blue alpha: 0.3);
-		border: BlBorder empty;
-		addEventHandler: BlPullHandler new.
-	attachTo relocate: 400 @ 100.
+
+	attachTo := BlSigmoidElementExamples new attachPoint.
+	attachTo relocate: 300 @ 100.
+
 	aSigmoid fromAnchor: (BlElementCenterAnchor element: attachFrom).
 	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
-	^ BlElement new
-		background: Color white;
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ];
-		addChildren:
-			{aSigmoid.
-			attachFrom.
-			attachTo};
-		yourself
+
+	^ BlSigmoidElementExamples new container
+		addChildren: { aSigmoid . attachFrom . attachTo }
 ]
 
 { #category : #accessing }
