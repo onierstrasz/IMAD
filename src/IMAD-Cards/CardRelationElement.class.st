@@ -38,8 +38,8 @@ CardRelationElement >> addLook [
 { #category : #accessing }
 CardRelationElement >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
 	edgeElement
-		fromAnchor: (BlElementCenterLeftAnchor nearestTo: targetElt from: sourceElt);
-		toAnchor: (BlElementCenterRightAnchor nearestTo: sourceElt from: targetElt);
+		fromAnchor: (BlElementCenterRightAnchor element: sourceElt);
+		toAnchor: (BlElementCenterLeftAnchor element: targetElt);
 		toHead:
 			(BlArrowheadSimpleArrow new
 				border: (BlBorder paint: Color gray width: 3))
@@ -87,9 +87,9 @@ CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
 	targetElt := cardGraph elementFor: self relation target.
 	sourceElt graph connectTo: targetElt.
 	edgeElement := self newSigmoid.
-	"self connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt."
+	self connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt.
 	"edgeElement := self newLine."
-	self connectNearestPositionBoundsAnchorFrom: sourceElt To: targetElt.
+	"self connectNearestPositionBoundsAnchorFrom: sourceElt To: targetElt."
 	self addLook.
 	^ edgeElement
 ]
@@ -112,6 +112,7 @@ CardRelationElement >> newLine [
 { #category : #accessing }
 CardRelationElement >> newSigmoid [
 	^ BlSigmoidElement new
+		border: (BlBorder paint: Color gray width: 3);
 		zIndex: 10;
 		bendingPoint: 0.5;
 		sharpness: 1.0;

@@ -84,6 +84,47 @@ UsefulExamples >> boxWithToolTip [
 ]
 
 { #category : #accessing }
+UsefulExamples >> brokenSigmoid [
+	"If the from and to anchors have the same x or y position, the sigmoid is not displayed!
+	Adapted from BlSigmoidElementExamples>>#sigmoidBendingMiddlePoint"
+
+	<gtExample>
+	| aSigmoid attachFrom attachTo |
+	aSigmoid := BlSigmoidElement new
+		zIndex: 10;
+		border: (BlBorder paint: Color red width: 4);
+		yourself.
+	aSigmoid bendingPoint: 0.5.
+	aSigmoid sharpness: 1.0.
+	attachFrom := BlElement new
+		geometry: BlEllipse new;
+		size: 30 @ 30;
+		background: (Color blue alpha: 0.3);
+		border: BlBorder empty;
+		addEventHandler: BlPullHandler new.
+	attachFrom relocate: 100 @ 100.
+	attachTo := BlElement new
+		geometry: BlEllipse new;
+		size: 30 @ 30;
+		background: (Color blue alpha: 0.3);
+		border: BlBorder empty;
+		addEventHandler: BlPullHandler new.
+	attachTo relocate: 400 @ 100.
+	aSigmoid fromAnchor: (BlElementCenterAnchor element: attachFrom).
+	aSigmoid toAnchor: (BlElementCenterAnchor element: attachTo).
+	^ BlElement new
+		background: Color white;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ];
+		addChildren:
+			{aSigmoid.
+			attachFrom.
+			attachTo};
+		yourself
+]
+
+{ #category : #accessing }
 UsefulExamples >> buildDifferentKindsOfTabs [
 	<gtExample>
 	| tabs |
