@@ -8,8 +8,8 @@ if I am deleted, ...
 
 "
 Class {
-	#name : #CardRelationElement,
-	#superclass : #BlLineElement,
+	#name : #CardRelationElementBuilder,
+	#superclass : #Object,
 	#traits : 'TCardModelElement',
 	#classTraits : 'TCardModelElement classTrait',
 	#instVars : [
@@ -21,7 +21,7 @@ Class {
 }
 
 { #category : #accessing }
-CardRelationElement >> addLook [
+CardRelationElementBuilder >> addLook [
 
 	edgeElement
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
@@ -36,7 +36,7 @@ CardRelationElement >> addLook [
 ]
 
 { #category : #accessing }
-CardRelationElement >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
+CardRelationElementBuilder >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
 	edgeElement
 		fromAnchor: (BlElementCenterRightAnchor element: sourceElt);
 		toAnchor: (BlElementCenterLeftAnchor element: targetElt);
@@ -46,7 +46,7 @@ CardRelationElement >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetE
 ]
 
 { #category : #accessing }
-CardRelationElement >> connectNearestPositionBoundsAnchorFrom: sourceElt To:  targetElt [
+CardRelationElementBuilder >> connectNearestPositionBoundsAnchorFrom: sourceElt To:  targetElt [
 
 	edgeElement
 		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
@@ -57,7 +57,7 @@ CardRelationElement >> connectNearestPositionBoundsAnchorFrom: sourceElt To:  ta
 ]
 
 { #category : #accessing }
-CardRelationElement >> contextMenu [
+CardRelationElementBuilder >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
@@ -70,7 +70,7 @@ CardRelationElement >> contextMenu [
 ]
 
 { #category : #accessing }
-CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
+CardRelationElementBuilder >> forRelation: aRelation inGraph: aCardGraph [
 	"Look up the source and target elements in the graph and connect them with a new edge element (BlLineElement or other curve)"
 
 	<todo:
@@ -95,22 +95,14 @@ CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
 ]
 
 { #category : #accessing }
-CardRelationElement >> initialize [
-	"NB: most of the initialization is in forRelation:inGraph:"
-	super initialize.
-	self zIndex: -1.
-
-]
-
-{ #category : #accessing }
-CardRelationElement >> newLine [
+CardRelationElementBuilder >> newLine [
 	^ BlLineElement new
 		zIndex: -1;
 		yourself
 ]
 
 { #category : #accessing }
-CardRelationElement >> newSigmoid [
+CardRelationElementBuilder >> newSigmoid [
 	^ BlSigmoidElement new
 		border: (BlBorder paint: Color gray width: 3);
 		zIndex: 10;
@@ -120,6 +112,6 @@ CardRelationElement >> newSigmoid [
 ]
 
 { #category : #accessing }
-CardRelationElement >> relation [
+CardRelationElementBuilder >> relation [
 	^ relation
 ]
