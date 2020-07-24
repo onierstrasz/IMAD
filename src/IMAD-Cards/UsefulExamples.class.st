@@ -119,6 +119,28 @@ UsefulExamples >> brokenBezier [
 ]
 
 { #category : #accessing }
+UsefulExamples >> brokenParabolla [
+	"Curvature 0 makes the curve disappear"
+
+	<gtExample>
+	| aPrabolla attachFrom attachTo |
+	aPrabolla := BlParabollaArcElementExamples new redArcWithToHead
+		curvature: 0;
+		yourself.
+	attachFrom := BlSigmoidElementExamples new attachPoint.
+	attachFrom relocate: 100 @ 100.
+	attachTo := BlSigmoidElementExamples new attachPoint.
+	attachTo relocate: 300 @ 100.
+	aPrabolla fromAnchor: (BlElementCenterAnchor element: attachFrom).
+	aPrabolla toAnchor: (BlElementCenterAnchor element: attachTo).
+	^ BlSigmoidElementExamples new container
+		addChildren:
+			{aPrabolla.
+			attachFrom.
+			attachTo}
+]
+
+{ #category : #accessing }
 UsefulExamples >> brokenSigmoid [
 	"If the from and to anchors have the same x or y position, the sigmoid is not displayed!
 	Adapted from BlSigmoidElementExamples>>#sigmoidBendingMiddlePoint"
