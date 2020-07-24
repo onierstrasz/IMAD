@@ -32,8 +32,7 @@ CardGraphElement >> deck [
 { #category : #accessing }
 CardGraphElement >> edgeElementFor: aRelation [
 	^ CardRelationElement new
-		forRelation: aRelation inGraph: self;
-		yourself
+		forRelation: aRelation inGraph: self
 ]
 
 { #category : #accessing }

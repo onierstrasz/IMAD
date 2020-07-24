@@ -14,10 +14,47 @@ Class {
 	#classTraits : 'TCardModelElement classTrait',
 	#instVars : [
 		'relation',
-		'cardGraph'
+		'cardGraph',
+		'edgeElement'
 	],
 	#category : #'IMAD-Cards-View'
 }
+
+{ #category : #accessing }
+CardRelationElement >> addLook [
+
+	edgeElement
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look:
+			(BrInteractiveCommonLook new
+				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ])
+				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+				+
+					(BrGlamorousWithTooltipLook2
+						content: (self tooltipWithText: self relation kind)).
+]
+
+{ #category : #accessing }
+CardRelationElement >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
+	edgeElement
+		fromAnchor: (BlElementCenterLeftAnchor nearestTo: targetElt from: sourceElt);
+		toAnchor: (BlElementCenterRightAnchor nearestTo: sourceElt from: targetElt);
+		toHead:
+			(BlArrowheadSimpleArrow new
+				border: (BlBorder paint: Color gray width: 3))
+]
+
+{ #category : #accessing }
+CardRelationElement >> connectNearestPositionBoundsAnchorFrom: sourceElt To:  targetElt [
+
+	edgeElement
+		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
+		toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt);
+		toHead:
+			(BlArrowheadSimpleArrow new
+				border: (BlBorder paint: Color gray width: 3)).
+]
 
 { #category : #accessing }
 CardRelationElement >> contextMenu [
@@ -34,38 +71,27 @@ CardRelationElement >> contextMenu [
 
 { #category : #accessing }
 CardRelationElement >> forRelation: aRelation inGraph: aCardGraph [
+	"Look up the source and target elements in the graph and connect them with a new edge element (BlLineElement or other curve)"
+
 	<todo:
 		'
-	- save the relation and the graph
-	- build and return the edge (myself)
-	- find a better way to draw directed edges
-	- implement a better layout along the shortest path between the centers
-    - add space between multiple edges along same path
-    - add tooltip with name
-
-'>
+		- FIX Center Anchor connections
+		- offer a way to plug in different styles of edges (subclasses of BlCurveElement) 
+		- find a better way to draw directed edges
+    	- add space between multiple edges along same path
+	'>
 	| sourceElt targetElt |
 	relation := aRelation.
 	cardGraph := aCardGraph.
 	sourceElt := cardGraph elementFor: self relation source.
 	targetElt := cardGraph elementFor: self relation target.
 	sourceElt graph connectTo: targetElt.
-	self
-		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
-		toAnchor: (BlNearestPositionBoundsAnchor nearestTo: sourceElt from: targetElt);
-		toHead:
-			(BlArrowheadSimpleArrow new
-				border: (BlBorder paint: Color gray width: 3)).
-	self
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look:
-			(BrInteractiveCommonLook new
-				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ])
-				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ])
-				+
-					(BrGlamorousWithTooltipLook2 content: (self tooltipWithText: self relation kind)).
-	^ self
+	edgeElement := self newSigmoid.
+	"self connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt."
+	"edgeElement := self newLine."
+	self connectNearestPositionBoundsAnchorFrom: sourceElt To: targetElt.
+	self addLook.
+	^ edgeElement
 ]
 
 { #category : #accessing }
@@ -74,6 +100,22 @@ CardRelationElement >> initialize [
 	super initialize.
 	self zIndex: -1.
 
+]
+
+{ #category : #accessing }
+CardRelationElement >> newLine [
+	^ BlLineElement new
+		zIndex: -1;
+		yourself
+]
+
+{ #category : #accessing }
+CardRelationElement >> newSigmoid [
+	^ BlSigmoidElement new
+		zIndex: 10;
+		bendingPoint: 0.5;
+		sharpness: 1.0;
+		yourself
 ]
 
 { #category : #accessing }
