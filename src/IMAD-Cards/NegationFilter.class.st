@@ -1,6 +1,6 @@
 Class {
 	#name : #NegationFilter,
-	#superclass : #Object,
+	#superclass : #AbstractFilter,
 	#instVars : [
 		'filter'
 	],

@@ -3,7 +3,7 @@ I serve as a common superclass for shared behaviour of Card model entities.
 All entities have a set of properties.
 "
 Class {
-	#name : #CardModelEntity,
+	#name : #AbstractCardModelEntity,
 	#superclass : #Object,
 	#instVars : [
 		'properties',
@@ -13,7 +13,7 @@ Class {
 }
 
 { #category : #comparing }
-CardModelEntity >> = anObject [
+AbstractCardModelEntity >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
 	self == anObject
@@ -24,29 +24,29 @@ CardModelEntity >> = anObject [
 ]
 
 { #category : #accessing }
-CardModelEntity >> announcer [
+AbstractCardModelEntity >> announcer [
 	^ announcer
 ]
 
 { #category : #initialization }
-CardModelEntity >> assertInvariant [
+AbstractCardModelEntity >> assertInvariant [
 	self
 		assert: properties isNotNil
 		description: 'properties must be defined'
 ]
 
 { #category : #properties }
-CardModelEntity >> defaultDescription [
+AbstractCardModelEntity >> defaultDescription [
 	^ 'To do'
 ]
 
 { #category : #properties }
-CardModelEntity >> defaultValue [
+AbstractCardModelEntity >> defaultValue [
 	^ '...'
 ]
 
 { #category : #utility }
-CardModelEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock [
+AbstractCardModelEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock [
 	"NB: stateless utility method"
 
 	| label |
@@ -67,7 +67,7 @@ CardModelEntity >> editableLabelFor: aString withSetter: aOneArgumentBlock [
 ]
 
 { #category : #properties }
-CardModelEntity >> freshKey [
+AbstractCardModelEntity >> freshKey [
 	| index key |
 	index := self properties size.
 	key := 'key' , index asString.
@@ -78,18 +78,18 @@ CardModelEntity >> freshKey [
 ]
 
 { #category : #properties }
-CardModelEntity >> get: propertyKey [
+AbstractCardModelEntity >> get: propertyKey [
 	self assert: (properties includesKey: propertyKey) description: 'key to lookup must exist'.
 	^ properties at: propertyKey ifAbsent: nil
 ]
 
 { #category : #comparing }
-CardModelEntity >> hash [
+AbstractCardModelEntity >> hash [
 	^ super hash bitXor: self properties hash
 ]
 
 { #category : #'ui requests' }
-CardModelEntity >> inform: aString [
+AbstractCardModelEntity >> inform: aString [
 	"NB: just a placeholder for a real gt version of #inform:"
 
 	| aSpace |
@@ -102,14 +102,14 @@ CardModelEntity >> inform: aString [
 ]
 
 { #category : #initialization }
-CardModelEntity >> initialize [
+AbstractCardModelEntity >> initialize [
 	super initialize.
 	announcer := Announcer new.
 	properties := Dictionary new.
 ]
 
 { #category : #accessing }
-CardModelEntity >> labelFor: aString [
+AbstractCardModelEntity >> labelFor: aString [
 	"NB: stateless utility method"
 
 	| label |
@@ -120,17 +120,17 @@ CardModelEntity >> labelFor: aString [
 ]
 
 { #category : #properties }
-CardModelEntity >> properties [
+AbstractCardModelEntity >> properties [
 	^ properties
 ]
 
 { #category : #properties }
-CardModelEntity >> protectedKeys [
+AbstractCardModelEntity >> protectedKeys [
 	^ OrderedCollection new
 ]
 
 { #category : #properties }
-CardModelEntity >> removePropertyWithKey: aKey [
+AbstractCardModelEntity >> removePropertyWithKey: aKey [
 	self
 		assert: (self properties includesKey: aKey)
 		description: 'key of property to remove must exist'.
@@ -142,7 +142,7 @@ CardModelEntity >> removePropertyWithKey: aKey [
 ]
 
 { #category : #properties }
-CardModelEntity >> rename: oldKey to: newKey [
+AbstractCardModelEntity >> rename: oldKey to: newKey [
 	self assert: (self properties includesKey: oldKey) description: 'key to rename must exist'.
 	self assert: (self properties includesKey: newKey) not description: 'new name of key must not exist'.
 	self assert: (self protectedKeys includes: oldKey) not description: 'cannot rename a protected key'.
@@ -151,13 +151,13 @@ CardModelEntity >> rename: oldKey to: newKey [
 ]
 
 { #category : #properties }
-CardModelEntity >> set: propertyKey to: aValue [
+AbstractCardModelEntity >> set: propertyKey to: aValue [
 	self properties at: propertyKey put: aValue.
 	self announcer announce: PropertiesUpdated new
 ]
 
 { #category : #printing }
-CardModelEntity >> storePropertiesOn: aStream [
+AbstractCardModelEntity >> storePropertiesOn: aStream [
 	properties
 		associationsDo: [ :each | 
 			aStream

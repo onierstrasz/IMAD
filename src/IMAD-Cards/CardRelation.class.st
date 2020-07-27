@@ -7,7 +7,7 @@ NB: my name is a symbol rather than a string.
 "
 Class {
 	#name : #CardRelation,
-	#superclass : #CardModelEntity,
+	#superclass : #AbstractCardModelEntity,
 	#instVars : [
 		'source',
 		'target',

@@ -11,7 +11,7 @@ NB: properties should just hold (flat?) values, so the deck of a card should not
 "
 Class {
 	#name : #Card,
-	#superclass : #CardModelNamedEntity,
+	#superclass : #AbstractCardModelNamedEntity,
 	#instVars : [
 		'deck',
 		'tags'

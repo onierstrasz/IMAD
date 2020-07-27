@@ -7,9 +7,8 @@ The implementations of cards and relations are naive to start (collections). To 
 "
 Class {
 	#name : #CardDeck,
-	#superclass : #CardModelNamedEntity,
+	#superclass : #AbstractCardSet,
 	#instVars : [
-		'cards',
 		'relations'
 	],
 	#category : #'IMAD-Cards-Model'
@@ -154,38 +153,17 @@ CardDeck >> assertValidStorageMethod [
 		description: 'storage class name must refer to an existing class'
 ]
 
-{ #category : #cards }
-CardDeck >> cardNamed: aString [
-	| result |
-	result := self cardsNamed: aString.
-	self
-		assert: result notEmpty
-		description: 'no card exists named ' , aString.
-	self
-		assert: result size = 1
-		description: 'multiple cards exist named ' , aString.
-	^ result at: 1
-]
-
 { #category : #relations }
 CardDeck >> cardNamed: targetName become: aSymbol ofCardNamed: sourceName [
 	"Convenience method"
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
-{ #category : #cards }
-CardDeck >> cards [
-	^ cards
-]
-
-{ #category : #accessing }
+{ #category : #querying }
 CardDeck >> cardsMatching: aFilter [
-	^ cards select: [:rel | aFilter matches: rel].
-]
-
-{ #category : #cards }
-CardDeck >> cardsNamed: aString [
-	^ cards select: [:each | each name = aString]
+	^ CardHand new
+		deck: self filter: aFilter;
+		yourself
 ]
 
 { #category : #utilities }
@@ -534,11 +512,6 @@ CardDeck >> show [
 	BlSpace new
 		addChild: self asElement;
 		show
-]
-
-{ #category : #cards }
-CardDeck >> size [
-	^ cards size
 ]
 
 { #category : #printing }

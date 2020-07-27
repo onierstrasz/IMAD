@@ -2,8 +2,8 @@
 I serve as a common superclass for entities with a name and a description (Cards and Card Decks)
 "
 Class {
-	#name : #CardModelNamedEntity,
-	#superclass : #CardModelEntity,
+	#name : #AbstractCardModelNamedEntity,
+	#superclass : #AbstractCardModelEntity,
 	#instVars : [
 		'name',
 		'description'
@@ -12,14 +12,14 @@ Class {
 }
 
 { #category : #comparing }
-CardModelNamedEntity >> = anObject [
+AbstractCardModelNamedEntity >> = anObject [
 	^ super = anObject
 		and: [ self name = anObject name
 				and: [ self description = anObject description ] ]
 ]
 
 { #category : #initialization }
-CardModelNamedEntity >> assertInvariant [
+AbstractCardModelNamedEntity >> assertInvariant [
 	super assertInvariant.
 	self assert: self name isNotNil description: 'name must be defined'.
 	self assert: self name isString description: 'name must be a string'.
@@ -38,7 +38,7 @@ CardModelNamedEntity >> assertInvariant [
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> buildDescriptionPane [
+AbstractCardModelNamedEntity >> buildDescriptionPane [
 	| contentPane gtDoc aSaveButton |
 	contentPane := BlElement new.
 	contentPane layout: BlLinearLayout vertical.
@@ -70,7 +70,7 @@ CardModelNamedEntity >> buildDescriptionPane [
 ]
 
 { #category : #accessing }
-CardModelNamedEntity >> buildHeader [
+AbstractCardModelNamedEntity >> buildHeader [
 	"A placeholder for subclasses to add something."
 	^ BlElement new
 		height: 0;
@@ -79,7 +79,7 @@ CardModelNamedEntity >> buildHeader [
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> buildLabel [
+AbstractCardModelNamedEntity >> buildLabel [
 	"See also GtBehaviorCoderElement>>#buildClassLabel"
 
 	^ (self
@@ -95,23 +95,23 @@ CardModelNamedEntity >> buildLabel [
 ]
 
 { #category : #properties }
-CardModelNamedEntity >> defaultName [
+AbstractCardModelNamedEntity >> defaultName [
 	^ self class name, self identityHash asString
 ]
 
 { #category : #accessing }
-CardModelNamedEntity >> description [
+AbstractCardModelNamedEntity >> description [
 	^ description
 ]
 
 { #category : #accessing }
-CardModelNamedEntity >> description: aString [
+AbstractCardModelNamedEntity >> description: aString [
 	description := aString.
 	self announcer announce: PropertiesUpdated new
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> gtDescriptionFor: aView [
+AbstractCardModelNamedEntity >> gtDescriptionFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Description';
@@ -122,7 +122,7 @@ CardModelNamedEntity >> gtDescriptionFor: aView [
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> gtPropertiesFor: aView [
+AbstractCardModelNamedEntity >> gtPropertiesFor: aView [
 	<gtView>
 	^ aView columnedList
 		title: 'Properties';
@@ -165,7 +165,7 @@ CardModelNamedEntity >> gtPropertiesFor: aView [
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> gtStoreStringFor: aView [
+AbstractCardModelNamedEntity >> gtStoreStringFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Serialized';
@@ -177,30 +177,30 @@ CardModelNamedEntity >> gtStoreStringFor: aView [
 ]
 
 { #category : #comparing }
-CardModelNamedEntity >> hash [
+AbstractCardModelNamedEntity >> hash [
 	^ super hash bitXor: self name hash
 ]
 
 { #category : #initialization }
-CardModelNamedEntity >> initialize [
+AbstractCardModelNamedEntity >> initialize [
 	super initialize.
 	name := self defaultName.
 	description := self defaultDescription
 ]
 
 { #category : #accessing }
-CardModelNamedEntity >> name [
+AbstractCardModelNamedEntity >> name [
 	^ name
 ]
 
 { #category : #accessing }
-CardModelNamedEntity >> name: aString [
+AbstractCardModelNamedEntity >> name: aString [
 	name := aString.
 	self announcer announce: PropertiesUpdated new
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> newLinearBoxedLayout [
+AbstractCardModelNamedEntity >> newLinearBoxedLayout [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
 		look: BrGlamorousInputFieldSpacingLook;
@@ -210,7 +210,7 @@ CardModelNamedEntity >> newLinearBoxedLayout [
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> newLinearLayout [
+AbstractCardModelNamedEntity >> newLinearLayout [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
@@ -219,20 +219,20 @@ CardModelNamedEntity >> newLinearLayout [
 ]
 
 { #category : #printing }
-CardModelNamedEntity >> printOn: aStream [
+AbstractCardModelNamedEntity >> printOn: aStream [
 	aStream
 		nextPutAll: self name
 ]
 
 { #category : #properties }
-CardModelNamedEntity >> protectedKeys [
+AbstractCardModelNamedEntity >> protectedKeys [
 	^ super protectedKeys
 		addAll: {'name' . 'description'};
 		yourself
 ]
 
 { #category : #'gt-extensions' }
-CardModelNamedEntity >> removePropertyButtonFor: anAssociation [
+AbstractCardModelNamedEntity >> removePropertyButtonFor: anAssociation [
 	^ BrButton new
 		look: BrGlamorousButtonWithIconLook;
 		icon: BrGlamorousVectorIcons remove;
@@ -241,7 +241,7 @@ CardModelNamedEntity >> removePropertyButtonFor: anAssociation [
 ]
 
 { #category : #printing }
-CardModelNamedEntity >> storeNameAndDescriptionOn: aStream [
+AbstractCardModelNamedEntity >> storeNameAndDescriptionOn: aStream [
 	aStream
 		nextPutAll: '  name: ';
 		print: self name;
