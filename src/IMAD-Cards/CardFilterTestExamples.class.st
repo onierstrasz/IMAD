@@ -144,3 +144,14 @@ CardFilterTestExamples >> modelDeck [
 CardFilterTestExamples >> uniFilter [
 	^ CardTagFilter new tag: 'uni'
 ]
+
+{ #category : #accessing }
+CardFilterTestExamples >> uniHasTwoFacultiesNotPhilNat [
+	<gtExample>
+	| filter result |
+	filter := (CardTagFilter new tag: 'faculty')
+		& (CardTagFilter new tag: 'philnat') not.
+	result := deck cardsMatching: filter.
+	self assert: result size equals: 2.
+	^ result
+]

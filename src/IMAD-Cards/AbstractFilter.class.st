@@ -23,6 +23,11 @@ AbstractFilter >> matches: aCardModelEntity [
 ]
 
 { #category : #accessing }
+AbstractFilter >> not [
+	^ NegationFilter new filter: self
+]
+
+{ #category : #accessing }
 AbstractFilter >> | aFilter [
 	^ UnionFilter new
 		left: self;
