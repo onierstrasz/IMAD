@@ -2,7 +2,7 @@
 I provide a dedicated view for a ${class:Card}$ instance.
 "
 Class {
-	#name : #CardElement,
+	#name : #CardNodeView,
 	#superclass : #BlElement,
 	#instVars : [
 		'card',
@@ -12,7 +12,7 @@ Class {
 }
 
 { #category : #accessing }
-CardElement >> beEditable [
+CardNodeView >> beEditable [
 	isEditable := true.
 	self removeChildren.
 	self
@@ -25,7 +25,7 @@ CardElement >> beEditable [
 ]
 
 { #category : #accessing }
-CardElement >> beText [
+CardNodeView >> beText [
 	isEditable := false.
 	self removeChildren.
 	self
@@ -43,18 +43,18 @@ CardElement >> beText [
 ]
 
 { #category : #accessing }
-CardElement >> card [
+CardNodeView >> card [
 	^ card
 ]
 
 { #category : #accessing }
-CardElement >> card: aCard [
+CardNodeView >> card: aCard [
 	card := aCard.
 	self updateCard
 ]
 
 { #category : #accessing }
-CardElement >> contextMenu [
+CardNodeView >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
@@ -70,7 +70,7 @@ CardElement >> contextMenu [
 ]
 
 { #category : #accessing }
-CardElement >> initialize [
+CardNodeView >> initialize [
 	super initialize.
 	card := Card new.
 	isEditable := false.
@@ -104,7 +104,7 @@ CardElement >> initialize [
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
-	self addEventHandler: EdgeCreationHandler new.
+	self addEventHandler: EdgeBuilder new.
 	self
 		addEventHandler:
 			(BlEventHandler
@@ -116,7 +116,7 @@ CardElement >> initialize [
 ]
 
 { #category : #accessing }
-CardElement >> tooltipWithText: aString [
+CardNodeView >> tooltipWithText: aString [
 	"From TCardModelElement"
 	^ BrLabel new
 		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
@@ -127,7 +127,7 @@ CardElement >> tooltipWithText: aString [
 ]
 
 { #category : #accessing }
-CardElement >> updateCard [
+CardNodeView >> updateCard [
 	card name = card defaultName
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beText ].

@@ -5,7 +5,7 @@ I must be on a node when starting and stopping.
 This would be better done using separate drag and drop events, but it seems that BlDropEvent is currently (2020-06-12) broken (sent to the dragged element instead of the drop location). 
 "
 Class {
-	#name : #EdgeCreationHandler,
+	#name : #EdgeBuilder,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'edgeStarted',
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #accessing }
-EdgeCreationHandler >> dragEndEvent: anEvent [
+EdgeBuilder >> dragEndEvent: anEvent [
 	edgeStarted
 		ifTrue: [ | endNode |
 			anEvent consumed: true.
@@ -41,7 +41,7 @@ EdgeCreationHandler >> dragEndEvent: anEvent [
 ]
 
 { #category : #accessing }
-EdgeCreationHandler >> dragEvent: anEvent [
+EdgeBuilder >> dragEvent: anEvent [
 	edgeStarted
 		ifTrue: [ anEvent consumed: true.
 			mousePositionElement
@@ -49,7 +49,7 @@ EdgeCreationHandler >> dragEvent: anEvent [
 ]
 
 { #category : #accessing }
-EdgeCreationHandler >> dragStartEvent: anEvent [
+EdgeBuilder >> dragStartEvent: anEvent [
 	startNode := anEvent currentTarget.
 	startNode graph isNode
 		ifTrue: [ edgeStarted := true.
@@ -67,15 +67,15 @@ EdgeCreationHandler >> dragStartEvent: anEvent [
 ]
 
 { #category : #accessing }
-EdgeCreationHandler >> eventsToHandle [
+EdgeBuilder >> eventsToHandle [
 	^ { BlDragStartEvent . BlDragEvent . BlDragEndEvent }
 ]
 
 { #category : #accessing }
-EdgeCreationHandler >> findCardElementAt: aPosition [
+EdgeBuilder >> findCardElementAt: aPosition [
 	| element |
 	element := container findMouseEventTargetAt: aPosition.
-	[ element isKindOf: CardElement ]
+	[ element isKindOf: CardNodeView ]
 		whileFalse: [ (element = container or: [ element isNil ])
 				ifTrue: [ ^ nil ].
 			element := element parent ].
@@ -83,7 +83,7 @@ EdgeCreationHandler >> findCardElementAt: aPosition [
 ]
 
 { #category : #accessing }
-EdgeCreationHandler >> initialize [
+EdgeBuilder >> initialize [
 	super initialize.
 	edgeStarted := false.
 	mousePositionElement := BlElement new
@@ -95,7 +95,7 @@ EdgeCreationHandler >> initialize [
 ]
 
 { #category : #accessing }
-EdgeCreationHandler >> wantsEvent: anEvent [
+EdgeBuilder >> wantsEvent: anEvent [
 	"I only want Control events"
 	^ (super wantsEvent: anEvent) and: [ anEvent modifiers isCtrl ]
 ]

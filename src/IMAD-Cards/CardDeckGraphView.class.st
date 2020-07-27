@@ -5,7 +5,7 @@ I sit inside the graphHolder of the card deck element.
 
 "
 Class {
-	#name : #CardGraphElement,
+	#name : #CardDeckGraphView,
 	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
@@ -15,34 +15,34 @@ Class {
 }
 
 { #category : #accessing }
-CardGraphElement class >> forDeck: aDeck [
+CardDeckGraphView class >> forDeck: aDeck [
 	^ self new forDeck: aDeck
 ]
 
 { #category : #accessing }
-CardGraphElement >> cards [
+CardDeckGraphView >> cards [
 	^ self deck cards
 ]
 
 { #category : #accessing }
-CardGraphElement >> deck [
+CardDeckGraphView >> deck [
 	^ deck
 ]
 
 { #category : #accessing }
-CardGraphElement >> edgeElementFor: aRelation [
-	^ CardRelationElementBuilder new
+CardDeckGraphView >> edgeElementFor: aRelation [
+	^ CardRelationViewBuilder new
 		forRelation: aRelation inGraph: self
 ]
 
 { #category : #accessing }
-CardGraphElement >> elementFor: anEntity [
+CardDeckGraphView >> elementFor: anEntity [
 	self assert: (graphElementsDictionary includesKey: anEntity).
 	^ graphElementsDictionary at: anEntity
 ]
 
 { #category : #accessing }
-CardGraphElement >> forDeck: aDeck [
+CardDeckGraphView >> forDeck: aDeck [
 	"NB: The dictionary is needed because for each edge to create we have
 	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."
@@ -73,7 +73,7 @@ CardGraphElement >> forDeck: aDeck [
 ]
 
 { #category : #accessing }
-CardGraphElement >> initialize [
+CardDeckGraphView >> initialize [
 	super initialize.
 	graphElementsDictionary := Dictionary new.
 	self
@@ -83,13 +83,13 @@ CardGraphElement >> initialize [
 ]
 
 { #category : #accessing }
-CardGraphElement >> mapModelEntity: entity toElement: anElement [
+CardDeckGraphView >> mapModelEntity: entity toElement: anElement [
 	graphElementsDictionary at: entity put: anElement
 ]
 
 { #category : #accessing }
-CardGraphElement >> newCardElementFor: aCard [
-	^ CardElement new
+CardDeckGraphView >> newCardElementFor: aCard [
+	^ CardNodeView new
 		card: aCard;
 		yourself
 ]

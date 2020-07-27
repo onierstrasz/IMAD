@@ -8,7 +8,7 @@ if I am deleted, ...
 
 "
 Class {
-	#name : #CardRelationElementBuilder,
+	#name : #CardRelationViewBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'relation',
@@ -19,7 +19,7 @@ Class {
 }
 
 { #category : #accessing }
-CardRelationElementBuilder >> addLook [
+CardRelationViewBuilder >> addLook [
 
 	edgeElement
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
@@ -34,7 +34,7 @@ CardRelationElementBuilder >> addLook [
 ]
 
 { #category : #accessing }
-CardRelationElementBuilder >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
+CardRelationViewBuilder >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
 	edgeElement
 		fromAnchor: (BlElementCenterRightAnchor element: sourceElt);
 		toAnchor: (BlElementCenterLeftAnchor element: targetElt);
@@ -44,7 +44,7 @@ CardRelationElementBuilder >> connectCenterLeftToRightAnchorFrom: sourceElt To: 
 ]
 
 { #category : #accessing }
-CardRelationElementBuilder >> connectNearestPositionBoundsAnchorFrom: sourceElt To:  targetElt [
+CardRelationViewBuilder >> connectNearestPositionBoundsAnchorFrom: sourceElt To:  targetElt [
 
 	edgeElement
 		fromAnchor: (BlNearestPositionBoundsAnchor nearestTo: targetElt from: sourceElt);
@@ -55,7 +55,7 @@ CardRelationElementBuilder >> connectNearestPositionBoundsAnchorFrom: sourceElt 
 ]
 
 { #category : #accessing }
-CardRelationElementBuilder >> contextMenu [
+CardRelationViewBuilder >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
@@ -68,7 +68,7 @@ CardRelationElementBuilder >> contextMenu [
 ]
 
 { #category : #accessing }
-CardRelationElementBuilder >> forRelation: aRelation inGraph: aCardGraph [
+CardRelationViewBuilder >> forRelation: aRelation inGraph: aCardGraph [
 	"Look up the source and target elements in the graph and connect them with a new edge element (BlLineElement or other curve)"
 
 	<todo:
@@ -93,14 +93,14 @@ CardRelationElementBuilder >> forRelation: aRelation inGraph: aCardGraph [
 ]
 
 { #category : #accessing }
-CardRelationElementBuilder >> newLine [
+CardRelationViewBuilder >> newLine [
 	^ BlLineElement new
 		zIndex: -1;
 		yourself
 ]
 
 { #category : #accessing }
-CardRelationElementBuilder >> newSigmoid [
+CardRelationViewBuilder >> newSigmoid [
 	^ BlSigmoidElement new
 		border: (BlBorder paint: Color gray width: 3);
 		zIndex: 10;
@@ -110,12 +110,12 @@ CardRelationElementBuilder >> newSigmoid [
 ]
 
 { #category : #accessing }
-CardRelationElementBuilder >> relation [
+CardRelationViewBuilder >> relation [
 	^ relation
 ]
 
 { #category : #accessing }
-CardRelationElementBuilder >> tooltipWithText: aString [
+CardRelationViewBuilder >> tooltipWithText: aString [
 	"From TCardModelElement"
 	^ BrLabel new
 		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;

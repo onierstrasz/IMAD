@@ -5,7 +5,7 @@ Eventually some of my parts should be factored out into separate Element classes
 I consist of a Header, a Tags pane, and a Graph pane.
 "
 Class {
-	#name : #CardDeckElement,
+	#name : #CardDeckGUI,
 	#superclass : #BlElement,
 	#instVars : [
 		'deck',
@@ -18,11 +18,11 @@ Class {
 }
 
 { #category : #accessing }
-CardDeckElement >> addGraphButtonsTo: aButtonBar [
+CardDeckGUI >> addGraphButtonsTo: aButtonBar [
 ]
 
 { #category : #accessing }
-CardDeckElement >> buildButtonBar [
+CardDeckGUI >> buildButtonBar [
 	| buttonBar |
 	buttonBar := BlElement new
 		constraintsDo: [ :c | 
@@ -83,17 +83,17 @@ CardDeckElement >> buildButtonBar [
 ]
 
 { #category : #accessing }
-CardDeckElement >> buildGraph [
+CardDeckGUI >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
 
-	theGraph := (CardGraphElement new forDeck: self deck)
+	theGraph := (CardDeckGraphView new forDeck: self deck)
 		asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
 ]
 
 { #category : #accessing }
-CardDeckElement >> buildGraphHolder [
+CardDeckGUI >> buildGraphHolder [
 	"I hold the actual graph (which may change), and handle mouse events."
 
 	<todo: 'Add CMD-click'>
@@ -117,7 +117,7 @@ CardDeckElement >> buildGraphHolder [
 ]
 
 { #category : #accessing }
-CardDeckElement >> buildGraphPane [
+CardDeckGUI >> buildGraphPane [
 	| graphPane |
 	graphPane := BlElement new
 		constraintsDo: [ :c | 
@@ -137,7 +137,7 @@ CardDeckElement >> buildGraphPane [
 ]
 
 { #category : #accessing }
-CardDeckElement >> buildHeader [
+CardDeckGUI >> buildHeader [
 	| header |
 	header := BlElement new
 		constraintsDo: [ :c | 
@@ -174,7 +174,7 @@ CardDeckElement >> buildHeader [
 ]
 
 { #category : #accessing }
-CardDeckElement >> buildTags [
+CardDeckGUI >> buildTags [
 	tags := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -194,25 +194,25 @@ CardDeckElement >> buildTags [
 ]
 
 { #category : #accessing }
-CardDeckElement >> cards [
+CardDeckGUI >> cards [
 	<todo: 'Apply the filter to select just the cards for this view'>
 	^ self deck cards
 ]
 
 { #category : #accessing }
-CardDeckElement >> contextMenu [
+CardDeckGUI >> contextMenu [
 	^ BrGlamorousSimpleContextMenuContent new
 		items: {('Inspect deck' -> [ :e | deck inspect ])};
 		yourself
 ]
 
 { #category : #accessing }
-CardDeckElement >> deck [
+CardDeckGUI >> deck [
 	^ deck
 ]
 
 { #category : #accessing }
-CardDeckElement >> deck: aCardDeck [
+CardDeckGUI >> deck: aCardDeck [
 	self unsubscribe.
 	deck := aCardDeck.
 	self subscribe.
@@ -221,7 +221,7 @@ CardDeckElement >> deck: aCardDeck [
 ]
 
 { #category : #accessing }
-CardDeckElement >> directedCurvedEdge [
+CardDeckGUI >> directedCurvedEdge [
 	<todo: 'Use this to build graphs?'>
 	^ BlParabollaArcElement new
 		zIndex: 0;
@@ -237,7 +237,7 @@ CardDeckElement >> directedCurvedEdge [
 ]
 
 { #category : #accessing }
-CardDeckElement >> initialize [
+CardDeckGUI >> initialize [
 	super initialize.
 	deck := CardDeck new.
 	self
@@ -252,7 +252,7 @@ CardDeckElement >> initialize [
 ]
 
 { #category : #accessing }
-CardDeckElement >> saveButton [
+CardDeckGUI >> saveButton [
 	^ BrButton new
 		look:
 			BrGlamorousButtonWithIconLook
@@ -282,7 +282,7 @@ CardDeckElement >> saveButton [
 ]
 
 { #category : #accessing }
-CardDeckElement >> subscribe [
+CardDeckGUI >> subscribe [
 	self deck announcer
 		when: PropertiesUpdated
 		do: [ self updateHeaderName ].
@@ -291,12 +291,12 @@ CardDeckElement >> subscribe [
 ]
 
 { #category : #accessing }
-CardDeckElement >> unsubscribe [
+CardDeckGUI >> unsubscribe [
 	self deck announcer unsubscribe: self
 ]
 
 { #category : #accessing }
-CardDeckElement >> updateGraph [
+CardDeckGUI >> updateGraph [
 	| newGraph oldGraph |
 	oldGraph := theGraph.
 	newGraph := self buildGraph.
@@ -306,13 +306,13 @@ CardDeckElement >> updateGraph [
 ]
 
 { #category : #accessing }
-CardDeckElement >> updateHeaderName [
+CardDeckGUI >> updateHeaderName [
 	nameHolder removeChildren.
 	nameHolder addChild: self deck buildLabel
 ]
 
 { #category : #accessing }
-CardDeckElement >> updateTags [
+CardDeckGUI >> updateTags [
 	tags removeChildren.
 	tags
 		addChild: (BlTextElement new text: ('Tags go here' asRopedText fontSize: 12))
