@@ -155,6 +155,7 @@ CardRelation >> kind: aSymbol [
 
 { #category : #accessing }
 CardRelation >> name: aSymbol [
+	self deprecated: 'use kind: instead'.
 	kind := aSymbol.
 	self deck announcer announce: RelationsUpdated
 ]

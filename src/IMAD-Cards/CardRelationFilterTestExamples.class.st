@@ -125,11 +125,11 @@ CardRelationFilterTestExamples >> deckHasTwoTargetCardsNamedB [
 
 { #category : #accessing }
 CardRelationFilterTestExamples >> initialize [
-	self setupModel
+	self model
 ]
 
 { #category : #accessing }
-CardRelationFilterTestExamples >> setupModel [
+CardRelationFilterTestExamples >> model [
 	<gtExample>
 	| a b c |
 	deck := CardDeck new.

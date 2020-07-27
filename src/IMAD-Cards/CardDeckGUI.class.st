@@ -12,7 +12,8 @@ Class {
 		'tags',
 		'nameHolder',
 		'graphHolder',
-		'theGraph'
+		'theGraph',
+		'style'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -240,6 +241,7 @@ CardDeckGUI >> directedCurvedEdge [
 CardDeckGUI >> initialize [
 	super initialize.
 	deck := CardDeck new.
+	style := CardGraphStyle new mindmapStyle.
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
