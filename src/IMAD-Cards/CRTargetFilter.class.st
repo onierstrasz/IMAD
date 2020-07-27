@@ -3,7 +3,7 @@ I query whether the target of a relation is a given card.
 "
 Class {
 	#name : #CRTargetFilter,
-	#superclass : #CRFilter,
+	#superclass : #AbstractFilter,
 	#instVars : [
 		'target'
 	],

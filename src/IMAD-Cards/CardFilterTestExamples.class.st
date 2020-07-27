@@ -11,8 +11,45 @@ Class {
 CardFilterTestExamples >> deckHasOneUni [
 	<gtExample>
 	| filter result |
-	filter := CardTagFilter new tag: 'uni'.
-	result := deck cardsMatching: filter
+	filter := self uniFilter.
+	result := deck cardsMatching: filter.
+	self assert: result size equals: 1.
+	^ result
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> deckHasThreeFBMInsititutes [
+	<gtExample>
+	| filter result |
+	filter := self fbmFilter.
+	result := deck cardsMatching: filter.
+	self assert: result size equals: 3.
+	^ result
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> fbmFilter [
+	^ CardTagFilter new tag: 'fbm'
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> fbmHasOneInf [
+	<gtExample>
+	| filter result |
+	filter := self infAndFbmFilter.
+	result := deck cardsMatching: filter.
+	self assert: result size equals: 1.
+	^ result
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> infAndFbmFilter [
+	^ self fbmFilter & self infFilter
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> infFilter [
+	^ CardTagFilter new tag: 'inf'
 ]
 
 { #category : #accessing }
@@ -33,6 +70,7 @@ CardFilterTestExamples >> modelDeck [
 			(Card new
 				name: 'FBMSI';
 				description: 'To do';
+				addTag: 'fb';
 				yourself);
 		addCard:
 			(Card new
@@ -46,12 +84,14 @@ CardFilterTestExamples >> modelDeck [
 				description: 'To do';
 				addTag: 'inst';
 				addTag: 'inf';
+				addTag: 'fbm';
 				yourself);
 		addCard:
 			(Card new
 				name: 'Math';
 				description: 'To do';
 				addTag: 'inst';
+				addTag: 'fbm';
 				yourself);
 		addCard:
 			(Card new
@@ -77,6 +117,7 @@ CardFilterTestExamples >> modelDeck [
 				name: 'Stats';
 				description: 'To do';
 				addTag: 'inst';
+				addTag: 'fbm';
 				yourself);
 		addCard:
 			(Card new
@@ -97,4 +138,9 @@ CardFilterTestExamples >> modelDeck [
 		addRelation: 'partOf' fromCardNamed: 'Unibe' toCardNamed: 'PhilHum';
 		addRelation: 'partOf' fromCardNamed: 'Unibe' toCardNamed: 'PhilNat';
 		yourself
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> uniFilter [
+	^ CardTagFilter new tag: 'uni'
 ]

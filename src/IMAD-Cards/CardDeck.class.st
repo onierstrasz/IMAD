@@ -178,6 +178,11 @@ CardDeck >> cards [
 	^ cards
 ]
 
+{ #category : #accessing }
+CardDeck >> cardsMatching: aFilter [
+	^ cards select: [:rel | aFilter matches: rel].
+]
+
 { #category : #cards }
 CardDeck >> cardsNamed: aString [
 	^ cards select: [:each | each name = aString]

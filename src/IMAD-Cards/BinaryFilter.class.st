@@ -2,8 +2,8 @@
 I am an abstract parent of binary union and intersection filters.
 "
 Class {
-	#name : #CRBinaryFilter,
-	#superclass : #CRFilter,
+	#name : #BinaryFilter,
+	#superclass : #AbstractFilter,
 	#instVars : [
 		'left',
 		'right'
@@ -12,11 +12,11 @@ Class {
 }
 
 { #category : #accessing }
-CRBinaryFilter >> left: aCardRelFilter [
-	left := aCardRelFilter
+BinaryFilter >> left: aFilter [
+	left := aFilter
 ]
 
 { #category : #accessing }
-CRBinaryFilter >> right: aCardRelFilter [
-	right := aCardRelFilter
+BinaryFilter >> right: aFilter [
+	right := aFilter
 ]

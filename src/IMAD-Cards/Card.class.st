@@ -29,7 +29,7 @@ Card >> = anObject [
 	^ super = anObject and: [ self tags = anObject tags ]
 ]
 
-{ #category : #accessing }
+{ #category : #tags }
 Card >> addTag: aString [
 	tags add: aString.
 	self announcer announce: PropertiesUpdated new
@@ -73,7 +73,7 @@ Card >> buildHeader [
 	^ self buildTagHeader
 ]
 
-{ #category : #accessing }
+{ #category : #tags }
 Card >> buildTagHeader [
 	"See BrTagger>>#newGlamorousTagger"
 
@@ -92,7 +92,7 @@ Card >> buildTagHeader [
 				ifNotEmpty: [ :aNewName | self renameTagNamed: aRequest tag name to: aNewName ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #relations }
 Card >> connectTo: aTargetCard [
 	"Convenience method"
 
@@ -129,7 +129,7 @@ Card >> description: aString [
 	self announceUpdate
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extensions' }
 Card >> gtDeckInspectorFor: anAction [
 	<gtAction>
 	^ anAction button
@@ -141,7 +141,7 @@ Card >> gtDeckInspectorFor: anAction [
 			self deck inspect ]
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extensions' }
 Card >> gtSaveMainActionFor: anAction [
 	"Copy save action to main tab as well"
 
@@ -156,6 +156,11 @@ Card >> hasA: relSymbol [
 		(self relFilter: relSymbol)
 		& (self sourceFilter)) isNotEmpty
 
+]
+
+{ #category : #accessing }
+Card >> hasTagNamed: aTag [
+	^ self tags includes: aTag
 ]
 
 { #category : #initialization }
@@ -200,7 +205,7 @@ Card >> relations [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #tags }
 Card >> removeTagNamed: aTagString [
 	(tags includes: aTagString)
 		ifFalse: [ ^ self ].
@@ -208,7 +213,7 @@ Card >> removeTagNamed: aTagString [
 	self announcer announce: PropertiesUpdated new
 ]
 
-{ #category : #accessing }
+{ #category : #tags }
 Card >> renameTagNamed: aTagString to: aNewTagString [
 	(tags includes: aTagString)
 		ifFalse: [ ^ self ].
@@ -245,7 +250,7 @@ Card >> storeOn: aStream [
 	aStream nextPutAll: '  yourself'
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 Card >> storeTagsOn: aStream [
 	tags
 		associationsDo: [ :each | 
