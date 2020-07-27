@@ -10,8 +10,6 @@ if I am deleted, ...
 Class {
 	#name : #CardRelationElementBuilder,
 	#superclass : #Object,
-	#traits : 'TCardModelElement',
-	#classTraits : 'TCardModelElement classTrait',
 	#instVars : [
 		'relation',
 		'cardGraph',
@@ -114,4 +112,16 @@ CardRelationElementBuilder >> newSigmoid [
 { #category : #accessing }
 CardRelationElementBuilder >> relation [
 	^ relation
+]
+
+{ #category : #accessing }
+CardRelationElementBuilder >> tooltipWithText: aString [
+	"From TCardModelElement"
+	^ BrLabel new
+		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+		padding: (BlInsets all: 5);
+		alignCenter;
+		text: aString asRopedText;
+		yourself.
+
 ]

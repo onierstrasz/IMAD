@@ -4,8 +4,6 @@ I provide a dedicated view for a ${class:Card}$ instance.
 Class {
 	#name : #CardElement,
 	#superclass : #BlElement,
-	#traits : 'TCardModelElement',
-	#classTraits : 'TCardModelElement classTrait',
 	#instVars : [
 		'card',
 		'isEditable'
@@ -115,6 +113,17 @@ CardElement >> initialize [
 					evt consumed: true.
 					card inspect ]).
 	^ self
+]
+
+{ #category : #accessing }
+CardElement >> tooltipWithText: aString [
+	"From TCardModelElement"
+	^ BrLabel new
+		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+		padding: (BlInsets all: 5);
+		alignCenter;
+		text: aString asRopedText;
+		yourself.
 ]
 
 { #category : #accessing }
