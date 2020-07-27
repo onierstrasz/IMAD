@@ -8,6 +8,14 @@ Class {
 }
 
 { #category : #accessing }
+CardFilterTestExamples >> deckHasOneUni [
+	<gtExample>
+	| filter result |
+	filter := CardTagFilter new tag: 'uni'.
+	result := deck cardsMatching: filter
+]
+
+{ #category : #accessing }
 CardFilterTestExamples >> initialize [
 	deck := self modelDeck
 ]
