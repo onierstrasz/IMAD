@@ -265,37 +265,29 @@ UsefulExamples >> buttonWithColoredBackgroundAndForeground [
 { #category : #accessing }
 UsefulExamples >> buttonWithThreeStates [
 	<gtExample>
-	| tooltip state offLook onLook negatedLook tooltipLook blackLabel whiteLabel |
-	state := 'off'.	"'off', 'on' or 'negated'"
+	| tooltip state offLook onLook negatedLook tooltipLook |
 	tooltip := 'Switch on'.
 	tooltipLook := BrGlamorousWithTooltipLook2
 		content: [ self tooltipWithText: tooltip ].
+	state := 'off'.	"'off', 'on' or 'negated'"
 	offLook := BrGlamorousButtonWithLabelLook + tooltipLook.
 	onLook := (BrGlamorousButtonLabelLook new
 		bold;
 		yourself) + BrGlamorousButtonExteriorLook new
 		+ BrGlamorousButtonRectangularLook new + tooltipLook.
 	negatedLook := (BrGlamorousButtonLabelLook new
-		"selectedColor: Color white;"
-			bold;
+		bold;
 		yourself)
-		+
-			(BrGlamorousButtonExteriorLook new
-				"selected: [ :aWidget | aWidget background: Color blue ];"
-				backgroundPaint: Color black)
+		+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color pink)
 		+ BrGlamorousButtonRectangularLook new + tooltipLook.
-	blackLabel := 'StatefulButton'.
-	whiteLabel := blackLabel asRopedText foreground: Color white.
 	^ BrButton new
 		look: offLook;
-		label: blackLabel;
+		label: 'StatefulButton';
 		action: [ :e | 
 			state = 'off'
 				ifTrue: [ state := 'on'.
 					tooltip := 'Negate'.
-					e
-						look: onLook;
-						label: blackLabel ]
+					e look: onLook ]
 				ifFalse: [ state = 'on'
 						ifTrue: [ state := 'negated'.
 							tooltip := 'Switch off'.
@@ -303,9 +295,7 @@ UsefulExamples >> buttonWithThreeStates [
 						ifFalse: [ state = 'negated'
 								ifTrue: [ state := 'off'.
 									tooltip := 'Switch on'.
-									e
-										look: offLook;
-										label: whiteLabel ] ] ] ]
+									e look: offLook ] ] ] ]
 ]
 
 { #category : #accessing }
