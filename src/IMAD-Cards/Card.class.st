@@ -31,6 +31,7 @@ Card >> = anObject [
 
 { #category : #tags }
 Card >> addTag: aString [
+	<todo: 'Check if the tag is already present?'>
 	tags add: aString.
 	self announcer announce: PropertiesUpdated new
 ]

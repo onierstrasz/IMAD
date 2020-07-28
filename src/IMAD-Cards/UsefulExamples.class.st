@@ -268,7 +268,12 @@ UsefulExamples >> buttonWithThreeStates [
 	| tooltip state offLook onLook negatedLook tooltipLook |
 	tooltip := 'Switch on'.
 	tooltipLook := BrGlamorousWithTooltipLook2
-		content: [ self tooltipWithText: tooltip ].
+		content: [ BrLabel new
+				look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+				padding: (BlInsets all: 5);
+				alignCenter;
+				text: tooltip asRopedText;
+				yourself ].
 	state := 'off'.	"'off', 'on' or 'negated'"
 	offLook := BrGlamorousButtonWithLabelLook + tooltipLook.
 	onLook := (BrGlamorousButtonLabelLook new
