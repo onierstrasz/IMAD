@@ -39,3 +39,8 @@ AbstractCardSet >> cardsNamed: aString [
 AbstractCardSet >> size [
 	^ self cards size
 ]
+
+{ #category : #accessing }
+AbstractCardSet >> tags [
+	^ (self cards flatCollect: #tags) asSet asOrderedCollection
+]

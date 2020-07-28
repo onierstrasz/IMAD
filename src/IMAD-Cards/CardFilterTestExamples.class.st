@@ -18,6 +18,12 @@ CardFilterTestExamples >> deckHasOneUni [
 ]
 
 { #category : #accessing }
+CardFilterTestExamples >> deckHasSevenTags [
+	<gtExample>
+	self assert: deck tags size equals: 7
+]
+
+{ #category : #accessing }
 CardFilterTestExamples >> deckHasThreeFBMInsititutes [
 	<gtExample>
 	| filter result |

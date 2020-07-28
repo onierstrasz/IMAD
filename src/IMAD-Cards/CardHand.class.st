@@ -14,6 +14,7 @@ Class {
 
 { #category : #accessing }
 CardHand >> cards [
+	cards ifNil: [ self updateCards ].
 	^ cards
 ]
 
