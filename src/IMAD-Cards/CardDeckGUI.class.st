@@ -315,6 +315,11 @@ CardDeckGUI >> updateHeaderName [
 
 { #category : #accessing }
 CardDeckGUI >> updateTags [
+<todo: '
+	- start with a simple GUI to specify a filter as a conjunction of tags that must be present or absent
+	- later consider composite filters
+	
+	Need a flow of buttons. Each button can be off, on or negated'>
 	tags removeChildren.
 	tags
 		addChild: (BlTextElement new text: ('Tags go here' asRopedText fontSize: 12))
