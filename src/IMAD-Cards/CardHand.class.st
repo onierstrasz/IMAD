@@ -30,7 +30,7 @@ CardHand >> deck [
 { #category : #accessing }
 CardHand >> deck: aDeck [
 	deck := aDeck.
-	self updateCards 
+	self invalidateCards 
 ]
 
 { #category : #accessing }
@@ -48,8 +48,7 @@ CardHand >> filter [
 { #category : #accessing }
 CardHand >> filter: aFilter [
 	filter := aFilter.
-	
-	self updateCards 
+	self invalidateCards
 ]
 
 { #category : #initialization }
@@ -57,6 +56,11 @@ CardHand >> initialize [
 	super initialize.
 	deck := CardDeck new.
 	filter := TrueFilter
+]
+
+{ #category : #accessing }
+CardHand >> invalidateCards [
+	self cards: nil
 ]
 
 { #category : #accessing }
