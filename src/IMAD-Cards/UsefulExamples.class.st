@@ -240,6 +240,75 @@ UsefulExamples >> buttonWithActions [
 ]
 
 { #category : #accessing }
+UsefulExamples >> buttonWithColoredBackgroundAndForeground [
+	<gtExample>
+	| look |
+	look := BrGlamorousButtonLabelLook new
+		selectedColor: Color white;
+		bold;
+		yourself.
+	look remove: look children last.
+	look
+		add:
+			(BrInteractiveCommonLook new
+				default: [ look foreground: Color white ];
+				hovered: [ look foreground: BrGlamorousColors hoveredButtonTextColor ];
+				pressed: [ look foreground: BrGlamorousColors pressedButtonTextColor ];
+				disabled: [ look foreground: BrGlamorousColors disabledButtonTextColor ]).
+	^ BrButton new
+		label: 'a Button';
+		look:
+			look + (BrGlamorousButtonExteriorLook new backgroundPaint: Color blue)
+				+ BrGlamorousButtonRectangularLook new
+]
+
+{ #category : #accessing }
+UsefulExamples >> buttonWithThreeStates [
+	<gtExample>
+	| tooltip state offLook onLook negatedLook tooltipLook blackLabel whiteLabel |
+	state := 'off'.	"'off', 'on' or 'negated'"
+	tooltip := 'Switch on'.
+	tooltipLook := BrGlamorousWithTooltipLook2
+		content: [ self tooltipWithText: tooltip ].
+	offLook := BrGlamorousButtonWithLabelLook + tooltipLook.
+	onLook := (BrGlamorousButtonLabelLook new
+		bold;
+		yourself) + BrGlamorousButtonExteriorLook new
+		+ BrGlamorousButtonRectangularLook new + tooltipLook.
+	negatedLook := (BrGlamorousButtonLabelLook new
+		"selectedColor: Color white;"
+			bold;
+		yourself)
+		+
+			(BrGlamorousButtonExteriorLook new
+				"selected: [ :aWidget | aWidget background: Color blue ];"
+				backgroundPaint: Color black)
+		+ BrGlamorousButtonRectangularLook new + tooltipLook.
+	blackLabel := 'StatefulButton'.
+	whiteLabel := blackLabel asRopedText foreground: Color white.
+	^ BrButton new
+		look: offLook;
+		label: blackLabel;
+		action: [ :e | 
+			state = 'off'
+				ifTrue: [ state := 'on'.
+					tooltip := 'Negate'.
+					e
+						look: onLook;
+						label: blackLabel ]
+				ifFalse: [ state = 'on'
+						ifTrue: [ state := 'negated'.
+							tooltip := 'Switch off'.
+							e look: negatedLook ]
+						ifFalse: [ state = 'negated'
+								ifTrue: [ state := 'off'.
+									tooltip := 'Switch on'.
+									e
+										look: offLook;
+										label: whiteLabel ] ] ] ]
+]
+
+{ #category : #accessing }
 UsefulExamples >> coderHeaderElementForClass [
 	<gtExample>
 	"Example of new UI prototype for classes"
@@ -779,4 +848,15 @@ UsefulExamples >> textWithMenuAtRight [
 	parent addChildren: { left . span . right }.
 
 	^ parent
+]
+
+{ #category : #accessing }
+UsefulExamples >> tooltipWithText: aString [
+	"From TCardModelElement"
+	^ BrLabel new
+		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+		padding: (BlInsets all: 5);
+		alignCenter;
+		text: aString asRopedText;
+		yourself.
 ]
