@@ -86,13 +86,24 @@ UsefulExamples >> boxWithToolTip [
 { #category : #accessing }
 UsefulExamples >> boxWithWrappedToolTip [
 	<gtExample>
-	| box |
+	<todo:
+		'The tooltip look is creating a widget with a different width than the wrappedTootip element. How do we fix this? Somewhere we need to set the horizontal width to fitContent.
+		The change below affects the button, not the tooltip!'>
+	| box tooltipLook |
 	box := BlElement new
 		geometry: (BlRectangle cornerRadius: 10);
 		size: 20 @ 20;
 		background: Color blue;
 		yourself.
-	box look: (BrGlamorousWithTooltipLook2 content: self wrappedTooltip).
+	tooltipLook := BrGlamorousWithTooltipLook2
+		content: self wrappedTooltip.
+	tooltipLook changes
+		add:
+			(BrLookPropertyChange new
+				path: #(widget width);
+				value: [ 100 ];
+				yourself).
+	box look: tooltipLook.
 	^ box
 ]
 
