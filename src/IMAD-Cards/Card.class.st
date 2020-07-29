@@ -224,7 +224,8 @@ Card >> renameTagNamed: aTagString to: aNewTagString [
 	(tags includes: aTagString)
 		ifFalse: [ ^ self ].
 	tags remove: aTagString.
-	tags add: aNewTagString.
+	(tags includes: aNewTagString)
+		ifFalse: [ tags add: aNewTagString ].
 	self announcer announce: TagsUpdated new.
 	self deck announcer announce: TagsUpdated new
 ]
