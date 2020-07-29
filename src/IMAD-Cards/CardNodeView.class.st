@@ -58,9 +58,7 @@ CardNodeView >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
-			{
-						('Edit tags' -> [ self popupTagger ]).
-			('Rename card'
+			{('Rename card'
 				-> [ isEditable
 						ifFalse: [ self beEditable ] ]).
 			('Inspect card' -> [ card inspect ]).
@@ -114,8 +112,8 @@ CardNodeView >> initialize [
 						modifiersMatcher: #isEmpty;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
-						usePrimaryMouseButton;
+					((BrGlamorousWithContextMenuLook content: [ self popupTagger ])
+						useSecondaryMouseButton;
 						modifiersMatcher: #isCmd;
 						yourself)
 				+
@@ -150,7 +148,8 @@ CardNodeView >> popupTagger [
 		when: TagsUpdated
 		do: [ tagger removeChildren.
 			tagger addChild: card buildTagHeader ].
-	self addChild: tagger
+	^ tagger
+	"self addChild: tagger"
 ]
 
 { #category : #accessing }
