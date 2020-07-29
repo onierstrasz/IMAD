@@ -36,21 +36,21 @@ TagFilterPane >> exampleWithTags [
 { #category : #accessing }
 TagFilterPane >> filter [
 	"Extract the buttons that have been clicked, and generate a conjunction of tag filters and negation filters."
+
 	| activeButtons tagFilter |
 	^ isEmpty
 		ifTrue: [ TrueFilter new ]
-		ifFalse: [ activeButtons := self children
+		ifFalse: [ activeButtons := self children asOrderedCollection
 				select: [ :each | (each userData at: #state) ~= #off ].
 			activeButtons isEmpty
 				ifTrue: [ TrueFilter new ]
-				ifFalse: [ activeButtons
+				ifFalse: [ (activeButtons
 						collect: [ :each | 
 							tagFilter := each label asString asTagFilter.
 							(each userData at: #state) = #negated
 								ifTrue: [ tagFilter := tagFilter not ]
 								ifFalse: [ self assert: (each userData at: #state) = #on ].
-							tagFilter ]
-						reduce: [ :a :b | a & b ] ] ]
+							tagFilter ]) reduce: [ :a :b | a & b ] ] ]
 ]
 
 { #category : #accessing }

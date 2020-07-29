@@ -271,10 +271,18 @@ CardDeckGUI >> subscribe [
 	self deck announcer
 		when: PropertiesUpdated
 		do: [ self updateHeaderName ].
-	self deck announcer when: TagsUpdated do: [ tagPane updateTagFilterButtonsForDeck: self deck ].
+	self deck announcer
+		when: TagsUpdated
+		do: [ tagPane updateTagFilterButtonsForDeck: self deck ].
 	self deck announcer when: CardsUpdated do: [ self updateGraph ].
 	self deck announcer when: RelationsUpdated do: [ self updateGraph ].
-	self tagPane announcer when: TagFilterUpdated do: []
+	self tagPane announcer
+		when: TagFilterUpdated
+		do: [ 
+	
+		self updateGraph.
+		
+		 ]
 ]
 
 { #category : #accessing }
@@ -284,7 +292,8 @@ CardDeckGUI >> tagPane [
 
 { #category : #accessing }
 CardDeckGUI >> unsubscribe [
-	self deck announcer unsubscribe: self
+	self deck announcer unsubscribe: self.
+	self tagPane announcer unsubscribe: self.
 ]
 
 { #category : #accessing }

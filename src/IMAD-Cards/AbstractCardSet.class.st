@@ -35,6 +35,12 @@ AbstractCardSet >> cardsNamed: aString [
 	^ self cards select: [:each | each name = aString]
 ]
 
+{ #category : #accessing }
+AbstractCardSet >> containsRelation: aRelation [
+	<todo: 'push relation slot and methods up here'>
+	^ true
+]
+
 { #category : #cards }
 AbstractCardSet >> size [
 	^ self cards size

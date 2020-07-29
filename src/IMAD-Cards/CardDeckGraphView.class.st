@@ -9,14 +9,15 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
-		'deck'
+		'deck',
+		'hand'
 	],
 	#category : #'IMAD-Cards-View'
 }
 
 { #category : #accessing }
 CardDeckGraphView >> cards [
-	^ self deck cards
+	^ self hand cards
 ]
 
 { #category : #accessing }
@@ -43,6 +44,7 @@ CardDeckGraphView >> forDeck: aDeck withFilter: aFilter [
 	NB: We can also use this to map relations to their edges, if needed."
 
 	deck := aDeck.
+	hand := deck cardsMatching: aFilter.
 	graphElementsDictionary := Dictionary new.
 	self cards
 		ifNotEmpty: [ self cards
@@ -54,17 +56,31 @@ CardDeckGraphView >> forDeck: aDeck withFilter: aFilter [
 	self cards
 		do: [ :source | 
 			source sourceRelations
-				do:
-					[ :rel | self addChild: (self edgeElementFor: rel) ] ].
+				do: [ :rel | 
+				
+				(hand containsRelation: rel)
+				ifTrue:
+				
+				[
+				
+		
+	
+				self addChild: (self edgeElementFor: rel)
+				]
+				
+				 ] ].
 	self
-		layout:
-			"(self cards size > 1
+		layout: (BlOnceLayout new layout: GtGradHorizontalTreeLayout new).
+	"(self cards size > 1
 				ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
 				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ])"
-				(BlOnceLayout new layout: GtGradHorizontalTreeLayout new)
-				.
 	self clipChildren: false.
 	^ self
+]
+
+{ #category : #accessing }
+CardDeckGraphView >> hand [
+	^ hand
 ]
 
 { #category : #accessing }
