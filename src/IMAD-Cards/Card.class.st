@@ -31,13 +31,13 @@ Card >> = anObject [
 
 { #category : #tags }
 Card >> addTag: aString [
-	<todo: 'Check if the tag is already present in the Card?
-	Should we announce to the deck only if it is a new tag?
-	(Would require the deck to keep track.)'>
-	tags add: aString.
-	"self announcer announce: PropertiesUpdated new."
-	self announcer announce: TagsUpdated new.
-	self deck announcer announce: TagsUpdated new
+	<todo:
+		'Should we announce to the deck only if it is a new tag? (Would require the deck to keep track.)'>
+	(tags includes: aString)
+		ifFalse: [ tags add: aString.
+			"self announcer announce: PropertiesUpdated new."
+			self announcer announce: TagsUpdated new.
+			self deck announcer announce: TagsUpdated new ]
 ]
 
 { #category : #accessing }
@@ -215,7 +215,8 @@ Card >> removeTagNamed: aTagString [
 	(tags includes: aTagString)
 		ifFalse: [ ^ self ].
 	tags remove: aTagString.
-	self announcer announce: PropertiesUpdated new
+	self announcer announce: TagsUpdated new.
+	self deck announcer announce: TagsUpdated new
 ]
 
 { #category : #tags }
@@ -224,7 +225,8 @@ Card >> renameTagNamed: aTagString to: aNewTagString [
 		ifFalse: [ ^ self ].
 	tags remove: aTagString.
 	tags add: aNewTagString.
-	self announcer announce: PropertiesUpdated new
+	self announcer announce: TagsUpdated new.
+	self deck announcer announce: TagsUpdated new
 ]
 
 { #category : #properties }
