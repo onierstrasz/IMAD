@@ -37,7 +37,7 @@ Card >> addTag: aString [
 		ifFalse: [ tags add: aString.
 			"self announcer announce: PropertiesUpdated new."
 			self announcer announce: TagsUpdated new.
-			self deck announcer announce: TagsUpdated new ]
+			self deckAnnounce: TagsUpdated new ]
 ]
 
 { #category : #accessing }
@@ -115,6 +115,12 @@ Card >> deck [
 { #category : #accessing }
 Card >> deck: aCardDeck [
 	deck := aCardDeck
+]
+
+{ #category : #tags }
+Card >> deckAnnounce: anAnnouncement [
+	self deck notNil
+		ifTrue: [ self deck announcer announce: anAnnouncement ]
 ]
 
 { #category : #accessing }
@@ -216,7 +222,7 @@ Card >> removeTagNamed: aTagString [
 		ifFalse: [ ^ self ].
 	tags remove: aTagString.
 	self announcer announce: TagsUpdated new.
-	self deck announcer announce: TagsUpdated new
+	self deckAnnounce: TagsUpdated new
 ]
 
 { #category : #tags }
@@ -227,7 +233,7 @@ Card >> renameTagNamed: aTagString to: aNewTagString [
 	(tags includes: aNewTagString)
 		ifFalse: [ tags add: aNewTagString ].
 	self announcer announce: TagsUpdated new.
-	self deck announcer announce: TagsUpdated new
+	self deckAnnounce: TagsUpdated new
 ]
 
 { #category : #properties }

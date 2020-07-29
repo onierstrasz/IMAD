@@ -58,7 +58,9 @@ CardNodeView >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
-			{('Rename card'
+			{
+						('Edit tags' -> [ self popupTagger ]).
+			('Rename card'
 				-> [ isEditable
 						ifFalse: [ self beEditable ] ]).
 			('Inspect card' -> [ card inspect ]).
@@ -67,6 +69,22 @@ CardNodeView >> contextMenu [
 					card delete ])};
 		yourself.
 	^ menu
+]
+
+{ #category : #accessing }
+CardNodeView >> exampleWithTags [
+	<gtExample>
+	| aDeck aCard aNode |
+	aDeck := CardDeck new.
+	aCard := Card new
+		name: 'Foobar';
+		yourself.
+	{'dog' . 'cat' . 'rabbit'} do: [ :word | aCard addTag: word ].
+	aDeck addCard: aCard.
+	aNode := CardNodeView new
+		card: aCard;
+		yourself.
+	^ aNode
 ]
 
 { #category : #accessing }
@@ -116,6 +134,23 @@ CardNodeView >> initialize [
 					evt consumed: true.
 					card inspect ]).
 	^ self
+]
+
+{ #category : #accessing }
+CardNodeView >> popupTagger [
+	<todo: 'Most be a popup, not a child!'>
+	| tagger |
+	tagger := BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c horizontal exact: 100.
+			c vertical fitContent ].
+	tagger addChild: card buildTagHeader.
+	card announcer
+		when: TagsUpdated
+		do: [ tagger removeChildren.
+			tagger addChild: card buildTagHeader ].
+	self addChild: tagger
 ]
 
 { #category : #accessing }

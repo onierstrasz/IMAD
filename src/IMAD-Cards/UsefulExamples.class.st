@@ -328,6 +328,31 @@ UsefulExamples >> buttonWithThreeStates [
 ]
 
 { #category : #accessing }
+UsefulExamples >> cardTagger [
+	"Shows how a tagger looks with many tags"
+
+	<gtExample>
+	| deck card tagger |
+	deck := CardDeck new.
+	card := Card new.
+	deck addCard: card.
+	(' '
+		split: (Boolean comment copyWithRegex: '[^\w ]' matchesReplacedWith: ''))
+		do: [ :word | card addTag: word ].
+	tagger := BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	tagger addChild: card buildTagHeader.
+	card announcer
+		when: TagsUpdated
+		do: [ tagger removeChildren.
+			tagger addChild: card buildTagHeader ].
+	^ tagger
+]
+
+{ #category : #accessing }
 UsefulExamples >> coderHeaderElementForClass [
 	<gtExample>
 	"Example of new UI prototype for classes"
