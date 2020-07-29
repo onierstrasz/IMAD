@@ -84,6 +84,19 @@ UsefulExamples >> boxWithToolTip [
 ]
 
 { #category : #accessing }
+UsefulExamples >> boxWithWrappedToolTip [
+	<gtExample>
+	| box |
+	box := BlElement new
+		geometry: (BlRectangle cornerRadius: 10);
+		size: 20 @ 20;
+		background: Color blue;
+		yourself.
+	box look: (BrGlamorousWithTooltipLook2 content: self wrappedTooltip).
+	^ box
+]
+
+{ #category : #accessing }
 UsefulExamples >> brokenBezier [
 
 	"Adapted from BlBezierElementExamples"
@@ -854,4 +867,20 @@ UsefulExamples >> tooltipWithText: aString [
 		alignCenter;
 		text: aString asRopedText;
 		yourself.
+]
+
+{ #category : #accessing }
+UsefulExamples >> wrappedTooltip [
+	<gtExample>
+	^ BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c padding: (BlInsets all: 5).
+			c vertical fitContent.
+			c horizontal exact: 200 ];
+		addChild:
+			(BrEditor new
+				look: BrGlamorousRegularEditorLook new;
+				text: Boolean comment;
+				yourself)
 ]

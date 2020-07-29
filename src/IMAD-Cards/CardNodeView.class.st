@@ -71,6 +71,8 @@ CardNodeView >> contextMenu [
 
 { #category : #accessing }
 CardNodeView >> initialize [
+	<todo:
+		'The tooltip is overriding the fixed width and appearing much wider than I want it to. How to fix?'>
 	super initialize.
 	card := Card new.
 	isEditable := false.
@@ -100,7 +102,8 @@ CardNodeView >> initialize [
 						yourself)
 				+
 					(BrGlamorousWithTooltipLook2
-						content: [ self tooltipWithText: self card name ]).
+						content: [ self
+								tooltipWithWrappingText: self card name , ': ' , self card description ]).
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
@@ -124,6 +127,24 @@ CardNodeView >> tooltipWithText: aString [
 		alignCenter;
 		text: aString asRopedText;
 		yourself.
+]
+
+{ #category : #accessing }
+CardNodeView >> tooltipWithWrappingText: aString [
+	| tooltip |
+	tooltip := BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c padding: (BlInsets all: 5).
+			c vertical fitContent.
+			c horizontal exact: 200 ].
+	tooltip
+		addChild:
+			(BrEditor new
+				look: BrGlamorousRegularEditorLook new;
+				text: aString;
+				yourself).
+	^ tooltip
 ]
 
 { #category : #accessing }
