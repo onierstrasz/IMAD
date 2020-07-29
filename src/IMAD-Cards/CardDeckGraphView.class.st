@@ -15,11 +15,6 @@ Class {
 }
 
 { #category : #accessing }
-CardDeckGraphView class >> forDeck: aDeck [
-	^ self new forDeck: aDeck
-]
-
-{ #category : #accessing }
 CardDeckGraphView >> cards [
 	^ self deck cards
 ]
@@ -43,6 +38,38 @@ CardDeckGraphView >> elementFor: anEntity [
 
 { #category : #accessing }
 CardDeckGraphView >> forDeck: aDeck [
+	"NB: The dictionary is needed because for each edge to create we have
+	to look up the element corresponding to the other end of the relation.
+	NB: We can also use this to map relations to their edges, if needed."
+	self deprecated: 'Use #forDeck:withFilter: instead'.
+	
+	deck := aDeck.
+	graphElementsDictionary := Dictionary new.
+	self cards
+		ifNotEmpty: [ self cards
+				do: [ :aCard | 
+					| cardElement |
+					cardElement := self newCardElementFor: aCard.
+					self mapModelEntity: aCard toElement: cardElement.	"to do"
+					self addChild: cardElement ] ].
+	self cards
+		do: [ :source | 
+			source sourceRelations
+				do:
+					[ :rel | self addChild: (self edgeElementFor: rel) ] ].
+	self
+		layout:
+			"(self cards size > 1
+				ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
+				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ])"
+				(BlOnceLayout new layout: GtGradHorizontalTreeLayout new)
+				.
+	self clipChildren: false.
+	^ self
+]
+
+{ #category : #accessing }
+CardDeckGraphView >> forDeck: aDeck withFilter: aFilter [
 	"NB: The dictionary is needed because for each edge to create we have
 	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."

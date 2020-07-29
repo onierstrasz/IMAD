@@ -895,17 +895,6 @@ UsefulExamples >> textWithMenuAtRight [
 ]
 
 { #category : #accessing }
-UsefulExamples >> tooltipWithText: aString [
-	"From TCardModelElement"
-	^ BrLabel new
-		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
-		padding: (BlInsets all: 5);
-		alignCenter;
-		text: aString asRopedText;
-		yourself.
-]
-
-{ #category : #accessing }
 UsefulExamples >> wrappedTooltip [
 	<gtExample>
 	^ BlElement new

@@ -153,17 +153,6 @@ CardNodeView >> popupTagger [
 ]
 
 { #category : #accessing }
-CardNodeView >> tooltipWithText: aString [
-	"From TCardModelElement"
-	^ BrLabel new
-		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
-		padding: (BlInsets all: 5);
-		alignCenter;
-		text: aString asRopedText;
-		yourself.
-]
-
-{ #category : #accessing }
 CardNodeView >> tooltipWithWrappingText: aString [
 	| tooltip |
 	tooltip := BlElement new

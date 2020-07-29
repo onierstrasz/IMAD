@@ -87,8 +87,9 @@ CardDeckGUI >> buildButtonBar [
 CardDeckGUI >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
 
-	theGraph := (CardDeckGraphView new forDeck: self deck)
-		asPannableElement.
+	theGraph := (CardDeckGraphView new
+		forDeck: self deck
+		withFilter: self tagPane filter) asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
 ]
@@ -198,7 +199,7 @@ CardDeckGUI >> deck: aCardDeck [
 	deck := aCardDeck.
 	self subscribe.
 	self updateHeaderName.
-	tagPane updateTagFilterButtonsForDeck: self deck.
+	self tagPane updateTagFilterButtonsForDeck: self deck.
 	self updateGraph
 ]
 
@@ -230,7 +231,7 @@ CardDeckGUI >> initialize [
 	self layout: BlLinearLayout vertical.
 	self addChild: self buildHeaderPane.
 	tagPane := TagFilterPane new.
-	self addChild: tagPane.
+	self addChild: self tagPane.
 	self addChild: self buildGraphPane.
 	self subscribe
 ]
@@ -278,18 +279,7 @@ CardDeckGUI >> subscribe [
 
 { #category : #accessing }
 CardDeckGUI >> tagPane [
-^ tagPane
-]
-
-{ #category : #accessing }
-CardDeckGUI >> tooltipWithText: aString [
-	"From TCardModelElement"
-	^ BrLabel new
-		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
-		padding: (BlInsets all: 5);
-		alignCenter;
-		text: aString asRopedText;
-		yourself.
+	^ tagPane
 ]
 
 { #category : #accessing }

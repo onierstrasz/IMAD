@@ -19,6 +19,11 @@ TagFilterPane >> announcer [
 ]
 
 { #category : #accessing }
+TagFilterPane >> filter [
+	^ TrueFilter
+]
+
+{ #category : #accessing }
 TagFilterPane >> filterButtonForTag: aTagString [
 	"State is #off, #on or #negated"
 
