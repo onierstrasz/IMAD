@@ -15,3 +15,11 @@ String >> asBrLabel [
 		look: BrGlamorousLabelLook;
 		text: self
 ]
+
+{ #category : #'*IMAD-Cards' }
+String >> asTagFilter [
+	^ CardTagFilter  new
+		tag: self;
+		yourself
+		
+]

@@ -7,8 +7,8 @@ Class {
 	#name : #TagFilterPane,
 	#superclass : #BlElement,
 	#instVars : [
-		'deck',
-		'announcer'
+		'announcer',
+		'isEmpty'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -19,8 +19,38 @@ TagFilterPane >> announcer [
 ]
 
 { #category : #accessing }
+TagFilterPane >> exampleWithTags [
+	<gtExample>
+	| aDeck aCard aNode aTagFilterPane |
+	aDeck := CardDeck new.
+	aCard := Card new
+		name: 'Foobar';
+		yourself.
+	{'dog' . 'cat' . 'rabbit'} do: [ :word | aCard addTag: word ].
+	aDeck addCard: aCard.
+	aTagFilterPane := TagFilterPane new.
+	aTagFilterPane updateTagFilterButtonsForDeck: aDeck.
+	^ aTagFilterPane
+]
+
+{ #category : #accessing }
 TagFilterPane >> filter [
-	^ TrueFilter
+	"Extract the buttons that have been clicked, and generate a conjunction of tag filters and negation filters."
+	| activeButtons tagFilter |
+	^ isEmpty
+		ifTrue: [ TrueFilter new ]
+		ifFalse: [ activeButtons := self children
+				select: [ :each | (each userData at: #state) ~= #off ].
+			activeButtons isEmpty
+				ifTrue: [ TrueFilter new ]
+				ifFalse: [ activeButtons
+						collect: [ :each | 
+							tagFilter := each label asString asTagFilter.
+							(each userData at: #state) = #negated
+								ifTrue: [ tagFilter := tagFilter not ]
+								ifFalse: [ self assert: (each userData at: #state) = #on ].
+							tagFilter ]
+						reduce: [ :a :b | a & b ] ] ]
 ]
 
 { #category : #accessing }
@@ -98,9 +128,14 @@ TagFilterPane >> tooltipWithText: aString [
 { #category : #accessing }
 TagFilterPane >> updateTagFilterButtonsForDeck: aDeck [
 	self removeChildren.
-	aDeck tags isEmpty
-		ifTrue: [ self
-				addChild: (BlTextElement new text: ('No tags found' asRopedText fontSize: 12)) ].
+	isEmpty := aDeck tags isEmpty.
+	
+	isEmpty
+		ifTrue: [ 
+		self
+				addChild: (BlTextElement new text: ('No tags found' asRopedText fontSize: 12)) ]
+				ifFalse: [
+				
 	self
-		addChildren: (aDeck tags collect: [ :each | self filterButtonForTag: each ])
+		addChildren: (aDeck tags collect: [ :each | self filterButtonForTag: each ])]
 ]
