@@ -175,26 +175,6 @@ CardDeckGUI >> buildHeaderPane [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> buildTagPane [
-	tagPane := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical fitContent ];
-		padding: (BlInsets all: 5);
-		margin:
-			(BlInsets
-				top: 0
-				right: 5
-				bottom: 0
-				left: 5);
-		border: (BlBorder paint: Color veryLightGray width: 1);
-		layout: BlLinearLayout horizontal;
-		yourself.
-	self updateTagButtons.
-	^ tagPane
-]
-
-{ #category : #accessing }
 CardDeckGUI >> cards [
 	<todo: 'Apply the filter to select just the cards for this view'>
 	^ self deck cards
@@ -218,7 +198,7 @@ CardDeckGUI >> deck: aCardDeck [
 	deck := aCardDeck.
 	self subscribe.
 	self updateHeaderName.
-	self updateTagButtons.
+	tagPane updateTagFilterButtonsForDeck: self deck.
 	self updateGraph
 ]
 
@@ -239,45 +219,6 @@ CardDeckGUI >> directedCurvedEdge [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> filterButtonForTag: aTagString [
-	"State is #off, #on or #negated"
-
-	| tooltip offLook onLook negatedLook tooltipLook button |
-	button := BrButton new.
-	tooltip := 'Ignore'.
-	tooltipLook := BrGlamorousWithTooltipLook2
-		content: [ self tooltipWithText: tooltip ].
-	button userData at: #state put: #off.
-	offLook := BrGlamorousButtonWithLabelLook + tooltipLook.
-	onLook := (BrGlamorousButtonLabelLook new
-		bold;
-		yourself)
-		+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color lightGreen)
-		+ BrGlamorousButtonRectangularLook new + tooltipLook.
-	negatedLook := (BrGlamorousButtonLabelLook new
-		bold;
-		yourself)
-		+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color pink)
-		+ BrGlamorousButtonRectangularLook new + tooltipLook.
-	^ button
-		look: offLook;
-		label: aTagString;
-		action: [ :e | 
-			(button userData at: #state) = #off
-				ifTrue: [ button userData at: #state put: #on.
-					tooltip := 'Must be present'.
-					e look: onLook ]
-				ifFalse: [ (button userData at: #state) = #on
-						ifTrue: [ button userData at: #state put: #negated.
-							tooltip := 'Must be absent'.
-							e look: negatedLook ]
-						ifFalse: [ (button userData at: #state) = #negated
-								ifTrue: [ button userData at: #state put: #off.
-									tooltip := 'Ignore'.
-									e look: offLook ] ] ] ]
-]
-
-{ #category : #accessing }
 CardDeckGUI >> initialize [
 	super initialize.
 	deck := CardDeck new.
@@ -288,7 +229,8 @@ CardDeckGUI >> initialize [
 			c vertical matchParent ].
 	self layout: BlLinearLayout vertical.
 	self addChild: self buildHeaderPane.
-	self addChild: self buildTagPane.
+	tagPane := TagFilterPane new.
+	self addChild: tagPane.
 	self addChild: self buildGraphPane.
 	self subscribe
 ]
@@ -328,9 +270,15 @@ CardDeckGUI >> subscribe [
 	self deck announcer
 		when: PropertiesUpdated
 		do: [ self updateHeaderName ].
-	self deck announcer when: TagsUpdated do: [ self updateTagButtons ].
+	self deck announcer when: TagsUpdated do: [ tagPane updateTagFilterButtonsForDeck: self deck ].
 	self deck announcer when: CardsUpdated do: [ self updateGraph ].
-	self deck announcer when: RelationsUpdated do: [ self updateGraph ]
+	self deck announcer when: RelationsUpdated do: [ self updateGraph ].
+	self tagPane announcer when: TagFilterUpdated do: []
+]
+
+{ #category : #accessing }
+CardDeckGUI >> tagPane [
+^ tagPane
 ]
 
 { #category : #accessing }
@@ -363,21 +311,4 @@ CardDeckGUI >> updateGraph [
 CardDeckGUI >> updateHeaderName [
 	nameHolder removeChildren.
 	nameHolder addChild: self deck buildLabel
-]
-
-{ #category : #accessing }
-CardDeckGUI >> updateTagButtons [
-	<todo:
-		'
-	- start with a simple GUI to specify a filter as a conjunction of tags that must be present or absent
-	- later consider composite filters
-	
-	Need a flow of buttons. Each button can be off, on or negated'>
-	tagPane removeChildren.
-	deck tags isEmpty
-		ifTrue: [ tagPane
-				addChild: (BlTextElement new text: ('No tags found' asRopedText fontSize: 12)) ].
-
-	tagPane
-		addChildren: (deck tags collect: [ :each | self filterButtonForTag: each ])
 ]
