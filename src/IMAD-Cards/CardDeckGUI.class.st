@@ -138,7 +138,7 @@ CardDeckGUI >> buildGraphPane [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> buildHeader [
+CardDeckGUI >> buildHeaderPane [
 	| header |
 	header := BlElement new
 		constraintsDo: [ :c | 
@@ -175,7 +175,7 @@ CardDeckGUI >> buildHeader [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> buildTags [
+CardDeckGUI >> buildTagPane [
 	tagPane := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -190,7 +190,7 @@ CardDeckGUI >> buildTags [
 		border: (BlBorder paint: Color veryLightGray width: 1);
 		layout: BlLinearLayout horizontal;
 		yourself.
-	self updateTags.
+	self updateTagButtons.
 	^ tagPane
 ]
 
@@ -218,7 +218,7 @@ CardDeckGUI >> deck: aCardDeck [
 	deck := aCardDeck.
 	self subscribe.
 	self updateHeaderName.
-	self updateTags.
+	self updateTagButtons.
 	self updateGraph
 ]
 
@@ -287,8 +287,8 @@ CardDeckGUI >> initialize [
 			c horizontal matchParent.
 			c vertical matchParent ].
 	self layout: BlLinearLayout vertical.
-	self addChild: self buildHeader.
-	self addChild: self buildTags.
+	self addChild: self buildHeaderPane.
+	self addChild: self buildTagPane.
 	self addChild: self buildGraphPane.
 	self subscribe
 ]
@@ -328,6 +328,7 @@ CardDeckGUI >> subscribe [
 	self deck announcer
 		when: PropertiesUpdated
 		do: [ self updateHeaderName ].
+	self deck announcer when: TagsUpdated do: [ self updateTagButtons ].
 	self deck announcer when: CardsUpdated do: [ self updateGraph ].
 	self deck announcer when: RelationsUpdated do: [ self updateGraph ]
 ]
@@ -365,7 +366,7 @@ CardDeckGUI >> updateHeaderName [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> updateTags [
+CardDeckGUI >> updateTagButtons [
 	<todo:
 		'
 	- start with a simple GUI to specify a filter as a conjunction of tags that must be present or absent
@@ -376,8 +377,7 @@ CardDeckGUI >> updateTags [
 	deck tags isEmpty
 		ifTrue: [ tagPane
 				addChild: (BlTextElement new text: ('No tags found' asRopedText fontSize: 12)) ].
-	"	tagPane
-		addChild: (BlTextElement new text: ('Tags go here' asRopedText fontSize: 12))."
+
 	tagPane
 		addChildren: (deck tags collect: [ :each | self filterButtonForTag: each ])
 ]

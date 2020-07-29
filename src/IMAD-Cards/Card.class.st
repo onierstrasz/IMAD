@@ -31,13 +31,17 @@ Card >> = anObject [
 
 { #category : #tags }
 Card >> addTag: aString [
-	<todo: 'Check if the tag is already present?'>
+	<todo: 'Check if the tag is already present in the Card?
+	Should we announce to the deck only if it is a new tag?
+	(Would require the deck to keep track.)'>
 	tags add: aString.
-	self announcer announce: PropertiesUpdated new
+	"self announcer announce: PropertiesUpdated new."
+	self announcer announce: TagsUpdated new.
+	self deck announcer announce: TagsUpdated new
 ]
 
 { #category : #accessing }
-Card >> announceUpdate [
+Card >> announceCardsUpdated [
 	self deck ifNotNil: [ :d | d announcer announce: CardsUpdated new ]
 
 ]
@@ -70,7 +74,7 @@ Card >> become: relation of: aSourceCard [
 ]
 
 { #category : #accessing }
-Card >> buildHeader [
+Card >> buildHeaderPane [
 	^ self buildTagHeader
 ]
 
@@ -127,7 +131,7 @@ Card >> deleteRelations [
 { #category : #accessing }
 Card >> description: aString [
 	super description: aString.
-	self announceUpdate
+	self announceCardsUpdated
 ]
 
 { #category : #'gt-extensions' }
@@ -191,7 +195,7 @@ Card >> isA: relSymbol [
 Card >> name: aString [
 	self assertUniqueName: aString.
 	super name: aString.
-	self announceUpdate
+	self announceCardsUpdated
 ]
 
 { #category : #querying }
@@ -226,7 +230,7 @@ Card >> renameTagNamed: aTagString to: aNewTagString [
 { #category : #properties }
 Card >> set: propertyKey to: aValue [
 	super set: propertyKey to: aValue.
-	self announceUpdate
+	self announceCardsUpdated
 ]
 
 { #category : #querying }

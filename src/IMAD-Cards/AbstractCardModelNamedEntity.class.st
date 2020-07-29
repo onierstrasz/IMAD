@@ -47,7 +47,7 @@ AbstractCardModelNamedEntity >> buildDescriptionPane [
 			c horizontal matchParent.
 			c vertical matchParent ].
 	contentPane addChild: self buildLabel.
-	contentPane addChild: self buildHeader.
+	contentPane addChild: self buildHeaderPane.
 	gtDoc := GtDocument new.
 	gtDoc text: self description.
 	aSaveButton := BrButton new.
@@ -70,7 +70,7 @@ AbstractCardModelNamedEntity >> buildDescriptionPane [
 ]
 
 { #category : #accessing }
-AbstractCardModelNamedEntity >> buildHeader [
+AbstractCardModelNamedEntity >> buildHeaderPane [
 	"A placeholder for subclasses to add something."
 	^ BlElement new
 		height: 0;
@@ -118,7 +118,8 @@ AbstractCardModelNamedEntity >> gtDescriptionFor: aView [
 		priority: 0;
 		stencil: [ self buildDescriptionPane ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-		updateWhen: PropertiesUpdated in: [ self announcer ]
+		updateWhen: PropertiesUpdated in: [ self announcer ];
+		updateWhen: TagsUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }
