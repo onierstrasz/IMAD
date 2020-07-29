@@ -57,18 +57,8 @@ CardDeckGraphView >> forDeck: aDeck withFilter: aFilter [
 		do: [ :source | 
 			source sourceRelations
 				do: [ :rel | 
-				
-				(hand containsRelation: rel)
-				ifTrue:
-				
-				[
-				
-		
-	
-				self addChild: (self edgeElementFor: rel)
-				]
-				
-				 ] ].
+					(hand containsRelation: rel)
+						ifTrue: [ self addChild: (self edgeElementFor: rel) ] ] ].
 	self
 		layout: (BlOnceLayout new layout: GtGradHorizontalTreeLayout new).
 	"(self cards size > 1

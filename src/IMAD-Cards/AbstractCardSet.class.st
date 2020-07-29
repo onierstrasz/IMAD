@@ -7,7 +7,8 @@ Class {
 	#name : #AbstractCardSet,
 	#superclass : #AbstractCardModelNamedEntity,
 	#instVars : [
-		'cards'
+		'cards',
+		'relations'
 	],
 	#category : #'IMAD-Cards-Model'
 }
@@ -35,10 +36,15 @@ AbstractCardSet >> cardsNamed: aString [
 	^ self cards select: [:each | each name = aString]
 ]
 
-{ #category : #accessing }
+{ #category : #relations }
 AbstractCardSet >> containsRelation: aRelation [
 	<todo: 'push relation slot and methods up here'>
 	^ true
+]
+
+{ #category : #relations }
+AbstractCardSet >> relations [
+	^ relations
 ]
 
 { #category : #cards }

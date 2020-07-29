@@ -8,9 +8,6 @@ The implementations of cards and relations are naive to start (collections). To 
 Class {
 	#name : #CardDeck,
 	#superclass : #AbstractCardSet,
-	#instVars : [
-		'relations'
-	],
 	#category : #'IMAD-Cards-Model'
 }
 
@@ -469,11 +466,6 @@ CardDeck >> newFlowElement [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical fitContent ]
-]
-
-{ #category : #relations }
-CardDeck >> relations [
-	^ relations
 ]
 
 { #category : #querying }
