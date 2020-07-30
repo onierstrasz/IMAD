@@ -387,7 +387,7 @@ CardDeck >> gtStoreStringFor: aView [
 
 { #category : #relations }
 CardDeck >> hasRelation: aSymbol [
-	^ (self relationsMatching:(CRRelNameFilter new kind: aSymbol)) isNotEmpty
+	^ (self relationsMatching: aSymbol asRelNameFilter) isNotEmpty
 ]
 
 { #category : #initialization }
@@ -466,11 +466,6 @@ CardDeck >> newFlowElement [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical fitContent ]
-]
-
-{ #category : #querying }
-CardDeck >> relationsMatching: aFilter [
-	^ relations select: [:rel | aFilter matches: rel].
 ]
 
 { #category : #cards }

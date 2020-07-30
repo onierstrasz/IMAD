@@ -54,6 +54,11 @@ AbstractCardSet >> relations [
 	^ relations
 ]
 
+{ #category : #querying }
+AbstractCardSet >> relationsMatching: aFilter [
+	^ relations select: [:rel | aFilter matches: rel].
+]
+
 { #category : #cards }
 AbstractCardSet >> size [
 	^ self cards size

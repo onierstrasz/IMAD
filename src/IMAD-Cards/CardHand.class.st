@@ -16,10 +16,10 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
-{ #category : #accessing }
+{ #category : #cards }
 CardHand >> addCard: aCard [
 	deck addCard: aCard.
-	
+	self invalidateCardsAndRelations
 ]
 
 { #category : #accessing }
@@ -44,7 +44,7 @@ CardHand >> deck: aDeck [
 	self invalidateCardsAndRelations 
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 CardHand >> deck: aDeck filter: aFilter [
 	deck := aDeck.
 	filter := aFilter
@@ -86,7 +86,7 @@ CardHand >> relations: aRelation [
 	relations := aRelation
 ]
 
-{ #category : #initialization }
+{ #category : #announcements }
 CardHand >> subscribe [
 	self deck announcer
 		when: CardsUpdated
@@ -105,11 +105,12 @@ CardHand >> updateCards [
 
 { #category : #accessing }
 CardHand >> updateRelations [
-
 	self assert: deck notNil description: 'deck should not be nil'.
 	self assert: filter notNil description: 'filter should not be nil'.
-	
-	self notYetImplemented
-
-
+	self
+		relations:
+			(deck relations
+				select: [ :rel | 
+					(self cards includes: rel source)
+						and: [ self cards includes: rel target ] ])
 ]

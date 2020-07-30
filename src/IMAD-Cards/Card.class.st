@@ -163,10 +163,9 @@ Card >> gtSaveMainActionFor: anAction [
 
 { #category : #querying }
 Card >> hasA: relSymbol [
-	^ (self deck relationsMatching:
-		(self relFilter: relSymbol)
-		& (self sourceFilter)) isNotEmpty
-
+	^ (self deck
+		relationsMatching: relSymbol asRelNameFilter & self sourceFilter)
+		isNotEmpty
 ]
 
 { #category : #accessing }
@@ -183,18 +182,17 @@ Card >> initialize [
 
 { #category : #querying }
 Card >> is: relSymbol of: aCard [
-	^ (self deck relationsMatching:
-		(self relFilter: relSymbol)
-		& (aCard sourceFilter)
-		& (self targetFilter)) isNotEmpty
+	^ (self deck
+		relationsMatching:
+			relSymbol asRelNameFilter & aCard sourceFilter & self targetFilter)
+		isNotEmpty
 ]
 
 { #category : #querying }
 Card >> isA: relSymbol [
-	^ (self deck relationsMatching:
-		(self relFilter: relSymbol)
-		& (self targetFilter)) isNotEmpty
-
+	^ (self deck
+		relationsMatching: relSymbol asRelNameFilter & self targetFilter)
+		isNotEmpty
 ]
 
 { #category : #accessing }
@@ -202,11 +200,6 @@ Card >> name: aString [
 	self assertUniqueName: aString.
 	super name: aString.
 	self announceCardsUpdated
-]
-
-{ #category : #querying }
-Card >> relFilter: aSymbol [
-	^ CRRelNameFilter new kind: aSymbol
 ]
 
 { #category : #querying }
