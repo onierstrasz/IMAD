@@ -1,6 +1,10 @@
 "
-I represent a subset of a Deck of Cards.
-Usually I am the result of applying a Filter to a Deck (or Hand).
+I represent a subset of a Deck of Cards defined by a Filter.
+
+The subsets of cards and relations are computed lazily. If either the Deck or the Filter is changed, the cards and relations subsets are invalidated.
+
+If the Deck is modified (Cards or Relations updated) then the cards and relations are invalidated.
+
 "
 Class {
 	#name : #CardHand,
@@ -31,14 +35,13 @@ CardHand >> deck [
 { #category : #accessing }
 CardHand >> deck: aDeck [
 	deck := aDeck.
-	self invalidateCards 
+	self invalidateCardsAndRelations 
 ]
 
 { #category : #accessing }
 CardHand >> deck: aDeck filter: aFilter [
 	deck := aDeck.
-	filter := aFilter.
-	self updateCards
+	filter := aFilter
 ]
 
 { #category : #accessing }
@@ -49,7 +52,7 @@ CardHand >> filter [
 { #category : #accessing }
 CardHand >> filter: aFilter [
 	filter := aFilter.
-	self invalidateCards
+	self invalidateCardsAndRelations
 ]
 
 { #category : #initialization }
@@ -60,8 +63,20 @@ CardHand >> initialize [
 ]
 
 { #category : #accessing }
-CardHand >> invalidateCards [
-	self cards: nil
+CardHand >> invalidateCardsAndRelations [
+	self cards: nil.
+	self relations: nil
+]
+
+{ #category : #accessing }
+CardHand >> relations [
+	relations ifNil: [ self updateRelations ].
+	^ relations
+]
+
+{ #category : #accessing }
+CardHand >> relations: aRelation [
+	relations := aRelation
 ]
 
 { #category : #accessing }
@@ -69,4 +84,15 @@ CardHand >> updateCards [
 	self assert: deck notNil description: 'deck should not be nil'.
 	self assert: filter notNil description: 'filter should not be nil'.
 	self cards: (self deck cards select: [ :card | self filter matches: card ])
+]
+
+{ #category : #accessing }
+CardHand >> updateRelations [
+
+	self assert: deck notNil description: 'deck should not be nil'.
+	self assert: filter notNil description: 'filter should not be nil'.
+	
+	self notYetImplemented
+
+
 ]
