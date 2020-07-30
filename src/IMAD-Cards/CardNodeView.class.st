@@ -54,12 +54,26 @@ CardNodeView >> card: aCard [
 ]
 
 { #category : #accessing }
+CardNodeView >> cardEditor [
+	<todo: 'Move the description pane code to a dedicated class?'>
+	| element |
+	element := self card buildDescriptionPane.
+	(element childNamed: #doc)
+		fitContent;
+		hExact: 300.
+	element
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+	^ element asScrollableElement
+]
+
+{ #category : #accessing }
 CardNodeView >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
-			{('Edit tags' -> [ self parent addChild: self popupTagger ]).
-			('Rename card'
+			{('Rename card'
 				-> [ isEditable
 						ifFalse: [ self beEditable ] ]).
 			('Inspect card' -> [ card inspect ]).
@@ -108,30 +122,16 @@ CardNodeView >> initialize [
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
 				+
-					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+					((BrGlamorousWithContextMenuLook content: [ self cardEditor ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isEmpty;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook content: [ self popupTagger ])
+					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isCmd;
 						yourself)
-				+
-					((BrGlamorousWithContextMenuLook
-						content: [ |element| 
-						element:= self card buildDescriptionPane.
-						(element childNamed: #doc) fitContent; hExact: 300.
-						element constraintsDo: [:c|
-						c horizontal fitContent.
-						c vertical fitContent].
-						 element asScrollableElement ])
-						usePrimaryMouseButton;
-						modifiersMatcher: #isAlt yourself)
-				+
-					(BrGlamorousWithTooltipLook2
-						content: [ self
-								tooltipWithWrappingText: self card name , ': ' , self card description ]).
+				+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ]).
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
@@ -150,6 +150,7 @@ CardNodeView >> initialize [
 CardNodeView >> popupTagger [
 	<todo: 'Most be a popup, not a child!'>
 	| tagger |
+	self deprecated:'superseded by cardEditor'.
 	tagger := BlElement new
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
