@@ -86,9 +86,6 @@ UsefulExamples >> boxWithToolTip [
 { #category : #accessing }
 UsefulExamples >> boxWithWrappedToolTip [
 	<gtExample>
-	<todo:
-		'The tooltip look is creating a widget with a different width than the wrappedTootip element. How do we fix this? Somewhere we need to set the horizontal width to fitContent.
-		The change below affects the button, not the tooltip!'>
 	| box tooltipLook |
 	box := BlElement new
 		geometry: (BlRectangle cornerRadius: 10);
@@ -97,12 +94,6 @@ UsefulExamples >> boxWithWrappedToolTip [
 		yourself.
 	tooltipLook := BrGlamorousWithTooltipLook2
 		content: self wrappedTooltip.
-	tooltipLook changes
-		add:
-			(BrLookPropertyChange new
-				path: #(widget width);
-				value: [ 100 ];
-				yourself).
 	box look: tooltipLook.
 	^ box
 ]
@@ -896,16 +887,19 @@ UsefulExamples >> textWithMenuAtRight [
 
 { #category : #accessing }
 UsefulExamples >> wrappedTooltip [
+	"Note that the exact width has to be set on the BrEditor and not the container. The problem is that the look (BrTooltipBottomCenterLook) will override the horizontal constaint on the content anyway."
+
 	<gtExample>
 	^ BlElement new
 		layout: BlLinearLayout vertical;
 		constraintsDo: [ :c | 
 			c padding: (BlInsets all: 5).
 			c vertical fitContent.
-			c horizontal exact: 200 ];
+			c horizontal fitContent ];
 		addChild:
 			(BrEditor new
 				look: BrGlamorousRegularEditorLook new;
 				text: Boolean comment;
+				hExact: 200;
 				yourself)
 ]
