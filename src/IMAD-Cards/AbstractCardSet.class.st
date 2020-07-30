@@ -13,6 +13,11 @@ Class {
 	#category : #'IMAD-Cards-Model'
 }
 
+{ #category : #accessing }
+AbstractCardSet >> addCard: aCard [
+	self subclassResponsibility
+]
+
 { #category : #cards }
 AbstractCardSet >> cardNamed: aString [
 	| result |
@@ -33,7 +38,9 @@ AbstractCardSet >> cards [
 
 { #category : #cards }
 AbstractCardSet >> cardsNamed: aString [
-	^ self cards select: [:each | each name = aString]
+	"Mainly needed for testing purposes"
+
+	^ self cards select: [ :each | each name = aString ]
 ]
 
 { #category : #relations }

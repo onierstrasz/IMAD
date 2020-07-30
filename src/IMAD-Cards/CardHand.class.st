@@ -17,6 +17,12 @@ Class {
 }
 
 { #category : #accessing }
+CardHand >> addCard: aCard [
+	deck addCard: aCard.
+	
+]
+
+{ #category : #accessing }
 CardHand >> cards [
 	cards ifNil: [ self updateCards ].
 	^ cards
@@ -59,7 +65,8 @@ CardHand >> filter: aFilter [
 CardHand >> initialize [
 	super initialize.
 	deck := CardDeck new.
-	filter := TrueFilter
+	filter := TrueFilter.
+	self subscribe
 ]
 
 { #category : #accessing }
@@ -77,6 +84,16 @@ CardHand >> relations [
 { #category : #accessing }
 CardHand >> relations: aRelation [
 	relations := aRelation
+]
+
+{ #category : #initialization }
+CardHand >> subscribe [
+	self deck announcer
+		when: CardsUpdated
+		do: [ self invalidateCardsAndRelations ].
+	self deck announcer
+		when: RelationsUpdated
+		do: [ self invalidateCardsAndRelations ]
 ]
 
 { #category : #accessing }

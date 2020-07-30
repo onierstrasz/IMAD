@@ -278,11 +278,7 @@ CardDeckGUI >> subscribe [
 	self deck announcer when: RelationsUpdated do: [ self updateGraph ].
 	self tagPane announcer
 		when: TagFilterUpdated
-		do: [ 
-	
-		self updateGraph.
-		
-		 ]
+		do: [ self updateGraph ]
 ]
 
 { #category : #accessing }
