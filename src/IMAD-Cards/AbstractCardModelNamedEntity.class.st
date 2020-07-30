@@ -64,7 +64,7 @@ AbstractCardModelNamedEntity >> buildDescriptionPane [
 			anEvent text asString = gtDoc text
 				ifTrue: [ aSaveButton visibility: BlVisibility hidden ]
 				ifFalse: [ aSaveButton visibility: BlVisibility visible ] ].
-	contentPane addChild: gtDoc asElementWithoutSaveAction matchParent.
+	contentPane addChild: gtDoc asElementWithoutSaveAction matchParent as: #doc.
 	contentPane addChild: aSaveButton.
 	^ contentPane
 ]

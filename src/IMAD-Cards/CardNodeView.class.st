@@ -58,7 +58,8 @@ CardNodeView >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
-			{('Rename card'
+			{('Edit tags' -> [ self parent addChild: self popupTagger ]).
+			('Rename card'
 				-> [ isEditable
 						ifFalse: [ self beEditable ] ]).
 			('Inspect card' -> [ card inspect ]).
@@ -117,6 +118,17 @@ CardNodeView >> initialize [
 						modifiersMatcher: #isCmd;
 						yourself)
 				+
+					((BrGlamorousWithContextMenuLook
+						content: [ |element| 
+						element:= self card buildDescriptionPane.
+						(element childNamed: #doc) fitContent; hExact: 300.
+						element constraintsDo: [:c|
+						c horizontal fitContent.
+						c vertical fitContent].
+						 element asScrollableElement ])
+						usePrimaryMouseButton;
+						modifiersMatcher: #isAlt yourself)
+				+
 					(BrGlamorousWithTooltipLook2
 						content: [ self
 								tooltipWithWrappingText: self card name , ': ' , self card description ]).
@@ -160,12 +172,13 @@ CardNodeView >> tooltipWithWrappingText: aString [
 		constraintsDo: [ :c | 
 			c padding: (BlInsets all: 5).
 			c vertical fitContent.
-			c horizontal exact: 200 ].
+			c horizontal fitContent ].
 	tooltip
 		addChild:
 			(BrEditor new
 				look: BrGlamorousRegularEditorLook new;
 				text: aString;
+				hExact: 200;
 				yourself).
 	^ tooltip
 ]
