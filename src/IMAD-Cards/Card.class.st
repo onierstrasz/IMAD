@@ -41,6 +41,11 @@ Card >> addTag: aString [
 ]
 
 { #category : #accessing }
+Card >> addTags: aTagCollection [
+	aTagCollection do: [ :each | self addTag: each ]
+]
+
+{ #category : #accessing }
 Card >> announceCardsUpdated [
 	self deck ifNotNil: [ :d | d announcer announce: CardsUpdated new ]
 

@@ -18,6 +18,7 @@ Class {
 
 { #category : #cards }
 CardHand >> addCard: aCard [
+	aCard addTags: self filter positiveTags.
 	deck addCard: aCard.
 	self invalidateCardsAndRelations
 ]

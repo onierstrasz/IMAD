@@ -83,30 +83,32 @@ CardHandTestExamples >> addCardToHand [
 	self assert: (deck hasCardNamed: 'a3') not.
 
 	"The tag 'a' should be automatically added"
-	
 	hand
 		addCard:
 			(Card new
 				name: 'a3';
-				"addTag: 'a';"
 				yourself).
-				
-				
-				
-	self assert: (hand hasCardNamed: 'a3') .
+	self assert: (hand hasCardNamed: 'a3').
 	self assert: (deck hasCardNamed: 'a3').
 	^ hand
 ]
 
 { #category : #accessing }
 CardHandTestExamples >> addRelationToDeck [
-
-"Adding a Card or Relation to a Deck might add it to the Hand.
+	"Adding a Card or Relation to a Deck might add it to the Hand.
 The Filter will need to be reevaluated."
 
 	<gtExample>
-	self notYetImplemented
-
+	self assert: (hand hasCardNamed: 'a2').
+	self assert: (hand hasCardNamed: 'ac1').
+	self
+		assert: (deck hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1') not.
+	self
+		assert: (hand hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1') not.
+	deck addRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1'.
+	self
+		assert: (hand hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1').
+	^ hand
 ]
 
 { #category : #accessing }

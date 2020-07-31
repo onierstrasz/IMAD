@@ -48,6 +48,19 @@ AbstractCardSet >> hasCardNamed: aString [
 	^ (self cardsNamed: aString) notEmpty
 ]
 
+{ #category : #accessing }
+AbstractCardSet >> hasRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
+	"For testing"
+
+	| source target |
+	source := self cardNamed: sourceName.
+	target := self cardNamed: targetName.
+	^ (self
+		relationsMatching:
+			aSymbol asRelNameFilter & source sourceFilter
+				& target targetFilter) isNotEmpty
+]
+
 { #category : #relations }
 AbstractCardSet >> relations [
 	^ relations
@@ -55,7 +68,7 @@ AbstractCardSet >> relations [
 
 { #category : #querying }
 AbstractCardSet >> relationsMatching: aFilter [
-	^ relations select: [:rel | aFilter matches: rel].
+	^ self relations select: [:rel | aFilter matches: rel].
 ]
 
 { #category : #cards }
