@@ -131,7 +131,7 @@ CardNodeView >> initialize [
 						useSecondaryMouseButton;
 						modifiersMatcher: #isCmd;
 						yourself)
-				+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ]).
+				"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])".
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.

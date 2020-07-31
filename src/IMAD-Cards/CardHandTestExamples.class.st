@@ -4,15 +4,34 @@ I test that a CardHand is properly synchronized with its CardDeck.
 The Deck has cards with tags 'a' and 'b'.
 The Hand is defined by the filter 'a' & not 'b'.
 !Tests:
-Adding a Card or Relation to a Hand adds it to the Deck.
-!More tests to do:
-Adding a Card or Relation to a Deck might add it to the Hand.
-The Filter will need to be reevaluated.
-Deleting a Card or Relation from a Deck deletes it from the Hand.
-Deleting a Card or Relation  from a Hand also deletes it from the Deck.
+Adding a Card to a Hand adds it to the Deck, and ensures that the Card has the tags it needs to pass the Hand's Filter. The hand should automatically set all the positive tags (need to ask a filter for all its positive tags)
 
-Adding a card to a hand should automatically set all the positive tags (need to ask a filter for all its positive tags)
+${method:name=CardHandTestExamples>>#addCardToHand}$
+
+Adding a Relation to a Hand adds it to the Deck. (The source and target already must be in the Hand.)
+${method:name=CardHandTestExamples>>#addRelationToHand}$
+
+Adding a Card or Relation to a Deck might add it to the Hand. The Filter will need to be reevaluated.
+${method:name=CardHandTestExamples>>#addCardToDeck}$
+
+${method:name=CardHandTestExamples>>#addRelationToDeck}$
+
+Deleting a Card or Relation from a Deck deletes it from the Hand.
+${method:name=CardHandTestExamples>>#deleteCardFromDeck}$
+
+${method:name=CardHandTestExamples>>#deleteRelationFromDeck}$
+
+Deleting a Card or Relation  from a Hand also deletes it from the Deck.
+${method:name=CardHandTestExamples>>#deleteCardFromHand}$
+
+${method:name=CardHandTestExamples>>#deleteRelationFromHand}$
+
 Adding a tag to a card or removing it may remove it from the hand (and add it to another hand) -- need test with two hands
+
+${method:name=CardHandTestExamples>>#addTagToCard}$
+
+${method:name=CardHandTestExamples>>#deleteTagFromCard}$
+
 
 "
 Class {
@@ -26,19 +45,131 @@ Class {
 }
 
 { #category : #accessing }
-CardHandTestExamples >> addCardToHand [
+CardHandTestExamples >> addCardToDeck [
+	"Adding a Card or Relation to a Deck might add it to the Hand. The Filter will need to be reevaluated.
+	Adding a new Card directly to a deck should trigger a CardsUpdated event, causing the Hand to invalidate (and recompute) its Cards."
+
 	<gtExample>
 	self assert: (hand cardsNamed: 'a3') isEmpty.
 	self assert: (deck cardsNamed: 'a3') isEmpty.
-	hand
+	deck
 		addCard:
 			(Card new
 				name: 'a3';
 				addTag: 'a';
 				yourself).
+	deck
+		addCard:
+			(Card new
+				name: 'b3';
+				addTag: 'b';
+				yourself).
+	self assert: (hand cardsNamed: 'a3') size equals: 1.
+	self assert: (deck cardsNamed: 'a3') size equals: 1.
+	self assert: (hand cardsNamed: 'b3') size equals: 0.
+	self assert: (deck cardsNamed: 'b3') size equals: 1.
+	^ hand
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> addCardToHand [
+	"Adding a Card to a Hand adds it to the Deck, and ensures that the Card has the tags it needs to pass the Hand's Filter. The hand should automatically set all the positive tags (need to ask a filter for all its positive tags)"
+
+	<gtExample>
+	self assert: (hand cardsNamed: 'a3') isEmpty.
+	self assert: (deck cardsNamed: 'a3') isEmpty.
+
+	"The tag 'a' should be automatically added"
+	
+	hand
+		addCard:
+			(Card new
+				name: 'a3';
+				"addTag: 'a';"
+				yourself).
+				
+				
+				
 	self assert: (hand cardsNamed: 'a3') size equals: 1.
 	self assert: (deck cardsNamed: 'a3') size equals: 1.
 	^ hand
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> addRelationToDeck [
+
+"Adding a Card or Relation to a Deck might add it to the Hand.
+The Filter will need to be reevaluated."
+
+	<gtExample>
+	self notYetImplemented
+
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> addRelationToHand [
+	
+	
+"Adding a Relation to a Hand adds it to the Deck. (The source and target already must be in the Hand.)"
+	
+
+
+	<gtExample>
+	self notYetImplemented
+
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> addTagToCard [
+	"Adding a tag to a card or removing it may remove it from the hand (and add it to another hand) -- need test with two hands"
+
+	<gtExample>
+	self notYetImplemented
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> deleteCardFromDeck [
+"Deleting a Card or Relation from a Deck deletes it from the Hand."
+
+
+	<gtExample>
+	self notYetImplemented
+
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> deleteCardFromHand [
+"Deleting a Card or Relation  from a Hand also deletes it from the Deck."
+
+
+	<gtExample>
+	self notYetImplemented
+
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> deleteRelationFromDeck [
+	"Deleting a Card or Relation from a Deck deletes it from the Hand."
+
+	<gtExample>
+	self notYetImplemented
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> deleteRelationFromHand [
+	"Deleting a Card or Relation  from a Hand also deletes it from the Deck."
+
+	<gtExample>
+	self notYetImplemented
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> deleteTagFromCard [
+	"Adding a tag to a card or removing it may remove it from the hand (and add it to another hand) -- need test with two hands"
+
+	<gtExample>
+	self notYetImplemented
+
 ]
 
 { #category : #accessing }
