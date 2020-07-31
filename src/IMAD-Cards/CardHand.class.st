@@ -24,6 +24,11 @@ CardHand >> addCard: aCard [
 ]
 
 { #category : #accessing }
+CardHand >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
+	self deck addRelation: aSymbol from: aSourceCard to: aTargetCard
+]
+
+{ #category : #accessing }
 CardHand >> cards [
 	cards ifNil: [ self updateCards ].
 	^ cards
@@ -63,6 +68,16 @@ CardHand >> deck: aDeck [
 CardHand >> deck: aDeck filter: aFilter [
 	self deck: aDeck.
 	self filter: aFilter
+]
+
+{ #category : #accessing }
+CardHand >> deleteCard: aCard [
+	self deck deleteCard: aCard
+]
+
+{ #category : #accessing }
+CardHand >> deleteRelation: rel [
+	self deck deleteRelation: rel
 ]
 
 { #category : #accessing }

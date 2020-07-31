@@ -70,12 +70,6 @@ CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 	^ rel
 ]
 
-{ #category : #relations }
-CardDeck >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
-	"Convenience method"
- 	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
-]
-
 { #category : #'gt-extensions' }
 CardDeck >> asElement [
 	^ CardDeckGUI new
@@ -191,6 +185,16 @@ CardDeck >> defaultStorageMethodName [
 ]
 
 { #category : #cards }
+CardDeck >> deleteAllCardsAndRelations [
+	self cards do: [ :each | each deck: nil ].
+	cards := OrderedCollection new.
+	self relations do: [ :each | each deck: nil ].
+	relations := OrderedCollection new.
+	self announcer announce: CardsUpdated new.
+	self announcer announce: RelationsUpdated new
+]
+
+{ #category : #cards }
 CardDeck >> deleteCard: aCard [
 	aCard deleteRelations.
 	self cards remove: aCard ifAbsent: [  ].
@@ -234,7 +238,7 @@ CardDeck >> generateStorageMethodString [
 	^ OpalCompiler new format: stream contents
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 CardDeck >> generatedDeckEqualsSelf [
 	^ (OpalCompiler new
 		source: self storeString;
@@ -468,22 +472,6 @@ CardDeck >> newFlowElement [
 			c vertical fitContent ]
 ]
 
-{ #category : #cards }
-CardDeck >> removeAllCardsAndRelations [
-	self cards do: [ :each | each deck: nil ].
-	cards := OrderedCollection new.
-	self relations do: [ :each | each deck: nil ].
-	relations := OrderedCollection new.
-	self announcer announce: CardsUpdated new.
-	self announcer announce: RelationsUpdated new
-]
-
-{ #category : #relations }
-CardDeck >> removeRelation: aRelation [
-	self relations remove: aRelation ifAbsent: [  ].
-	self announcer announce: RelationsUpdated new
-]
-
 { #category : #printing }
 CardDeck >> saveState [
 	| storageClass |
@@ -494,7 +482,7 @@ CardDeck >> saveState [
 	storageClass compile: self generateStorageMethodString
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extensions' }
 CardDeck >> show [
 	BlSpace new
 		addChild: self asElement;
@@ -506,24 +494,24 @@ CardDeck >> storageClassMethod [
 	^ self storageClassName , '>>#' , self storageMethodName
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 CardDeck >> storageClassName [
 	^ self get: #storageClassName
 
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 CardDeck >> storageClassName: aString [
 	self set: #storageClassName to: aString
 
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 CardDeck >> storageMethodName [
 	^ self get: #storageMethodName
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 CardDeck >> storageMethodName: aString [
 	self set: #storageMethodName to: aString
 

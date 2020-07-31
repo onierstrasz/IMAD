@@ -108,20 +108,28 @@ The Filter will need to be reevaluated."
 	deck addRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1'.
 	self
 		assert: (hand hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1').
+	self
+		assert: (deck hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1').
 	^ hand
 ]
 
 { #category : #accessing }
 CardHandTestExamples >> addRelationToHand [
-	
-	
-"Adding a Relation to a Hand adds it to the Deck. (The source and target already must be in the Hand.)"
-	
-
+	"Adding a Relation to a Hand adds it to the Deck. (The source and target already must be in the Hand.)"
 
 	<gtExample>
-	self notYetImplemented
-
+	self assert: (hand hasCardNamed: 'a2').
+	self assert: (hand hasCardNamed: 'ac1').
+	self
+		assert: (deck hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1') not.
+	self
+		assert: (hand hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1') not.
+	hand addRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1'.
+	self
+		assert: (hand hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1').
+	self
+		assert: (deck hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1').
+	^ hand
 ]
 
 { #category : #accessing }
@@ -129,27 +137,43 @@ CardHandTestExamples >> addTagToCard [
 	"Adding a tag to a card or removing it may remove it from the hand (and add it to another hand) -- need test with two hands"
 
 	<gtExample>
-	self notYetImplemented
+	| c1 |
+	c1 := deck cardNamed: 'c1'.
+	self assert: (deck hasCardNamed: 'c1').
+	self assert: (hand hasCardNamed: 'c1') not.
+	c1 addTag: 'a'.
+	
+	"HERE we need to make sure that hand subscribes to tag changes"
+	
+	
+	
+	"hand invalidateCardsAndRelations."
+	self assert: (hand hasCardNamed: 'c1')
 ]
 
 { #category : #accessing }
 CardHandTestExamples >> deleteCardFromDeck [
-"Deleting a Card or Relation from a Deck deletes it from the Hand."
-
+	"Deleting a Card or Relation from a Deck deletes it from the Hand."
 
 	<gtExample>
-	self notYetImplemented
-
+	self addCardToDeck.
+	self assert: (hand hasCardNamed: 'a3').
+	deck deleteCardNamed: 'a3'.
+	self assert: (hand hasCardNamed: 'a3') not
 ]
 
 { #category : #accessing }
 CardHandTestExamples >> deleteCardFromHand [
-"Deleting a Card or Relation  from a Hand also deletes it from the Deck."
-
+	"Deleting a Card or Relation  from a Hand also deletes it from the Deck."
 
 	<gtExample>
-	self notYetImplemented
-
+	self addCardToHand.
+	self assert: (hand hasCardNamed: 'a3').
+	self assert: (deck hasCardNamed: 'a3').
+	hand deleteCardNamed: 'a3'.
+	self assert: (hand hasCardNamed: 'a3') not.
+	self assert: (deck hasCardNamed: 'a3') not.
+	^ hand
 ]
 
 { #category : #accessing }
@@ -157,7 +181,14 @@ CardHandTestExamples >> deleteRelationFromDeck [
 	"Deleting a Card or Relation from a Deck deletes it from the Hand."
 
 	<gtExample>
-	self notYetImplemented
+	self addRelationToDeck.
+	self
+		assert: (deck hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1').
+	deck deleteRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1'.
+	self
+		assert: (deck hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1') not.
+	self
+		assert: (hand hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1') not
 ]
 
 { #category : #accessing }
@@ -165,7 +196,16 @@ CardHandTestExamples >> deleteRelationFromHand [
 	"Deleting a Card or Relation  from a Hand also deletes it from the Deck."
 
 	<gtExample>
-	self notYetImplemented
+	self addRelationToDeck.
+	self
+		assert: (hand hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1').
+	self
+		assert: (deck hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1').
+	hand deleteRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1'.
+	self
+		assert: (deck hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1') not.
+	self
+		assert: (hand hasRelation: 'a-ac' fromCardNamed: 'a2' toCardNamed: 'ac1') not
 ]
 
 { #category : #accessing }

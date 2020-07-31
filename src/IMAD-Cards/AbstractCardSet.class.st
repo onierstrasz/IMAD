@@ -18,6 +18,17 @@ AbstractCardSet >> addCard: aCard [
 	self subclassResponsibility
 ]
 
+{ #category : #accessing }
+AbstractCardSet >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
+	self subclassResponsibility
+]
+
+{ #category : #relations }
+AbstractCardSet >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
+	"Convenience method"
+ 	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
+]
+
 { #category : #cards }
 AbstractCardSet >> cardNamed: aString [
 	| result |
@@ -44,6 +55,31 @@ AbstractCardSet >> cardsNamed: aString [
 ]
 
 { #category : #accessing }
+AbstractCardSet >> deleteCard: aCard [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+AbstractCardSet >> deleteCardNamed: aString [
+	self deleteCard: (self cardNamed: aString)
+]
+
+{ #category : #accessing }
+AbstractCardSet >> deleteRelation: rel [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+AbstractCardSet >> deleteRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
+	| matches |
+	matches := self
+		relations: aSymbol
+		fromCardNamed: sourceName
+		toCardNamed: targetName.
+	matches do: [ :rel | self deleteRelation: rel ]
+]
+
+{ #category : #accessing }
 AbstractCardSet >> hasCardNamed: aString [
 	^ (self cardsNamed: aString) notEmpty
 ]
@@ -52,18 +88,27 @@ AbstractCardSet >> hasCardNamed: aString [
 AbstractCardSet >> hasRelation: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
 	"For testing"
 
-	| source target |
-	source := self cardNamed: sourceName.
-	target := self cardNamed: targetName.
 	^ (self
-		relationsMatching:
-			aSymbol asRelNameFilter & source sourceFilter
-				& target targetFilter) isNotEmpty
+		relations: aSymbol
+		fromCardNamed: sourceName
+		toCardNamed: targetName) size = 1
 ]
 
 { #category : #relations }
 AbstractCardSet >> relations [
 	^ relations
+]
+
+{ #category : #accessing }
+AbstractCardSet >> relations: aSymbol fromCardNamed: sourceName toCardNamed: targetName [
+	"NB: result could be empty, or could be multiple relations"
+
+	| source target |
+	source := self cardNamed: sourceName.
+	target := self cardNamed: targetName.
+	^ self
+		relationsMatching:
+			aSymbol asRelNameFilter & source sourceFilter & target targetFilter
 ]
 
 { #category : #querying }
