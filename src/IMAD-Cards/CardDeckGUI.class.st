@@ -270,15 +270,24 @@ CardDeckGUI >> saveButton [
 CardDeckGUI >> subscribe [
 	self deck announcer
 		when: PropertiesUpdated
-		do: [ self updateHeaderName ].
+		do: [ self updateHeaderName ]
+		for: self.
 	self deck announcer
 		when: TagsUpdated
-		do: [ tagPane updateTagFilterButtonsForDeck: self deck ].
-	self deck announcer when: CardsUpdated do: [ self updateGraph ].
-	self deck announcer when: RelationsUpdated do: [ self updateGraph ].
+		do: [ tagPane updateTagFilterButtonsForDeck: self deck ]
+		for: self.
+	self deck announcer
+		when: CardsUpdated
+		do: [ self updateGraph ]
+		for: self.
+	self deck announcer
+		when: RelationsUpdated
+		do: [ self updateGraph ]
+		for: self.
 	self tagPane announcer
 		when: TagFilterUpdated
 		do: [ self updateGraph ]
+		for: self
 ]
 
 { #category : #accessing }

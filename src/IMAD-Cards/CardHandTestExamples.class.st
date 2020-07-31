@@ -50,24 +50,27 @@ CardHandTestExamples >> addCardToDeck [
 	Adding a new Card directly to a deck should trigger a CardsUpdated event, causing the Hand to invalidate (and recompute) its Cards."
 
 	<gtExample>
-	self assert: (hand cardsNamed: 'a3') isEmpty.
-	self assert: (deck cardsNamed: 'a3') isEmpty.
+	self assert: (hand hasCardNamed: 'a3') not.
+	self assert: (deck hasCardNamed: 'a3') not.
+	self assert: (deck announcer hasSubscriber: hand).
+	self assert: hand cardsNil not.
 	deck
 		addCard:
 			(Card new
 				name: 'a3';
 				addTag: 'a';
 				yourself).
+	self assert: hand cardsNil.
 	deck
 		addCard:
 			(Card new
 				name: 'b3';
 				addTag: 'b';
 				yourself).
-	self assert: (hand cardsNamed: 'a3') size equals: 1.
-	self assert: (deck cardsNamed: 'a3') size equals: 1.
-	self assert: (hand cardsNamed: 'b3') size equals: 0.
-	self assert: (deck cardsNamed: 'b3') size equals: 1.
+	self assert: (hand hasCardNamed: 'a3').
+	self assert: (deck hasCardNamed: 'a3').
+	self assert: (hand hasCardNamed: 'b3') not.
+	self assert: (deck hasCardNamed: 'b3').
 	^ hand
 ]
 
@@ -76,8 +79,8 @@ CardHandTestExamples >> addCardToHand [
 	"Adding a Card to a Hand adds it to the Deck, and ensures that the Card has the tags it needs to pass the Hand's Filter. The hand should automatically set all the positive tags (need to ask a filter for all its positive tags)"
 
 	<gtExample>
-	self assert: (hand cardsNamed: 'a3') isEmpty.
-	self assert: (deck cardsNamed: 'a3') isEmpty.
+	self assert: (hand hasCardNamed: 'a3') not.
+	self assert: (deck hasCardNamed: 'a3') not.
 
 	"The tag 'a' should be automatically added"
 	
@@ -90,8 +93,8 @@ CardHandTestExamples >> addCardToHand [
 				
 				
 				
-	self assert: (hand cardsNamed: 'a3') size equals: 1.
-	self assert: (deck cardsNamed: 'a3') size equals: 1.
+	self assert: (hand hasCardNamed: 'a3') .
+	self assert: (deck hasCardNamed: 'a3').
 	^ hand
 ]
 
@@ -270,13 +273,13 @@ Deleting a Card or Relation  from a Hand also deletes it from the Deck.';
 CardHandTestExamples >> handHasFourCards [
 	<gtExample>
 	self assert: hand cards size equals: 4.
-	self assert: (hand cardsNamed: 'a1') size equals: 1.
-	self assert: (hand cardsNamed: 'a2') size equals: 1.
-	self assert: (hand cardsNamed: 'ac1') size equals: 1.
-	self assert: (hand cardsNamed: 'ac2') size equals: 1.
-	self assert: (hand cardsNamed: 'ab1') isEmpty.
-	self assert: (hand cardsNamed: 'b1') isEmpty.
-	self assert: (hand cardsNamed: 'c1') isEmpty.
+	self assert: (hand hasCardNamed: 'a1') .
+	self assert: (hand hasCardNamed: 'a2') .
+	self assert: (hand hasCardNamed: 'ac1') .
+	self assert: (hand hasCardNamed: 'ac2') .
+	self assert: (hand hasCardNamed: 'ab1') not.
+	self assert: (hand hasCardNamed: 'b1') not.
+	self assert: (hand hasCardNamed: 'c1') not.
 	^ hand
 ]
 

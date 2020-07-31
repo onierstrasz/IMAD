@@ -43,6 +43,11 @@ AbstractCardSet >> cardsNamed: aString [
 	^ self cards select: [ :each | each name = aString ]
 ]
 
+{ #category : #accessing }
+AbstractCardSet >> hasCardNamed: aString [
+	^ (self cardsNamed: aString) notEmpty
+]
+
 { #category : #relations }
 AbstractCardSet >> relations [
 	^ relations

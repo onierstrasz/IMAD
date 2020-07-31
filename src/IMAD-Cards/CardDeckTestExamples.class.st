@@ -13,13 +13,13 @@ CardDeckTestExamples >> addCardOneToDeck [
 	<gtExample>
 	| deck card |
 	deck := self emptyDeck.
-	self assert: (deck cardsNamed: self cardOneName) isEmpty.
+	self assert: (deck hasCardsNamed: self cardOneName) not.
 	
 	card := Card new.
 	card name: self cardOneName.
 	deck addCard: card.
 	
-	self assert: (deck cardsNamed: self cardOneName) size equals: 1.
+	self assert: (deck hasCardNamed: self cardOneName) .
 	self assert: (deck cardNamed: self cardOneName) == card.
 	^ deck
 ]

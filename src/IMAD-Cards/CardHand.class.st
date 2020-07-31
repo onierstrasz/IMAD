@@ -33,6 +33,12 @@ CardHand >> cards: aCardCollection [
 	cards := aCardCollection
 ]
 
+{ #category : #accessing }
+CardHand >> cardsNil [
+	"For testing purposes."
+	^ cards isNil
+]
+
 { #category : #relations }
 CardHand >> containsRelation: aRelation [
 	^ (self cards includes: aRelation source)
@@ -46,14 +52,16 @@ CardHand >> deck [
 
 { #category : #accessing }
 CardHand >> deck: aDeck [
+	self unsubscribe.
 	deck := aDeck.
-	self invalidateCardsAndRelations 
+	self subscribe.
+	self invalidateCardsAndRelations
 ]
 
 { #category : #initialization }
 CardHand >> deck: aDeck filter: aFilter [
-	deck := aDeck.
-	filter := aFilter
+	self deck: aDeck.
+	self filter: aFilter
 ]
 
 { #category : #accessing }
@@ -94,12 +102,21 @@ CardHand >> relations: aRelation [
 
 { #category : #announcements }
 CardHand >> subscribe [
+	"NB: specify self as the subscriber so we can ubsubscribe!"
+
 	self deck announcer
 		when: CardsUpdated
-		do: [ self invalidateCardsAndRelations ].
+		do: [ self invalidateCardsAndRelations ]
+		for: self.
 	self deck announcer
 		when: RelationsUpdated
 		do: [ self invalidateCardsAndRelations ]
+		for: self
+]
+
+{ #category : #accessing }
+CardHand >> unsubscribe [
+	self deck announcer unsubscribe: self
 ]
 
 { #category : #accessing }
