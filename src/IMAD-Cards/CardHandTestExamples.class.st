@@ -3,12 +3,17 @@ I test that a CardHand is properly synchronized with its CardDeck.
 
 The Deck has cards with tags 'a' and 'b'.
 The Hand is defined by the filter 'a' & not 'b'.
-
+!Tests:
 Adding a Card or Relation to a Hand adds it to the Deck.
+!More tests to do:
 Adding a Card or Relation to a Deck might add it to the Hand.
 The Filter will need to be reevaluated.
 Deleting a Card or Relation from a Deck deletes it from the Hand.
 Deleting a Card or Relation  from a Hand also deletes it from the Deck.
+
+Adding a card to a hand should automatically set all the positive tags (need to ask a filter for all its positive tags)
+Adding a tag to a card or removing it may remove it from the hand (and add it to another hand) -- need test with two hands
+
 "
 Class {
 	#name : #CardHandTestExamples,

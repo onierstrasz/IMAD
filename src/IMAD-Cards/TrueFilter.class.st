@@ -8,3 +8,8 @@ Class {
 TrueFilter >> matches: aCardModelEntity [
 	^ true
 ]
+
+{ #category : #accessing }
+TrueFilter >> positiveTags [
+	^ Set new
+]

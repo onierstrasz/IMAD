@@ -13,6 +13,11 @@ CardTagFilter >> matches: aCard [
 ]
 
 { #category : #accessing }
+CardTagFilter >> positiveTags [
+	^ Set with: tag
+]
+
+{ #category : #accessing }
 CardTagFilter >> tag [
 	^ tag
 ]

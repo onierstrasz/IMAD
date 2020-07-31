@@ -16,3 +16,8 @@ NegationFilter >> filter: aFilter [
 NegationFilter >> matches: aCardModelEntity [
 	^ (filter matches: aCardModelEntity) not
 ]
+
+{ #category : #accessing }
+NegationFilter >> positiveTags [
+	^ Set new
+]

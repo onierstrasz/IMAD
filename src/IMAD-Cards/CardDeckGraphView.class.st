@@ -60,7 +60,7 @@ CardDeckGraphView >> forDeck: aDeck withFilter: aFilter [
 					(hand containsRelation: rel)
 						ifTrue: [ self addChild: (self edgeElementFor: rel) ] ] ].
 	self
-		layout: ("BlOnceLayout new layout:" GtGradHorizontalTreeLayout new).
+		layout: (BlOnceLayout new layout: GtGradHorizontalTreeLayout new).
 	"(self cards size > 1
 				ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
 				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ])"

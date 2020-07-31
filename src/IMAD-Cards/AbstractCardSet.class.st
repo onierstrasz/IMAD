@@ -44,12 +44,6 @@ AbstractCardSet >> cardsNamed: aString [
 ]
 
 { #category : #relations }
-AbstractCardSet >> containsRelation: aRelation [
-	<todo: 'push relation slot and methods up here'>
-	^ true
-]
-
-{ #category : #relations }
 AbstractCardSet >> relations [
 	^ relations
 ]

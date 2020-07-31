@@ -1,3 +1,7 @@
+"
+The model deck models the university hierarchy of faculties and institutes (partially).
+Tags are 
+"
 Class {
 	#name : #CardFilterTestExamples,
 	#superclass : #Object,
@@ -11,7 +15,7 @@ Class {
 CardFilterTestExamples >> deckHasOneUni [
 	<gtExample>
 	| filter result |
-	filter := self uniFilter.
+	filter :=  'uni' asTagFilter.
 	result := deck cardsMatching: filter.
 	self assert: result size equals: 1.
 	^ result
@@ -27,35 +31,32 @@ CardFilterTestExamples >> deckHasSevenTags [
 CardFilterTestExamples >> deckHasThreeFBMInsititutes [
 	<gtExample>
 	| filter result |
-	filter := self fbmFilter.
+	filter := 'fbm' asTagFilter.
 	result := deck cardsMatching: filter.
 	self assert: result size equals: 3.
 	^ result
 ]
 
 { #category : #accessing }
-CardFilterTestExamples >> fbmFilter [
-	^ CardTagFilter new tag: 'fbm'
+CardFilterTestExamples >> facultyFilterNotPhilNatHasOnePositiveTag [
+	"When a we add a card to a handm we want to know which tags must be set so that the new card will pass the filter."
+
+	<gtExample>
+	| filter result |
+	filter := 'faculty' asTagFilter & 'philnat' asTagFilter not.
+	result := filter positiveTags.
+	self assert: result equals: {'faculty'} asSet.
+	^ result
 ]
 
 { #category : #accessing }
 CardFilterTestExamples >> fbmHasOneInf [
 	<gtExample>
 	| filter result |
-	filter := self infAndFbmFilter.
+	filter := 'inf' asTagFilter & 'fbm' asTagFilter.
 	result := deck cardsMatching: filter.
 	self assert: result size equals: 1.
 	^ result
-]
-
-{ #category : #accessing }
-CardFilterTestExamples >> infAndFbmFilter [
-	^ self fbmFilter & self infFilter
-]
-
-{ #category : #accessing }
-CardFilterTestExamples >> infFilter [
-	^ CardTagFilter new tag: 'inf'
 ]
 
 { #category : #accessing }
@@ -147,16 +148,11 @@ CardFilterTestExamples >> modelDeck [
 ]
 
 { #category : #accessing }
-CardFilterTestExamples >> uniFilter [
-	^ CardTagFilter new tag: 'uni'
-]
-
-{ #category : #accessing }
 CardFilterTestExamples >> uniHasTwoFacultiesNotPhilNat [
 	<gtExample>
 	| filter result |
-	filter := (CardTagFilter new tag: 'faculty')
-		& (CardTagFilter new tag: 'philnat') not.
+	filter := ('faculty' asTagFilter)
+		& ( 'philnat' asTagFilter) not.
 	result := deck cardsMatching: filter.
 	self assert: result size equals: 2.
 	^ result

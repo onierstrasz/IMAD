@@ -17,6 +17,13 @@ BinaryFilter >> left: aFilter [
 ]
 
 { #category : #accessing }
+BinaryFilter >> positiveTags [
+	^ left positiveTags
+		addAll: right positiveTags;
+		yourself
+]
+
+{ #category : #accessing }
 BinaryFilter >> right: aFilter [
 	right := aFilter
 ]

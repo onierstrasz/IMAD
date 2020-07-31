@@ -33,6 +33,12 @@ CardHand >> cards: aCardCollection [
 	cards := aCardCollection
 ]
 
+{ #category : #relations }
+CardHand >> containsRelation: aRelation [
+	^ (self cards includes: aRelation source)
+		and: [ self cards includes: aRelation target ]
+]
+
 { #category : #accessing }
 CardHand >> deck [
 	^ deck
