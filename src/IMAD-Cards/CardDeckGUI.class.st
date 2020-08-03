@@ -221,10 +221,11 @@ CardDeckGUI >> directedCurvedEdge [
 
 { #category : #accessing }
 CardDeckGUI >> hand [
+	"Need the hand for the current filter so new cards will match the filter (i.e., be included in the hand)"
 
-^ CardHand new deck: self deck filter: tagPane filter; yourself
-
-
+	^ CardHand new
+		deck: self deck filter: tagPane filter;
+		yourself
 ]
 
 { #category : #accessing }
