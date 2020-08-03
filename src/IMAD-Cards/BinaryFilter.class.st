@@ -31,7 +31,7 @@ BinaryFilter >> right: aFilter [
 
 { #category : #accessing }
 BinaryFilter >> tags [
-	^ left positiveTags
-		addAll: right positiveTags;
+	^ left tags
+		addAll: right tags;
 		yourself
 ]

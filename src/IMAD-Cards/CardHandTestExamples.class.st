@@ -154,6 +154,14 @@ CardHandTestExamples >> addTagToCard [
 ]
 
 { #category : #accessing }
+CardHandTestExamples >> deckHasThreeTags [
+	<gtExample>
+	self assert: deck tags size equals: 3.
+	self assert: deck tags asSet equals: {'a' . 'b' . 'c'} asSet.
+	^ deck
+]
+
+{ #category : #accessing }
 CardHandTestExamples >> deleteCardFromDeck [
 	"Deleting a Card or Relation from a Deck deletes it from the Hand."
 
@@ -343,6 +351,25 @@ CardHandTestExamples >> handHasThreeRelations [
 		assert: (hand relationsMatching: 'a-ac' asRelNameFilter) size
 		equals: 2.
 	^ hand
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> handHasTwoTags [
+	<gtExample>
+	self assert: hand tags size equals: 2.
+	self assert: hand tags asSet equals: {'a' . 'b' } asSet.
+	^ deck
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> handWithExtendedFilterHasThreeTags [
+	"Note that the tag 'd' appears in no card of either the hand or the deck but only in the filter."
+	<gtExample>
+	self assert: hand tags size equals: 2.
+	hand filter: hand filter | 'd' asTagFilter not.
+	self assert: hand tags size equals: 3.
+	self assert: hand tags asSet equals: {'a' . 'b' . 'd'} asSet.
+	^ deck
 ]
 
 { #category : #accessing }

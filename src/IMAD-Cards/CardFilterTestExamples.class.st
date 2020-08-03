@@ -148,6 +148,16 @@ CardFilterTestExamples >> modelDeck [
 ]
 
 { #category : #accessing }
+CardFilterTestExamples >> notPhilNatFilterHasTwoTags [
+	<gtExample>
+	| filter result |
+	filter := 'faculty' asTagFilter & 'philnat' asTagFilter not.
+	self assert: filter tags size equals: 2.
+	self assert: filter tags equals: {'faculty' . 'philnat'} asSet.
+	^ filter
+]
+
+{ #category : #accessing }
 CardFilterTestExamples >> uniHasTwoFacultiesNotPhilNat [
 	<gtExample>
 	| filter result |
