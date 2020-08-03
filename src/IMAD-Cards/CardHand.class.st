@@ -127,6 +127,10 @@ CardHand >> subscribe [
 	self deck announcer
 		when: RelationsUpdated
 		do: [ self invalidateCardsAndRelations ]
+		for: self.
+	self deck announcer
+		when: TagsUpdated
+		do: [ self invalidateCardsAndRelations ]
 		for: self
 ]
 

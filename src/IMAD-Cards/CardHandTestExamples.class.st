@@ -148,6 +148,8 @@ CardHandTestExamples >> addTagToCard [
 	
 	
 	"hand invalidateCardsAndRelations."
+	
+	
 	self assert: (hand hasCardNamed: 'c1')
 ]
 
@@ -213,8 +215,13 @@ CardHandTestExamples >> deleteTagFromCard [
 	"Adding a tag to a card or removing it may remove it from the hand (and add it to another hand) -- need test with two hands"
 
 	<gtExample>
-	self notYetImplemented
-
+	self addCardToHand.
+	self assert: (hand hasCardNamed: 'a3').
+	self assert: (deck hasCardNamed: 'a3').
+	(deck cardNamed: 'a3') removeTagNamed: 'a'.
+	self assert: (hand hasCardNamed: 'a3') not.
+	self assert: (deck hasCardNamed: 'a3').
+	^ hand
 ]
 
 { #category : #accessing }
