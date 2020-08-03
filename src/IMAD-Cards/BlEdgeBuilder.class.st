@@ -5,7 +5,7 @@ I must be on a node when starting and stopping.
 This would be better done using separate drag and drop events, but it seems that BlDropEvent is currently (2020-06-12) broken (sent to the dragged element instead of the drop location). 
 "
 Class {
-	#name : #EdgeBuilder,
+	#name : #BlEdgeBuilder,
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'edgeStarted',
@@ -18,7 +18,7 @@ Class {
 }
 
 { #category : #accessing }
-EdgeBuilder >> dragEndEvent: anEvent [
+BlEdgeBuilder >> dragEndEvent: anEvent [
 	edgeStarted
 		ifTrue: [ | endNode |
 			anEvent consumed: true.
@@ -41,7 +41,7 @@ EdgeBuilder >> dragEndEvent: anEvent [
 ]
 
 { #category : #accessing }
-EdgeBuilder >> dragEvent: anEvent [
+BlEdgeBuilder >> dragEvent: anEvent [
 	edgeStarted
 		ifTrue: [ anEvent consumed: true.
 			mousePositionElement
@@ -49,7 +49,7 @@ EdgeBuilder >> dragEvent: anEvent [
 ]
 
 { #category : #accessing }
-EdgeBuilder >> dragStartEvent: anEvent [
+BlEdgeBuilder >> dragStartEvent: anEvent [
 	startNode := anEvent currentTarget.
 	startNode graph isNode
 		ifTrue: [ edgeStarted := true.
@@ -67,12 +67,12 @@ EdgeBuilder >> dragStartEvent: anEvent [
 ]
 
 { #category : #accessing }
-EdgeBuilder >> eventsToHandle [
+BlEdgeBuilder >> eventsToHandle [
 	^ { BlDragStartEvent . BlDragEvent . BlDragEndEvent }
 ]
 
 { #category : #accessing }
-EdgeBuilder >> findCardElementAt: aPosition [
+BlEdgeBuilder >> findCardElementAt: aPosition [
 	| element |
 	element := container findMouseEventTargetAt: aPosition.
 	[ element isKindOf: CardNodeView ]
@@ -83,7 +83,7 @@ EdgeBuilder >> findCardElementAt: aPosition [
 ]
 
 { #category : #accessing }
-EdgeBuilder >> initialize [
+BlEdgeBuilder >> initialize [
 	super initialize.
 	edgeStarted := false.
 	mousePositionElement := BlElement new
@@ -95,7 +95,7 @@ EdgeBuilder >> initialize [
 ]
 
 { #category : #accessing }
-EdgeBuilder >> wantsEvent: anEvent [
+BlEdgeBuilder >> wantsEvent: anEvent [
 	"I only want Control events"
 	^ (super wantsEvent: anEvent) and: [ anEvent modifiers isCtrl ]
 ]

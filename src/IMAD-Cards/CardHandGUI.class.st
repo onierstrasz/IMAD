@@ -5,25 +5,21 @@ Eventually some of my parts should be factored out into separate Element classes
 I consist of a Header, a Tags pane, and a Graph pane.
 "
 Class {
-	#name : #CardDeckGUI,
+	#name : #CardHandGUI,
 	#superclass : #BlElement,
 	#instVars : [
-		'deck',
 		'nameHolder',
 		'graphHolder',
 		'theGraph',
 		'style',
-		'tagPane'
+		'tagPane',
+		'hand'
 	],
 	#category : #'IMAD-Cards-View'
 }
 
 { #category : #accessing }
-CardDeckGUI >> addGraphButtonsTo: aButtonBar [
-]
-
-{ #category : #accessing }
-CardDeckGUI >> buildButtonBar [
+CardHandGUI >> buildButtonBar [
 	| buttonBar |
 	buttonBar := BlElement new
 		constraintsDo: [ :c | 
@@ -84,18 +80,17 @@ CardDeckGUI >> buildButtonBar [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> buildGraph [
+CardHandGUI >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
-
-	theGraph := (CardDeckGraphView new
-		forDeck: self deck
-		withFilter: self tagPane filter) asPannableElement.
+	self hand filter: self tagPane filter.
+	theGraph := (CardHandGraphView new
+		forHand: self hand) asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
 ]
 
 { #category : #accessing }
-CardDeckGUI >> buildGraphHolder [
+CardHandGUI >> buildGraphHolder [
 	"I hold the actual graph (which may change), and handle mouse events."
 
 	<todo: 'Add CMD-click'>
@@ -119,7 +114,7 @@ CardDeckGUI >> buildGraphHolder [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> buildGraphPane [
+CardHandGUI >> buildGraphPane [
 	| graphPane |
 	graphPane := BlElement new
 		constraintsDo: [ :c | 
@@ -139,7 +134,7 @@ CardDeckGUI >> buildGraphPane [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> buildHeaderPane [
+CardHandGUI >> buildGuiHeaderPane [
 	| header |
 	header := BlElement new
 		constraintsDo: [ :c | 
@@ -169,34 +164,45 @@ CardDeckGUI >> buildHeaderPane [
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons inspect;
 				label: 'Open inspector window';
-				action: [ deck inspect ]).
+				action: [ hand inspect ]).
 	header addChild: self saveButton.
 	self updateHeaderName.
 	^ header
 ]
 
 { #category : #accessing }
-CardDeckGUI >> cards [
-	<todo: 'Apply the filter to select just the cards for this view'>
-	^ self deck cards
+CardHandGUI >> cards [
+	^ self hand cards
 ]
 
 { #category : #accessing }
-CardDeckGUI >> contextMenu [
+CardHandGUI >> contextMenu [
 	^ BrGlamorousSimpleContextMenuContent new
-		items: {('Inspect deck' -> [ :e | deck inspect ])};
+		items: {('Inspect deck' -> [ :e | self deck inspect ])};
 		yourself
 ]
 
 { #category : #accessing }
-CardDeckGUI >> deck [
-	^ deck
+CardHandGUI >> deck [
+	^ self hand deck
 ]
 
 { #category : #accessing }
-CardDeckGUI >> deck: aCardDeck [
+CardHandGUI >> deck: aCardDeck [
+	self hand: (CardHand new deck: aCardDeck; yourself).
+]
+
+{ #category : #accessing }
+CardHandGUI >> hand [
+	"Need the hand for the current filter so new cards will match the filter (i.e., be included in the hand)"
+
+	^ hand
+]
+
+{ #category : #accessing }
+CardHandGUI >> hand: aCardHand [
 	self unsubscribe.
-	deck := aCardDeck.
+	hand := aCardHand.
 	self subscribe.
 	self updateHeaderName.
 	self tagPane updateTagFilterButtonsForDeck: self deck.
@@ -204,41 +210,16 @@ CardDeckGUI >> deck: aCardDeck [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> directedCurvedEdge [
-	<todo: 'Use this to build graphs?'>
-	^ BlParabollaArcElement new
-		zIndex: 0;
-		curvatureFraction: 0.2;
-		border: (BlBorder paint: Color gray width: 2);
-		toHead:
-			(BlArrowheadSimpleArrow new
-				border:
-					(BlBorder builder
-						paint: Color gray;
-						width: 2;
-						build))
-]
-
-{ #category : #accessing }
-CardDeckGUI >> hand [
-	"Need the hand for the current filter so new cards will match the filter (i.e., be included in the hand)"
-
-	^ CardHand new
-		deck: self deck filter: tagPane filter;
-		yourself
-]
-
-{ #category : #accessing }
-CardDeckGUI >> initialize [
+CardHandGUI >> initialize [
 	super initialize.
-	deck := CardDeck new.
+	hand := CardHand new.
 	style := CardGraphStyle new mindmapStyle.
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ].
 	self layout: BlLinearLayout vertical.
-	self addChild: self buildHeaderPane.
+	self addChild: self buildGuiHeaderPane.
 	tagPane := TagFilterPane new.
 	self addChild: self tagPane.
 	self addChild: self buildGraphPane.
@@ -246,7 +227,7 @@ CardDeckGUI >> initialize [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> saveButton [
+CardHandGUI >> saveButton [
 	^ BrButton new
 		look:
 			BrGlamorousButtonWithIconLook
@@ -276,7 +257,7 @@ CardDeckGUI >> saveButton [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> subscribe [
+CardHandGUI >> subscribe [
 	self deck announcer
 		when: PropertiesUpdated
 		do: [ self updateHeaderName ]
@@ -300,18 +281,18 @@ CardDeckGUI >> subscribe [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> tagPane [
+CardHandGUI >> tagPane [
 	^ tagPane
 ]
 
 { #category : #accessing }
-CardDeckGUI >> unsubscribe [
+CardHandGUI >> unsubscribe [
 	self deck announcer unsubscribe: self.
 	self tagPane announcer unsubscribe: self.
 ]
 
 { #category : #accessing }
-CardDeckGUI >> updateGraph [
+CardHandGUI >> updateGraph [
 	| newGraph oldGraph |
 	oldGraph := theGraph.
 	newGraph := self buildGraph.
@@ -321,7 +302,7 @@ CardDeckGUI >> updateGraph [
 ]
 
 { #category : #accessing }
-CardDeckGUI >> updateHeaderName [
+CardHandGUI >> updateHeaderName [
 	nameHolder removeChildren.
 	nameHolder addChild: self deck buildLabel
 ]

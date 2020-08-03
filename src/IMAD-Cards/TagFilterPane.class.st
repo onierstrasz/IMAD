@@ -127,15 +127,12 @@ TagFilterPane >> tooltipWithText: aString [
 
 { #category : #accessing }
 TagFilterPane >> updateTagFilterButtonsForDeck: aDeck [
+	<todo: 'We need a way to maintain the state between updates. It should be possible to set all the buttons based on the current filter state.'>
 	self removeChildren.
 	isEmpty := aDeck tags isEmpty.
-	
 	isEmpty
-		ifTrue: [ 
-		self
+		ifTrue: [ self
 				addChild: (BlTextElement new text: ('No tags found' asRopedText fontSize: 12)) ]
-				ifFalse: [
-				
-	self
-		addChildren: (aDeck tags collect: [ :each | self filterButtonForTag: each ])]
+		ifFalse: [ self
+				addChildren: (aDeck tags collect: [ :each | self filterButtonForTag: each ]) ]
 ]

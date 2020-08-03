@@ -95,7 +95,7 @@ CardHand >> filter: aFilter [
 CardHand >> initialize [
 	super initialize.
 	deck := CardDeck new.
-	filter := TrueFilter.
+	filter := TrueFilter new.
 	self subscribe
 ]
 

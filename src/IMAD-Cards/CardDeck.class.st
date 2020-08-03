@@ -72,7 +72,7 @@ CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 
 { #category : #'gt-extensions' }
 CardDeck >> asElement [
-	^ CardDeckGUI new
+	^ CardHandGUI new
 		deck: self;
 		yourself
 ]

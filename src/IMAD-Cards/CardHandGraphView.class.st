@@ -5,7 +5,7 @@ I sit inside the graphHolder of the card deck element.
 
 "
 Class {
-	#name : #CardDeckGraphView,
+	#name : #CardHandGraphView,
 	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
@@ -16,35 +16,36 @@ Class {
 }
 
 { #category : #accessing }
-CardDeckGraphView >> cards [
+CardHandGraphView >> cards [
 	^ self hand cards
 ]
 
 { #category : #accessing }
-CardDeckGraphView >> deck [
-	^ deck
+CardHandGraphView >> deck [
+	^ self hand deck
 ]
 
 { #category : #accessing }
-CardDeckGraphView >> edgeElementFor: aRelation [
+CardHandGraphView >> edgeElementFor: aRelation [
 	^ CardRelationViewBuilder new
 		forRelation: aRelation inGraph: self
 ]
 
 { #category : #accessing }
-CardDeckGraphView >> elementFor: anEntity [
+CardHandGraphView >> elementFor: anEntity [
 	self assert: (graphElementsDictionary includesKey: anEntity).
 	^ graphElementsDictionary at: anEntity
 ]
 
 { #category : #accessing }
-CardDeckGraphView >> forDeck: aDeck withFilter: aFilter [
+CardHandGraphView >> forHand: aHand [ 
+
 	"NB: The dictionary is needed because for each edge to create we have
 	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."
 
-	deck := aDeck.
-	hand := deck cardsMatching: aFilter.
+
+	hand := aHand.
 	graphElementsDictionary := Dictionary new.
 	self cards
 		ifNotEmpty: [ self cards
@@ -69,12 +70,12 @@ CardDeckGraphView >> forDeck: aDeck withFilter: aFilter [
 ]
 
 { #category : #accessing }
-CardDeckGraphView >> hand [
+CardHandGraphView >> hand [
 	^ hand
 ]
 
 { #category : #accessing }
-CardDeckGraphView >> initialize [
+CardHandGraphView >> initialize [
 	super initialize.
 	graphElementsDictionary := Dictionary new.
 	self
@@ -84,12 +85,12 @@ CardDeckGraphView >> initialize [
 ]
 
 { #category : #accessing }
-CardDeckGraphView >> mapModelEntity: entity toElement: anElement [
+CardHandGraphView >> mapModelEntity: entity toElement: anElement [
 	graphElementsDictionary at: entity put: anElement
 ]
 
 { #category : #accessing }
-CardDeckGraphView >> newCardElementFor: aCard [
+CardHandGraphView >> newCardElementFor: aCard [
 	^ CardNodeView new
 		card: aCard;
 		yourself

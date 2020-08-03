@@ -135,7 +135,7 @@ CardNodeView >> initialize [
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
-	self addEventHandler: EdgeBuilder new.
+	self addEventHandler: BlEdgeBuilder new.
 	self
 		addEventHandler:
 			(BlEventHandler
@@ -144,25 +144,6 @@ CardNodeView >> initialize [
 					evt consumed: true.
 					card inspect ]).
 	^ self
-]
-
-{ #category : #accessing }
-CardNodeView >> popupTagger [
-	<todo: 'Most be a popup, not a child!'>
-	| tagger |
-	self deprecated:'superseded by cardEditor'.
-	tagger := BlElement new
-		layout: BlLinearLayout vertical;
-		constraintsDo: [ :c | 
-			c horizontal exact: 100.
-			c vertical fitContent ].
-	tagger addChild: card buildTagHeader.
-	card announcer
-		when: TagsUpdated
-		do: [ tagger removeChildren.
-			tagger addChild: card buildTagHeader ].
-	^ tagger
-	"self addChild: tagger"
 ]
 
 { #category : #accessing }
