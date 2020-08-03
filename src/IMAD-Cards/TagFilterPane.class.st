@@ -55,6 +55,11 @@ TagFilterPane >> filter [
 
 { #category : #accessing }
 TagFilterPane >> filterButtonForTag: aTagString [
+	^ self filterButtonForTag: aTagString withState: #off
+]
+
+{ #category : #accessing }
+TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 	"State is #off, #on or #negated"
 
 	| tooltip offLook onLook negatedLook tooltipLook button |
@@ -62,7 +67,7 @@ TagFilterPane >> filterButtonForTag: aTagString [
 	tooltip := 'Ignore'.
 	tooltipLook := BrGlamorousWithTooltipLook2
 		content: [ self tooltipWithText: tooltip ].
-	button userData at: #state put: #off.
+	button userData at: #state put: aState.
 	offLook := BrGlamorousButtonWithLabelLook + tooltipLook.
 	onLook := (BrGlamorousButtonLabelLook new
 		bold;
