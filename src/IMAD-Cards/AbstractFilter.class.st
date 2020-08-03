@@ -35,6 +35,13 @@ AbstractFilter >> positiveTags [
 ]
 
 { #category : #accessing }
+AbstractFilter >> tags [
+	"Only relevant for Tag filters. Returns the set of tags that should be set to pass the filter."
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 AbstractFilter >> | aFilter [
 	^ UnionFilter new
 		left: self;

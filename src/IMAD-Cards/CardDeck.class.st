@@ -77,6 +77,14 @@ CardDeck >> asElement [
 		yourself
 ]
 
+{ #category : #accessing }
+CardDeck >> asHand [
+	^ CardHand new
+		deck: self;
+		filter: TrueFilter new;
+		yourself
+]
+
 { #category : #initialization }
 CardDeck >> assertCardsUniquelyNamed [
 	| duplicates |

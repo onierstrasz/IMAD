@@ -19,18 +19,34 @@ TagFilterPane >> announcer [
 ]
 
 { #category : #accessing }
-TagFilterPane >> exampleWithTags [
+TagFilterPane >> exampleDeckWithTags [
 	<gtExample>
-	| aDeck aCard aNode aTagFilterPane |
-	aDeck := CardDeck new.
-	aCard := Card new
-		name: 'Foobar';
-		yourself.
-	{'dog' . 'cat' . 'rabbit'} do: [ :word | aCard addTag: word ].
-	aDeck addCard: aCard.
-	aTagFilterPane := TagFilterPane new.
-	aTagFilterPane updateTagFilterButtonsForDeck: aDeck.
-	^ aTagFilterPane
+	^ TagFilterPane new
+		updateTagFilterButtonsForDeck:
+			(CardDeck new
+				addCard:
+					(Card new
+						name: 'Foobar';
+						addTags: {'dog' . 'cat' . 'rabbit'} yourself));
+		yourself
+]
+
+{ #category : #accessing }
+TagFilterPane >> exampleHandWithTags [
+	<gtExample>
+	^ TagFilterPane new
+		updateTagFilterButtonsForHand:
+			(CardHand new
+				deck:
+					(CardDeck new
+						addCard:
+							(Card new
+								name: 'Foobar';
+								addTags: {'dog' . 'cat' . 'rabbit'};
+								yourself));
+				filter: 'dog' asTagFilter & 'minx' asTagFilter not;
+				yourself);
+		yourself
 ]
 
 { #category : #accessing }
@@ -132,12 +148,17 @@ TagFilterPane >> tooltipWithText: aString [
 
 { #category : #accessing }
 TagFilterPane >> updateTagFilterButtonsForDeck: aDeck [
+	self updateTagFilterButtonsForHand: aDeck asHand
+]
+
+{ #category : #accessing }
+TagFilterPane >> updateTagFilterButtonsForHand: aHand [
 	<todo: 'We need a way to maintain the state between updates. It should be possible to set all the buttons based on the current filter state.'>
 	self removeChildren.
-	isEmpty := aDeck tags isEmpty.
+	isEmpty := aHand tags isEmpty.
 	isEmpty
 		ifTrue: [ self
 				addChild: (BlTextElement new text: ('No tags found' asRopedText fontSize: 12)) ]
 		ifFalse: [ self
-				addChildren: (aDeck tags collect: [ :each | self filterButtonForTag: each ]) ]
+				addChildren: (aHand tags collect: [ :each | self filterButtonForTag: each ]) ]
 ]

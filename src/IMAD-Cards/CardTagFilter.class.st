@@ -26,3 +26,10 @@ CardTagFilter >> tag [
 CardTagFilter >> tag: aString [
 	tag := aString 
 ]
+
+{ #category : #accessing }
+CardTagFilter >> tags [
+	^ Set new
+		add: tag;
+		yourself
+]

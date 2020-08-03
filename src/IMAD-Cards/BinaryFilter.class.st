@@ -18,6 +18,7 @@ BinaryFilter >> left: aFilter [
 
 { #category : #accessing }
 BinaryFilter >> positiveTags [
+	<todo: 'not technically correct, since a union filter would accept one or the other'>
 	^ left positiveTags
 		addAll: right positiveTags;
 		yourself
@@ -26,4 +27,11 @@ BinaryFilter >> positiveTags [
 { #category : #accessing }
 BinaryFilter >> right: aFilter [
 	right := aFilter
+]
+
+{ #category : #accessing }
+BinaryFilter >> tags [
+	^ left positiveTags
+		addAll: right positiveTags;
+		yourself
 ]

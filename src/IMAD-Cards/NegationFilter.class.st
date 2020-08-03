@@ -21,3 +21,8 @@ NegationFilter >> matches: aCardModelEntity [
 NegationFilter >> positiveTags [
 	^ Set new
 ]
+
+{ #category : #accessing }
+NegationFilter >> tags [
+	^ filter tags
+]

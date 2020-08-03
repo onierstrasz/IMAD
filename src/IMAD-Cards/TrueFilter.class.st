@@ -13,3 +13,8 @@ TrueFilter >> matches: aCardModelEntity [
 TrueFilter >> positiveTags [
 	^ Set new
 ]
+
+{ #category : #accessing }
+TrueFilter >> tags [
+	^ Set new
+]

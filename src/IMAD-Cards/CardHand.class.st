@@ -135,6 +135,11 @@ CardHand >> subscribe [
 ]
 
 { #category : #accessing }
+CardHand >> tags [
+	^ super tags addAll: self filter tags
+]
+
+{ #category : #accessing }
 CardHand >> unsubscribe [
 	self deck announcer unsubscribe: self
 ]
