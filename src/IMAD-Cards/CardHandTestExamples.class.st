@@ -154,6 +154,13 @@ CardHandTestExamples >> addTagToCard [
 ]
 
 { #category : #accessing }
+CardHandTestExamples >> deckHasTenCards [
+	<gtExample>
+	self assert: deck cards size equals: 10.
+	^ deck
+]
+
+{ #category : #accessing }
 CardHandTestExamples >> deckHasThreeTags [
 	<gtExample>
 	self assert: deck tags size equals: 3.
@@ -354,22 +361,42 @@ CardHandTestExamples >> handHasThreeRelations [
 ]
 
 { #category : #accessing }
-CardHandTestExamples >> handHasTwoTags [
+CardHandTestExamples >> handHasThreeTags [
+	"Note that although the hand specifies '~b' as a filter, so there are no cards with a 'b' tag, it is still considered to be a relevant tag and must be displayed."
+
 	<gtExample>
-	self assert: hand tags size equals: 2.
-	self assert: hand tags asSet equals: {'a' . 'b' } asSet.
+	self assert: hand tags size equals: 3.
+	self assert: hand tags asSet equals: {'a' . 'b' . 'c'} asSet.
+	^ hand
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> handWithExtendedFilterHasFourTags [
+	"Note that the tag 'd' appears in no card of either the hand or the deck but only in the filter."
+
+	<gtExample>
+	self assert: hand tags size equals: 3.
+	hand filter: hand filter | 'd' asTagFilter not.
+	self assert: hand tags size equals: 4.
+	self assert: hand tags asSet equals: {'a' . 'b' . 'c' . 'd'} asSet.
 	^ deck
 ]
 
 { #category : #accessing }
-CardHandTestExamples >> handWithExtendedFilterHasThreeTags [
-	"Note that the tag 'd' appears in no card of either the hand or the deck but only in the filter."
+CardHandTestExamples >> handWithTrueFilterHasTenCards [
 	<gtExample>
-	self assert: hand tags size equals: 2.
-	hand filter: hand filter | 'd' asTagFilter not.
+	hand filter: TrueFilter new.
+	self assert: hand cards size equals: 10.
+	^ hand
+]
+
+{ #category : #accessing }
+CardHandTestExamples >> handWithTrueFilterHasThreeTags [
+	<gtExample>
+	self handWithTrueFilterHasTenCards.
 	self assert: hand tags size equals: 3.
-	self assert: hand tags asSet equals: {'a' . 'b' . 'd'} asSet.
-	^ deck
+	self assert: hand tags asSet equals: {'a' . 'b' . 'c'} asSet.
+	^ hand
 ]
 
 { #category : #accessing }

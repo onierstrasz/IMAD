@@ -136,7 +136,9 @@ CardHand >> subscribe [
 
 { #category : #accessing }
 CardHand >> tags [
-	^ (super tags asSet addAll: self filter tags) asOrderedCollection
+	^ (super tags asSet
+		addAll: self filter tags;
+		yourself) asOrderedCollection
 ]
 
 { #category : #accessing }
