@@ -114,7 +114,7 @@ CardDeckGUI >> buildGraphHolder [
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
-				do: [ :evt | self deck addCard: Card new ]).	"Double-click"
+				do: [ :evt | self hand addCard: Card new ]).	"Double-click"
 	^ graphHolder
 ]
 
@@ -217,6 +217,14 @@ CardDeckGUI >> directedCurvedEdge [
 						paint: Color gray;
 						width: 2;
 						build))
+]
+
+{ #category : #accessing }
+CardDeckGUI >> hand [
+
+^ CardHand new deck: self deck filter: tagPane filter; yourself
+
+
 ]
 
 { #category : #accessing }
