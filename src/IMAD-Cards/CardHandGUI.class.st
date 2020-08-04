@@ -82,9 +82,10 @@ CardHandGUI >> buildButtonBar [
 { #category : #accessing }
 CardHandGUI >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
+
 	self hand filter: self tagPane filter.
-	theGraph := (CardHandGraphView new
-		forHand: self hand) asPannableElement.
+	theGraph := (CardHandGraphView new forHand: self hand)
+		asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
 ]

@@ -8,7 +8,7 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'announcer',
-		'isEmpty'
+		'hand'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -54,7 +54,7 @@ TagFilterPane >> filter [
 	"Extract the buttons that have been clicked, and generate a conjunction of tag filters and negation filters."
 
 	| activeButtons tagFilter |
-	^ isEmpty
+	^ self isEmpty
 		ifTrue: [ TrueFilter new ]
 		ifFalse: [ activeButtons := self children asOrderedCollection
 				select: [ :each | (each userData at: #state) ~= #off ].
@@ -65,7 +65,7 @@ TagFilterPane >> filter [
 							tagFilter := each label asString asTagFilter.
 							(each userData at: #state) = #negated
 								ifTrue: [ tagFilter := tagFilter not ]
-								ifFalse: [ self assert: (each userData at: #state) = #on ].
+								ifFalse: [ self assert: (each userData at: #state) equals: #on ].
 							tagFilter ]) reduce: [ :a :b | a & b ] ] ]
 ]
 
@@ -115,6 +115,11 @@ TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 ]
 
 { #category : #accessing }
+TagFilterPane >> hand [
+	^ hand
+]
+
+{ #category : #accessing }
 TagFilterPane >> initialize [
 	super initialize.
 	announcer := Announcer new.
@@ -136,6 +141,11 @@ TagFilterPane >> initialize [
 ]
 
 { #category : #accessing }
+TagFilterPane >> isEmpty [
+	^ self hand tags isEmpty
+]
+
+{ #category : #accessing }
 TagFilterPane >> tooltipWithText: aString [
 	"From TCardModelElement"
 	^ BrLabel new
@@ -153,10 +163,11 @@ TagFilterPane >> updateTagFilterButtonsForDeck: aDeck [
 
 { #category : #accessing }
 TagFilterPane >> updateTagFilterButtonsForHand: aHand [
-	<todo: 'We need a way to maintain the state between updates. It should be possible to set all the buttons based on the current filter state.'>
+	<todo:
+		'We need a way to maintain the state between updates. It should be possible to set all the buttons based on the current filter state.'>
 	self removeChildren.
-	isEmpty := aHand tags isEmpty.
-	isEmpty
+	hand := aHand.
+	self isEmpty
 		ifTrue: [ self
 				addChild: (BlTextElement new text: ('No tags found' asRopedText fontSize: 12)) ]
 		ifFalse: [ self
