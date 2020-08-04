@@ -31,35 +31,58 @@ CardDeckExamples >> facultyDoodleDomain [
 		name: 'Faculty Doodle Domain';
 		description:
 			'I represent the domain of doodles to organize Committee meetings for the Faculty of Science.';
-		set: #storageClassName to: 'CardDeckExamples';
-		set: #storageMethodName to: 'facultyDoodleDomain';
+		properties:
+			(Dictionary new
+				add: #storageClassName -> 'CardDeckExamples';
+				add: #storageMethodName -> 'facultyDoodleDomain';
+				yourself);
 		addCard:
 			(Card new
 				name: 'Chair';
 				description: 'I chair the committee and am also a Faculty member.';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Committee';
 				description:
 					'I am a committee within the Faculty of Science of the University of Bern. I am formed to make decisions on various issues throughout the year (budgets, hiring of professors, teaching evaluations, etc.).';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Meeting';
 				description:
 					'I am held on a given date, and produce a report to the Dean or the Faculty.';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Member';
 				description:
 					'I am a Faculty member, or possibly an assistant or a student. I can be contacted by email or phone';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Report';
 				description: '...';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addRelation: #chair fromCardNamed: 'Committee' toCardNamed: 'Chair';
 		addRelation: #meeting

@@ -87,66 +87,141 @@ CardFilterTestExamples >> modelDeck [
 	^ CardDeck new
 		name: #CardDeck546856448;
 		description: 'To do';
-		set: #storageClassName to: 'CardFilterTestExamples';
-		set: #storageMethodName to: 'modelDeck';
+		properties:
+			(Dictionary new
+				add: #storageClassName -> 'CardFilterTestExamples';
+				add: #storageMethodName -> 'modelDeck';
+				yourself);
 		addCard:
 			(Card new
 				name: 'FBMSI';
 				description: 'To do';
-				addTag: 'fb';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'fb';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'FBPhysics';
 				description: 'To do';
-				addTag: 'fb';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'fb';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'INF';
 				description: 'To do';
-				addTag: 'inst';
-				addTag: 'inf';
-				addTag: 'fbm';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'inst';
+										add: 'inf';
+										add: 'fbm';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Math';
 				description: 'To do';
-				addTag: 'inst';
-				addTag: 'fbm';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'inst';
+										add: 'fbm';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'PhilHist';
 				description: 'To do';
-				addTag: 'faculty';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'faculty';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'PhilHum';
 				description: 'To do';
-				addTag: 'faculty';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'faculty';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'PhilNat';
 				description: 'To do';
-				addTag: 'faculty';
-				addTag: 'philnat';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'faculty';
+										add: 'philnat';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Stats';
 				description: 'To do';
-				addTag: 'inst';
-				addTag: 'fbm';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'inst';
+										add: 'fbm';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Unibe';
 				description: 'To do';
-				addTag: 'uni';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'uni';
+										yourself);
+						yourself);
 				yourself);
 		addRelation: 'partOf' fromCardNamed: 'FBMSI' toCardNamed: 'INF';
 		addRelation: 'partOf' fromCardNamed: 'FBMSI' toCardNamed: 'Math';

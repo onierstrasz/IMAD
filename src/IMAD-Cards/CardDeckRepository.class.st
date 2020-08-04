@@ -35,8 +35,11 @@ The door changes state when it receives a signal from the remote, or from a sens
 
 In this example we can describe the m2 entities, and a concrete m1 scenario.
 ';
-		set: #storageClassName to: 'CardDeckRepository';
-		set: #storageMethodName to: 'garageDoorRemote';
+		properties:
+			(Dictionary new
+				add: #storageClassName -> 'CardDeckRepository';
+				add: #storageMethodName -> 'garageDoorRemote';
+				yourself);
 		addCard:
 			(Card new
 				name: 'Garage Door';
@@ -52,22 +55,38 @@ Stopped (while closing).
 
 The door changes state when it receives a signal from the remote, or from a sensor.
 ';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Homer''s Garage Door';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Homer''s Remote';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Remote Control';
 				description:
 					'The remote has a single button. Pressing it causes the door to change state, i.e., from closed to opening, etc.';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addRelation: 'instanceOf'
 			fromCardNamed: 'Homer''s Garage Door'
@@ -88,8 +107,11 @@ CardDeckRepository >> gtOverview [
 	^ CardDeck new
 		name: 'Gt Overview';
 		description: 'This deck documents what I have learned about Gt.';
-		set: #storageClassName to: 'CardDeckRepository';
-		set: #storageMethodName to: 'gtOverview';
+		properties:
+			(Dictionary new
+				add: #storageClassName -> 'CardDeckRepository';
+				add: #storageMethodName -> 'gtOverview';
+				yourself);
 		addCard:
 			(Card new
 				name: 'Element';
@@ -110,7 +132,15 @@ BlSpace new
 
 
 ';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -124,6 +154,10 @@ TG: An element can nest children, and it arranges its children through a Layout
 !Questions
 What is the difference between a Layout and a Look?
 ';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -152,7 +186,15 @@ simply means that we are not taking ${class:name=BrGlamorousButtonExteriorLook}$
 
 
 ';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -170,8 +212,16 @@ Otherwise Bloc elements do not know anything about graphs.
 To get to the actual nodes and edges of a mondrian m, go to: m root children
 You can query each child c: c graph isNode
 You can also simply ask for: root graph nodeChildren';
-				addTag: 'tool';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'tool';
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -196,7 +246,15 @@ It''s the method used by a stencil to create an element.
 See the comment of ${class:name=BrStencil}$  and ${method:name=BrStencil>>#asElement}$.
 
 ';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -227,7 +285,15 @@ Are Views dedicated to Inspectors? ("Inspector views"?)
 
 What is asElementDo: for? ("it evaluates aBlock if the view should have content")
 Is a view an Element? If not, what''s the difference?';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addRelation: 'factoryFor'
 			fromCardNamed: 'Stencil'
@@ -277,8 +343,11 @@ CardDeckRepository new gtOverview inspect
 ]]]
 
 ';
-		set: #storageClassName to: 'CardDeckRepository';
-		set: #storageMethodName to: 'imadTodos';
+		properties:
+			(Dictionary new
+				add: #storageClassName -> 'CardDeckRepository';
+				add: #storageMethodName -> 'imadTodos';
+				yourself);
 		addCard:
 			(Card new
 				name: 'Add a Mindmap view';
@@ -288,7 +357,15 @@ See mindmap view from Robert.
 
 What kinds of cards are valid mindmap nodes?
 ';
-				addTag: 'todo';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -298,6 +375,10 @@ What kinds of cards are valid mindmap nodes?
 Circle layout
 Tree layout (root?)
 Manual layout (how to remember?)';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -319,7 +400,15 @@ A filter is defined by a card?
 Can we combine filters (disjunctions)?
 
 ';
-				addTag: 'todo';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -329,7 +418,15 @@ Can we combine filters (disjunctions)?
 Edges: straight, curved, labeled, arrows, colors, thickness
 Nodes: Boxes, rounded boxes, circles, ellipses, bars, icons, closed
 NB: Explore looks as a way to dynamically change the appearance of elements.';
-				addTag: 'todo';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -339,7 +436,15 @@ NB: Explore looks as a way to dynamically change the appearance of elements.';
 
 Select or change layout style
 ';
-				addTag: 'todo';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -353,7 +458,15 @@ Cards can be displayed in different ways, cependinbg on their tags, their proper
 
 A card is implemented by the class ${class:name=Card}$. 
 ';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -363,27 +476,51 @@ A card is implemented by the class ${class:name=Card}$.
 
 It is implemented by the class ${class:name=CardDeck}$.
 ';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Catalog';
 				description: 'Catalog of kinds of cards and views';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Catalog kinds of views and cards';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Examples (case studies)';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'FSA';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -397,6 +534,10 @@ So we can define a filter to select only cards with the FSA tag and a the Garage
 We can also exclude the prototype/metacard tag.
 
 How to define a filter as a card?';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -405,18 +546,34 @@ How to define a filter as a card?';
 					'Double click should inspect / open card
 Rename should be in menu
 Add CMD-click to access menu';
-				addTag: 'todo';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Fix connection to nodes';
 				description:
 					'${class:name=BlNearestPositionBoundsAnchor}$ stinks -- need a better version that grows through centers?';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Garage Door Example';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -424,33 +581,61 @@ Add CMD-click to access menu';
 				description:
 					'With lots of cards, it''s hard to see the card names.
 Hovering should increase the card name, or possibly show a tooltip.';
-				addTag: 'todo';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'IMAD';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'IMAD Metamodel';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Identify the Champion';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Kinds of Views/Models';
 				description:
 					'Views are specifications of subsets of cards. Normally  these correspond to some meaningful subset, ie a model.';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Kinds of cards';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -458,6 +643,10 @@ Hovering should increase the card name, or possibly show a tooltip.';
 				description:
 					'A Mindmap is a tree view of cards with descriptions.
 What kind of card is a valid mindmap node?';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -468,17 +657,33 @@ What kind of card is a valid mindmap node?';
 Improved layout: add space between multiple edges along same path
 
 Tree menu for layouts? (Need alternative to ${class:name=BrGlamorousSimpleContextMenuContent}$ and ${class:name=BrGlamorousWithContextMenuLook}$)';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Petri net';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Prepare Catalog of kind of cards';
 				description: 'To do';
-				addTag: 'todo';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -488,6 +693,10 @@ Tree menu for layouts? (Need alternative to ${class:name=BrGlamorousSimpleContex
 
 Find examples of using Looks to dynamically  change views. ${class:name=BrLookChangeExamples}$.
 ';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -515,18 +724,38 @@ A view would have access to the union of all available tags.
 !To do
 - tag interface for cards (already done)
 - tag queries for Graph view';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'To dos';
 				description: 'Add todos here';
-				addTag: 'todo';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'UML class model (metamodel)';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -552,12 +781,24 @@ It should be possible to save a view as a card with the tag "view".
 Mindmaps
 FSAs
 ...';
-				addTag: 'm2';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'eVoting scenario';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addRelation: '_rel702785280'
 			fromCardNamed: 'Add support for styles'
@@ -659,37 +900,64 @@ CardDeckRepository >> testDeck [
 	^ CardDeck new
 		name: 'Test Deck';
 		description: 'To do';
-		set: #storageClassName to: 'CardDeckRepository';
-		set: #storageMethodName to: 'testDeck';
+		properties:
+			(Dictionary new
+				add: #storageClassName -> 'CardDeckRepository';
+				add: #storageMethodName -> 'testDeck';
+				yourself);
 		addCard:
 			(Card new
 				name: 'Bart';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Homer';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Lisa';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Maggie';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Marge';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'Santa''s Little Helper';
 				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addRelation: '_rel756505088'
 			fromCardNamed: 'Bart'

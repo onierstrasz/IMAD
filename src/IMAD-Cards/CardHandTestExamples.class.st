@@ -253,81 +253,162 @@ Adding a Card or Relation to a Deck might add it to the Hand.
 The Filter will need to be reevaluated.
 Deleting a Card or Relation from a Deck deletes it from the Hand.
 Deleting a Card or Relation  from a Hand also deletes it from the Deck.';
-		set: #storageClassName to: 'CardHandTestExamples';
-		set: #storageMethodName to: 'exampleDeck';
+		properties:
+			(Dictionary new
+				add: #storageClassName -> 'CardHandTestExamples';
+				add: #storageMethodName -> 'exampleDeck';
+				yourself);
 		addCard:
 			(Card new
 				name: 'a1';
 				description: 'To do';
-				addTag: 'a';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'a';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'a2';
 				description: 'To do';
-				addTag: 'a';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'a';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'ab1';
 				description: 'To do';
-				addTag: 'a';
-				addTag: 'b';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'a';
+										add: 'b';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'ab2';
 				description: 'To do';
-				addTag: 'a';
-				addTag: 'b';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'a';
+										add: 'b';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'ac1';
 				description: 'To do';
-				addTag: 'a';
-				addTag: 'c';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'a';
+										add: 'c';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'ac2';
 				description: 'To do';
-				addTag: 'a';
-				addTag: 'c';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'a';
+										add: 'c';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'b1';
 				description: 'To do';
-				addTag: 'b';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'b';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'b2';
 				description: 'To do';
-				addTag: 'b';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'b';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'c1';
 				description: 'To do';
-				addTag: 'c';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'c';
+										yourself);
+						yourself);
 				yourself);
 		addCard:
 			(Card new
 				name: 'c2';
 				description: 'To do';
-				addTag: 'c';
+				properties:
+					(Dictionary new
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'c';
+										yourself);
+						yourself);
 				yourself);
-		addRelation: 'a-ab' fromCardNamed: 'a1' toCardNamed: 'ab1';
 		addRelation: 'a-a' fromCardNamed: 'a1' toCardNamed: 'a2';
-		addRelation: 'a-b' fromCardNamed: 'a1' toCardNamed: 'b1';
+		addRelation: 'a-ab' fromCardNamed: 'a1' toCardNamed: 'ab1';
 		addRelation: 'a-ac' fromCardNamed: 'a1' toCardNamed: 'ac1';
 		addRelation: 'a-ac' fromCardNamed: 'a1' toCardNamed: 'ac2';
+		addRelation: 'a-b' fromCardNamed: 'a1' toCardNamed: 'b1';
+		addRelation: 'ab-ab' fromCardNamed: 'ab1' toCardNamed: 'ab2';
 		addRelation: 'ab-c' fromCardNamed: 'ab1' toCardNamed: 'c2';
-		addRelation: 'ab-ab'
-			fromCardNamed: 'ab1'
-			toCardNamed: 'ab2';
 		addRelation: 'b-b' fromCardNamed: 'b1' toCardNamed: 'b2';
 		addRelation: 'b-c' fromCardNamed: 'b1' toCardNamed: 'c1';
 		yourself
