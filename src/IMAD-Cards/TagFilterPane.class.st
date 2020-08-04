@@ -42,8 +42,6 @@ TagFilterPane >> exampleDeckWithTags [
 { #category : #accessing }
 TagFilterPane >> exampleHandWithTags [
 	<gtExample>
-	<todo:
-		'Should set the dog and minx tag buttons to on and negated'>
 	| pane aHand |
 	aHand := CardHand new
 		deck:
@@ -88,42 +86,46 @@ TagFilterPane >> filterButtonForTag: aTagString [
 { #category : #accessing }
 TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 	"State is #off, #on or #negated"
-	
-	<todod: 'fix assignment of look in return statement!'>
 
-	| tooltip offLook onLook negatedLook tooltipLook button |
+	<todod: 'fix assignment of look in return statement!'>
+	| tooltipLook button buttonLooks nextState |
 	button := BrButton new.
-	tooltip := 'Ignore'.
-	tooltipLook := BrGlamorousWithTooltipLook2
-		content: [ self tooltipWithText: tooltip ].
 	button userData at: #state put: aState.
-	offLook := BrGlamorousButtonWithLabelLook + tooltipLook.
-	onLook := (BrGlamorousButtonLabelLook new
-		bold;
-		yourself)
-		+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color lightGreen)
-		+ BrGlamorousButtonRectangularLook new + tooltipLook.
-	negatedLook := (BrGlamorousButtonLabelLook new
-		bold;
-		yourself)
-		+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color pink)
-		+ BrGlamorousButtonRectangularLook new + tooltipLook.
+	tooltipLook := BrGlamorousWithTooltipLook2
+		content: [ self
+				tooltipWithText:
+					({(#off -> 'Ignore').
+					(#on -> 'Must be present').
+					(#negated -> 'Must be absent')} asDictionary
+						at: (button userData at: #state)) ].
+	buttonLooks := {(#off
+		-> (BrGlamorousButtonWithLabelLook + tooltipLook)).
+	(#on
+		->
+			((BrGlamorousButtonLabelLook new
+				bold;
+				yourself)
+				+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color lightGreen)
+				+ BrGlamorousButtonRectangularLook new + tooltipLook)).
+	(#negated
+		->
+			((BrGlamorousButtonLabelLook new
+				bold;
+				yourself)
+				+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color pink)
+				+ BrGlamorousButtonRectangularLook new + tooltipLook))}
+		asDictionary.
+	nextState := {(#off -> #on).
+	(#on -> #negated).
+	(#negated -> #off)} asDictionary.
 	^ button
-		look: offLook;
+		look: (buttonLooks at: aState);
 		label: aTagString;
 		action: [ :e | 
-			(button userData at: #state) = #off
-				ifTrue: [ button userData at: #state put: #on.
-					tooltip := 'Must be present'.
-					e look: onLook ]
-				ifFalse: [ (button userData at: #state) = #on
-						ifTrue: [ button userData at: #state put: #negated.
-							tooltip := 'Must be absent'.
-							e look: negatedLook ]
-						ifFalse: [ (button userData at: #state) = #negated
-								ifTrue: [ button userData at: #state put: #off.
-									tooltip := 'Ignore'.
-									e look: offLook ] ] ].
+			| newState |
+			newState := nextState at: (button userData at: #state).
+			button userData at: #state put: newState.
+			e look: (buttonLooks at: newState).
 			announcer announce: TagFilterUpdated ]
 ]
 
