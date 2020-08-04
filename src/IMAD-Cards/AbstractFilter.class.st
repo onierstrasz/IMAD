@@ -35,6 +35,13 @@ AbstractFilter >> positiveTags [
 ]
 
 { #category : #accessing }
+AbstractFilter >> tagDictionaries [
+	"Only relevant for Tag filters. Returns the set of dictionaries mapping tags to states (off/on/negated), assuming the filter is in disjunctive normal form."
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 AbstractFilter >> tags [
 	"Only relevant for Tag filters. Returns the set of tags that should be set to pass the filter."
 

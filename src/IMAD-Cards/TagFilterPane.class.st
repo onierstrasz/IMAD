@@ -14,6 +14,14 @@ Class {
 }
 
 { #category : #accessing }
+TagFilterPane >> activeButtons [
+	^ self isEmpty
+		ifTrue: [ OrderedCollection new ]
+		ifFalse: [ self children asOrderedCollection
+				select: [ :each | (each userData at: #state) ~= #off ] ]
+]
+
+{ #category : #accessing }
 TagFilterPane >> announcer [
 	^ announcer
 ]
@@ -34,39 +42,42 @@ TagFilterPane >> exampleDeckWithTags [
 { #category : #accessing }
 TagFilterPane >> exampleHandWithTags [
 	<gtExample>
-	^ TagFilterPane new
-		updateTagFilterButtonsForHand:
-			(CardHand new
-				deck:
-					(CardDeck new
-						addCard:
-							(Card new
-								name: 'Foobar';
-								addTags: {'dog' . 'cat' . 'rabbit'};
-								yourself));
-				filter: 'dog' asTagFilter & 'minx' asTagFilter not;
-				yourself);
-		yourself
+	<todo:
+		'Should set the dog and minx tag buttons to on and negated'>
+	| pane aHand |
+	aHand := CardHand new
+		deck:
+			(CardDeck new
+				addCard:
+					(Card new
+						name: 'Foobar';
+						addTags: {'dog' . 'cat' . 'rabbit'};
+						yourself));
+		filter: 'dog' asTagFilter & 'minx' asTagFilter not;
+		yourself.
+	pane := TagFilterPane new.
+	pane updateTagFilterButtonsForHand: aHand.
+	self
+		assert: pane tagStateDictionary
+		equals:
+			{('dog' -> #on).
+			('minx' -> #negated)} asDictionary.
+	^ pane
 ]
 
 { #category : #accessing }
 TagFilterPane >> filter [
 	"Extract the buttons that have been clicked, and generate a conjunction of tag filters and negation filters."
 
-	| activeButtons tagFilter |
-	^ self isEmpty
-		ifTrue: [ TrueFilter new ]
-		ifFalse: [ activeButtons := self children asOrderedCollection
-				select: [ :each | (each userData at: #state) ~= #off ].
-			activeButtons isEmpty
-				ifTrue: [ TrueFilter new ]
-				ifFalse: [ (activeButtons
-						collect: [ :each | 
-							tagFilter := each label asString asTagFilter.
-							(each userData at: #state) = #negated
-								ifTrue: [ tagFilter := tagFilter not ]
-								ifFalse: [ self assert: (each userData at: #state) equals: #on ].
-							tagFilter ]) reduce: [ :a :b | a & b ] ] ]
+	^ self activeButtons
+		inject: TrueFilter new
+		into: [ :filterComposition :button | 
+			| tagFilter |
+			tagFilter := button label asString asTagFilter.
+			(button userData at: #state) = #negated
+				ifTrue: [ tagFilter := tagFilter not ]
+				ifFalse: [ self assert: (button userData at: #state) equals: #on ].
+			filterComposition & tagFilter ]
 ]
 
 { #category : #accessing }
@@ -146,6 +157,18 @@ TagFilterPane >> isEmpty [
 ]
 
 { #category : #accessing }
+TagFilterPane >> tagStateDictionary [
+	"Return a dictionary of tag states. This corresponds to a filter with only an intersection of postive and negative tags, not a union."
+
+	^ self activeButtons
+		inject: Dictionary new
+		into: [ :dict :button | 
+			self halt.
+			dict at: button label put: (button userData at: #state).
+			dict ]
+]
+
+{ #category : #accessing }
 TagFilterPane >> tooltipWithText: aString [
 	"From TCardModelElement"
 	^ BrLabel new
@@ -165,11 +188,25 @@ TagFilterPane >> updateTagFilterButtonsForDeck: aDeck [
 TagFilterPane >> updateTagFilterButtonsForHand: aHand [
 	<todo:
 		'We need a way to maintain the state between updates. It should be possible to set all the buttons based on the current filter state.'>
+	| dicts |
 	self removeChildren.
 	hand := aHand.
+	dicts := hand filter tagDictionaries.
 	self isEmpty
 		ifTrue: [ self
 				addChild: (BlTextElement new text: ('No tags found' asRopedText fontSize: 12)) ]
-		ifFalse: [ self
-				addChildren: (aHand tags collect: [ :each | self filterButtonForTag: each ]) ]
+		ifFalse: [ | dict |
+			self
+				assert: dicts size = 1
+				description:
+					'For the moment we assume that filters are only intersections, not unions, so there should only be a single dictionary for a conjuction of tags and negated tags'.
+			dict := dicts first.
+			self
+				addChildren:
+					(aHand tags
+						collect: [ :tag | 
+							(dict keys includes: tag)
+								ifTrue:
+									[ self filterButtonForTag: tag withState: (dict at: tag) ]
+								ifFalse: [ self filterButtonForTag: tag ] ]) ]
 ]

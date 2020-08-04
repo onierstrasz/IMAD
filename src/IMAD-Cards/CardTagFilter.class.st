@@ -28,6 +28,11 @@ CardTagFilter >> tag: aString [
 ]
 
 { #category : #accessing }
+CardTagFilter >> tagDictionaries [
+	^ OrderedCollection with: {(tag -> #on)} asDictionary
+]
+
+{ #category : #accessing }
 CardTagFilter >> tags [
 	^ Set new
 		add: tag;

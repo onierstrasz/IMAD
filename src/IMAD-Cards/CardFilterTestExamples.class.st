@@ -64,6 +64,22 @@ CardFilterTestExamples >> initialize [
 	deck := self modelDeck
 ]
 
+{ #category : #accessing }
+CardFilterTestExamples >> intersectionTagFilterHasTwoKeyTagDictionary [
+	<gtExample>
+	| filter |
+	filter := self negativeTagFilterHasOneKeyTagDictionary
+		& self tagFilterHasOneKeyTagDictionary.
+	self
+		assert: filter tagDictionaries
+		equals:
+			(OrderedCollection
+				with:
+					{('foo' -> #on).
+					('bar' -> #negated)} asDictionary).
+	^ filter
+]
+
 { #category : #'as yet unclassified' }
 CardFilterTestExamples >> modelDeck [
 	<storedCardDeck>
@@ -148,12 +164,46 @@ CardFilterTestExamples >> modelDeck [
 ]
 
 { #category : #accessing }
+CardFilterTestExamples >> negativeTagFilterHasOneKeyTagDictionary [
+	<gtExample>
+	| filter |
+	filter := self trueFilterHasEmptyTagDictionary
+		& 'bar' asTagFilter not.
+	self
+		assert: filter tagDictionaries
+		equals: (OrderedCollection with: {('bar' -> #negated)} asDictionary).
+	^ filter
+]
+
+{ #category : #accessing }
 CardFilterTestExamples >> notPhilNatFilterHasTwoTags [
 	<gtExample>
 	| filter result |
 	filter := 'faculty' asTagFilter & 'philnat' asTagFilter not.
 	self assert: filter tags size equals: 2.
 	self assert: filter tags equals: {'faculty' . 'philnat'} asSet.
+	^ filter
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> tagFilterHasOneKeyTagDictionary [
+	<gtExample>
+	| filter |
+	filter := self trueFilterHasEmptyTagDictionary & 'foo' asTagFilter.
+	self
+		assert: filter tagDictionaries
+		equals: (OrderedCollection with: {('foo' -> #on)} asDictionary).
+	^ filter
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> trueFilterHasEmptyTagDictionary [
+	<gtExample>
+	| filter |
+	filter := TrueFilter new.
+	self
+		assert: filter tagDictionaries
+		equals: (OrderedCollection with: Dictionary new).
 	^ filter
 ]
 
@@ -166,4 +216,19 @@ CardFilterTestExamples >> uniHasTwoFacultiesNotPhilNat [
 	result := deck cardsMatching: filter.
 	self assert: result size equals: 2.
 	^ result
+]
+
+{ #category : #accessing }
+CardFilterTestExamples >> unionTagFilterHasTwoKeyTagDictionary [
+	<gtExample>
+	| filter |
+	filter := self negativeTagFilterHasOneKeyTagDictionary
+		| self tagFilterHasOneKeyTagDictionary.
+	self
+		assert: filter tagDictionaries asSet
+		equals:
+			(OrderedCollection
+				with: {('foo' -> #on)} asDictionary
+				with: {('bar' -> #negated)} asDictionary) asSet.
+	^ filter
 ]

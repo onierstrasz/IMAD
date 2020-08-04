@@ -15,6 +15,11 @@ TrueFilter >> positiveTags [
 ]
 
 { #category : #accessing }
+TrueFilter >> tagDictionaries [
+	^ OrderedCollection with: Dictionary new
+]
+
+{ #category : #accessing }
 TrueFilter >> tags [
 	^ Set new
 ]
