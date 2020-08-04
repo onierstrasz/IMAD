@@ -24,6 +24,20 @@ AbstractCardModelEntity >> = anObject [
 ]
 
 { #category : #accessing }
+AbstractCardModelEntity >> OLDstorePropertiesOn: aStream [
+	<todo: 'remove when new version is working'>
+	properties
+		associationsDo: [ :each | 
+			aStream
+				nextPutAll: '  set: ';
+				print: each key;
+				nextPutAll: ' to: ';
+				print: each value;
+				nextPutAll: ';'.
+			aStream cr ]
+]
+
+{ #category : #accessing }
 AbstractCardModelEntity >> announcer [
 	^ announcer
 ]
@@ -124,6 +138,13 @@ AbstractCardModelEntity >> properties [
 	^ properties
 ]
 
+{ #category : #accessing }
+AbstractCardModelEntity >> properties: aDictionary [
+	"NB: Only used for method storage"
+
+	properties := aDictionary
+]
+
 { #category : #properties }
 AbstractCardModelEntity >> protectedKeys [
 	^ OrderedCollection new
@@ -158,13 +179,9 @@ AbstractCardModelEntity >> set: propertyKey to: aValue [
 
 { #category : #printing }
 AbstractCardModelEntity >> storePropertiesOn: aStream [
-	properties
-		associationsDo: [ :each | 
-			aStream
-				nextPutAll: '  set: ';
-				print: each key;
-				nextPutAll: ' to: ';
-				print: each value;
-				nextPutAll: ';'.
-			aStream cr ]
+	aStream nextPutAll: '  properties: '.
+	properties storeOn: aStream.
+	aStream
+		nextPutAll: ';';
+		cr
 ]

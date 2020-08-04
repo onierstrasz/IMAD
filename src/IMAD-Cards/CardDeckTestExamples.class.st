@@ -43,6 +43,26 @@ CardDeckTestExamples >> addCardTwoWithDeckAPI [
 ]
 
 { #category : #accessing }
+CardDeckTestExamples >> addComplexPropertiesToDeck [
+	<gtExample>
+	| deck |
+	deck := self addPropertyAbcToDeck.
+	deck set: #tags to: {'foo' . 'bar'} asOrderedCollection.
+	deck
+		set: #nested
+		to:
+			{(#a -> 1).
+			(#b -> 2).
+			(#c
+				->
+					{(#x -> 'hello').
+					(#y -> {'hi' . 'there'} asOrderedCollection)} asDictionary)}
+				asDictionary.
+	deck assertGeneratedDeckEqualsSelf.
+	^ deck
+]
+
+{ #category : #accessing }
 CardDeckTestExamples >> addFreshPropertyToDeck [
 	<gtExample>
 	| deck key value |
