@@ -379,7 +379,7 @@ CardHandTestExamples >> handWithExtendedFilterHasFourTags [
 	hand filter: hand filter | 'd' asTagFilter not.
 	self assert: hand tags size equals: 4.
 	self assert: hand tags asSet equals: {'a' . 'b' . 'c' . 'd'} asSet.
-	^ deck
+	^ hand
 ]
 
 { #category : #accessing }

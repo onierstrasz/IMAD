@@ -165,7 +165,7 @@ CardHandGUI >> buildGuiHeaderPane [
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousVectorIcons inspect;
 				label: 'Open inspector window';
-				action: [ hand inspect ]).
+				action: [ self hand inspect ]).
 	header addChild: self saveButton.
 	self updateHeaderName.
 	^ header
@@ -206,7 +206,7 @@ CardHandGUI >> hand: aCardHand [
 	hand := aCardHand.
 	self subscribe.
 	self updateHeaderName.
-	self tagPane updateTagFilterButtonsForDeck: self deck.
+	self tagPane updateTagFilterButtonsForHand: self hand.
 	self updateGraph
 ]
 
