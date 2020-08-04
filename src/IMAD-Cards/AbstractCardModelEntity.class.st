@@ -24,20 +24,6 @@ AbstractCardModelEntity >> = anObject [
 ]
 
 { #category : #accessing }
-AbstractCardModelEntity >> OLDstorePropertiesOn: aStream [
-	<todo: 'remove when new version is working'>
-	properties
-		associationsDo: [ :each | 
-			aStream
-				nextPutAll: '  set: ';
-				print: each key;
-				nextPutAll: ' to: ';
-				print: each value;
-				nextPutAll: ';'.
-			aStream cr ]
-]
-
-{ #category : #accessing }
 AbstractCardModelEntity >> announcer [
 	^ announcer
 ]

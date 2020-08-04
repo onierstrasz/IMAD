@@ -24,17 +24,12 @@ Card >> <= aCard [
 	^ self name <= aCard name
 ]
 
-{ #category : #accessing }
-Card >> = anObject [
-	^ super = anObject and: [ self tags = anObject tags ]
-]
-
 { #category : #tags }
 Card >> addTag: aString [
 	<todo:
 		'Should we announce to the deck only if it is a new tag? (Would require the deck to keep track.)'>
-	(tags includes: aString)
-		ifFalse: [ tags add: aString.
+	(self tags includes: aString)
+		ifFalse: [ self tags add: aString.
 			"self announcer announce: PropertiesUpdated new."
 			self announcer announce: TagsUpdated new.
 			self deckAnnounce: TagsUpdated new ]
@@ -184,7 +179,8 @@ Card >> hasTagNamed: aTag [
 { #category : #initialization }
 Card >> initialize [
 	super initialize.
-	tags := OrderedCollection new
+	"tags := OrderedCollection new"
+	self set: #tags to: OrderedCollection new
 	"self assertInvariant"
 ]
 
@@ -219,20 +215,20 @@ Card >> relations [
 
 { #category : #tags }
 Card >> removeTagNamed: aTagString [
-	(tags includes: aTagString)
+	(self tags includes: aTagString)
 		ifFalse: [ ^ self ].
-	tags remove: aTagString.
+	self tags remove: aTagString.
 	self announcer announce: TagsUpdated new.
 	self deckAnnounce: TagsUpdated new
 ]
 
 { #category : #tags }
 Card >> renameTagNamed: aTagString to: aNewTagString [
-	(tags includes: aTagString)
+	(self tags includes: aTagString)
 		ifFalse: [ ^ self ].
-	tags remove: aTagString.
-	(tags includes: aNewTagString)
-		ifFalse: [ tags add: aNewTagString ].
+	self tags remove: aTagString.
+	(self tags includes: aNewTagString)
+		ifFalse: [ self tags add: aNewTagString ].
 	self announcer announce: TagsUpdated new.
 	self deckAnnounce: TagsUpdated new
 ]
@@ -260,25 +256,14 @@ Card >> storeOn: aStream [
 		cr.
 	self
 		storeNameAndDescriptionOn: aStream;
-		storeTagsOn: aStream;
+		"storeTagsOn: aStream;"
 		storePropertiesOn: aStream.
 	aStream nextPutAll: '  yourself'
 ]
 
-{ #category : #printing }
-Card >> storeTagsOn: aStream [
-	tags
-		associationsDo: [ :each | 
-			aStream
-				nextPutAll: '  addTag: ';
-				print: each;
-				nextPutAll: ';'.
-			aStream cr ]
-]
-
 { #category : #accessing }
 Card >> tags [
-	^ tags
+	^ self get: #tags
 ]
 
 { #category : #querying }
