@@ -88,6 +88,17 @@ CardHand >> deleteRelation: rel [
 ]
 
 { #category : #accessing }
+CardHand >> example [
+	"Toy example for testing"
+
+	<gtExample>
+	^ CardHand new
+		name: 'testHand';
+		deck: CardDeck new example;
+		filter: 'a' asTagFilter & 'b' asTagFilter not yourself
+]
+
+{ #category : #accessing }
 CardHand >> filter [
 	^ filter
 ]

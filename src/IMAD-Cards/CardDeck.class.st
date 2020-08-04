@@ -233,6 +233,26 @@ CardDeck >> deleteRelationButtonFor: aRelation [
 		action: [ :button | aRelation delete ]
 ]
 
+{ #category : #accessing }
+CardDeck >> example [
+	"Toy example for testing"
+
+	<gtExample>
+	^ CardDeck new
+		name: 'TagTest';
+		addCard:
+			(Card new
+				name: 'x';
+				addTag: 'a';
+				yourself);
+		addCard:
+			(Card new
+				name: 'y';
+				addTag: 'b';
+				yourself);
+		yourself
+]
+
 { #category : #printing }
 CardDeck >> generateStorageMethodString [
 	| stream |

@@ -46,7 +46,6 @@ AbstractCardModelNamedEntity >> buildDescriptionPane [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ].
-	contentPane addChild: self buildLabel.
 	contentPane addChild: self buildHeaderPane.
 	gtDoc := GtDocument new.
 	gtDoc text: self description.
@@ -64,7 +63,9 @@ AbstractCardModelNamedEntity >> buildDescriptionPane [
 			anEvent text asString = gtDoc text
 				ifTrue: [ aSaveButton visibility: BlVisibility hidden ]
 				ifFalse: [ aSaveButton visibility: BlVisibility visible ] ].
-	contentPane addChild: gtDoc asElementWithoutSaveAction matchParent as: #doc.
+	contentPane
+		addChild: gtDoc asElementWithoutSaveAction matchParent
+		as: #doc.
 	contentPane addChild: aSaveButton.
 	^ contentPane
 ]
@@ -72,10 +73,16 @@ AbstractCardModelNamedEntity >> buildDescriptionPane [
 { #category : #accessing }
 AbstractCardModelNamedEntity >> buildHeaderPane [
 	"A placeholder for subclasses to add something."
-	^ BlElement new
-		height: 0;
-		visibility: BlVisibility hidden;
-		yourself
+
+	| header |
+	header := BlElement new.
+	header  layout: BlLinearLayout vertical.
+		header
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	header addChild: self buildLabel.
+	^ header
 ]
 
 { #category : #'gt-extensions' }

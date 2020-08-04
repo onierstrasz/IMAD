@@ -80,7 +80,10 @@ Card >> become: relation of: aSourceCard [
 
 { #category : #accessing }
 Card >> buildHeaderPane [
-	^ self buildTagHeader
+	| header |
+	header := super buildHeaderPane.
+	header addChild: self buildTagHeader.
+	^ header
 ]
 
 { #category : #tags }
