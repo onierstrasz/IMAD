@@ -88,6 +88,8 @@ TagFilterPane >> filterButtonForTag: aTagString [
 { #category : #accessing }
 TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 	"State is #off, #on or #negated"
+	
+	<todod: 'fix assignment of look in return statement!'>
 
 	| tooltip offLook onLook negatedLook tooltipLook button |
 	button := BrButton new.
@@ -163,8 +165,7 @@ TagFilterPane >> tagStateDictionary [
 	^ self activeButtons
 		inject: Dictionary new
 		into: [ :dict :button | 
-			self halt.
-			dict at: button label put: (button userData at: #state).
+			dict at: button label asString put: (button userData at: #state).
 			dict ]
 ]
 
@@ -186,8 +187,6 @@ TagFilterPane >> updateTagFilterButtonsForDeck: aDeck [
 
 { #category : #accessing }
 TagFilterPane >> updateTagFilterButtonsForHand: aHand [
-	<todo:
-		'We need a way to maintain the state between updates. It should be possible to set all the buttons based on the current filter state.'>
 	| dicts |
 	self removeChildren.
 	hand := aHand.

@@ -265,7 +265,7 @@ CardHandGUI >> subscribe [
 		for: self.
 	self deck announcer
 		when: TagsUpdated
-		do: [ tagPane updateTagFilterButtonsForDeck: self deck ]
+		do: [ tagPane updateTagFilterButtonsForHand: self hand ]
 		for: self.
 	self deck announcer
 		when: CardsUpdated

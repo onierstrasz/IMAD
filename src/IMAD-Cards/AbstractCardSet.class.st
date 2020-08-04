@@ -29,6 +29,11 @@ AbstractCardSet >> addRelation: aSymbol fromCardNamed: sourceName toCardNamed: t
  	self addRelation: aSymbol from: (self cardNamed: sourceName) to: (self cardNamed: targetName)
 ]
 
+{ #category : #accessing }
+AbstractCardSet >> asElement [
+	self subclassResponsibility
+]
+
 { #category : #cards }
 AbstractCardSet >> cardNamed: aString [
 	| result |
@@ -77,6 +82,15 @@ AbstractCardSet >> deleteRelation: aSymbol fromCardNamed: sourceName toCardNamed
 		fromCardNamed: sourceName
 		toCardNamed: targetName.
 	matches do: [ :rel | self deleteRelation: rel ]
+]
+
+{ #category : #'gt-extensions' }
+AbstractCardSet >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live';
+		priority: 5;
+		stencil: [ self asElement ]
 ]
 
 { #category : #accessing }

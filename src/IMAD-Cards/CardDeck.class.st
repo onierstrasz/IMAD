@@ -297,15 +297,6 @@ CardDeck >> gtInspectorWindowFor: anAction [
 ]
 
 { #category : #'gt-extensions' }
-CardDeck >> gtLiveFor: aView [
-	<gtView>
-	^ aView explicit
-		title: 'Live';
-		priority: 5;
-		stencil: [ self asElement ]
-]
-
-{ #category : #'gt-extensions' }
 CardDeck >> gtRelationsFor: aView [
 	<gtView>
 	^ aView columnedList

@@ -29,6 +29,13 @@ CardHand >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 ]
 
 { #category : #accessing }
+CardHand >> asElement [
+	^ CardHandGUI new
+		hand: self;
+		yourself
+]
+
+{ #category : #accessing }
 CardHand >> cards [
 	cards ifNil: [ self updateCards ].
 	^ cards
