@@ -10,7 +10,8 @@ Class {
 	#instVars : [
 		'graphElementsDictionary',
 		'deck',
-		'hand'
+		'hand',
+		'style'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -38,20 +39,19 @@ CardHandGraphView >> elementFor: anEntity [
 ]
 
 { #category : #accessing }
-CardHandGraphView >> forHand: aHand [ 
-
+CardHandGraphView >> forHand: aHand withStyle: aStyle [
 	"NB: The dictionary is needed because for each edge to create we have
 	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."
 
-
 	hand := aHand.
+	style := aStyle.
 	graphElementsDictionary := Dictionary new.
 	self cards
 		ifNotEmpty: [ self cards
 				do: [ :aCard | 
 					| cardElement |
-					cardElement := self newCardElementFor: aCard.
+					cardElement := self nodeCardElementFor: aCard.
 					self mapModelEntity: aCard toElement: cardElement.	"to do"
 					self addChild: cardElement ] ].
 	self cards
@@ -60,11 +60,7 @@ CardHandGraphView >> forHand: aHand [
 				do: [ :rel | 
 					(hand containsRelation: rel)
 						ifTrue: [ self addChild: (self edgeElementFor: rel) ] ] ].
-	self
-		layout: (BlOnceLayout new layout: GtGradHorizontalTreeLayout new).
-	"(self cards size > 1
-				ifTrue: [ BlOnceLayout new layout: GtGradCircleLayout new ]
-				ifFalse: [ BlOnceLayout new layout: GtGradHorizontalTreeLayout new ])"
+	self layout: self style layout.
 	self clipChildren: false.
 	^ self
 ]
@@ -90,8 +86,13 @@ CardHandGraphView >> mapModelEntity: entity toElement: anElement [
 ]
 
 { #category : #accessing }
-CardHandGraphView >> newCardElementFor: aCard [
+CardHandGraphView >> nodeCardElementFor: aCard [
 	^ CardNodeView new
 		card: aCard;
 		yourself
+]
+
+{ #category : #accessing }
+CardHandGraphView >> style [
+	^ style
 ]

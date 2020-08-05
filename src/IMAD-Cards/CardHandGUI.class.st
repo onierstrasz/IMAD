@@ -84,7 +84,7 @@ CardHandGUI >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
 
 	self hand filter: self tagPane filter.
-	theGraph := (CardHandGraphView new forHand: self hand)
+	theGraph := (CardHandGraphView new forHand: self hand withStyle: self style )
 		asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
@@ -255,6 +255,11 @@ CardHandGUI >> saveButton [
 							dropdown ]);
 		icon: BrGlamorousIcons save;
 		label: 'Save to method ' , self deck storageClassMethod
+]
+
+{ #category : #accessing }
+CardHandGUI >> style [
+	^ style
 ]
 
 { #category : #accessing }

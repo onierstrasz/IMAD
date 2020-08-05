@@ -377,7 +377,12 @@ Tree layout (root?)
 Manual layout (how to remember?)';
 				properties:
 					(Dictionary new
-						add: #tags -> OrderedCollection new;
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
 						yourself);
 				yourself);
 		addCard:
@@ -501,7 +506,12 @@ It is implemented by the class ${class:name=CardDeck}$.
 				description: 'To do';
 				properties:
 					(Dictionary new
-						add: #tags -> OrderedCollection new;
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
 						yourself);
 				yourself);
 		addCard:
@@ -536,7 +546,12 @@ We can also exclude the prototype/metacard tag.
 How to define a filter as a card?';
 				properties:
 					(Dictionary new
-						add: #tags -> OrderedCollection new;
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'm2';
+										yourself);
 						yourself);
 				yourself);
 		addCard:
@@ -563,7 +578,12 @@ Add CMD-click to access menu';
 					'${class:name=BlNearestPositionBoundsAnchor}$ stinks -- need a better version that grows through centers?';
 				properties:
 					(Dictionary new
-						add: #tags -> OrderedCollection new;
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
 						yourself);
 				yourself);
 		addCard:
@@ -620,6 +640,15 @@ Hovering should increase the card name, or possibly show a tooltip.';
 				yourself);
 		addCard:
 			(Card new
+				name: 'Kanban';
+				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
+				yourself);
+		addCard:
+			(Card new
 				name: 'Kinds of Views/Models';
 				description:
 					'Views are specifications of subsets of cards. Normally  these correspond to some meaningful subset, ie a model.';
@@ -659,7 +688,12 @@ Improved layout: add space between multiple edges along same path
 Tree menu for layouts? (Need alternative to ${class:name=BrGlamorousSimpleContextMenuContent}$ and ${class:name=BrGlamorousWithContextMenuLook}$)';
 				properties:
 					(Dictionary new
-						add: #tags -> OrderedCollection new;
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
 						yourself);
 				yourself);
 		addCard:
@@ -695,7 +729,12 @@ Find examples of using Looks to dynamically  change views. ${class:name=BrLookCh
 ';
 				properties:
 					(Dictionary new
-						add: #tags -> OrderedCollection new;
+						add:
+							#tags
+								->
+									(OrderedCollection new
+										add: 'todo';
+										yourself);
 						yourself);
 				yourself);
 		addCard:
@@ -854,6 +893,9 @@ FSAs
 		addRelation: '_rel501687040'
 			fromCardNamed: 'Kinds of Views/Models'
 			toCardNamed: 'FSA';
+		addRelation: '_rel704624384'
+			fromCardNamed: 'Kinds of Views/Models'
+			toCardNamed: 'Kanban';
 		addRelation: '_rel951882240'
 			fromCardNamed: 'Kinds of Views/Models'
 			toCardNamed: 'Petri net';
