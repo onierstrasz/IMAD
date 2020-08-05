@@ -85,7 +85,8 @@ Card >> buildHeaderPane [
 Card >> buildTagHeader [
 	"See BrTagger>>#newGlamorousTagger"
 
-	^ BrTagger new
+	| tagger |
+	tagger := BrTagger new
 		look: BrGlamorousTaggerEditableLook new;
 		namedTags: self tags;
 		when: BrTaggerAddTagRequest
@@ -97,7 +98,12 @@ Card >> buildTagHeader [
 			do: [ :aRequest | 
 			aRequest newName trimmed
 				ifEmpty: [ self removeTagNamed: aRequest tag name ]
-				ifNotEmpty: [ :aNewName | self renameTagNamed: aRequest tag name to: aNewName ] ]
+				ifNotEmpty: [ :aNewName | self renameTagNamed: aRequest tag name to: aNewName ] ].
+	self announcer
+		when: TagsUpdated
+		do: [ tagger namedTags: self tags ]
+		for: self.
+	^ tagger
 ]
 
 { #category : #relations }
