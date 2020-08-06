@@ -476,6 +476,8 @@ UsefulExamples >> elementHandlingClickEvents [
 
 { #category : #accessing }
 UsefulExamples >> elementWithChangingLook [
+	"See BrLookChangeExamples>>#buttonLookPropertyChange"
+
 	<gtExample>
 	<todo: 'clicking should apply a random look'>
 	| elt |
@@ -489,7 +491,16 @@ UsefulExamples >> elementWithChangingLook [
 		addEventHandler:
 			(BlEventHandler
 				on: BlClickEvent
-				do: [ :evt | "Here apply a new look" ]).
+				do: [ :evt | 
+					| look |
+					look := BrLook new.
+					look changes
+						add:
+							(BrLookPropertyChange new
+								path: #(widget background);
+								value: [ BrGlamorousColors hoveredButtonTextColor asBlBackground ];
+								yourself).
+					elt look: BrGlamorousLabelLook + look ]).
 	^ elt
 ]
 
