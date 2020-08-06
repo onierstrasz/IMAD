@@ -475,6 +475,25 @@ UsefulExamples >> elementHandlingClickEvents [
 ]
 
 { #category : #accessing }
+UsefulExamples >> elementWithChangingLook [
+	<gtExample>
+	<todo: 'clicking should apply a random look'>
+	| elt |
+	elt := BlElement new.
+	"constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ];"
+	"Does not work"
+	elt
+		look: (BrTextLabelLook new text: 'woohoo');
+		addEventHandler:
+			(BlEventHandler
+				on: BlClickEvent
+				do: [ :evt | "Here apply a new look" ]).
+	^ elt
+]
+
+{ #category : #accessing }
 UsefulExamples >> examplesExplorerForPackage [
 	<gtExample>
 	| baseline repo |

@@ -102,8 +102,6 @@ CardNodeView >> exampleWithTags [
 
 { #category : #accessing }
 CardNodeView >> initialize [
-	<todo:
-		'The tooltip is overriding the fixed width and appearing much wider than I want it to. How to fix?'>
 	super initialize.
 	card := Card new.
 	isEditable := false.
@@ -130,8 +128,8 @@ CardNodeView >> initialize [
 					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isCmd;
-						yourself)
-				"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])".
+						yourself).
+	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
