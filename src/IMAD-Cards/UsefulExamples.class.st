@@ -480,27 +480,24 @@ UsefulExamples >> elementWithChangingLook [
 
 	<gtExample>
 	<todo: 'clicking should apply a random look'>
-	| elt |
+	| elt basicLook menuLook anFSALook |
 	elt := BlElement new.
-	"constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ];"
-	"Does not work"
+	elt layout: BlLinearLayout vertical.
 	elt
-		look: (BrTextLabelLook new text: 'woohoo');
-		addEventHandler:
-			(BlEventHandler
-				on: BlClickEvent
-				do: [ :evt | 
-					| look |
-					look := BrLook new.
-					look changes
-						add:
-							(BrLookPropertyChange new
-								path: #(widget background);
-								value: [ BrGlamorousColors hoveredButtonTextColor asBlBackground ];
-								yourself).
-					elt look: BrGlamorousLabelLook + look ]).
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+	anFSALook := BrLook new.
+	anFSALook
+		addChangeProperty: #(widget geometry) with: [ BlEllipse new ];
+		addChangeProperty: #(widget background)
+			with: [ Color pink asBlBackground ].
+	menuLook := BrGlamorousWithContextMenuLook
+		content: [ BrGlamorousSimpleContextMenuContent new
+				items: {('FSA Look' -> [ :e | elt look: basicLook + anFSALook ])};
+				yourself ].
+	basicLook := (BrTextLabelLook new text: 'woohoo') + menuLook.
+	elt look: basicLook.
 	^ elt
 ]
 
