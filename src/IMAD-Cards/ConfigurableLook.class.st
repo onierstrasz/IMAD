@@ -23,9 +23,7 @@ Class {
 { #category : #accessing }
 ConfigurableLook >> border: aColorSymbol [
 	self configAt: #border put: aColorSymbol.
-	self
-		addChangeProperty: #(widget border)
-		with: [ BlBorder paint: (self colorFor: aColorSymbol) width: 1 ]
+	self setBorder: aColorSymbol
 ]
 
 { #category : #accessing }
@@ -70,22 +68,57 @@ ConfigurableLook >> initialize [
 { #category : #accessing }
 ConfigurableLook >> interpretConfiguration [
 	<todo: 'raise an error for an unknown key?'>
-	self notYetImplemented.
 	configuration
-		keysAndValuesDo: [ :key :val | (self lookChangeBlockFor: key) value: val ]
-		ifAbsent: [ "key not known -- raise an error?" ]
+		keysAndValuesDo:
+			[ :key :val | (self lookChangeBlockFor: key) value: val ]
 ]
 
 { #category : #accessing }
-ConfigurableLook >> lookChangeBlockFor: key [ 
+ConfigurableLook >> lookChangeBlockFor: key [
+	<todo: 'raise an error for an unknown key?'>
+	| actions |
+	actions := {(#border
+		-> [ :aColorSymbol | self setBorder: aColorSymbol ]).
+	(#shape -> [ :aShapeSymbol | self setShape: aShapeSymbol ]).
+	(#text -> [ :aString | self setText: aString ])} asDictionary.
+	self
+		assert: (actions includesKey: key)
+		description: key asString , ' is not a valid configuration key'.
+	^ actions at: key
+]
+
+{ #category : #accessing }
+ConfigurableLook >> setBorder: aColorSymbol [ 
+	self
+		addChangeProperty: #(widget border)
+		with: [ BlBorder paint: (self colorFor: aColorSymbol) width: 1 ]
+]
+
+{ #category : #accessing }
+ConfigurableLook >> setShape: aShapeSymbol [
+	self
+		addChangeProperty: #(widget geometry)
+		with: (self shapeFor: aShapeSymbol)
+]
+
+{ #category : #accessing }
+ConfigurableLook >> setText: aString [
+	self
+		addChangeAddChildAs: #(content label)
+		with: [ BlTextElement new
+				text: aString asRopedText;
+				padding:
+					(BlInsets
+						top: 5
+						right: 5
+						bottom: 5
+						left: 5) ]
 ]
 
 { #category : #accessing }
 ConfigurableLook >> shape: aShapeSymbol [
 	self configAt: #shape put: aShapeSymbol.
-	self
-		addChangeProperty: #(widget geometry)
-		with: (self shapeFor: aShapeSymbol)
+	self setShape: aShapeSymbol
 ]
 
 { #category : #accessing }
@@ -100,19 +133,6 @@ ConfigurableLook >> shapeFor: aShapeSymbol [
 
 { #category : #accessing }
 ConfigurableLook >> text: aString [
-
-self configAt: #text put: aString
-
-.
-
-	self
-		addChangeAddChildAs: #(content label)
-		with: [ BlTextElement new
-				text: aString asRopedText;
-				padding:
-					(BlInsets
-						top: 5
-						right: 5
-						bottom: 5
-						left: 5) ]
+	self configAt: #text put: aString.
+	self setText: aString
 ]
