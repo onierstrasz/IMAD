@@ -22,6 +22,7 @@ Class {
 
 { #category : #accessing }
 ConfigurableLook >> border: aColorSymbol [
+	self configAt: #border put: aColorSymbol.
 	self
 		addChangeProperty: #(widget border)
 		with: [ BlBorder paint: (self colorFor: aColorSymbol) width: 1 ]
@@ -36,6 +37,30 @@ ConfigurableLook >> colorFor: aColorSymbol [
 ]
 
 { #category : #accessing }
+ConfigurableLook >> configAt: anObject put: aString [
+	self configuration at: anObject put: aString
+]
+
+{ #category : #accessing }
+ConfigurableLook >> configuration [
+	^ configuration
+]
+
+{ #category : #accessing }
+ConfigurableLook >> configuration: aDictionary [
+	configuration := self defaultConfiguration
+		addAll: aDictionary;
+		yourself.
+	self interpretConfiguration
+]
+
+{ #category : #accessing }
+ConfigurableLook >> defaultConfiguration [
+<todo: 'Add any default bindings here (eg border black'>
+	^ {} asDictionary
+]
+
+{ #category : #accessing }
 ConfigurableLook >> initialize [
 	super initialize.
 	configuration := Dictionary new.
@@ -43,7 +68,21 @@ ConfigurableLook >> initialize [
 ]
 
 { #category : #accessing }
+ConfigurableLook >> interpretConfiguration [
+	<todo: 'raise an error for an unknown key?'>
+	self notYetImplemented.
+	configuration
+		keysAndValuesDo: [ :key :val | (self lookChangeBlockFor: key) value: val ]
+		ifAbsent: [ "key not known -- raise an error?" ]
+]
+
+{ #category : #accessing }
+ConfigurableLook >> lookChangeBlockFor: key [ 
+]
+
+{ #category : #accessing }
 ConfigurableLook >> shape: aShapeSymbol [
+	self configAt: #shape put: aShapeSymbol.
 	self
 		addChangeProperty: #(widget geometry)
 		with: (self shapeFor: aShapeSymbol)
@@ -61,6 +100,11 @@ ConfigurableLook >> shapeFor: aShapeSymbol [
 
 { #category : #accessing }
 ConfigurableLook >> text: aString [
+
+self configAt: #text put: aString
+
+.
+
 	self
 		addChangeAddChildAs: #(content label)
 		with: [ BlTextElement new
