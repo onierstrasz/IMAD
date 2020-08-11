@@ -8,7 +8,10 @@ My configuration can be exported and imported as a Dictionary.
 
 See also: ${class:name=ConfigurableLookExamples}$
 
+!Extensions
+For every configuration key xyz there is a public method #xyz:, a private setter #setXyz:, and an action defined in the dictionary in the method #lookChangeBlockFor:
 
+Any default bindings can be defined in ${method:name=ConfigurableLook>>#defaultConfiguration}$. They may be overriden in ${method:name=ConfigurableLook>>#configuration:}$
 "
 Class {
 	#name : #ConfigurableLook,
@@ -20,13 +23,13 @@ Class {
 	#category : #'IMAD-Cards-View'
 }
 
-{ #category : #accessing }
+{ #category : #public }
 ConfigurableLook >> border: aColorSymbol [
 	self configAt: #border put: aColorSymbol.
 	self setBorder: aColorSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> colorFor: aColorSymbol [
 	self
 		assert: (Color class includesSelector: aColorSymbol)
@@ -34,17 +37,17 @@ ConfigurableLook >> colorFor: aColorSymbol [
 	^ (Color perform: aColorSymbol) asBlPaint
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> configAt: anObject put: aString [
 	self configuration at: anObject put: aString
 ]
 
-{ #category : #accessing }
+{ #category : #public }
 ConfigurableLook >> configuration [
 	^ configuration
 ]
 
-{ #category : #accessing }
+{ #category : #public }
 ConfigurableLook >> configuration: aDictionary [
 	configuration := self defaultConfiguration
 		addAll: aDictionary;
@@ -52,30 +55,27 @@ ConfigurableLook >> configuration: aDictionary [
 	self interpretConfiguration
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> defaultConfiguration [
-<todo: 'Add any default bindings here (eg border black'>
+	<todo: 'Add any default bindings here (eg border black'>
 	^ {} asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> initialize [
 	super initialize.
 	configuration := Dictionary new.
 
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> interpretConfiguration [
-	<todo: 'raise an error for an unknown key?'>
 	configuration
-		keysAndValuesDo:
-			[ :key :val | (self lookChangeBlockFor: key) value: val ]
+		keysAndValuesDo: [ :key :val | (self lookChangeBlockFor: key) value: val ]
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> lookChangeBlockFor: key [
-	<todo: 'raise an error for an unknown key?'>
 	| actions |
 	actions := {(#border
 		-> [ :aColorSymbol | self setBorder: aColorSymbol ]).
@@ -87,21 +87,21 @@ ConfigurableLook >> lookChangeBlockFor: key [
 	^ actions at: key
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> setBorder: aColorSymbol [ 
 	self
 		addChangeProperty: #(widget border)
 		with: [ BlBorder paint: (self colorFor: aColorSymbol) width: 1 ]
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> setShape: aShapeSymbol [
 	self
 		addChangeProperty: #(widget geometry)
 		with: (self shapeFor: aShapeSymbol)
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> setText: aString [
 	self
 		addChangeAddChildAs: #(content label)
@@ -115,13 +115,13 @@ ConfigurableLook >> setText: aString [
 						left: 5) ]
 ]
 
-{ #category : #accessing }
+{ #category : #public }
 ConfigurableLook >> shape: aShapeSymbol [
 	self configAt: #shape put: aShapeSymbol.
 	self setShape: aShapeSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 ConfigurableLook >> shapeFor: aShapeSymbol [
 	^ {(#circle -> [ BlCircle new ]).
 	(#ellipse -> [ BlEllipse new ]).
@@ -131,7 +131,7 @@ ConfigurableLook >> shapeFor: aShapeSymbol [
 } asDictionary at: aShapeSymbol
 ]
 
-{ #category : #accessing }
+{ #category : #public }
 ConfigurableLook >> text: aString [
 	self configAt: #text put: aString.
 	self setText: aString
