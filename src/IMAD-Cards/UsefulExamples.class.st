@@ -476,29 +476,8 @@ UsefulExamples >> elementHandlingClickEvents [
 
 { #category : #accessing }
 UsefulExamples >> elementWithChangingLook [
-	"See BrLookChangeExamples>>#buttonLookPropertyChange"
-
 	<gtExample>
-	<todo: 'clicking should apply a random look'>
-	| elt basicLook menuLook anFSALook |
-	elt := BlElement new.
-	elt layout: BlLinearLayout vertical.
-	elt
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
-	anFSALook := BrLook new.
-	anFSALook
-		addChangeProperty: #(widget geometry) with: [ BlEllipse new ];
-		addChangeProperty: #(widget background)
-			with: [ Color pink asBlBackground ].
-	menuLook := BrGlamorousWithContextMenuLook
-		content: [ BrGlamorousSimpleContextMenuContent new
-				items: {('FSA Look' -> [ :e | elt look: basicLook + anFSALook ])};
-				yourself ].
-	basicLook := (BrTextLabelLook new text: 'woohoo') + menuLook.
-	elt look: basicLook.
-	^ elt
+	^ ConfigurableLookExamples new elementWithChangingLook
 ]
 
 { #category : #accessing }

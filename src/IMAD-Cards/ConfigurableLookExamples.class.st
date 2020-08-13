@@ -29,6 +29,42 @@ ConfigurableLookExamples >> circleNode [
 ]
 
 { #category : #accessing }
+ConfigurableLookExamples >> elementWithChangingLook [
+	"See BrLookChangeExamples>>#buttonLookPropertyChange"
+
+	<gtExample>
+	| elt menuLook configLook |
+	elt := BlElement new.
+	elt layout: BlLinearLayout vertical.
+	elt
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ].
+	configLook := ConfigurableLook new
+		text: 'Right-click to change my look'.
+	menuLook := BrGlamorousWithContextMenuLook
+		content: [ BrGlamorousSimpleContextMenuContent new
+				items:
+					{('Green border and rounded rectangle'
+						-> [ configLook
+								border: #green;
+								shape: #roundedRectangle;
+								text: 'Green border and rounded rectangle' ]).
+					('Red border and straight rectangle'
+						-> [ configLook
+								border: #red;
+								shape: #rectangle;
+								text: 'Red border and straight rectangle' ]).
+					('Circle'
+						-> [ configLook
+								shape: #circle;
+								text: 'Circle' ])};
+				yourself ].
+	elt look: menuLook + configLook.
+	^ elt
+]
+
+{ #category : #accessing }
 ConfigurableLookExamples >> newRoundedTextNode [
 	"Copy configurations and directly interpret them."
 
