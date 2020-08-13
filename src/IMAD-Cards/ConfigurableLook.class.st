@@ -52,7 +52,7 @@ ConfigurableLook >> configuration: aDictionary [
 	configuration := self defaultConfiguration
 		addAll: aDictionary;
 		yourself.
-	self interpretConfiguration
+	self reset
 ]
 
 { #category : #private }
@@ -70,6 +70,7 @@ ConfigurableLook >> initialize [
 
 { #category : #private }
 ConfigurableLook >> interpretConfiguration [
+
 	configuration
 		keysAndValuesDo: [ :key :val | (self lookChangeBlockFor: key) value: val ]
 ]
@@ -85,6 +86,14 @@ ConfigurableLook >> lookChangeBlockFor: key [
 		assert: (actions includesKey: key)
 		description: key asString , ' is not a valid configuration key'.
 	^ actions at: key
+]
+
+{ #category : #public }
+ConfigurableLook >> reset [
+	"Clear all changes and recreate them (to avoid building up garbage changes)."
+
+	self changes initialize.
+	self interpretConfiguration
 ]
 
 { #category : #private }
@@ -118,7 +127,7 @@ ConfigurableLook >> setText: aString [
 { #category : #public }
 ConfigurableLook >> shape: aShapeSymbol [
 	self configAt: #shape put: aShapeSymbol.
-	self setShape: aShapeSymbol
+	self reset
 ]
 
 { #category : #private }
@@ -134,5 +143,5 @@ ConfigurableLook >> shapeFor: aShapeSymbol [
 { #category : #public }
 ConfigurableLook >> text: aString [
 	self configAt: #text put: aString.
-	self setText: aString
+	self reset
 ]
