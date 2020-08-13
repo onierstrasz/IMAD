@@ -112,6 +112,8 @@ ConfigurableLook >> setShape: aShapeSymbol [
 
 { #category : #private }
 ConfigurableLook >> setText: aString [
+	self isAttachedToWidget
+		ifTrue: [ self widget removeChildNamed: #label ].
 	self
 		addChangeAddChildAs: #(content label)
 		with: [ BlTextElement new
