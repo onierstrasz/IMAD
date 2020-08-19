@@ -35,7 +35,7 @@ ConfigurableLookExamples >> elementWithChangingLook [
 	<gtExample>
 	| elt menuLook configLook |
 	elt := BlElement new.
-	elt layout: BlLinearLayout vertical.
+	elt layout: BlFrameLayout new. "needed to enable alignCenter for embedded Text elements"
 	elt
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
@@ -57,10 +57,9 @@ ConfigurableLookExamples >> elementWithChangingLook [
 								text: 'Red border and straight rectangle' ]).
 					('Green background' -> [ configLook background: #lightGreen ]).
 					('White background' -> [ configLook background: #white ]).
-					('Circle'
-						-> [ configLook
-								shape: #circle";
-								text: 'Circle'" ])};
+					('Circle' -> [ configLook shape: #circle ]).
+					('Square' -> [ configLook shape: #square ]).
+					('Be wider' -> [ configLook beWider ])};
 				yourself ].
 	elt look: menuLook + configLook.
 	^ elt

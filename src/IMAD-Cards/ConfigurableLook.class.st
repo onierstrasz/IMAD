@@ -29,6 +29,14 @@ ConfigurableLook >> background: aColorSymbol [
 	self reset
 ]
 
+{ #category : #accessing }
+ConfigurableLook >> beWider [
+	"be 10% bigger in width"
+
+	self configAt: #width put: self widget width * 1.1.
+	self reset
+]
+
 { #category : #public }
 ConfigurableLook >> border: aColorSymbol [
 	self configAt: #border put: aColorSymbol.
@@ -87,6 +95,7 @@ ConfigurableLook >> lookChangeBlockFor: key [
 		-> [ :aColorSymbol | self setBorder: aColorSymbol ]).
 	(#background -> [ :aColorSymbol | self setBackground: aColorSymbol ]).
 	(#shape -> [ :aShapeSymbol | self setShape: aShapeSymbol ]).
+	(#width -> [ :aNumber | self setWidth: aNumber ]).
 	(#text -> [ :aString | self setText: aString ])} asDictionary.
 	self
 		assert: (actions includesKey: key)
@@ -132,12 +141,21 @@ ConfigurableLook >> setText: aString [
 		addChangeAddChildAs: #(label)
 		with: [ BlTextElement new
 				text: aString asRopedText;
+				constraintsDo: [ :c | 
+					c frame horizontal alignCenter.
+					c frame vertical alignCenter ];
 				padding:
 					(BlInsets
 						top: 5
 						right: 5
 						bottom: 5
 						left: 5) ]
+]
+
+{ #category : #private }
+ConfigurableLook >> setWidth: aNumber [
+	<todo: 'set both width and height for Squares and Circles'>
+	self addChangeProperty: #(widget width) with: [ aNumber ]
 ]
 
 { #category : #public }
