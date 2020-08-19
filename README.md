@@ -43,17 +43,8 @@ Other stuff:
 
 ## Related stuff
 
-### FSA (IMAD-FSA)
+- FSA (IMAD-FSA): Experiments to see how to model FSAs and Petri Nets with Mondrian.
+  - Inspect: `FSAExamples`
 
-Experiments to see how to model FSAs and Petri Nets with Mondrian.
-Inspect:
-`FSAExamples`
-
-### Executable Graph Models (IMAD-EGM)
-
-Seminar Project by Louis Müller. An interactive graph editor building on the FSA project.
-
-Inspect the following in the Morphic window:
-```
-Graph new
-```
+- Executable Graph Models (IMAD-EGM): Seminar Project by Louis Müller. An interactive graph editor building on the FSA project.
+  - Inspect the following in the Morphic window: `Graph new`
