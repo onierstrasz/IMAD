@@ -25,20 +25,14 @@ Class {
 
 { #category : #accessing }
 ConfigurableLook >> background: aColorSymbol [
-	self configAt: #backgroundColor put: aColorSymbol.
-	self setBackgroundColor: aColorSymbol
-]
-
-{ #category : #accessing }
-ConfigurableLook >> backgroundColor: aColorSymbol [
-	self configAt: #backgroundColor put: aColorSymbol.
-	self setBackgroundColor: aColorSymbol
+	self configAt: #background put: aColorSymbol.
+	self reset
 ]
 
 { #category : #public }
 ConfigurableLook >> border: aColorSymbol [
 	self configAt: #border put: aColorSymbol.
-	self setBorder: aColorSymbol
+	self reset
 ]
 
 { #category : #private }
@@ -103,20 +97,16 @@ ConfigurableLook >> lookChangeBlockFor: key [
 { #category : #public }
 ConfigurableLook >> reset [
 	"Clear all changes and recreate them (to avoid building up garbage changes)."
-
+	self isAttachedToWidget
+		ifTrue: [ self changes downOn: self ].
 	self changes initialize.
+	self isAttachedToWidget
+		ifTrue: [ self changes upOn: self ].
 	self interpretConfiguration
 ]
 
 { #category : #accessing }
 ConfigurableLook >> setBackground: aColorSymbol [
-	self
-		addChangeProperty: #(widget background)
-		with: [ (self colorFor: aColorSymbol) asBlBackground ]
-]
-
-{ #category : #accessing }
-ConfigurableLook >> setBackgroundColor: aColorSymbol [
 	self
 		addChangeProperty: #(widget background)
 		with: [ (self colorFor: aColorSymbol) asBlBackground ]
@@ -138,10 +128,8 @@ ConfigurableLook >> setShape: aShapeSymbol [
 
 { #category : #private }
 ConfigurableLook >> setText: aString [
-	self isAttachedToWidget
-		ifTrue: [ self widget removeChildNamed: #label ].
 	self
-		addChangeAddChildAs: #(content label)
+		addChangeAddChildAs: #(label)
 		with: [ BlTextElement new
 				text: aString asRopedText;
 				padding:

@@ -56,11 +56,11 @@ ConfigurableLookExamples >> elementWithChangingLook [
 								shape: #rectangle;
 								text: 'Red border and straight rectangle' ]).
 					('Green background' -> [ configLook background: #lightGreen ]).
-					('White background' -> [ configLook backgroundColor: #white ]).
+					('White background' -> [ configLook background: #white ]).
 					('Circle'
 						-> [ configLook
-								shape: #circle;
-								text: 'Circle' ])};
+								shape: #circle";
+								text: 'Circle'" ])};
 				yourself ].
 	elt look: menuLook + configLook.
 	^ elt
