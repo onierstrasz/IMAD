@@ -4,14 +4,13 @@
 
 “IMAD” stands for “Interactive Modeling for Agile Development.”
 
-In this project, we plan to explore “interactive modeling” as a paradigm for iteratively producing executable models of application domain concepts, scenarios and requirements within an agile development process. 
-We are developing a prototype of an interactive tool to specify and describe domain entities, and to develop an approach to incrementally attribute behaviour to these entities in concrete scenarios. 
+In this project, we are exploring “interactive modeling” as a paradigm for iteratively producing executable models of application domain concepts, scenarios and requirements within an agile development process. 
+We are developing a prototype of an interactive tool to specify and describe domain entities.
+We are also developing an approach to incrementally attribute behaviour to these entities in concrete scenarios. 
 
 We also plan to explore how such executable models can then be exploited to support testing, analysis and live documentation of the evolving software project.
 
-This work will be carried out in the context of the SNSF project [Agile Software Assistance](http://scg.unibe.ch/staff/oscar) (#200020-181973), and in particular the second track of this project on Executable domain models.
-
-Repo location: git@github.com:onierstrasz/ASA-GtExperiments.git
+This work is being carried out in the context of the SNSF project [Agile Software Assistance](http://scg.unibe.ch/staff/oscar) (#200020-181973), and in particular the second track of this project on Executable domain models.
 
 ## How to load IMAD
 
