@@ -23,6 +23,18 @@ Class {
 	#category : #'IMAD-Cards-View'
 }
 
+{ #category : #accessing }
+ConfigurableLook >> background: aColorSymbol [
+	self configAt: #backgroundColor put: aColorSymbol.
+	self setBackgroundColor: aColorSymbol
+]
+
+{ #category : #accessing }
+ConfigurableLook >> backgroundColor: aColorSymbol [
+	self configAt: #backgroundColor put: aColorSymbol.
+	self setBackgroundColor: aColorSymbol
+]
+
 { #category : #public }
 ConfigurableLook >> border: aColorSymbol [
 	self configAt: #border put: aColorSymbol.
@@ -70,7 +82,6 @@ ConfigurableLook >> initialize [
 
 { #category : #private }
 ConfigurableLook >> interpretConfiguration [
-
 	configuration
 		keysAndValuesDo: [ :key :val | (self lookChangeBlockFor: key) value: val ]
 ]
@@ -80,6 +91,7 @@ ConfigurableLook >> lookChangeBlockFor: key [
 	| actions |
 	actions := {(#border
 		-> [ :aColorSymbol | self setBorder: aColorSymbol ]).
+	(#background -> [ :aColorSymbol | self setBackground: aColorSymbol ]).
 	(#shape -> [ :aShapeSymbol | self setShape: aShapeSymbol ]).
 	(#text -> [ :aString | self setText: aString ])} asDictionary.
 	self
@@ -94,6 +106,20 @@ ConfigurableLook >> reset [
 
 	self changes initialize.
 	self interpretConfiguration
+]
+
+{ #category : #accessing }
+ConfigurableLook >> setBackground: aColorSymbol [
+	self
+		addChangeProperty: #(widget background)
+		with: [ (self colorFor: aColorSymbol) asBlBackground ]
+]
+
+{ #category : #accessing }
+ConfigurableLook >> setBackgroundColor: aColorSymbol [
+	self
+		addChangeProperty: #(widget background)
+		with: [ (self colorFor: aColorSymbol) asBlBackground ]
 ]
 
 { #category : #private }

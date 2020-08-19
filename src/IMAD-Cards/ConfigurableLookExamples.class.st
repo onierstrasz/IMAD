@@ -55,6 +55,8 @@ ConfigurableLookExamples >> elementWithChangingLook [
 								border: #red;
 								shape: #rectangle;
 								text: 'Red border and straight rectangle' ]).
+					('Green background' -> [ configLook background: #lightGreen ]).
+					('White background' -> [ configLook backgroundColor: #white ]).
 					('Circle'
 						-> [ configLook
 								shape: #circle;
