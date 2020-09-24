@@ -351,6 +351,17 @@ UsefulExamples >> coderHeaderElementForClass [
 ]
 
 { #category : #accessing }
+UsefulExamples >> createPlayGroundWithSnippets [
+	<gtExample>
+	<todo: 'Create a full example with code snippets'>
+	BlSpace new
+		title: 'Snippet PlayGround';
+		addChild: GtPlaygroundStencil new create;
+		withHalos;
+		show
+]
+
+{ #category : #accessing }
 UsefulExamples >> dropdownOnRightClick [
 	"See: BrDropdownExamples>>#coloredDropdown"
 
