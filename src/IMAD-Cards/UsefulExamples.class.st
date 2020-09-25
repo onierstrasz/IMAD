@@ -353,12 +353,14 @@ UsefulExamples >> coderHeaderElementForClass [
 { #category : #accessing }
 UsefulExamples >> createPlayGroundWithSnippets [
 	<gtExample>
-	<todo: 'Create a full example with code snippets'>
-	BlSpace new
-		title: 'Snippet PlayGround';
-		addChild: GtPlaygroundStencil new create;
-		withHalos;
-		show
+	| snippets playbook |
+	snippets := {'3+4' . '42'}.
+	playbook := GtPlayBook newWithCodeSnippetContent: snippets first.
+	snippets allButFirst
+		do:
+			[ :el | playbook pages first addSnippet: (GtCoderSnippet new sourceCode: el) ].
+	GtPlayground openOn: playbook.
+	^ playbook
 ]
 
 { #category : #accessing }
