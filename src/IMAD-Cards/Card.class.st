@@ -30,7 +30,7 @@ Card >> addTag: aString [
 		'Should we announce to the deck only if it is a new tag? (Would require the deck to keep track.)'>
 	(self tags includes: aString)
 		ifFalse: [ self tags add: aString.
-			"self announcer announce: PropertiesUpdated new."
+			self announcer announce: PropertiesUpdated new. "Needed to properly update the tagger"
 			self announcer announce: TagsUpdated new.
 			self deckAnnounce: TagsUpdated new ]
 ]
@@ -83,8 +83,10 @@ Card >> buildHeaderPane [
 
 { #category : #tags }
 Card >> buildTagHeader [
-	"See BrTagger>>#newGlamorousTagger"
+	"See BrTaggerExamples>>#newGlamorousTagger and UsefulExamples>>#cardTagger"
 
+	<todo:
+		'Fix bug with adding deleting and adding, or adding 3x raising an exception. See IMAD issue #23'>
 	| tagger |
 	tagger := BrTagger new
 		look: BrGlamorousTaggerEditableLook new;
