@@ -55,7 +55,8 @@ CardNodeView >> card: aCard [
 
 { #category : #accessing }
 CardNodeView >> cardEditor [
-	<todo: 'Move the description pane code to a dedicated class?'>
+	<todo: 'FIX to make the popup react to PropertiesUpdated changes!
+	(Possibly move this to a separate class?)'>
 	| element |
 	element := self card buildDescriptionPane.
 	(element childNamed: #doc)
@@ -65,6 +66,10 @@ CardNodeView >> cardEditor [
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
+	"self card announcer
+		when: PropertiesUpdated
+		do: [ element updateTagger ]
+		for: element."
 	^ element asScrollableElement
 ]
 
