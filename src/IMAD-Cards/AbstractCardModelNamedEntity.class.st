@@ -76,11 +76,11 @@ AbstractCardModelNamedEntity >> buildHeaderPane [
 
 	| header |
 	header := BlElement new.
-	header  layout: BlLinearLayout vertical.
-		header
+	header layout: BlLinearLayout vertical.
+	header
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
-			c vertical matchParent ].
+			c vertical fitContent ].
 	header addChild: self buildLabel.
 	^ header
 ]
