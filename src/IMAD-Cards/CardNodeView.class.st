@@ -122,13 +122,13 @@ CardNodeView >> initialize [
 				+
 					((BrGlamorousWithContextMenuLook content: [ self cardEditor ])
 						useSecondaryMouseButton;
-						modifiersMatcher: #isEmpty;
-						yourself)
+						modifiersMatcher: #isEmpty; "right-click"
+							yourself)
 				+
 					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 						useSecondaryMouseButton;
-						modifiersMatcher: #isCmd;
-						yourself).
+						modifiersMatcher: #isCmd; "CMD right-click"
+							yourself).
 	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
 	self updateCard.
 	self graph beNode.
