@@ -226,6 +226,7 @@ Card >> removeTagNamed: aTagString [
 	(self tags includes: aTagString)
 		ifFalse: [ ^ self ].
 	self tags remove: aTagString.
+	self announcer announce: PropertiesUpdated new.
 	self announcer announce: TagsUpdated new.
 	self deckAnnounce: TagsUpdated new
 ]
