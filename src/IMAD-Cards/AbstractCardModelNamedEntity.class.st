@@ -124,8 +124,7 @@ AbstractCardModelNamedEntity >> gtDescriptionFor: aView [
 		title: 'Description';
 		priority: 0;
 		stencil: [ self buildDescriptionPane ];
-		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-			updateWhen: PropertiesUpdated in: [ self announcer ]
+		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }

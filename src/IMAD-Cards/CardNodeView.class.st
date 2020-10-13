@@ -55,10 +55,9 @@ CardNodeView >> card: aCard [
 
 { #category : #accessing }
 CardNodeView >> cardEditor [
-	<todo: 'FIX to make the popup react to PropertiesUpdated changes!
-	(Possibly move this to a separate class?)'>
 	| element |
-	element := self card buildDescriptionPane.
+	element := (self card gtDescriptionFor: GtPhlowEmptyView new)
+		asElementDo: #yourself.
 	(element childNamed: #doc)
 		fitContent;
 		hExact: 300.
@@ -66,10 +65,6 @@ CardNodeView >> cardEditor [
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
-	"self card announcer
-		when: PropertiesUpdated
-		do: [ element updateTagger ]
-		for: element."
 	^ element asScrollableElement
 ]
 
