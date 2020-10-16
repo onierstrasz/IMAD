@@ -13,8 +13,7 @@ Class {
 	#name : #Card,
 	#superclass : #AbstractCardModelNamedEntity,
 	#instVars : [
-		'deck',
-		'tags'
+		'deck'
 	],
 	#category : #'IMAD-Cards-Model'
 }
