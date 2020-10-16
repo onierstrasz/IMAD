@@ -204,7 +204,7 @@ TagFilterPane >> updateTagFilterButtonsForHand: aHand [
 			dict := dicts first.
 			self
 				addChildren:
-					(aHand tags
+					(aHand deck tags
 						collect: [ :tag | 
 							(dict keys includes: tag)
 								ifTrue:

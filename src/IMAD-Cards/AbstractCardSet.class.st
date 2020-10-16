@@ -60,6 +60,11 @@ AbstractCardSet >> cardsNamed: aString [
 ]
 
 { #category : #accessing }
+AbstractCardSet >> deck [
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
 AbstractCardSet >> deleteCard: aCard [
 	self subclassResponsibility
 ]

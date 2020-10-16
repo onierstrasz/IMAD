@@ -180,6 +180,11 @@ CardDeck >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackage
 	package: ''' , aPackage , ''''
 ]
 
+{ #category : #accessing }
+CardDeck >> deck [
+	^ self
+]
+
 { #category : #defaults }
 CardDeck >> defaultStorageClassName [
 	"The class where this CardDeck is stored as a generating method."
