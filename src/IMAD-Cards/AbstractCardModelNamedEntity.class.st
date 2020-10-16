@@ -124,7 +124,8 @@ AbstractCardModelNamedEntity >> gtDescriptionFor: aView [
 		title: 'Description';
 		priority: 0;
 		stencil: [ self buildDescriptionPane ];
-		updateWhen: PropertiesUpdated in: [ self announcer ]
+		updateWhen: PropertiesUpdated in: [ self announcer ];
+		updateWhen: TagsUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }
@@ -166,8 +167,7 @@ AbstractCardModelNamedEntity >> gtPropertiesFor: aView [
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add property';
 				action: [ self set: self freshKey to: self defaultValue ] ];
-		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-			updateWhen: PropertiesUpdated in: [ self announcer ]
+		updateWhen: PropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }
@@ -178,8 +178,8 @@ AbstractCardModelNamedEntity >> gtStoreStringFor: aView [
 		priority: 80;
 		stencil: [ (GtPharoSnippetCoder new forSource: self storeString) asElement
 				matchParent ];
-		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
-		updateWhen: PropertiesUpdated in: [ self announcer ]
+		updateWhen: PropertiesUpdated in: [ self announcer ];
+		updateWhen: TagsUpdated in: [ self announcer ]
 ]
 
 { #category : #comparing }

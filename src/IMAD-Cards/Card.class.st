@@ -30,7 +30,6 @@ Card >> addTag: aString [
 		'Should we announce to the deck only if it is a new tag? (Would require the deck to keep track.)'>
 	(self tags includes: aString)
 		ifFalse: [ self tags add: aString.
-			self announcer announce: PropertiesUpdated new. "Needed to properly update the tagger"
 			self announcer announce: TagsUpdated new.
 			self deckAnnounce: TagsUpdated new ]
 ]
@@ -226,7 +225,6 @@ Card >> removeTagNamed: aTagString [
 	(self tags includes: aTagString)
 		ifFalse: [ ^ self ].
 	self tags remove: aTagString.
-	self announcer announce: PropertiesUpdated new.
 	self announcer announce: TagsUpdated new.
 	self deckAnnounce: TagsUpdated new
 ]
