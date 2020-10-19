@@ -130,6 +130,8 @@ AbstractCardModelNamedEntity >> gtDescriptionFor: aView [
 
 { #category : #'gt-extensions' }
 AbstractCardModelNamedEntity >> gtPropertiesFor: aView [
+	"NB: Tags are part of properties, so also update when Tags are updated"
+
 	<gtView>
 	^ aView columnedList
 		title: 'Properties';
@@ -167,7 +169,8 @@ AbstractCardModelNamedEntity >> gtPropertiesFor: aView [
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add property';
 				action: [ self set: self freshKey to: self defaultValue ] ];
-		updateWhen: PropertiesUpdated in: [ self announcer ]
+		updateWhen: PropertiesUpdated in: [ self announcer ];
+		updateWhen: TagsUpdated in: [ self announcer ]
 ]
 
 { #category : #'gt-extensions' }

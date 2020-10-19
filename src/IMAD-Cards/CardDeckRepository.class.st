@@ -317,7 +317,9 @@ Smalltalk saveAs: ''IMAD.1''.
 
 !Github repo
 
-[[[]
+*https://github.com/onierstrasz/IMAD*
+
+[[[
 WebBrowser openOn: ''https://github.com/onierstrasz/IMAD''
 ]]]
 
