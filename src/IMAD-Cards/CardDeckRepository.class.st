@@ -17,6 +17,7 @@ CardDeckRepository >> garageDoorRemote [
 			'(State machine example from EI Computational Thinking lecture.)
 
 Entities are:
+
 - A Garage Door
 - A remote control
 - A car
@@ -34,11 +35,31 @@ Stopped (while closing).
 The door changes state when it receives a signal from the remote, or from a sensor.
 
 In this example we can describe the m2 entities, and a concrete m1 scenario.
+
+See *https://github.com/onierstrasz/IMAD/issues/26*
 ';
 		properties:
 			(Dictionary new
 				add: #storageClassName -> 'CardDeckRepository';
 				add: #storageMethodName -> 'garageDoorRemote';
+				yourself);
+		addCard:
+			(Card new
+				name: 'Closed';
+				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
+				yourself);
+		addCard:
+			(Card new
+				name: 'Closing';
+				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
 				yourself);
 		addCard:
 			(Card new
@@ -80,6 +101,24 @@ The door changes state when it receives a signal from the remote, or from a sens
 				yourself);
 		addCard:
 			(Card new
+				name: 'Open';
+				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
+				yourself);
+		addCard:
+			(Card new
+				name: 'Opening';
+				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
+				yourself);
+		addCard:
+			(Card new
 				name: 'Remote Control';
 				description:
 					'The remote has a single button. Pressing it causes the door to change state, i.e., from closed to opening, etc.';
@@ -88,12 +127,45 @@ The door changes state when it receives a signal from the remote, or from a sens
 						add: #tags -> OrderedCollection new;
 						yourself);
 				yourself);
+		addCard:
+			(Card new
+				name: 'Stopped Closing';
+				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
+				yourself);
+		addCard:
+			(Card new
+				name: 'Stopped Opening';
+				description: 'To do';
+				properties:
+					(Dictionary new
+						add: #tags -> OrderedCollection new;
+						yourself);
+				yourself);
+		addRelation: '_rel683471616'
+			fromCardNamed: 'Closed'
+			toCardNamed: 'Opening';
+		addRelation: '_rel587174656'
+			fromCardNamed: 'Closing'
+			toCardNamed: 'Closed';
 		addRelation: 'instanceOf'
 			fromCardNamed: 'Homer''s Garage Door'
 			toCardNamed: 'Garage Door';
 		addRelation: 'instanceOf'
 			fromCardNamed: 'Homer''s Remote'
 			toCardNamed: 'Remote Control';
+		addRelation: '_rel572011264'
+			fromCardNamed: 'Open'
+			toCardNamed: 'Closing';
+		addRelation: '_rel514680576'
+			fromCardNamed: 'Opening'
+			toCardNamed: 'Open';
+		addRelation: '_rel858375680'
+			fromCardNamed: 'Opening'
+			toCardNamed: 'Stopped Opening';
 		addRelation: 'controls'
 			fromCardNamed: 'Remote Control'
 			toCardNamed: 'Garage Door';
