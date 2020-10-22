@@ -1,11 +1,11 @@
 "
-I  provide a dedicated view for a Card Deck, or a subset of Cards in a Deck.
+I  provide a dedicated view for a VirtualHand of Cards in a Deck, i.e., defined by a Filter.
 Eventually some of my parts should be factored out into separate Element classes.
 
 I consist of a Header, a Tags pane, and a Graph pane.
 "
 Class {
-	#name : #CardHandGUI,
+	#name : #VirtualHandGUI,
 	#superclass : #BlElement,
 	#instVars : [
 		'nameHolder',
@@ -19,7 +19,7 @@ Class {
 }
 
 { #category : #accessing }
-CardHandGUI >> buildButtonBar [
+VirtualHandGUI >> buildButtonBar [
 	| buttonBar |
 	buttonBar := BlElement new
 		constraintsDo: [ :c | 
@@ -80,7 +80,7 @@ CardHandGUI >> buildButtonBar [
 ]
 
 { #category : #accessing }
-CardHandGUI >> buildGraph [
+VirtualHandGUI >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
 
 	self hand filter: self tagPane filter.
@@ -91,7 +91,7 @@ CardHandGUI >> buildGraph [
 ]
 
 { #category : #accessing }
-CardHandGUI >> buildGraphHolder [
+VirtualHandGUI >> buildGraphHolder [
 	"I hold the actual graph (which may change), and handle mouse events."
 
 	<todo: 'Add CMD-click'>
@@ -115,7 +115,7 @@ CardHandGUI >> buildGraphHolder [
 ]
 
 { #category : #accessing }
-CardHandGUI >> buildGraphPane [
+VirtualHandGUI >> buildGraphPane [
 	| graphPane |
 	graphPane := BlElement new
 		constraintsDo: [ :c | 
@@ -135,7 +135,7 @@ CardHandGUI >> buildGraphPane [
 ]
 
 { #category : #accessing }
-CardHandGUI >> buildGuiHeaderPane [
+VirtualHandGUI >> buildGuiHeaderPane [
 	| header |
 	header := BlElement new
 		constraintsDo: [ :c | 
@@ -172,36 +172,36 @@ CardHandGUI >> buildGuiHeaderPane [
 ]
 
 { #category : #accessing }
-CardHandGUI >> cards [
+VirtualHandGUI >> cards [
 	^ self hand cards
 ]
 
 { #category : #accessing }
-CardHandGUI >> contextMenu [
+VirtualHandGUI >> contextMenu [
 	^ BrGlamorousSimpleContextMenuContent new
 		items: {('Inspect deck' -> [ :e | self deck inspect ])};
 		yourself
 ]
 
 { #category : #accessing }
-CardHandGUI >> deck [
+VirtualHandGUI >> deck [
 	^ self hand deck
 ]
 
 { #category : #accessing }
-CardHandGUI >> deck: aCardDeck [
-	self hand: (CardHand new deck: aCardDeck; yourself).
+VirtualHandGUI >> deck: aCardDeck [
+	self hand: (VirtualHand new deck: aCardDeck; yourself).
 ]
 
 { #category : #accessing }
-CardHandGUI >> hand [
+VirtualHandGUI >> hand [
 	"Need the hand for the current filter so new cards will match the filter (i.e., be included in the hand)"
 
 	^ hand
 ]
 
 { #category : #accessing }
-CardHandGUI >> hand: aCardHand [
+VirtualHandGUI >> hand: aCardHand [
 	self unsubscribe.
 	hand := aCardHand.
 	self subscribe.
@@ -211,9 +211,9 @@ CardHandGUI >> hand: aCardHand [
 ]
 
 { #category : #accessing }
-CardHandGUI >> initialize [
+VirtualHandGUI >> initialize [
 	super initialize.
-	hand := CardHand new.
+	hand := VirtualHand new.
 	style := CardGraphStyle new mindmapStyle.
 	self
 		constraintsDo: [ :c | 
@@ -228,7 +228,7 @@ CardHandGUI >> initialize [
 ]
 
 { #category : #accessing }
-CardHandGUI >> saveButton [
+VirtualHandGUI >> saveButton [
 	^ BrButton new
 		look:
 			BrGlamorousButtonWithIconLook
@@ -258,12 +258,12 @@ CardHandGUI >> saveButton [
 ]
 
 { #category : #accessing }
-CardHandGUI >> style [
+VirtualHandGUI >> style [
 	^ style
 ]
 
 { #category : #accessing }
-CardHandGUI >> subscribe [
+VirtualHandGUI >> subscribe [
 	self deck announcer
 		when: PropertiesUpdated
 		do: [ self updateHeaderName ]
@@ -287,18 +287,18 @@ CardHandGUI >> subscribe [
 ]
 
 { #category : #accessing }
-CardHandGUI >> tagPane [
+VirtualHandGUI >> tagPane [
 	^ tagPane
 ]
 
 { #category : #accessing }
-CardHandGUI >> unsubscribe [
+VirtualHandGUI >> unsubscribe [
 	self deck announcer unsubscribe: self.
 	self tagPane announcer unsubscribe: self.
 ]
 
 { #category : #accessing }
-CardHandGUI >> updateGraph [
+VirtualHandGUI >> updateGraph [
 	| newGraph oldGraph |
 	oldGraph := theGraph.
 	newGraph := self buildGraph.
@@ -308,7 +308,7 @@ CardHandGUI >> updateGraph [
 ]
 
 { #category : #accessing }
-CardHandGUI >> updateHeaderName [
+VirtualHandGUI >> updateHeaderName [
 	nameHolder removeChildren.
 	nameHolder addChild: self deck buildLabel
 ]

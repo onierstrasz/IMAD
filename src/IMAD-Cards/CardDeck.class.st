@@ -72,14 +72,14 @@ CardDeck >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 
 { #category : #'gt-extensions' }
 CardDeck >> asElement [
-	^ CardHandGUI new
+	^ VirtualHandGUI new
 		deck: self;
 		yourself
 ]
 
 { #category : #accessing }
 CardDeck >> asHand [
-	^ CardHand new
+	^ VirtualHand new
 		deck: self;
 		filter: TrueFilter new;
 		yourself
@@ -160,7 +160,7 @@ CardDeck >> cardNamed: targetName become: aSymbol ofCardNamed: sourceName [
 
 { #category : #querying }
 CardDeck >> cardsMatching: aFilter [
-	^ CardHand new
+	^ VirtualHand new
 		deck: self filter: aFilter;
 		yourself
 ]

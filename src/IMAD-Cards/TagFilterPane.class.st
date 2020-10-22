@@ -43,7 +43,7 @@ TagFilterPane >> exampleDeckWithTags [
 TagFilterPane >> exampleHandWithTags [
 	<gtExample>
 	| pane aHand |
-	aHand := CardHand new
+	aHand := VirtualHand new
 		deck:
 			(CardDeck new
 				addCard:

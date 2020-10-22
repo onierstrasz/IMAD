@@ -1,5 +1,5 @@
 "
-I test that a CardHand is properly synchronized with its CardDeck.
+I test that a VirtualHand is properly synchronized with its CardDeck.
 
 The Deck has cards with tags 'a' and 'b'.
 The Hand is defined by the filter 'a' & not 'b'.
@@ -483,7 +483,7 @@ CardHandTestExamples >> handWithTrueFilterHasThreeTags [
 { #category : #accessing }
 CardHandTestExamples >> initialize [
 	deck := self exampleDeck.
-	hand := CardHand new
+	hand := VirtualHand new
 		deck: deck
 		filter: 'a' asTagFilter & ('b' asTagFilter not)
 ]

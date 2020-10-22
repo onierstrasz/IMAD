@@ -3,11 +3,11 @@ I represent a subset of a Deck of Cards defined by a Filter.
 
 The subsets of cards and relations are computed lazily. If either the Deck or the Filter is changed, the cards and relations subsets are invalidated.
 
-If the Deck is modified (Cards or Relations updated) then the cards and relations are invalidated.
+If the Deck is modified (Cards or Relations updated) then the cards and relations are invalidated, and recomputed by their (lazy) accessors.
 
 "
 Class {
-	#name : #CardHand,
+	#name : #VirtualHand,
 	#superclass : #AbstractCardSet,
 	#instVars : [
 		'deck',
@@ -17,54 +17,54 @@ Class {
 }
 
 { #category : #cards }
-CardHand >> addCard: aCard [
+VirtualHand >> addCard: aCard [
 	aCard addTags: self filter positiveTags.
 	deck addCard: aCard.
 	self invalidateCardsAndRelations
 ]
 
 { #category : #accessing }
-CardHand >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
+VirtualHand >> addRelation: aSymbol from: aSourceCard to: aTargetCard [
 	self deck addRelation: aSymbol from: aSourceCard to: aTargetCard
 ]
 
 { #category : #accessing }
-CardHand >> asElement [
-	^ CardHandGUI new
+VirtualHand >> asElement [
+	^ VirtualHandGUI new
 		hand: self;
 		yourself
 ]
 
 { #category : #accessing }
-CardHand >> cards [
+VirtualHand >> cards [
 	cards ifNil: [ self updateCards ].
 	^ cards
 ]
 
 { #category : #accessing }
-CardHand >> cards: aCardCollection [
+VirtualHand >> cards: aCardCollection [
 	cards := aCardCollection
 ]
 
 { #category : #accessing }
-CardHand >> cardsNil [
+VirtualHand >> cardsNil [
 	"For testing purposes."
 	^ cards isNil
 ]
 
 { #category : #relations }
-CardHand >> containsRelation: aRelation [
+VirtualHand >> containsRelation: aRelation [
 	^ (self cards includes: aRelation source)
 		and: [ self cards includes: aRelation target ]
 ]
 
 { #category : #accessing }
-CardHand >> deck [
+VirtualHand >> deck [
 	^ deck
 ]
 
 { #category : #accessing }
-CardHand >> deck: aDeck [
+VirtualHand >> deck: aDeck [
 	self unsubscribe.
 	deck := aDeck.
 	self subscribe.
@@ -72,45 +72,45 @@ CardHand >> deck: aDeck [
 ]
 
 { #category : #initialization }
-CardHand >> deck: aDeck filter: aFilter [
+VirtualHand >> deck: aDeck filter: aFilter [
 	self deck: aDeck.
 	self filter: aFilter
 ]
 
 { #category : #accessing }
-CardHand >> deleteCard: aCard [
+VirtualHand >> deleteCard: aCard [
 	self deck deleteCard: aCard
 ]
 
 { #category : #accessing }
-CardHand >> deleteRelation: rel [
+VirtualHand >> deleteRelation: rel [
 	self deck deleteRelation: rel
 ]
 
 { #category : #accessing }
-CardHand >> example [
+VirtualHand >> example [
 	"Toy example for testing"
 
 	<gtExample>
-	^ CardHand new
+	^ VirtualHand new
 		name: 'testHand';
 		deck: CardDeck new example;
 		filter: 'a' asTagFilter & 'b' asTagFilter not yourself
 ]
 
 { #category : #accessing }
-CardHand >> filter [
+VirtualHand >> filter [
 	^ filter
 ]
 
 { #category : #accessing }
-CardHand >> filter: aFilter [
+VirtualHand >> filter: aFilter [
 	filter := aFilter.
 	self invalidateCardsAndRelations
 ]
 
 { #category : #initialization }
-CardHand >> initialize [
+VirtualHand >> initialize [
 	super initialize.
 	deck := CardDeck new.
 	filter := TrueFilter new.
@@ -118,24 +118,24 @@ CardHand >> initialize [
 ]
 
 { #category : #accessing }
-CardHand >> invalidateCardsAndRelations [
+VirtualHand >> invalidateCardsAndRelations [
 	self cards: nil.
 	self relations: nil
 ]
 
 { #category : #accessing }
-CardHand >> relations [
+VirtualHand >> relations [
 	relations ifNil: [ self updateRelations ].
 	^ relations
 ]
 
 { #category : #accessing }
-CardHand >> relations: aRelation [
+VirtualHand >> relations: aRelation [
 	relations := aRelation
 ]
 
 { #category : #announcements }
-CardHand >> subscribe [
+VirtualHand >> subscribe [
 	"NB: specify self as the subscriber so we can ubsubscribe!"
 
 	self deck announcer
@@ -153,26 +153,26 @@ CardHand >> subscribe [
 ]
 
 { #category : #accessing }
-CardHand >> tags [
+VirtualHand >> tags [
 	^ (super tags asSet
 		addAll: self filter tags;
 		yourself) asOrderedCollection
 ]
 
 { #category : #accessing }
-CardHand >> unsubscribe [
+VirtualHand >> unsubscribe [
 	self deck announcer unsubscribe: self
 ]
 
 { #category : #accessing }
-CardHand >> updateCards [
+VirtualHand >> updateCards [
 	self assert: deck notNil description: 'deck should not be nil'.
 	self assert: filter notNil description: 'filter should not be nil'.
 	self cards: (self deck cards select: [ :card | self filter matches: card ])
 ]
 
 { #category : #accessing }
-CardHand >> updateRelations [
+VirtualHand >> updateRelations [
 	self assert: deck notNil description: 'deck should not be nil'.
 	self assert: filter notNil description: 'filter should not be nil'.
 	self
