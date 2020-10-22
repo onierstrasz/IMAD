@@ -5,7 +5,7 @@ I sit inside the graphHolder of the card deck element.
 
 "
 Class {
-	#name : #CardHandGraphView,
+	#name : #VirtualHandGraphView,
 	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
@@ -17,29 +17,29 @@ Class {
 }
 
 { #category : #accessing }
-CardHandGraphView >> cards [
+VirtualHandGraphView >> cards [
 	^ self hand cards
 ]
 
 { #category : #accessing }
-CardHandGraphView >> deck [
+VirtualHandGraphView >> deck [
 	^ self hand deck
 ]
 
 { #category : #accessing }
-CardHandGraphView >> edgeElementFor: aRelation [
+VirtualHandGraphView >> edgeElementFor: aRelation [
 	^ CardRelationViewBuilder new
 		forRelation: aRelation inGraph: self
 ]
 
 { #category : #accessing }
-CardHandGraphView >> elementFor: anEntity [
+VirtualHandGraphView >> elementFor: anEntity [
 	self assert: (graphElementsDictionary includesKey: anEntity).
 	^ graphElementsDictionary at: anEntity
 ]
 
 { #category : #accessing }
-CardHandGraphView >> forHand: aHand withStyle: aStyle [
+VirtualHandGraphView >> forHand: aHand withStyle: aStyle [
 	"NB: The dictionary is needed because for each edge to create we have
 	to look up the element corresponding to the other end of the relation.
 	NB: We can also use this to map relations to their edges, if needed."
@@ -66,12 +66,12 @@ CardHandGraphView >> forHand: aHand withStyle: aStyle [
 ]
 
 { #category : #accessing }
-CardHandGraphView >> hand [
+VirtualHandGraphView >> hand [
 	^ hand
 ]
 
 { #category : #accessing }
-CardHandGraphView >> initialize [
+VirtualHandGraphView >> initialize [
 	super initialize.
 	graphElementsDictionary := Dictionary new.
 	self
@@ -81,18 +81,18 @@ CardHandGraphView >> initialize [
 ]
 
 { #category : #accessing }
-CardHandGraphView >> mapModelEntity: entity toElement: anElement [
+VirtualHandGraphView >> mapModelEntity: entity toElement: anElement [
 	graphElementsDictionary at: entity put: anElement
 ]
 
 { #category : #accessing }
-CardHandGraphView >> nodeCardElementFor: aCard [
+VirtualHandGraphView >> nodeCardElementFor: aCard [
 	^ CardNodeView new
 		card: aCard;
 		yourself
 ]
 
 { #category : #accessing }
-CardHandGraphView >> style [
+VirtualHandGraphView >> style [
 	^ style
 ]

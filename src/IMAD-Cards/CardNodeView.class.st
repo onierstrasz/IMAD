@@ -1,5 +1,5 @@
 "
-I provide a dedicated view for a ${class:Card}$ instance.
+I provide a dedicated view for a ${class:Card}$ instance as a node within a graph.
 "
 Class {
 	#name : #CardNodeView,

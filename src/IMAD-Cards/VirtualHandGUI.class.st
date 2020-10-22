@@ -84,7 +84,7 @@ VirtualHandGUI >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
 
 	self hand filter: self tagPane filter.
-	theGraph := (CardHandGraphView new forHand: self hand withStyle: self style )
+	theGraph := (VirtualHandGraphView new forHand: self hand withStyle: self style )
 		asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
