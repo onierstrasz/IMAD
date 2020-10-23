@@ -48,20 +48,12 @@ HypergraphExamples >> threeLevelGraph [
 	ca := c addNode.
 	cb := c addNode.
 	caa := ca addNode.
-	
 	self assert: graph root size equals: 9.
 	self assert: graph root leaves size equals: 1.
 	self assert: graph root subgraphs size equals: 2.
-	
 	self assert: graph root allLeaves size equals: 5.
-	
 	self assert: graph root allSubgraphs size equals: 3.
-	
-	"self assert: graph root withAllSubgraphs size equals: 4."
-	
-	self
-		assert: (graph root allLeaves collect: #depth) max
-		equals: 3.
-		
+	self assert: graph root withAllSubgraphs size equals: 4.
+	self assert: (graph root allLeaves collect: #depth) max equals: 3.
 	^ graph
 ]

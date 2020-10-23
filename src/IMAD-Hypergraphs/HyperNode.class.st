@@ -106,3 +106,10 @@ HyperNode >> size [
 HyperNode >> subgraphs [
 	^ children select: #isSubgraph
 ]
+
+{ #category : #accessing }
+HyperNode >> withAllSubgraphs [
+	^ self allSubgraphs
+		add: self;
+		yourself
+]
