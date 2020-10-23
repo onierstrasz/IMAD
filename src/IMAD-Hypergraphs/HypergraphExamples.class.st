@@ -10,9 +10,9 @@ Class {
 { #category : #accessing }
 HypergraphExamples >> emptyHypergraph [
 	<gtExample>
-	| root |
-	root := HyperNode root.
-	self assert: root isRoot.
-	self assert: root size equals: 1.
-	^ root
+	| graph |
+	graph := HyperGraph new.
+	self assert: graph root isRoot.
+	self assert: graph size equals: 1.
+	^ graph
 ]
