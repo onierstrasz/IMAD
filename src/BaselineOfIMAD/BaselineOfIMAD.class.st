@@ -10,6 +10,7 @@ BaselineOfIMAD >> baseline: spec [
 	spec
 		for: #common
 		do: [ spec
+				package: #'IMAD-Hypernodes';
 				package: #'IMAD-HypergraphsOLD';
 				package: #'IMAD-Cards';
 				package: #'IMAD-FSA'
