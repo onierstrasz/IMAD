@@ -10,7 +10,7 @@ BaselineOfIMAD >> baseline: spec [
 	spec
 		for: #common
 		do: [ spec
-				package: #'IMAD-Hypergraphs';
+				package: #'IMAD-HypergraphsOLD';
 				package: #'IMAD-Cards';
 				package: #'IMAD-FSA'
 			"package: #'IMAD-EGM'" ]
