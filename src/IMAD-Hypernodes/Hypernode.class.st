@@ -62,6 +62,12 @@ Hypernode >> isLeaf [
 ]
 
 { #category : #accessing }
+Hypernode >> isTree [
+	<todo: 'Need to search for absence of cycles.'>
+	^ self isLeaf
+]
+
+{ #category : #accessing }
 Hypernode >> nodes [ 
 	^ nodes
 ]
