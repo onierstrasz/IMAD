@@ -35,6 +35,7 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 	self assert: root withReachableNodes size equals: 3.
 	self assert: (root withReachableNodes select: #isLeaf) size equals: 2.
 	self assert: root reachableEdges size equals: 1.
+	self assert: root isDAG.
 	"self assert: root isTree."
 	^ root
 ]
@@ -51,6 +52,7 @@ HypernodeTestExamples >> simpleRecursiveNode [
 	self assert: root reachableNodes size equals: 1.
 	self assert: root reachableEdges size equals: 1.
 	self assert: root isTree not.
+	self assert: root hasCycles.
 	^ root
 ]
 
