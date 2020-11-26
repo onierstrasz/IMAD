@@ -29,6 +29,7 @@ HypernodeExamples >> flatGraphTwoNodes [
 	self assert: a isLeaf.
 	self assert: b isLeaf.
 	self assert: root withReachableNodes size equals: 3.
+	self assert: (root withReachableNodes select: #isLeaf) size equals: 2.
 	self assert: root reachableEdges size equals: 1.
 	^ root
 ]
@@ -56,6 +57,9 @@ HypernodeExamples >> threeLevelGraph [
 	root addNode: self twoLevelGraph.
 	root addNode: self twoLevelGraph.
 	self assert: root withReachableNodes size equals: 22.
+	self
+		assert: (root withReachableNodes select: #isLeaf) size
+		equals: 12.
 	self assert: root reachableEdges size equals: 6.
 	^ root
 ]
@@ -68,6 +72,9 @@ HypernodeExamples >> twoLevelGraph [
 	root addNode: self flatGraphTwoNodes.
 	root addNode: self flatGraphTwoNodes.
 	self assert: root withReachableNodes size equals: 7.
+	self
+		assert: (root withReachableNodes select: #isLeaf) size
+		equals: 4.
 	self assert: root reachableEdges size equals: 2.
 	^ root
 ]
