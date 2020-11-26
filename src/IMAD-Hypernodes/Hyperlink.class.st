@@ -24,7 +24,7 @@ Hyperlink >> from: aSourceNode to: aTargetNode [
 
 { #category : #accessing }
 Hyperlink >> nodes [
-	^ Set with: self source with: self target
+	^ OrderedCollection with: self source with: self target
 ]
 
 { #category : #accessing }

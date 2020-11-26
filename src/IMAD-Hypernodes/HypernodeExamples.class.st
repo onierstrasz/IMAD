@@ -27,9 +27,32 @@ HypernodeExamples >> flatGraphTwoNodes [
 	self assert: a isLeaf.
 	self assert: b isLeaf.
 	self assert: root reachableNodes size equals: 2.
+	self assert: root reachableEdges size equals: 1.
 	^ root
 ]
 
 { #category : #accessing }
 HypernodeExamples >> nestedGraph [
+	<gtExample>
+	| root |
+	root := self emptyNode.
+	root addNode: self flatGraphTwoNodes.
+	root addNode: self flatGraphTwoNodes.
+	self assert: root reachableNodes size equals: 6.
+	self assert: root reachableEdges size equals: 2.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeExamples >> simpleRecursiveNode [
+	"A degenerate hypernode that contains itself as well as a link from itself to itself"
+
+	<gtExample>
+	| root |
+	root := self emptyNode.
+	root addNode: root.
+	root addLink: root -> root.
+	self assert: root reachableNodes size equals: 1.
+	self assert: root reachableEdges size equals: 1.
+	^ root
 ]
