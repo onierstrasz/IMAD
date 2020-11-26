@@ -4,5 +4,30 @@ I represent an edge between Hypernodes. Unlike an edge in a normal graph, I migh
 Class {
 	#name : #Hyperlink,
 	#superclass : #HypergraphEntity,
+	#instVars : [
+		'source',
+		'target'
+	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
+
+{ #category : #accessing }
+Hyperlink class >> from: aSourceNode to: aTargetNode [ 
+	^ self new from: aSourceNode to: aTargetNode 
+]
+
+{ #category : #accessing }
+Hyperlink >> from: aSourceNode to: aTargetNode [
+	self source: aSourceNode.
+	self target: aTargetNode
+]
+
+{ #category : #accessing }
+Hyperlink >> source: aSourceNode [
+	source := aSourceNode
+]
+
+{ #category : #accessing }
+Hyperlink >> target: aTargetNode [
+	target := aTargetNode
+]

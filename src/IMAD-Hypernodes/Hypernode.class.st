@@ -22,6 +22,29 @@ Class {
 }
 
 { #category : #accessing }
+Hypernode >> -> aNode [
+	^ Hyperlink from: self to: aNode
+]
+
+{ #category : #accessing }
+Hypernode >> addLink: aLink [
+	edges add: aLink
+]
+
+{ #category : #accessing }
+Hypernode >> addNode [
+	| node |
+	node := Hypernode new.
+	self addNode: node.
+	^ node 
+]
+
+{ #category : #accessing }
+Hypernode >> addNode: aNode [
+	nodes add: aNode 
+]
+
+{ #category : #accessing }
 Hypernode >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.

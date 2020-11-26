@@ -12,3 +12,14 @@ HypernodeExamples >> emptyNode [
 	self assert: eg nodes isEmpty.
 	^ eg
 ]
+
+{ #category : #accessing }
+HypernodeExamples >> flatGraphTwoNodes [
+	<gtExample>
+	| root a b |
+	root := self emptyNode.
+	a := root addNode.
+	b := root addNode.
+	root addLink: a -> b.
+	^ root
+]
