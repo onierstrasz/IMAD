@@ -45,6 +45,11 @@ Hypernode >> addNode: aNode [
 ]
 
 { #category : #accessing }
+Hypernode >> edges [
+	^ edges
+]
+
+{ #category : #accessing }
 Hypernode >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.
@@ -52,6 +57,28 @@ Hypernode >> initialize [
 ]
 
 { #category : #accessing }
+Hypernode >> isLeaf [
+	^ self nodes isEmpty and: [ self edges isEmpty ]
+]
+
+{ #category : #accessing }
 Hypernode >> nodes [ 
 	^ nodes
+]
+
+{ #category : #accessing }
+Hypernode >> reachableNodes [
+	<todo: 'more tests'>
+	| reachable toCheck |
+	reachable := Set new.
+	toCheck := self nodes.
+	toCheck addAll: (self edges flatCollect: #nodes).
+	[ toCheck notEmpty ]
+		whileTrue: [ | nextNode |
+			nextNode := toCheck removeFirst.
+			(reachable includes: nextNode)
+				ifFalse: [ reachable add: nextNode.
+					toCheck addAll: nextNode nodes.
+					toCheck addAll: (nextNode edges flatCollect: #nodes) ] ].
+	^ reachable
 ]

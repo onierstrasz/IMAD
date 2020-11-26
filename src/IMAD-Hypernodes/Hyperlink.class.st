@@ -23,8 +23,23 @@ Hyperlink >> from: aSourceNode to: aTargetNode [
 ]
 
 { #category : #accessing }
+Hyperlink >> nodes [
+	^ Set with: self source with: self target
+]
+
+{ #category : #accessing }
+Hyperlink >> source [
+	^ source
+]
+
+{ #category : #accessing }
 Hyperlink >> source: aSourceNode [
 	source := aSourceNode
+]
+
+{ #category : #accessing }
+Hyperlink >> target [
+	^ target
 ]
 
 { #category : #accessing }
