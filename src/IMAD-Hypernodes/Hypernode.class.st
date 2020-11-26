@@ -68,22 +68,7 @@ Hypernode >> nodes [
 
 { #category : #accessing }
 Hypernode >> reachableEdges [
-	<todo: 'more tests'>
-	| reachable toCheck |
-	reachable := Set new.
-	toCheck := self edges copy.
-	toCheck addAll: (self nodes flatCollect: #edges).
-	[ toCheck notEmpty ]
-		whileTrue: [ | nextEdge |
-			nextEdge := toCheck removeFirst.
-			self assert: nextEdge isNotNil.
-			(reachable includes: nextEdge)
-				ifFalse: [ reachable add: nextEdge.
-					toCheck addAll: nextEdge source edges.
-					toCheck addAll: (nextEdge source nodes flatCollect: #edges).
-					toCheck addAll: nextEdge target edges.
-					toCheck addAll: (nextEdge target nodes flatCollect: #edges) ] ].
-	^ reachable
+	^ self withReachableNodes flatCollect: #edges
 ]
 
 { #category : #accessing }
@@ -102,4 +87,11 @@ Hypernode >> reachableNodes [
 					toCheck addAll: nextNode nodes.
 					toCheck addAll: (nextNode edges flatCollect: #nodes) ] ].
 	^ reachable
+]
+
+{ #category : #accessing }
+Hypernode >> withReachableNodes [
+	^ self reachableNodes
+		add: self;
+		yourself
 ]
