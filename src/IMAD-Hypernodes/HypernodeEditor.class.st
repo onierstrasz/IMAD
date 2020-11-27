@@ -91,6 +91,20 @@ HypernodeEditor >> buildButtonBar [
 ]
 
 { #category : #accessing }
+HypernodeEditor >> buildGraph [
+	"I am the actual graph held by the graphHolder within the graphPane"
+
+	"self hand filter: self tagPane filter."
+
+	"theGraph := (VirtualHandGraphView new forHand: self hand withStyle: self style )
+		asPannableElement."
+
+	theGraph := (HypernodeView new for: self node) asPannableElement.
+	theGraph zoomableElement clipChildren: false.
+	^ theGraph
+]
+
+{ #category : #accessing }
 HypernodeEditor >> buildGraphHolder [
 	"I hold the actual graph (which may change), and handle mouse events."
 
@@ -138,10 +152,21 @@ HypernodeEditor >> initialize [
 ]
 
 { #category : #accessing }
+HypernodeEditor >> node [
+	^ node
+]
+
+{ #category : #accessing }
 HypernodeEditor >> node: aHypernode [
 	node := aHypernode
 ]
 
 { #category : #accessing }
 HypernodeEditor >> updateGraph [
+	| newGraph oldGraph |
+	oldGraph := theGraph.
+	newGraph := self buildGraph.
+	oldGraph ifNotNil: [ newGraph zoomTo: oldGraph zoomLevel ].
+	graphHolder removeChildren.
+	graphHolder addChild: newGraph
 ]
