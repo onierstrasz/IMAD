@@ -1,15 +1,20 @@
 "
 I am a utility class for this package. I can run all the tests and find all the todos.
 
-	IMAD gtExamples
-	
-	IMAD todos
+[[[
+IMAD gtExamples
+]]]
+
+[[[
+IMAD todos
+]]]
+
 
 "
 Class {
 	#name : #IMAD,
 	#superclass : #Object,
-	#category : #'IMAD-Cards-Utilities'
+	#category : #'IMAD-Hypernodes'
 }
 
 { #category : #accessing }
@@ -56,6 +61,12 @@ IMAD >> allExamples [
 	<gtExample>
 	^ ('IMAD' gtPackageMatches & #gtExample gtReferences
 		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
+]
+
+{ #category : #accessing }
+IMAD >> cardTodos [
+	<gtExample>
+	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
 
 { #category : #accessing }
@@ -157,5 +168,5 @@ IMAD >> storedCardDecks [
 { #category : #accessing }
 IMAD >> todos [
 	<gtExample>
-	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
+	^ #todo: gtPragmas & 'IMAD-Hypernodes' gtPackageMatches
 ]

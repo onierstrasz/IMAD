@@ -72,6 +72,21 @@ HypernodeTestExamples >> threeLevelGraph [
 ]
 
 { #category : #accessing }
+HypernodeTestExamples >> threeNodeCycle [
+	<gtExample>
+	| root a b c |
+	root := self emptyNode.
+	a := root addNode.
+	b := root addNode.
+	c := root addNode.
+	root addLink: a -> b.
+	root addLink: b -> c.
+	root addLink: c -> a.
+	self assert: root withReachableNodes size equals: 4.
+	^ root
+]
+
+{ #category : #accessing }
 HypernodeTestExamples >> twoLevelGraph [
 	<gtExample>
 	| root |

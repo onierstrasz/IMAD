@@ -21,6 +21,37 @@ Class {
 }
 
 { #category : #accessing }
+HypernodeView >> defaultLayout [
+	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
+	The Tree Layout leads to problems with cycles."
+
+	^ BlOnceLayout new layout: GtGradCircleLayout new
+	
+	"^ BlOnceLayout new layout: GtGradHorizontalTreeLayout new"
+
+	"^ BlOnceLayout new layout: GtGradKamadaKawaiLayout new"
+	
+	
+	
+]
+
+{ #category : #accessing }
+HypernodeView >> edgeElementFor: aHyperlink [
+	^ HyperlinkView new forLink: aHyperlink inGraph: self
+]
+
+{ #category : #accessing }
+HypernodeView >> edges [
+	^ node edges
+]
+
+{ #category : #accessing }
+HypernodeView >> elementFor: anEntity [
+	self assert: (graphElementsDictionary includesKey: anEntity).
+	^ graphElementsDictionary at: anEntity
+]
+
+{ #category : #accessing }
 HypernodeView >> for: aHypernode [
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
@@ -32,13 +63,9 @@ HypernodeView >> for: aHypernode [
 					nodeElement := self nodeElementFor: aNode.
 					self mapModelEntity: aNode toElement: nodeElement.
 					self addChild: nodeElement ] ].
-	"self nodes
-		do: [ :source | 
-			source sourceRelations
-				do: [ :rel | 
-					(hand containsRelation: rel)
-						ifTrue: [ self addChild: (self edgeElementFor: rel) ] ] ]."
+	self edges do: [ :edge | self addChild: (self edgeElementFor: edge) ].
 	"self layout: self style layout."
+	self layout: self defaultLayout.
 	self clipChildren: false.
 	^ self
 ]
