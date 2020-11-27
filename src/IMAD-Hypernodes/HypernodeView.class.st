@@ -23,7 +23,29 @@ Class {
 { #category : #accessing }
 HypernodeView >> for: aHypernode [
 	<todo: 'also pass style as a parameter?'>
-	node := aHypernode
+	node := aHypernode.
+	
+	graphElementsDictionary := Dictionary new.
+	
+		self nodes 
+		ifNotEmpty: [ self nodes
+				do: [ :aNode | 
+					| nodeElement |
+					nodeElement := self nodeElementFor: aNode.
+					self mapModelEntity: aNode toElement: nodeElement.	
+					self addChild: nodeElement
+					
+					
+					 ] ].
+	"self nodes
+		do: [ :source | 
+			source sourceRelations
+				do: [ :rel | 
+					(hand containsRelation: rel)
+						ifTrue: [ self addChild: (self edgeElementFor: rel) ] ] ]."
+	"self layout: self style layout."
+	self clipChildren: false.
+	^ self
 ]
 
 { #category : #accessing }
@@ -34,4 +56,22 @@ HypernodeView >> initialize [
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ]
+]
+
+{ #category : #accessing }
+HypernodeView >> mapModelEntity: aNode toElement: nodeElement [
+	graphElementsDictionary at: aNode put: nodeElement
+]
+
+{ #category : #accessing }
+HypernodeView >> nodeElementFor: aNode [ 
+
+	^ HypernodeElement new
+		node: aNode;
+		yourself
+]
+
+{ #category : #accessing }
+HypernodeView >> nodes [
+	^ node nodes
 ]
