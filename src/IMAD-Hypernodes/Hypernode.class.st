@@ -45,8 +45,22 @@ Hypernode >> addNode: aNode [
 ]
 
 { #category : #accessing }
+Hypernode >> asElement [
+	^ HypernodeEditor for: self
+]
+
+{ #category : #accessing }
 Hypernode >> edges [
 	^ edges
+]
+
+{ #category : #accessing }
+Hypernode >> gtLiveFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live';
+		priority: 5;
+		stencil: [ self asElement ]
 ]
 
 { #category : #accessing }
