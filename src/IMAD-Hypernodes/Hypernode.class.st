@@ -50,25 +50,6 @@ Hypernode >> edges [
 ]
 
 { #category : #accessing }
-Hypernode >> hasCycles [
-"TO FIX: Obviously the source and target of edges will already appear in the reachable nodes!"
-	| reachable toCheck |
-	reachable := Set new.
-	toCheck := self nodes copy.
-	toCheck addAll: (self edges flatCollect: #nodes).
-	[ toCheck notEmpty ]
-		whileTrue: [ | nextNode |
-			nextNode := toCheck removeFirst.
-			self assert: nextNode isNotNil.
-			(reachable includes: nextNode)
-				ifTrue: [ ^ true ]
-				ifFalse: [ reachable add: nextNode.
-					toCheck addAll: nextNode nodes.
-					toCheck addAll: (nextNode edges flatCollect: #nodes) ] ].
-	^ false
-]
-
-{ #category : #accessing }
 Hypernode >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.
@@ -77,7 +58,8 @@ Hypernode >> initialize [
 
 { #category : #accessing }
 Hypernode >> isDAG [
-	^ self hasCycles not
+	<todo: 'Need to dearch for absence of directed cycles. Requires a DFS.'>
+	^ self notYetImplemented
 ]
 
 { #category : #accessing }
@@ -87,8 +69,8 @@ Hypernode >> isLeaf [
 
 { #category : #accessing }
 Hypernode >> isTree [
-	<todo: 'Need to search for absence of cycles.'>
-	^ self isLeaf
+	<todo: 'Need to search for absence of any kind of cycles, directed or not.'>
+	^ self notYetImplemented
 ]
 
 { #category : #accessing }
