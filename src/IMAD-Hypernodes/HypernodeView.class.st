@@ -24,19 +24,14 @@ Class {
 HypernodeView >> for: aHypernode [
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
-	
 	graphElementsDictionary := Dictionary new.
-	
-		self nodes 
+	self nodes
 		ifNotEmpty: [ self nodes
 				do: [ :aNode | 
 					| nodeElement |
 					nodeElement := self nodeElementFor: aNode.
-					self mapModelEntity: aNode toElement: nodeElement.	
-					self addChild: nodeElement
-					
-					
-					 ] ].
+					self mapModelEntity: aNode toElement: nodeElement.
+					self addChild: nodeElement ] ].
 	"self nodes
 		do: [ :source | 
 			source sourceRelations

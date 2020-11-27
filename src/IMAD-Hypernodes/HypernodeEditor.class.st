@@ -130,7 +130,14 @@ HypernodeEditor >> buildGraphHolder [
 
 { #category : #accessing }
 HypernodeEditor >> for: aHypernode [
-	self node: aHypernode
+	"self unsubscribe."
+
+	self node: aHypernode.
+
+	"self subscribe.
+	self updateHeaderName.
+	self tagPane updateTagFilterButtonsForHand: self hand."
+	self updateGraph
 ]
 
 { #category : #accessing }
