@@ -23,11 +23,12 @@ Class {
 { #category : #accessing }
 HypernodeView >> defaultLayout [
 	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
-	The Tree Layout leads to problems with cycles."
+	The Tree Layout leads to problems with cycles.
+	The Circle Layout can't cope with empty graphs."
 
-	^ BlOnceLayout new layout: GtGradCircleLayout new
+	"^ BlOnceLayout new layout: GtGradCircleLayout new"
 	
-	"^ BlOnceLayout new layout: GtGradHorizontalTreeLayout new"
+	^ BlOnceLayout new layout: GtGradHorizontalTreeLayout new
 
 	"^ BlOnceLayout new layout: GtGradKamadaKawaiLayout new"
 	

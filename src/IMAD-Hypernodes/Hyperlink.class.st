@@ -17,6 +17,13 @@ Hyperlink class >> from: aSourceNode to: aTargetNode [
 ]
 
 { #category : #accessing }
+Hyperlink >> = anObject [
+	^ super = anObject
+		and:
+			[ self source = anObject source and: [ self target = anObject target ] ]
+]
+
+{ #category : #accessing }
 Hyperlink >> from: aSourceNode to: aTargetNode [
 	self source: aSourceNode.
 	self target: aTargetNode

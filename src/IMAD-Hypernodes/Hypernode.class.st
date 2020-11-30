@@ -27,6 +27,15 @@ Hypernode >> -> aNode [
 ]
 
 { #category : #accessing }
+Hypernode >> = anObject [
+	"Note that we expect the nodes and edges to appear in the same order.
+	This is just a simple form of equality, not subgrapg isomorphism!"
+	^ super = anObject
+		and:
+			[ self nodes = anObject nodes and: [ self edges = anObject edges ] ]
+]
+
+{ #category : #accessing }
 Hypernode >> addLink: aLink [
 	edges add: aLink
 ]
@@ -99,9 +108,10 @@ Hypernode >> reachableEdges [
 
 { #category : #accessing }
 Hypernode >> reachableNodes [
+	"NB: Use an IdentitySet instead of a Set, since we do not want to identify nodes whose values happen to be equal (e.g., empty nodes with no properties)"
 	<todo: 'more tests'>
 	| reachable toCheck |
-	reachable := Set new.
+	reachable := IdentitySet new.
 	toCheck := self nodes copy.
 	toCheck addAll: (self edges flatCollect: #nodes).
 	[ toCheck notEmpty ]
