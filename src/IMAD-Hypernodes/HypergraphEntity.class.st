@@ -25,10 +25,26 @@ HypergraphEntity >> = anObject [
 ]
 
 { #category : #accessing }
+HypergraphEntity >> assertGeneratedNodeEqualsSelf [
+	"If this fails, there is a bug in the code generation!"
+
+	self
+		assert: self generatedNodeEqualsSelf
+		description: 'Fatal error: generated storeString is not equal to self'
+]
+
+{ #category : #accessing }
 HypergraphEntity >> assertInvariant [
 	self
 		assert: properties isNotNil
 		description: 'properties must be defined'
+]
+
+{ #category : #accessing }
+HypergraphEntity >> generatedNodeEqualsSelf [
+	^ (OpalCompiler new
+		source: self storeString;
+		evaluate) = self
 ]
 
 { #category : #accessing }
@@ -77,11 +93,6 @@ HypergraphEntity >> properties: aDictionary [
 HypergraphEntity >> set: propertyKey to: aValue [
 	self properties at: propertyKey put: aValue
 	"self announcer announce: PropertiesUpdated new"
-]
-
-{ #category : #accessing }
-HypergraphEntity >> storeOn: aStream [
-	self subclassResponsibility
 ]
 
 { #category : #accessing }

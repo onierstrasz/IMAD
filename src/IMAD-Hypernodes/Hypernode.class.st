@@ -73,6 +73,11 @@ Hypernode >> gtLiveFor: aView [
 ]
 
 { #category : #accessing }
+Hypernode >> id [
+	^ self identityHash asString
+]
+
+{ #category : #accessing }
 Hypernode >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.
@@ -123,6 +128,51 @@ Hypernode >> reachableNodes [
 					toCheck addAll: nextNode nodes.
 					toCheck addAll: (nextNode edges flatCollect: #nodes) ] ].
 	^ reachable
+]
+
+{ #category : #accessing }
+Hypernode >> storeOn: aStream [
+	| allNodes |
+	allNodes := self withReachableNodes.
+	aStream
+		nextPutAll: 'HypernodeBuilder new';
+		cr.
+
+	"Recreate each reachable node with its properties.
+	Record the mapping from the old id to the new node in the builder."
+	allNodes
+		do: [ :each | 
+			"Create the subgraphs for each node."
+			aStream
+				nextPutAll: '  addNode: ( Hypernode new ';
+				cr.
+			each storePropertiesOn: aStream.
+			aStream
+				nextPutAll: ') forId: ';
+				nextPutAll: each id;
+				nextPutAll: ';';
+				cr ].
+	"Add the subgraph nodes and edges to each node."
+	allNodes
+		do: [ :each | 
+			aStream
+				nextPutAll: '  forNode: ';
+				nextPutAll: each id;
+				nextPutAll: '  addSubNodes: {';
+				nextPutAll: (' . ' join: each nodes);
+				nextPutAll: '};';
+				cr.
+			each storePropertiesOn: aStream.
+			aStream
+				nextPutAll: each id;
+				nextPutAll: ';';
+				cr ].
+	"Return the root node"
+	aStream
+		nextPutAll: '  returnNodeForId: ';
+		nextPutAll: self id;
+		nextPutAll: '.';
+		cr
 ]
 
 { #category : #accessing }
