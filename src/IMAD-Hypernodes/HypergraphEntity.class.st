@@ -102,9 +102,10 @@ HypergraphEntity >> set: propertyKey to: aValue [
 
 { #category : #accessing }
 HypergraphEntity >> storePropertiesOn: aStream [
-	aStream nextPutAll: '  properties: '.
-	properties storeOn: aStream.
-	aStream
-		nextPutAll: ';';
-		cr
+	properties isNotEmpty
+		ifTrue: [ aStream nextPutAll: '  properties: '.
+			properties storeOn: aStream.
+			aStream
+				nextPutAll: ';';
+				cr ]
 ]

@@ -14,17 +14,7 @@ HypernodeTestExamples >> addComplexPropertiesToNode [
 	| node |
 	node := self emptyNode.
 	node set: #tags to: {'foo' . 'bar'} asOrderedCollection.
-	node
-		set: #nested
-		to:
-			{(#a -> 1).
-			(#b -> 2).
-			(#c
-				->
-					{(#x -> 'hello').
-					(#y -> {'hi' . 'there'} asOrderedCollection)} asDictionary)}
-				asDictionary.
-	"node assertGeneratedDeckEqualsSelf."
+	node set: #nested to: self nestedProperties asDictionary.
 	^ node
 ]
 
@@ -75,8 +65,31 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 	self assert: root reachableEdges size equals: 1.
 	"self assert: root isDAG."
 	"self assert: root isTree."
-	"root assertGeneratedNodeEqualsSelf."
+	root assertGeneratedNodeEqualsSelf.
 	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> flatGraphWithNodeProperties [
+	<gtExample>
+	| root a b |
+	root := self emptyNode.
+	a := root addNode.
+	b := root addNode.
+	root addLink: a -> b.
+	a set: #nested to: self nestedProperties.
+	root assertGeneratedNodeEqualsSelf.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> nestedProperties [
+	^ {(#a -> 1).
+	(#b -> 2).
+	(#c
+		->
+			{(#x -> 'hello').
+			(#y -> {'hi' . 'there'} asOrderedCollection)} asDictionary)}
 ]
 
 { #category : #accessing }

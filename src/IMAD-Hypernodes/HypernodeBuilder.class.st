@@ -23,6 +23,17 @@ Class {
 }
 
 { #category : #accessing }
+HypernodeBuilder >> addEdgeFromId: fromId toId: toId forId: parentId withProperties: properties [
+	| edge |
+	edge := Hyperlink
+		from: (self nodeForId: fromId)
+		to: (self nodeForId: toId).
+	edge properties: properties.
+	(self nodeForId: parentId) addLink: edge.
+	^ edge
+]
+
+{ #category : #accessing }
 HypernodeBuilder >> addNode: aHypernode forId: id [
 	self assert: (idMap includesKey: id) not.
 	idMap at: id put: aHypernode
