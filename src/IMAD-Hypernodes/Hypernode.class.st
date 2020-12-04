@@ -28,13 +28,9 @@ Hypernode >> -> aNode [
 
 { #category : #accessing }
 Hypernode >> = anObject [
-	"Note that we expect the nodes and edges to appear in the same order.
-	This is just a simple form of equality, not subgraph isomorphism!"
+	"NB: We do not search for an isomorphic, but simply test if the given order of nodes and edges in the two graphs is an isomorphism."
 
-	^ super = anObject
-		and:
-			[ "[ self nodes = anObject nodes and: [ self edges = anObject edges ] ]" 
-			self storeString = anObject storeString ]
+	^ super = anObject and: [ self isomorphicTo: anObject ]
 ]
 
 { #category : #accessing }
@@ -99,30 +95,95 @@ Hypernode >> isTree [
 ]
 
 { #category : #accessing }
+Hypernode >> isomorphicTo: anotherHypernode [
+	"Note that we do not search for an isomorphism, but simply check if the contained nodes and edges in the same, given order establish an isomrphism."
+
+	| myNodes otherNodes myEdges otherEdges myIndices otherIndices |
+	myNodes := self reachableNodes.
+	otherNodes := anotherHypernode reachableNodes.
+	myEdges := self reachableEdges.
+	otherEdges := anotherHypernode reachableEdges.
+
+	"The graphs have the same numbers of nodes and edges"
+	myNodes size = otherNodes size
+		ifFalse: [ ^ false ].
+	myEdges size = otherEdges size
+		ifFalse: [ ^ false ].
+
+	"The nodes and edges have identical properties."
+	myNodes
+		withIndexDo: [ :node :i | 
+			node properties = (otherNodes at: i) properties
+				ifFalse: [ ^ false ] ].
+	myEdges
+		withIndexDo: [ :edge :i | 
+			edge properties = (otherEdges at: i) properties
+				ifFalse: [ ^ false ] ].
+
+	"To check for isomorphism, we identify nodes in the two graphs by their indices in the lists of reachable nodes."
+	myIndices := IdentityDictionary
+		newFromKeys: myNodes
+		andValues: (1 to: myNodes size).
+	otherIndices := IdentityDictionary
+		newFromKeys: otherNodes
+		andValues: (1 to: otherNodes size).
+	
+	"All nodes contain the same subnodes, i.e., with the same indices in the list of all reachable nodes."
+	myNodes
+		withIndexDo: [ :node :i | 
+			| mySubnodes otherSubnodes |
+			mySubnodes := node nodes collect: [ :each | myIndices at: each ].
+			otherSubnodes := (otherNodes at: i) nodes
+				collect: [ :each | otherIndices at: each ].
+			mySubnodes = otherSubnodes
+				ifFalse: [ ^ false ] ].
+
+	"All nodes contain the same edges, mapping between corresponding nodes."
+	myNodes
+		withIndexDo: [ :node :i | 
+			| mySubedges otherSubedges |
+			mySubedges := node edges.
+			otherSubedges := (otherNodes at: i) edges.
+			mySubedges size = otherSubedges size
+				ifFalse: [ ^ false ].
+			mySubedges
+				withIndexDo: [ :edge :j | 
+					(myIndices at: edge source)
+						= (otherIndices at: (otherSubedges at: j) source)
+						ifFalse: [ ^ false ].
+					(myIndices at: edge target)
+						= (otherIndices at: (otherSubedges at: j) target)
+						ifFalse: [ ^ false ] ] ].
+	^ true
+]
+
+{ #category : #accessing }
 Hypernode >> nodes [ 
 	^ nodes
 ]
 
 { #category : #accessing }
 Hypernode >> reachableEdges [
-	^ self withReachableNodes flatCollect: #edges
+	^ self reachableNodes flatCollect: #edges
 ]
 
 { #category : #accessing }
 Hypernode >> reachableNodes [
-	"NB: Use an IdentitySet instead of a Set, since we do not want to identify nodes whose values happen to be equal (e.g., empty nodes with no properties)"
+	"NB: We use an IdentitySet to check for inclusion so that we test for identity, not equality."
+
 	<todo: 'more tests'>
-	<todo: 'PROBLEM: we should use an OrderedCollection to have an easy check if two graphs are equal and to preserve order when regenerating a graph, but OrderedCollection>>#includes: makes use of =, not ==, we cannot use reachableNodes in the definition of =.'>
-	| reachable toCheck |
-	reachable := IdentitySet new.
+	| reachable toCheck reachedSet |
+	reachable := OrderedCollection with: self.
+	reachedSet := IdentitySet with: self.
 	toCheck := self nodes copy.
 	toCheck addAll: (self edges flatCollect: #nodes).
 	[ toCheck notEmpty ]
 		whileTrue: [ | nextNode |
 			nextNode := toCheck removeFirst.
 			self assert: nextNode isNotNil.
-			(reachable includes: nextNode)
-				ifFalse: [ reachable add: nextNode.
+			(reachedSet includes: nextNode)
+				ifFalse: [ reachedSet add: nextNode.
+					reachable addLast: nextNode.
 					toCheck addAll: nextNode nodes.
 					toCheck addAll: (nextNode edges flatCollect: #nodes) ] ].
 	^ reachable
@@ -133,7 +194,7 @@ Hypernode >> storeOn: aStream [
 	"We store the HypernodeGraph as a code snippet that asks a HypernodeBuilder to recreate the graph. Each Hypernode is assigned an id, which is used by the builder to uniquely identify the nodes."
 
 	| allNodes nodeIdMap |
-	allNodes := self withReachableNodes asOrderedCollection.
+	allNodes := self reachableNodes asOrderedCollection.
 
 	"Note the id of each node."
 	nodeIdMap := IdentityDictionary new.
@@ -201,11 +262,4 @@ Hypernode >> storeOn: aStream [
 		nextPutAll: (nodeIdMap at: self) asString;
 		nextPutAll: '.';
 		cr
-]
-
-{ #category : #accessing }
-Hypernode >> withReachableNodes [
-	^ self reachableNodes
-		add: self;
-		yourself
 ]

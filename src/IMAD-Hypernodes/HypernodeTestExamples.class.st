@@ -41,8 +41,7 @@ HypernodeTestExamples >> emptyNode [
 	root := Hypernode new.
 	self assert: root nodes isEmpty.
 	self assert: root isLeaf.
-	self assert: root withReachableNodes size equals: 1.
-	self assert: root reachableEdges size equals: 0.
+	self assert: root reachableNodes size equals: 1.
 	"self assert: root isTree."
 	root assertGeneratedValueEqualsSelf.
 	^ root
@@ -60,12 +59,12 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 	root addLink: a -> b.
 	self assert: a isLeaf.
 	self assert: b isLeaf.
-	self assert: root withReachableNodes size equals: 3.
-	self assert: (root withReachableNodes select: #isLeaf) size equals: 2.
+	self assert: root reachableNodes size equals: 3.
+	self assert: (root reachableNodes select: #isLeaf) size equals: 2.
 	self assert: root reachableEdges size equals: 1.
 	"self assert: root isDAG."
 	"self assert: root isTree."
-	"root assertGeneratedValueEqualsSelf."
+	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
 
@@ -115,13 +114,13 @@ HypernodeTestExamples >> threeLevelGraph [
 	root addNode: self twoLevelGraph.
 	root addNode: self twoLevelGraph.
 	root addNode: self twoLevelGraph.
-	self assert: root withReachableNodes size equals: 22.
+	self assert: root reachableNodes size equals: 22.
 	self
-		assert: (root withReachableNodes select: #isLeaf) size
+		assert: (root reachableNodes select: #isLeaf) size
 		equals: 12.
 	self assert: root reachableEdges size equals: 6.
 	"self assert: root isTree."
-	"root assertGeneratedValueEqualsSelf."
+	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
 
@@ -136,8 +135,8 @@ HypernodeTestExamples >> threeNodeCycle [
 	root addLink: a -> b.
 	root addLink: b -> c.
 	root addLink: c -> a.
-	self assert: root withReachableNodes size equals: 4.
-	"root assertGeneratedValueEqualsSelf."
+	self assert: root reachableNodes size equals: 4.
+	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
 
@@ -148,12 +147,12 @@ HypernodeTestExamples >> twoLevelGraph [
 	root := self emptyNode.
 	root addNode: self flatGraphTwoNodes.
 	root addNode: self flatGraphTwoNodes.
-	self assert: root withReachableNodes size equals: 7.
+	self assert: root reachableNodes size equals: 7.
 	self
-		assert: (root withReachableNodes select: #isLeaf) size
+		assert: (root reachableNodes select: #isLeaf) size
 		equals: 4.
 	self assert: root reachableEdges size equals: 2.
 	"self assert: root isTree."
-	"root assertGeneratedValueEqualsSelf."
+	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
