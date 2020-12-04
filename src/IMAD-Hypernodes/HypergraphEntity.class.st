@@ -41,10 +41,15 @@ HypergraphEntity >> assertInvariant [
 ]
 
 { #category : #accessing }
-HypergraphEntity >> generatedNodeEqualsSelf [
-	^ (OpalCompiler new
+HypergraphEntity >> evalStoreString [
+	^ OpalCompiler new
 		source: self storeString;
-		evaluate) = self
+		evaluate
+]
+
+{ #category : #accessing }
+HypergraphEntity >> generatedNodeEqualsSelf [
+	^ self evalStoreString = self
 ]
 
 { #category : #accessing }

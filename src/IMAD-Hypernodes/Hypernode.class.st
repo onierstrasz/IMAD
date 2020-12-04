@@ -73,11 +73,6 @@ Hypernode >> gtLiveFor: aView [
 ]
 
 { #category : #accessing }
-Hypernode >> id [
-	^ self identityHash asString
-]
-
-{ #category : #accessing }
 Hypernode >> initialize [
 	super initialize.
 	nodes := OrderedCollection new.
@@ -132,45 +127,59 @@ Hypernode >> reachableNodes [
 
 { #category : #accessing }
 Hypernode >> storeOn: aStream [
-	| allNodes |
-	allNodes := self withReachableNodes.
+	"We store the HypernodeGraph as a code snippet that asks a HypernodeBuilder to recreate the graph. Each Hypernode is assigned an id, which is used by the builder to uniquely identify the nodes."
+
+	| allNodes nodeIdMap |
+	allNodes := self withReachableNodes asOrderedCollection.
+
+	"Note the id of each node."
+	nodeIdMap := IdentityDictionary new.
+	allNodes doWithIndex: [ :each :id | nodeIdMap at: each put: id ].
+
+	"Use the builder to each old id to the new node."
 	aStream
 		nextPutAll: 'HypernodeBuilder new';
 		cr.
 
-	"Recreate each reachable node with its properties.
-	Record the mapping from the old id to the new node in the builder."
+	"Recreate each reachable node with its properties."
 	allNodes
-		do: [ :each | 
+		doWithIndex: [ :each :id | 
 			"Create the subgraphs for each node."
 			aStream
-				nextPutAll: '  addNode: ( Hypernode new ';
-				cr.
+				nextPutAll: '  addNode: (Hypernode new ';
+				cr;
+				nextPutAll: '  '.
 			each storePropertiesOn: aStream.
 			aStream
-				nextPutAll: ') forId: ';
-				nextPutAll: each id;
+				nextPutAll: '    yourself)';
+				nextPutAll: ' forId: ';
+				nextPutAll: id asString;
 				nextPutAll: ';';
 				cr ].
+
 	"Add the subgraph nodes and edges to each node."
 	allNodes
-		do: [ :each | 
+		doWithIndex: [ :each :id | 
 			aStream
-				nextPutAll: '  forNode: ';
-				nextPutAll: each id;
-				nextPutAll: '  addSubNodes: {';
-				nextPutAll: (' . ' join: each nodes);
-				nextPutAll: '};';
-				cr.
-			each storePropertiesOn: aStream.
-			aStream
+				nextPutAll: '  addSubNodes: { ';
+				nextPutAll:
+					(' . '
+						join: (each nodes collect: [ :subnode | nodeIdMap at: subnode ]));
+				nextPutAll: ' }';
+				nextPutAll: ' forId: ';
+				nextPutAll: id asString;
+				nextPutAll: ';';
+				"	aStream
 				nextPutAll: each id;
 				nextPutAll: ';';
-				cr ].
+				cr 
+				"
+					cr ].
+
 	"Return the root node"
 	aStream
-		nextPutAll: '  returnNodeForId: ';
-		nextPutAll: self id;
+		nextPutAll: '  nodeForId: ';
+		nextPutAll: (nodeIdMap at: self) asString;
 		nextPutAll: '.';
 		cr
 ]

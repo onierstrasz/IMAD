@@ -29,8 +29,9 @@ HypernodeBuilder >> addNode: aHypernode forId: id [
 ]
 
 { #category : #accessing }
-HypernodeBuilder >> forNode: aHypernode addSubNodes: nodeIds [
-	
+HypernodeBuilder >> addSubNodes: nodeIds forId: id [
+	nodeIds
+		do: [ :eachId | (self nodeForId: id) addNode: (self nodeForId: eachId) ]
 ]
 
 { #category : #accessing }
@@ -40,6 +41,6 @@ HypernodeBuilder >> initialize [
 ]
 
 { #category : #accessing }
-HypernodeBuilder >> returnNodeForId: id [
+HypernodeBuilder >> nodeForId: id [
 	^ idMap at: id
 ]
