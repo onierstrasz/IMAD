@@ -25,11 +25,11 @@ HypergraphEntity >> = anObject [
 ]
 
 { #category : #accessing }
-HypergraphEntity >> assertGeneratedNodeEqualsSelf [
+HypergraphEntity >> assertGeneratedValueEqualsSelf [
 	"If this fails, there is a bug in the code generation!"
 
 	self
-		assert: self generatedNodeEqualsSelf
+		assert: self generatedValue = self
 		description: 'Fatal error: generated storeString is not equal to self'
 ]
 
@@ -41,15 +41,10 @@ HypergraphEntity >> assertInvariant [
 ]
 
 { #category : #accessing }
-HypergraphEntity >> evalStoreString [
+HypergraphEntity >> generatedValue [
 	^ OpalCompiler new
 		source: self storeString;
 		evaluate
-]
-
-{ #category : #accessing }
-HypergraphEntity >> generatedNodeEqualsSelf [
-	^ self evalStoreString = self
 ]
 
 { #category : #accessing }

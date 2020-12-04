@@ -29,10 +29,12 @@ Hypernode >> -> aNode [
 { #category : #accessing }
 Hypernode >> = anObject [
 	"Note that we expect the nodes and edges to appear in the same order.
-	This is just a simple form of equality, not subgrapg isomorphism!"
+	This is just a simple form of equality, not subgraph isomorphism!"
+
 	^ super = anObject
 		and:
-			[ self nodes = anObject nodes and: [ self edges = anObject edges ] ]
+			[ "[ self nodes = anObject nodes and: [ self edges = anObject edges ] ]" 
+			self storeString = anObject storeString ]
 ]
 
 { #category : #accessing }

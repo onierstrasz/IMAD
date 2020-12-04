@@ -44,7 +44,7 @@ HypernodeTestExamples >> emptyNode [
 	self assert: root withReachableNodes size equals: 1.
 	self assert: root reachableEdges size equals: 0.
 	"self assert: root isTree."
-	root assertGeneratedNodeEqualsSelf.
+	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
 
@@ -65,7 +65,7 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 	self assert: root reachableEdges size equals: 1.
 	"self assert: root isDAG."
 	"self assert: root isTree."
-	root assertGeneratedNodeEqualsSelf.
+	"root assertGeneratedValueEqualsSelf."
 	^ root
 ]
 
@@ -78,7 +78,7 @@ HypernodeTestExamples >> flatGraphWithNodeProperties [
 	b := root addNode.
 	root addLink: a -> b.
 	a set: #nested to: self nestedProperties.
-	root assertGeneratedNodeEqualsSelf.
+	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
 
@@ -103,7 +103,7 @@ HypernodeTestExamples >> simpleRecursiveNode [
 	root addLink: root -> root.
 	self assert: root reachableNodes size equals: 1.
 	self assert: root reachableEdges size equals: 1.
-	"root assertGeneratedNodeEqualsSelf."
+	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
 
@@ -121,7 +121,7 @@ HypernodeTestExamples >> threeLevelGraph [
 		equals: 12.
 	self assert: root reachableEdges size equals: 6.
 	"self assert: root isTree."
-	"root assertGeneratedNodeEqualsSelf."
+	"root assertGeneratedValueEqualsSelf."
 	^ root
 ]
 
@@ -137,7 +137,7 @@ HypernodeTestExamples >> threeNodeCycle [
 	root addLink: b -> c.
 	root addLink: c -> a.
 	self assert: root withReachableNodes size equals: 4.
-	"root assertGeneratedNodeEqualsSelf."
+	"root assertGeneratedValueEqualsSelf."
 	^ root
 ]
 
@@ -154,6 +154,6 @@ HypernodeTestExamples >> twoLevelGraph [
 		equals: 4.
 	self assert: root reachableEdges size equals: 2.
 	"self assert: root isTree."
-	"root assertGeneratedNodeEqualsSelf."
+	"root assertGeneratedValueEqualsSelf."
 	^ root
 ]
