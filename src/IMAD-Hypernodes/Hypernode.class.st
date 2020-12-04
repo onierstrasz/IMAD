@@ -112,6 +112,7 @@ Hypernode >> reachableEdges [
 Hypernode >> reachableNodes [
 	"NB: Use an IdentitySet instead of a Set, since we do not want to identify nodes whose values happen to be equal (e.g., empty nodes with no properties)"
 	<todo: 'more tests'>
+	<todo: 'PROBLEM: we should use an OrderedCollection to have an easy check if two graphs are equal and to preserve order when regenerating a graph, but OrderedCollection>>#includes: makes use of =, not ==, we cannot use reachableNodes in the definition of =.'>
 	| reachable toCheck |
 	reachable := IdentitySet new.
 	toCheck := self nodes copy.
