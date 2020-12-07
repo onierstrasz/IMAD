@@ -79,8 +79,13 @@ Hypernode >> initialize [
 
 { #category : #accessing }
 Hypernode >> isDAG [
-	<todo: 'Need to dearch for absence of directed cycles. Requires a DFS.'>
+	<todo: 'Need to search for absence of directed cycles. Requires a DFS.'>
 	^ self notYetImplemented
+]
+
+{ #category : #accessing }
+Hypernode >> isGraph [
+	^ self isLeaf not
 ]
 
 { #category : #accessing }
@@ -160,6 +165,45 @@ Hypernode >> isomorphicTo: anotherHypernode [
 { #category : #accessing }
 Hypernode >> nodes [ 
 	^ nodes
+]
+
+{ #category : #accessing }
+Hypernode >> printOn: aStream [
+	<todo:
+		'Expand this with more detailed information; adapt to different kinds of graphs.'>
+	| subgraphs |
+	self isLeaf
+		ifTrue: [ aStream nextPutAll: 'a leaf Hypernode'.
+			^ self ].
+	subgraphs := self nodes select: #isGraph.
+	subgraphs isEmpty
+		ifTrue: [ aStream nextPutAll: 'a flat graph Hypernode' ]
+		ifFalse: [ aStream nextPutAll: 'a hierarchical graph Hypernode' ].
+	aStream
+		nextPutAll: '(';
+		nextPutAll: nodes size asString;
+		nextPutAll: ' node';
+		nextPutAll:
+			(nodes size = 1
+				ifTrue: [ '' ]
+				ifFalse: [ 's' ]);
+		nextPutAll: '; ';
+		nextPutAll: edges size asString;
+		nextPutAll: ' edge';
+		nextPutAll:
+			(edges size = 1
+				ifTrue: [ '' ]
+				ifFalse: [ 's' ]).
+	subgraphs isEmpty
+		ifFalse: [ aStream
+				nextPutAll: '; ';
+				nextPutAll: subgraphs size asString;
+				nextPutAll: ' subgraph';
+				nextPutAll:
+					(subgraphs size = 1
+						ifTrue: [ '' ]
+						ifFalse: [ 's' ]) ].
+	aStream nextPutAll: ')'
 ]
 
 { #category : #accessing }
