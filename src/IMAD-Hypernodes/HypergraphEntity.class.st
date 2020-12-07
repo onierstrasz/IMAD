@@ -13,7 +13,7 @@ Class {
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
 
-{ #category : #accessing }
+{ #category : #comparing }
 HypergraphEntity >> = anObject [
 	"Answer whether the receiver and anObject represent the same object."
 
@@ -40,6 +40,48 @@ HypergraphEntity >> assertInvariant [
 		description: 'properties must be defined'
 ]
 
+{ #category : #ut }
+HypergraphEntity >> assertValidStorageMethod [
+	"Utility. Only needs to be true as a precondition for storing."
+
+	| methodName className |
+	methodName := self storageMethodName.
+	self
+		assert: methodName notNil
+		description: 'storage method name must be defined'.
+	self
+		assert: methodName isString
+		description: 'storage method name must be a string'.
+	self
+		assert:
+			(methodName
+				detect: [ :c | c isAlphaNumeric not ]
+				ifFound: [ false ]
+				ifNone: [ true ])
+		description: 'storage method name must be alphanumeric'.
+	self
+		assert: methodName first isLowercase
+		description: 'storage method name must start with lower case character'.
+	className := self storageClassName.
+	self
+		assert: className notNil
+		description: 'storage class name must be defined'.
+	self
+		assert: className isString
+		description: 'storage class name must be a string'.
+	self
+		assert: className first isUppercase
+		description: 'storage class name must start with upper case character'.
+	self
+		assert: (Smalltalk at: className asSymbol ifAbsent: [ nil ]) isClass
+		description: 'storage class name must refer to an existing class'
+]
+
+{ #category : #utilities }
+HypergraphEntity >> classNamed: aClassName [
+	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
+]
+
 { #category : #accessing }
 HypergraphEntity >> generatedValue [
 	^ OpalCompiler new
@@ -49,7 +91,7 @@ HypergraphEntity >> generatedValue [
 
 { #category : #accessing }
 HypergraphEntity >> get: propertyKey [
-	self assert: (properties includesKey: propertyKey) description: 'key to lookup must exist'.
+	self assert: (properties includesKey: propertyKey) description: 'key ', propertyKey asString, ' has not been defined'.
 	^ properties at: propertyKey ifAbsent: nil
 ]
 
@@ -93,6 +135,16 @@ HypergraphEntity >> properties: aDictionary [
 HypergraphEntity >> set: propertyKey to: aValue [
 	self properties at: propertyKey put: aValue
 	"self announcer announce: PropertiesUpdated new"
+]
+
+{ #category : #accessing }
+HypergraphEntity >> storageClassName [
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+HypergraphEntity >> storageMethodName [
+	self subclassResponsibility
 ]
 
 { #category : #accessing }

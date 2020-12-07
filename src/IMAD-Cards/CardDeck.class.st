@@ -132,7 +132,7 @@ CardDeck >> assertValidStorageMethod [
 		description: 'storage method name must be defined'.
 	self
 		assert: methodName isString
-		description: 'storage method name must be as string'.
+		description: 'storage method name must be a string'.
 	self
 		assert:
 			(methodName

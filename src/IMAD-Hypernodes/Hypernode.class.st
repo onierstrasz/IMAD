@@ -26,7 +26,7 @@ Hypernode >> -> aNode [
 	^ Hyperlink from: self to: aNode
 ]
 
-{ #category : #accessing }
+{ #category : #comparing }
 Hypernode >> = anObject [
 	"NB: We do not search for an isomorphic, but simply test if the given order of nodes and edges in the two graphs is an isomorphism."
 
@@ -59,6 +59,19 @@ Hypernode >> asElement [
 { #category : #accessing }
 Hypernode >> edges [
 	^ edges
+]
+
+{ #category : #accessing }
+Hypernode >> generateStorageMethodString [
+	| stream |
+	self assertValidStorageMethod.
+	self assertGeneratedValueEqualsSelf.
+	stream := WriteStream on: String new.
+	stream
+		nextPutAll: self storageMethodName;
+		nextPutAll: ' <storedHypernode> <gtExample> ^ '.
+	self storeOn: stream.
+	^ OpalCompiler new format: stream contents
 ]
 
 { #category : #accessing }
@@ -231,6 +244,27 @@ Hypernode >> reachableNodes [
 					toCheck addAll: nextNode nodes.
 					toCheck addAll: (nextNode edges flatCollect: #nodes) ] ].
 	^ reachable
+]
+
+{ #category : #accessing }
+Hypernode >> saveState [
+	| storageClass |
+	storageClass := self classNamed: self storageClassName.
+	self
+		assert: storageClass isClass
+		description: 'Storage class ' , self storageClassName , ' must exist.'.
+	storageClass compile: self generateStorageMethodString
+]
+
+{ #category : #accessing }
+Hypernode >> storageClassName [
+	^ self get: #storageClassName
+
+]
+
+{ #category : #accessing }
+Hypernode >> storageMethodName [
+	^ self get: #storageMethodName
 ]
 
 { #category : #accessing }
