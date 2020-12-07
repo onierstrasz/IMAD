@@ -23,7 +23,7 @@ Class {
 }
 
 { #category : #accessing }
-HypernodeBuilder >> addEdgeFromId: fromId toId: toId forId: parentId withProperties: properties [
+HypernodeBuilder >> addEdgeFrom: fromId to: toId for: parentId withProperties: properties [
 	| edge |
 	edge := Hyperlink
 		from: (self nodeForId: fromId)
@@ -34,13 +34,13 @@ HypernodeBuilder >> addEdgeFromId: fromId toId: toId forId: parentId withPropert
 ]
 
 { #category : #accessing }
-HypernodeBuilder >> addNode: aHypernode forId: id [
+HypernodeBuilder >> addNode: aHypernode for: id [
 	self assert: (idMap includesKey: id) not.
 	idMap at: id put: aHypernode
 ]
 
 { #category : #accessing }
-HypernodeBuilder >> addSubNodes: nodeIds forId: id [
+HypernodeBuilder >> addSubNodes: nodeIds for: id [
 	nodeIds
 		do: [ :eachId | (self nodeForId: id) addNode: (self nodeForId: eachId) ]
 ]

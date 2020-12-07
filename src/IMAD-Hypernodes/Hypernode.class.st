@@ -253,14 +253,16 @@ Hypernode >> storeOn: aStream [
 	allNodes
 		doWithIndex: [ :each :id | 
 			"Create the subgraphs for each node."
+			aStream nextPutAll: '  addNode: (Hypernode new '.
+			each properties isNotEmpty
+				ifTrue: [ aStream
+						cr;
+						nextPutAll: '  '.
+					each storePropertiesOn: aStream.
+					aStream nextPutAll: '    ' ].
 			aStream
-				nextPutAll: '  addNode: (Hypernode new ';
-				cr;
-				nextPutAll: '  '.
-			each storePropertiesOn: aStream.
-			aStream
-				nextPutAll: '    yourself)';
-				nextPutAll: ' forId: ';
+				nextPutAll: 'yourself)';
+				nextPutAll: ' for: ';
 				nextPutAll: id asString;
 				nextPutAll: ';';
 				cr ].
@@ -275,23 +277,23 @@ Hypernode >> storeOn: aStream [
 							(' . '
 								join: (each nodes collect: [ :subnode | nodeIdMap at: subnode ]));
 						nextPutAll: ' }';
-						nextPutAll: ' forId: ';
+						nextPutAll: ' for: ';
 						nextPutAll: id asString;
 						nextPutAll: ';';
 						cr ] ].
 
 	"Add the subgraph edges to each node."
-	"HB addEdgeFromId:toId:forId:withProperties:"
+	"HB addEdgeFrom:to:for:withProperties:"
 	allNodes
 		doWithIndex: [ :each :id | 
 			each edges
 				do: [ :edge | 
 					aStream
-						nextPutAll: '  addEdgeFromId: ';
+						nextPutAll: '  addEdgeFrom: ';
 						nextPutAll: (nodeIdMap at: edge source) asString;
-						nextPutAll: ' toId: ';
+						nextPutAll: ' to: ';
 						nextPutAll: (nodeIdMap at: edge target) asString;
-						nextPutAll: ' forId: ';
+						nextPutAll: ' for: ';
 						nextPutAll: id asString;
 						cr;
 						nextPutAll: '  withProperties: '.
