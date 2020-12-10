@@ -5,6 +5,9 @@ See ${class:name=VirtualHandGUI}$ for implementation hints, especially ${method:
 
 The graph is managed by a ${class:name=HypernodeGraphView}$, and the nodes by instances of ${class:name=HypernodeElement}$.
 
+Event handling for Hypernode subgraphs are defined in ${method:name=HypernodeGraphView>>#initialize}$ and events for Hypernodes are defined in ${method:name=HypernodeElement>>#initialize}$.
+
+
 Todo:
 graphical display;
 special nodes for external links;
@@ -119,14 +122,6 @@ HypernodeEditor >> buildGraphHolder [
 		margin: (BlInsets all: 5);
 		layout: BlLinearLayout vertical;
 		yourself.
-	"graphHolder
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ])."	"right-click"
-	"graphHolder
-		addEventHandler:
-			(BlEventHandler
-				on: BlDoubleClickEvent
-				do: [ :evt | self hand addCard: Card new ])."	"Double-click"
 	^ graphHolder
 ]
 

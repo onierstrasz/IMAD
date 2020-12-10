@@ -21,6 +21,14 @@ Class {
 }
 
 { #category : #accessing }
+HypernodeGraphView >> contextMenu [
+	<todo: 'add graph context menu actions here'>
+	^ BrGlamorousSimpleContextMenuContent new
+		items: {('Inspect self' -> [ :e | self node inspect ])};
+		yourself
+]
+
+{ #category : #accessing }
 HypernodeGraphView >> defaultLayout [
 	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
 	The Tree Layout leads to problems with cycles.
@@ -73,17 +81,33 @@ HypernodeGraphView >> for: aHypernode [
 
 { #category : #accessing }
 HypernodeGraphView >> initialize [
+	<todo: 'Fix creation of new node -- need announcements?'>
 	super initialize.
 	graphElementsDictionary := Dictionary new.
 	self
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
-			c vertical fitContent ]
+			c vertical fitContent ].
+	"Border for debugging only"
+	self border: (BlBorder paint: Color paleBlue width: 0.5).
+	self
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
+	self
+		addEventHandler:
+			(BlEventHandler
+				on: BlDoubleClickEvent
+				do: [ :evt | self node addNode ])	"Double-click"
 ]
 
 { #category : #accessing }
 HypernodeGraphView >> mapModelEntity: aNode toElement: nodeElement [
 	graphElementsDictionary at: aNode put: nodeElement
+]
+
+{ #category : #accessing }
+HypernodeGraphView >> node [
+	^ node
 ]
 
 { #category : #accessing }
@@ -96,5 +120,5 @@ HypernodeGraphView >> nodeElementFor: aNode [
 
 { #category : #accessing }
 HypernodeGraphView >> nodes [
-	^ node nodes
+	^ self node nodes
 ]
