@@ -11,9 +11,9 @@ Class {
 		'nameHolder',
 		'graphHolder',
 		'theGraph',
-		'style',
 		'tagPane',
-		'hand'
+		'hand',
+		'graphStyle'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -84,7 +84,7 @@ VirtualHandGUI >> buildGraph [
 	"I am the actual graph held by the graphHolder within the graphPane"
 
 	self hand filter: self tagPane filter.
-	theGraph := (VirtualHandGraphView new forHand: self hand withStyle: self style )
+	theGraph := (VirtualHandGraphView new forHand: self hand withStyle: self graphStyle )
 		asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
@@ -194,6 +194,11 @@ VirtualHandGUI >> deck: aCardDeck [
 ]
 
 { #category : #accessing }
+VirtualHandGUI >> graphStyle [
+	^ graphStyle
+]
+
+{ #category : #accessing }
 VirtualHandGUI >> hand [
 	"Need the hand for the current filter so new cards will match the filter (i.e., be included in the hand)"
 
@@ -214,7 +219,7 @@ VirtualHandGUI >> hand: aCardHand [
 VirtualHandGUI >> initialize [
 	super initialize.
 	hand := VirtualHand new.
-	style := CardGraphStyle new mindmapStyle.
+	graphStyle := CardGraphStyle new mindmapStyle.
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -255,11 +260,6 @@ VirtualHandGUI >> saveButton [
 							dropdown ]);
 		icon: BrGlamorousIcons save;
 		label: 'Save to method ' , self deck storageClassMethod
-]
-
-{ #category : #accessing }
-VirtualHandGUI >> style [
-	^ style
 ]
 
 { #category : #accessing }

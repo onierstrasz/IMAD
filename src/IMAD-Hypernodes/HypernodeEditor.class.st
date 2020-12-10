@@ -3,6 +3,8 @@ I provide a pluggable editor view of a Hypernode and its embedded subgraph.
 
 See ${class:name=VirtualHandGUI}$ for implementation hints, especially ${method:name=VirtualHandGUI>>#buildGraphPane}$.
 
+The graph is managed by a ${class:name=HypernodeView}$, and the nodes by instances of ${class:name=HypernodeElement}$.
+
 Todo:
 graphical display;
 special nodes for external links;

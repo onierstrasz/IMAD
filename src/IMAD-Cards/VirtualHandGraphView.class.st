@@ -11,7 +11,7 @@ Class {
 		'graphElementsDictionary',
 		'deck',
 		'hand',
-		'style'
+		'graphStyle'
 	],
 	#category : #'IMAD-Cards-View'
 }
@@ -45,7 +45,7 @@ VirtualHandGraphView >> forHand: aHand withStyle: aStyle [
 	NB: We can also use this to map relations to their edges, if needed."
 
 	hand := aHand.
-	style := aStyle.
+	graphStyle := aStyle.
 	graphElementsDictionary := Dictionary new.
 	self cards
 		ifNotEmpty: [ self cards
@@ -60,9 +60,14 @@ VirtualHandGraphView >> forHand: aHand withStyle: aStyle [
 				do: [ :rel | 
 					(hand containsRelation: rel)
 						ifTrue: [ self addChild: (self edgeElementFor: rel) ] ] ].
-	self layout: self style layout.
+	self layout: self graphStyle layout.
 	self clipChildren: false.
 	^ self
+]
+
+{ #category : #accessing }
+VirtualHandGraphView >> graphStyle [
+	^ graphStyle
 ]
 
 { #category : #accessing }
@@ -90,9 +95,4 @@ VirtualHandGraphView >> nodeCardElementFor: aCard [
 	^ CardNodeView new
 		card: aCard;
 		yourself
-]
-
-{ #category : #accessing }
-VirtualHandGraphView >> style [
-	^ style
 ]
