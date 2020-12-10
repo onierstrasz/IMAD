@@ -11,7 +11,7 @@ NB: We can also use this to map relations to their edges, if needed.
 
 "
 Class {
-	#name : #HypernodeView,
+	#name : #HypernodeGraphView,
 	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
@@ -21,7 +21,7 @@ Class {
 }
 
 { #category : #accessing }
-HypernodeView >> defaultLayout [
+HypernodeGraphView >> defaultLayout [
 	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
 	The Tree Layout leads to problems with cycles.
 	The Circle Layout can't cope with empty graphs."
@@ -37,23 +37,23 @@ HypernodeView >> defaultLayout [
 ]
 
 { #category : #accessing }
-HypernodeView >> edgeElementFor: aHyperlink [
+HypernodeGraphView >> edgeElementFor: aHyperlink [
 	^ HyperlinkView new forLink: aHyperlink inGraph: self
 ]
 
 { #category : #accessing }
-HypernodeView >> edges [
+HypernodeGraphView >> edges [
 	^ node edges
 ]
 
 { #category : #accessing }
-HypernodeView >> elementFor: anEntity [
+HypernodeGraphView >> elementFor: anEntity [
 	self assert: (graphElementsDictionary includesKey: anEntity).
 	^ graphElementsDictionary at: anEntity
 ]
 
 { #category : #accessing }
-HypernodeView >> for: aHypernode [
+HypernodeGraphView >> for: aHypernode [
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
 	graphElementsDictionary := Dictionary new.
@@ -72,7 +72,7 @@ HypernodeView >> for: aHypernode [
 ]
 
 { #category : #accessing }
-HypernodeView >> initialize [
+HypernodeGraphView >> initialize [
 	super initialize.
 	graphElementsDictionary := Dictionary new.
 	self
@@ -82,12 +82,12 @@ HypernodeView >> initialize [
 ]
 
 { #category : #accessing }
-HypernodeView >> mapModelEntity: aNode toElement: nodeElement [
+HypernodeGraphView >> mapModelEntity: aNode toElement: nodeElement [
 	graphElementsDictionary at: aNode put: nodeElement
 ]
 
 { #category : #accessing }
-HypernodeView >> nodeElementFor: aNode [ 
+HypernodeGraphView >> nodeElementFor: aNode [ 
 
 	^ HypernodeElement new
 		node: aNode;
@@ -95,6 +95,6 @@ HypernodeView >> nodeElementFor: aNode [
 ]
 
 { #category : #accessing }
-HypernodeView >> nodes [
+HypernodeGraphView >> nodes [
 	^ node nodes
 ]

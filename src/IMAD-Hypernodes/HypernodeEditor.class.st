@@ -3,7 +3,7 @@ I provide a pluggable editor view of a Hypernode and its embedded subgraph.
 
 See ${class:name=VirtualHandGUI}$ for implementation hints, especially ${method:name=VirtualHandGUI>>#buildGraphPane}$.
 
-The graph is managed by a ${class:name=HypernodeView}$, and the nodes by instances of ${class:name=HypernodeElement}$.
+The graph is managed by a ${class:name=HypernodeGraphView}$, and the nodes by instances of ${class:name=HypernodeElement}$.
 
 Todo:
 graphical display;
@@ -101,7 +101,7 @@ HypernodeEditor >> buildGraph [
 	"theGraph := (VirtualHandGraphView new forHand: self hand withStyle: self style )
 		asPannableElement."
 
-	theGraph := (HypernodeView new for: self node) asPannableElement.
+	theGraph := (HypernodeGraphView new for: self node) asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
 ]
