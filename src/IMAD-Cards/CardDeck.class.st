@@ -307,7 +307,8 @@ CardDeck >> gtCardsFor: aView [
 		actionStencil: [ self addCardButton ];
 		"actionStencil: [ :aTab | self refreshButtonFor: aTab ];"
 			updateWhen: CardsUpdated in: [ self announcer ];
-		send: [ :aCard | aCard ]
+		"send: [ :aCard | aCard ]"
+		send: #value
 ]
 
 { #category : #'gt-extensions' }

@@ -66,13 +66,14 @@ HypernodeElement >> initialize [
 	self graph beNode.
 	self addEventHandler: BlNoCtrlEventsPullHandler new.
 	self addEventHandler: BlEdgeBuilder new.
-	"self
+	self
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | 
-					evt consumed: true.
-				node inspect ])."
+					evt consumed: true. "So the container does not also react."
+				self phlow spawnObject: node
+				]).
 	^ self
 ]
 
