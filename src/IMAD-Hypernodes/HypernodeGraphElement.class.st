@@ -6,12 +6,14 @@ I can be replaced if the graph is changed.
 I also keep track of the mappings from model entities back to their elements (in the graphElementsDictionary).
 NB: The dictionary is needed because for each edge to create we have to look up the element corresponding to the other end of the relation.
 NB: We can also use this to map relations to their edges, if needed.
+I do not directly handle events, but this is done by the graphHolder.
+Event handling is defined in ${method:name=HypernodeEditor>>#handleEvents}$.
 
 (I am based on  ${class:name=VirtualHandGraphView}$.)
 
 "
 Class {
-	#name : #HypernodeGraphView,
+	#name : #HypernodeGraphElement,
 	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
@@ -21,15 +23,7 @@ Class {
 }
 
 { #category : #accessing }
-HypernodeGraphView >> contextMenu [
-	<todo: 'add graph context menu actions here'>
-	^ BrGlamorousSimpleContextMenuContent new
-		items: {('Inspect self' -> [ :e | self node inspect ])};
-		yourself
-]
-
-{ #category : #accessing }
-HypernodeGraphView >> defaultLayout [
+HypernodeGraphElement >> defaultLayout [
 	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
 	The Tree Layout leads to problems with cycles.
 	The Circle Layout can't cope with empty graphs."
@@ -45,23 +39,23 @@ HypernodeGraphView >> defaultLayout [
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> edgeElementFor: aHyperlink [
+HypernodeGraphElement >> edgeElementFor: aHyperlink [
 	^ HyperlinkView new forLink: aHyperlink inGraph: self
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> edges [
+HypernodeGraphElement >> edges [
 	^ node edges
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> elementFor: anEntity [
+HypernodeGraphElement >> elementFor: anEntity [
 	self assert: (graphElementsDictionary includesKey: anEntity).
 	^ graphElementsDictionary at: anEntity
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> for: aHypernode [
+HypernodeGraphElement >> for: aHypernode [
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
 	graphElementsDictionary := Dictionary new.
@@ -80,7 +74,7 @@ HypernodeGraphView >> for: aHypernode [
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> initialize [
+HypernodeGraphElement >> initialize [
 	<todo: 'Fix creation of new node -- need announcements?'>
 	super initialize.
 	graphElementsDictionary := Dictionary new.
@@ -90,28 +84,21 @@ HypernodeGraphView >> initialize [
 			c vertical fitContent ].
 	"Border for debugging only"
 	self border: (BlBorder paint: Color paleBlue width: 0.5).
-	self
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
-	self
-		addEventHandler:
-			(BlEventHandler
-				on: BlDoubleClickEvent
-				do: [ :evt | self node addNode ])	"Double-click"
+	
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> mapModelEntity: aNode toElement: nodeElement [
+HypernodeGraphElement >> mapModelEntity: aNode toElement: nodeElement [
 	graphElementsDictionary at: aNode put: nodeElement
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> node [
+HypernodeGraphElement >> node [
 	^ node
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> nodeElementFor: aNode [ 
+HypernodeGraphElement >> nodeElementFor: aNode [ 
 
 	^ HypernodeElement new
 		node: aNode;
@@ -119,6 +106,6 @@ HypernodeGraphView >> nodeElementFor: aNode [
 ]
 
 { #category : #accessing }
-HypernodeGraphView >> nodes [
+HypernodeGraphElement >> nodes [
 	^ self node nodes
 ]

@@ -33,6 +33,38 @@ HypernodeElement >> contextMenu [
 ]
 
 { #category : #accessing }
+HypernodeElement >> handleEvents [
+	self
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look:
+			(BrInteractiveCommonLook new
+				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
+				+
+					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+						useSecondaryMouseButton;
+						modifiersMatcher: #isCmd;
+						"CMD right-click"
+							yourself)
+	"+
+					((BrGlamorousWithContextMenuLook content: [ self nodeEditor ]) 
+						useSecondaryMouseButton;
+						modifiersMatcher: #isEmpty; 
+							yourself)"	"right-click"
+	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])".
+	self addEventHandler: BlNoCtrlEventsPullHandler new.
+	self addEventHandler: BlEdgeBuilder new.
+	self
+		addEventHandler:
+			(BlEventHandler
+				on: BlDoubleClickEvent
+				do: [ :evt | 
+					evt consumed: true. "So the container does not also react."
+				self phlow spawnObject: node
+				]).
+]
+
+{ #category : #accessing }
 HypernodeElement >> initialize [
 	super initialize.
 	node := Hypernode new.
@@ -45,35 +77,9 @@ HypernodeElement >> initialize [
 			c horizontal fitContent.
 			c vertical fitContent ];
 		padding: (BlInsets all: 5).
-	self
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look:
-			(BrInteractiveCommonLook new
-				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
-				"+
-					((BrGlamorousWithContextMenuLook content: [ self nodeEditor ]) 
-						useSecondaryMouseButton;
-						modifiersMatcher: #isEmpty; 
-							yourself)" "right-click"
-				+
-					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
-						useSecondaryMouseButton;
-						modifiersMatcher: #isCmd; "CMD right-click"
-							yourself).
-	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
 	self updateNode .
 	self graph beNode.
-	self addEventHandler: BlNoCtrlEventsPullHandler new.
-	self addEventHandler: BlEdgeBuilder new.
-	self
-		addEventHandler:
-			(BlEventHandler
-				on: BlDoubleClickEvent
-				do: [ :evt | 
-					evt consumed: true. "So the container does not also react."
-				self phlow spawnObject: node
-				]).
+	self handleEvents.
 	^ self
 ]
 

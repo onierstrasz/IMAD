@@ -3,10 +3,9 @@ I provide a pluggable editor view of a Hypernode and its embedded subgraph.
 
 See ${class:name=VirtualHandGUI}$ for implementation hints, especially ${method:name=VirtualHandGUI>>#buildGraphPane}$.
 
-The graph is managed by a ${class:name=HypernodeGraphView}$, and the nodes by instances of ${class:name=HypernodeElement}$.
+The graph is managed by a ${class:name=HypernodeGraphElement}$, and the nodes by instances of ${class:name=HypernodeElement}$.
 
-Event handling for Hypernode subgraphs are defined in ${method:name=HypernodeGraphView>>#initialize}$ and events for Hypernodes are defined in ${method:name=HypernodeElement>>#initialize}$.
-
+Events for Hypernode subgraphs are handled by the graphHolder, defined in ${method:name=HypernodeEditor>>#handleEvents}$.  Event handling for Hypernodes is defined in ${method:name=HypernodeElement>>#handleEvents}$.
 
 Todo:
 graphical display;
@@ -104,7 +103,7 @@ HypernodeEditor >> buildGraph [
 	"theGraph := (VirtualHandGraphView new forHand: self hand withStyle: self style )
 		asPannableElement."
 
-	theGraph := (HypernodeGraphView new for: self node) asPannableElement.
+	theGraph := (HypernodeGraphElement new for: self node) asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
 ]
@@ -122,7 +121,16 @@ HypernodeEditor >> buildGraphHolder [
 		margin: (BlInsets all: 5);
 		layout: BlLinearLayout vertical;
 		yourself.
+	self handleEvents.
 	^ graphHolder
+]
+
+{ #category : #accessing }
+HypernodeEditor >> contextMenu [
+	<todo: 'add graph context menu actions here'>
+	^ BrGlamorousSimpleContextMenuContent new
+		items: {('Inspect self' -> [ :e | self node inspect ])};
+		yourself
 ]
 
 { #category : #accessing }
@@ -135,6 +143,18 @@ HypernodeEditor >> for: aHypernode [
 	self updateHeaderName.
 	self tagPane updateTagFilterButtonsForHand: self hand."
 	self updateGraph
+]
+
+{ #category : #accessing }
+HypernodeEditor >> handleEvents [
+	graphHolder
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
+	graphHolder
+		addEventHandler:
+			(BlEventHandler
+				on: BlDoubleClickEvent
+				do: [ :evt | self node addNode ])	"Double-click"
 ]
 
 { #category : #accessing }
