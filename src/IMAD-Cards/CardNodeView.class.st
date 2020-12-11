@@ -132,8 +132,8 @@ CardNodeView >> initialize [
 	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
 	self updateCard.
 	self graph beNode.
-	self addEventHandler: BlNoCtrlEventsPullHandler new.
-	self addEventHandler: BlEdgeBuilder new.
+	self addEventHandler: NoCtrlEventsPullHandler new.
+	self addEventHandler: EdgeBuilder new.
 	self
 		addEventHandler:
 			(BlEventHandler

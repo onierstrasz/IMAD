@@ -96,13 +96,6 @@ HypernodeEditor >> buildButtonBar [
 
 { #category : #accessing }
 HypernodeEditor >> buildGraph [
-	"I am the actual graph held by the graphHolder within the graphPane"
-
-	"self hand filter: self tagPane filter."
-
-	"theGraph := (VirtualHandGraphView new forHand: self hand withStyle: self style )
-		asPannableElement."
-
 	theGraph := (HypernodeGraphElement for: self node) asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
@@ -183,6 +176,13 @@ HypernodeEditor >> node [
 { #category : #accessing }
 HypernodeEditor >> node: aHypernode [
 	node := aHypernode
+]
+
+{ #category : #accessing }
+HypernodeEditor >> nodeElements [
+	"for debugging"
+
+	^ theGraph contentElement nodeElements
 ]
 
 { #category : #accessing }

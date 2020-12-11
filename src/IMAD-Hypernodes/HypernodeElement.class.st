@@ -51,24 +51,28 @@ HypernodeElement >> handleEvents [
 					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isCmd;
-						"CMD right-click"
-							yourself)
+						yourself).	"Open context menu on CMD-right-clicked node:"
 	"+
 					((BrGlamorousWithContextMenuLook content: [ self nodeEditor ]) 
 						useSecondaryMouseButton;
 						modifiersMatcher: #isEmpty; 
 							yourself)"	"right-click"
-	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])".
-	self addEventHandler: BlNoCtrlEventsPullHandler new.
-	self addEventHandler: BlEdgeBuilder new.
+	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
+
+	"Drag node to new position:"
+	self addEventHandler: HypernodePullHandler new.
+
+	"CTRL-drag to create an edge:"
+	self addEventHandler: HyperlinkDragHandler new.
+
+	"Spawn new inspect pane on clicked Hypernode:"
 	self
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | 
-					evt consumed: true. "So the container does not also react."
-				self phlow spawnObject: node
-				]).
+					evt consumed: true.	"So the container does not also react."
+					self phlow spawnObject: node ])
 ]
 
 { #category : #accessing }

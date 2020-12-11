@@ -1,5 +1,5 @@
 "
-I'm a ${class:BlPullHandler}$ that does not listen to CTRL events (so they can be handled by the ${class:EdgeCreationHandler}$ instead).
+I'm a ${class:BlPullHandler}$ that does not listen to CTRL events (so they can be handled by the ${class:EdgeBuilder}$ instead).
 
 AS says:
 
@@ -8,13 +8,13 @@ in the future if you see that you have another case when you would like to preve
 
 "
 Class {
-	#name : #BlNoCtrlEventsPullHandler,
+	#name : #NoCtrlEventsPullHandler,
 	#superclass : #BlPullHandler,
 	#category : #'IMAD-Cards-View'
 }
 
 { #category : #accessing }
-BlNoCtrlEventsPullHandler >> wantsEvent: anEvent [
+NoCtrlEventsPullHandler >> wantsEvent: anEvent [
 	"I ignore Control events"
 	^ (super wantsEvent: anEvent) and: [ anEvent modifiers isCtrl not ]
 ]

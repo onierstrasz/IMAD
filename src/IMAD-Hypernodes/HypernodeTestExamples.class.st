@@ -51,6 +51,7 @@ HypernodeTestExamples >> emptyNode [
 HypernodeTestExamples >> flatGraphTwoNodes [
 	"Root node with connected subnodes a and b"
 
+	<todo: 'fix Hysenbug https://github.com/onierstrasz/IMAD/issues/32'>
 	<gtExample>
 	| root a b |
 	root := self emptyNode.

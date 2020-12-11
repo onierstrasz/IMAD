@@ -103,6 +103,13 @@ HypernodeGraphElement >> node [
 ]
 
 { #category : #accessing }
+HypernodeGraphElement >> nodeElements [
+	"for debugging"
+
+	^ graphElementsDictionary values
+]
+
+{ #category : #accessing }
 HypernodeGraphElement >> nodes [
 	^ self node nodes
 ]
