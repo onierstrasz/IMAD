@@ -55,10 +55,13 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 	| root a b |
 	root := self emptyNode.
 	a := root addNode.
+	"a set: #name to: 'a'."
 	b := root addNode.
+	"b set: #name to: 'b'."
 	root addLink: a -> b.
 	self assert: a isLeaf.
 	self assert: b isLeaf.
+	self assert: (a == b) not.
 	self assert: root reachableNodes size equals: 3.
 	self assert: (root reachableNodes select: #isLeaf) size equals: 2.
 	self assert: root reachableEdges size equals: 1.

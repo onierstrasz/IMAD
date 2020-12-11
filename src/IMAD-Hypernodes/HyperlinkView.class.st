@@ -1,7 +1,7 @@
 "
 I present a Hyperlink as an edge within a graph of a Hypernode within a HypernodeView.
 
-See: ${class:name=CardRelationViewBuilder}$. 
+See also: ${class:name=CardRelationViewBuilder}$. 
 "
 Class {
 	#name : #HyperlinkView,
@@ -13,6 +13,12 @@ Class {
 	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
+
+{ #category : #accessing }
+HyperlinkView class >> forLink: edge inGraph: aHypernodeGraphElement [
+	^ self new
+		forLink: edge inGraph: aHypernodeGraphElement
+]
 
 { #category : #accessing }
 HyperlinkView >> addLook [
@@ -53,7 +59,7 @@ HyperlinkView >> contextMenu [
 ]
 
 { #category : #accessing }
-HyperlinkView >> forLink: aHyperlink inGraph: aHypernodeView [
+HyperlinkView >> forLink: aHyperlink inGraph: aHypernodeGraphElement [
 	"Look up the source and target elements in the graph and connect them with a new edge element (BlLineElement or other curve)"
 
 	<todo:
@@ -65,7 +71,7 @@ HyperlinkView >> forLink: aHyperlink inGraph: aHypernodeView [
 	'>
 	| sourceElt targetElt |
 	link := aHyperlink.
-	graph := aHypernodeView.
+	graph := aHypernodeGraphElement.
 	sourceElt := graph elementFor: self link source.
 	targetElt := graph elementFor: self link target.
 	sourceElt graph connectTo: targetElt.

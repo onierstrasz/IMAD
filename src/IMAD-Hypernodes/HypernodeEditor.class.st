@@ -103,7 +103,7 @@ HypernodeEditor >> buildGraph [
 	"theGraph := (VirtualHandGraphView new forHand: self hand withStyle: self style )
 		asPannableElement."
 
-	theGraph := (HypernodeGraphElement new for: self node) asPannableElement.
+	theGraph := (HypernodeGraphElement for: self node) asPannableElement.
 	theGraph zoomableElement clipChildren: false.
 	^ theGraph
 ]

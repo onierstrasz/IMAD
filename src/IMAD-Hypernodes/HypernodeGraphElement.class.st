@@ -23,6 +23,13 @@ Class {
 }
 
 { #category : #accessing }
+HypernodeGraphElement class >> for: aHypernode [
+	^ self new
+		initializeFor: aHypernode;
+		yourself
+]
+
+{ #category : #accessing }
 HypernodeGraphElement >> defaultLayout [
 	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
 	The Tree Layout leads to problems with cycles.
@@ -39,11 +46,6 @@ HypernodeGraphElement >> defaultLayout [
 ]
 
 { #category : #accessing }
-HypernodeGraphElement >> edgeElementFor: aHyperlink [
-	^ HyperlinkView new forLink: aHyperlink inGraph: self
-]
-
-{ #category : #accessing }
 HypernodeGraphElement >> edges [
 	^ node edges
 ]
@@ -52,25 +54,6 @@ HypernodeGraphElement >> edges [
 HypernodeGraphElement >> elementFor: anEntity [
 	self assert: (graphElementsDictionary includesKey: anEntity).
 	^ graphElementsDictionary at: anEntity
-]
-
-{ #category : #accessing }
-HypernodeGraphElement >> for: aHypernode [
-	<todo: 'also pass style as a parameter?'>
-	node := aHypernode.
-	graphElementsDictionary := Dictionary new.
-	self nodes
-		ifNotEmpty: [ self nodes
-				do: [ :aNode | 
-					| nodeElement |
-					nodeElement := self nodeElementFor: aNode.
-					self mapModelEntity: aNode toElement: nodeElement.
-					self addChild: nodeElement ] ].
-	self edges do: [ :edge | self addChild: (self edgeElementFor: edge) ].
-	"self layout: self style layout."
-	self layout: self defaultLayout.
-	self clipChildren: false.
-	^ self
 ]
 
 { #category : #accessing }
@@ -83,8 +66,30 @@ HypernodeGraphElement >> initialize [
 			c horizontal fitContent.
 			c vertical fitContent ].
 	"Border for debugging only"
-	self border: (BlBorder paint: Color paleBlue width: 0.5).
+	"self border: (BlBorder paint: Color paleBlue width: 0.5)."
 	
+]
+
+{ #category : #accessing }
+HypernodeGraphElement >> initializeFor: aHypernode [
+	"Initialization method."
+
+	<todo: 'also pass style as a parameter?'>
+	node := aHypernode.
+	graphElementsDictionary := Dictionary new.
+	self nodes
+		ifNotEmpty: [ self nodes
+				do: [ :aNode | 
+					| nodeElement |
+					nodeElement := HypernodeElement for: aNode.
+					self mapModelEntity: aNode toElement: nodeElement.
+					self addChild: nodeElement ] ].
+	self edges
+		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
+	"self layout: self style layout."
+	self layout: self defaultLayout.
+	self clipChildren: false.
+	^ self
 ]
 
 { #category : #accessing }
@@ -95,14 +100,6 @@ HypernodeGraphElement >> mapModelEntity: aNode toElement: nodeElement [
 { #category : #accessing }
 HypernodeGraphElement >> node [
 	^ node
-]
-
-{ #category : #accessing }
-HypernodeGraphElement >> nodeElementFor: aNode [ 
-
-	^ HypernodeElement new
-		node: aNode;
-		yourself
 ]
 
 { #category : #accessing }

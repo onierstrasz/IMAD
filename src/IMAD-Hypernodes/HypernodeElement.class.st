@@ -12,6 +12,13 @@ Class {
 }
 
 { #category : #accessing }
+HypernodeElement class >> for: aNode [
+	^ self new
+		node: aNode;
+		yourself
+]
+
+{ #category : #accessing }
 HypernodeElement >> contextMenu [
 	<todo: 'context menu for nodes'>
 	| menu |
