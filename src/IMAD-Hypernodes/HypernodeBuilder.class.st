@@ -9,7 +9,7 @@ The strategy is as follows:
 
 - Create the builder
 - Create each node (with its properties), using ${method:name=HypernodeBuilder>>#addNode:for:}$, keeping track of the mapping of old ids to new ones
-- Populate each node with its subnodes (which now exist), using ${method:name=HypernodeBuilder>>#addSubNodes:for:}$, and its edges, using ${method:name=HypernodeBuilder>>#addEdgeFrom:to:for:withProperties:}$
+- Populate each node with its subnodes (which now exist), using ${method:name=HypernodeBuilder>>#addSubNode:for:withContextProperties:}$, and its edges, using ${method:name=HypernodeBuilder>>#addEdgeFrom:to:for:withProperties:}$
 - Return the root node
 
 "
@@ -51,15 +51,8 @@ HypernodeBuilder >> addSubNode: nodeId for: id withContextProperties: properties
 
 { #category : #accessing }
 HypernodeBuilder >> addSubNodes: nodeIds for: id [
-	"Change
-		HypernodeBuilder>>#addSubNodes:for:
-	to multiple calls of
-		HypernodeBuilder>>#addSubNode:withContextProperties:for:
-	"
-
-	<todo: 'To be deprecated'>
-	"self
-		deprecated: 'Use addSubNode: nodeId for: id withContextProperties:'."
+	self
+		deprecated: 'Use addSubNode: nodeId for: id withContextProperties:'.
 	nodeIds
 		do: [ :eachId | (self nodeForId: id) addNode: (self nodeForId: eachId) ]
 ]

@@ -61,7 +61,8 @@ HypernodeExampleRepo >> flatGraphWithNodeProperties [
 				yourself)
 			for: 2;
 		addNode: Hypernode new yourself for: 3;
-		addSubNodes: {2 . 3} for: 1;
+		addSubNode: 2 for: 1 withContextProperties: Dictionary new;
+		addSubNode: 3 for: 1 withContextProperties: Dictionary new;
 		addEdgeFrom: 2
 			to: 3
 			for: 1
