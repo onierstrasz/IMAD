@@ -19,3 +19,26 @@ Class {
 	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
+
+{ #category : #accessing }
+HypernodeContext class >> forNode: aSubnode withParent: aHypernode [
+	^ self new
+		initializeNode: aSubnode parent: aHypernode;
+		yourself
+]
+
+{ #category : #accessing }
+HypernodeContext >> initializeNode: aSubnode parent: aHypernode [
+	node := aSubnode.
+	parent := aHypernode
+]
+
+{ #category : #accessing }
+HypernodeContext >> node [
+	^ node
+]
+
+{ #category : #accessing }
+HypernodeContext >> parent [
+	^ parent
+]

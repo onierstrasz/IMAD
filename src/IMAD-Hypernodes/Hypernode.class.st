@@ -19,8 +19,8 @@ Class {
 	#name : #Hypernode,
 	#superclass : #HypergraphEntity,
 	#instVars : [
-		'nodes',
-		'edges'
+		'edges',
+		'nodeContexts'
 	],
 	#category : #'IMAD-Hypernodes'
 }
@@ -38,6 +38,11 @@ Hypernode >> = anObject [
 ]
 
 { #category : #accessing }
+Hypernode >> addContext: aHypernodeContext [
+	self contexts add: aHypernodeContext
+]
+
+{ #category : #accessing }
 Hypernode >> addLink: aLink [
 	edges add: aLink
 ]
@@ -47,17 +52,24 @@ Hypernode >> addNode [
 	| node |
 	node := Hypernode new.
 	self addNode: node.
-	^ node 
+	^ node
 ]
 
 { #category : #accessing }
 Hypernode >> addNode: aNode [
-	nodes add: aNode 
+	self addContext: (HypernodeContext forNode: aNode withParent: self)
 ]
 
 { #category : #accessing }
 Hypernode >> asElement [
 	^ HypernodeEditor for: self
+]
+
+{ #category : #accessing }
+Hypernode >> contexts [
+	"returns the collection of HypernodeContexts holding the subnodes of my subgraph"
+
+	^ nodeContexts
 ]
 
 { #category : #accessing }
@@ -90,7 +102,8 @@ Hypernode >> gtLiveFor: aView [
 { #category : #accessing }
 Hypernode >> initialize [
 	super initialize.
-	nodes := OrderedCollection new.
+	"nodes := OrderedCollection new."
+	nodeContexts := OrderedCollection new.
 	edges := OrderedCollection new
 ]
 
@@ -181,7 +194,7 @@ Hypernode >> isomorphicTo: anotherHypernode [
 
 { #category : #accessing }
 Hypernode >> nodes [ 
-	^ nodes
+	^ self contexts collect: #node
 ]
 
 { #category : #accessing }
@@ -275,6 +288,9 @@ Hypernode >> storageMethodName [
 Hypernode >> storeOn: aStream [
 	"We store the HypernodeGraph as a code snippet that asks a HypernodeBuilder to recreate the graph. Each Hypernode is assigned an id, which is used by the builder to uniquely identify the nodes."
 
+	<todo: 'Fix to handle context objects.
+	- fix creation of subnodes to include contexts
+	'>
 	| allNodes nodeIdMap |
 	allNodes := self reachableNodes asOrderedCollection.
 
@@ -282,7 +298,7 @@ Hypernode >> storeOn: aStream [
 	nodeIdMap := IdentityDictionary new.
 	allNodes doWithIndex: [ :each :id | nodeIdMap at: each put: id ].
 
-	"Use the builder to each old id to the new node."
+	"Use the builder to map each old id to the new node."
 	aStream
 		nextPutAll: 'HypernodeBuilder new';
 		cr.
@@ -304,6 +320,14 @@ Hypernode >> storeOn: aStream [
 				nextPutAll: id asString;
 				nextPutAll: ';';
 				cr ].
+
+
+	"Change
+		HypernodeBuilder>>#addSubNodes:for:
+	to multiple calls of
+		HypernodeBuilder>>#addSubNode:withContextProperties:for:
+	"
+
 
 	"Add the subgraph nodes to each node."
 	allNodes

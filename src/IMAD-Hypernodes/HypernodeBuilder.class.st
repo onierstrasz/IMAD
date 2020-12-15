@@ -41,6 +41,13 @@ HypernodeBuilder >> addNode: aHypernode for: id [
 
 { #category : #accessing }
 HypernodeBuilder >> addSubNodes: nodeIds for: id [
+	"Change
+		HypernodeBuilder>>#addSubNodes:for:
+	to multiple calls of
+		HypernodeBuilder>>#addSubNode:withContextProperties:for:
+	"
+
+	<todo: 'Fix to handle context objects'>
 	nodeIds
 		do: [ :eachId | (self nodeForId: id) addNode: (self nodeForId: eachId) ]
 ]
