@@ -211,10 +211,10 @@ Hypernode >> printOn: aStream [
 		ifFalse: [ aStream nextPutAll: 'a hierarchical graph Hypernode' ].
 	aStream
 		nextPutAll: '(';
-		nextPutAll: nodes size asString;
+		nextPutAll: self nodes size asString;
 		nextPutAll: ' node';
 		nextPutAll:
-			(nodes size = 1
+			(self nodes size = 1
 				ifTrue: [ '' ]
 				ifFalse: [ 's' ]);
 		nextPutAll: '; ';

@@ -42,3 +42,13 @@ HypernodeContext >> node [
 HypernodeContext >> parent [
 	^ parent
 ]
+
+{ #category : #accessing }
+HypernodeContext >> position [
+	^ self get: #position
+]
+
+{ #category : #accessing }
+HypernodeContext >> position: aPosition [
+	self set: #position to: aPosition
+]

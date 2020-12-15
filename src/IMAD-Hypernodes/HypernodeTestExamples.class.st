@@ -76,12 +76,29 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 HypernodeTestExamples >> flatGraphWithNodeProperties [
 	<gtExample>
 	| root a b |
-	root := self emptyNode.
-	a := root addNode.
-	b := root addNode.
-	root addLink: a -> b.
+	root := self flatGraphTwoNodes.
+	a := root nodes first.
 	a set: #nested to: self nestedProperties.
 	root assertGeneratedValueEqualsSelf.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> flatGraphWithPositionedNodes [
+	"Check that stored positions are restored."
+	<gtExample>
+	| root a b storedA storedB |
+	root := self flatGraphTwoNodes.
+	a := root contexts first.
+	b := root contexts second.
+	a position: 10 @ 10.
+	b position: 50 @ 50.
+	self assert: a position equals: 10 @ 10.
+	self assert: b position equals: 50 @ 50.
+	storedA := root generatedValue contexts first.
+	storedB := root generatedValue contexts second.
+	self assert: storedA position equals: 10 @ 10.
+	self assert: storedB position equals: 50 @ 50.
 	^ root
 ]
 
