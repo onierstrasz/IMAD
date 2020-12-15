@@ -1,5 +1,8 @@
 "
 I represent an edge between Hypernodes. Unlike an edge in a normal graph, I might link to a node in another graph.
+
+I am a model entity. My view is provided by ${class:name=HyperlinkView}$.
+
 "
 Class {
 	#name : #Hyperlink,

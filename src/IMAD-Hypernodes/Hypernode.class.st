@@ -10,6 +10,10 @@ Note that we avoid the terms ""Hyperedge"" and ""Hypergraph"", as these have dif
 There are various constraints that might make sense to impose on Hypernode graphs, for example that the the source node of each Hyperlink be contained within the same parent Hypernode as the link itself, but we do not enforce such constraints apriori, as there might well be applications that do not require such constraints. For example, there might be applications in which incoming rather than outgoing links are considered to be part of the graph.
 
 Instead each application is free to impose specific constraints, such as a strict nesting structure, or the requirement that each node be contained in at most one parent graph.
+
+I am a model entity. My views are provided by ${class:name=HypernodeEditor}$ (live view), ${class:name=HypernodeGraphElement}$ (subgraph view within the editor view), and ${class:name=HypernodeElement}$ (as a node within a graph).
+
+
 "
 Class {
 	#name : #Hypernode,

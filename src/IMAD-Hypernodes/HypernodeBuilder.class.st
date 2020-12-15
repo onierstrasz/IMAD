@@ -8,8 +8,8 @@ See ${method:name=Hypernode>>#storeOn:}$.
 The strategy is as follows:
 
 - Create the builder
-- Create each node (with it properties), keeping track of the mapping of old ids to new ones
-- Populate each node with its subnodes (which now exist) and its edges
+- Create each node (with its properties), using ${method:name=HypernodeBuilder>>#addNode:for:}$, keeping track of the mapping of old ids to new ones
+- Populate each node with its subnodes (which now exist), using ${method:name=HypernodeBuilder>>#addSubNodes:for:}$, and its edges, using ${method:name=HypernodeBuilder>>#addEdgeFrom:to:for:withProperties:}$
 - Return the root node
 
 "
