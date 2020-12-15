@@ -40,6 +40,16 @@ HypernodeBuilder >> addNode: aHypernode for: id [
 ]
 
 { #category : #accessing }
+HypernodeBuilder >> addSubNode: nodeId for: id withContextProperties: properties [
+	| parent subnode context |
+	parent := self nodeForId: id.
+	subnode := self nodeForId: nodeId.
+	context := HypernodeContext forNode: subnode withParent: parent.
+	context properties: properties.
+	parent addContext: context
+]
+
+{ #category : #accessing }
 HypernodeBuilder >> addSubNodes: nodeIds for: id [
 	"Change
 		HypernodeBuilder>>#addSubNodes:for:
@@ -47,7 +57,9 @@ HypernodeBuilder >> addSubNodes: nodeIds for: id [
 		HypernodeBuilder>>#addSubNode:withContextProperties:for:
 	"
 
-	<todo: 'Fix to handle context objects'>
+	<todo: 'To be deprecated'>
+	"self
+		deprecated: 'Use addSubNode: nodeId for: id withContextProperties:'."
 	nodeIds
 		do: [ :eachId | (self nodeForId: id) addNode: (self nodeForId: eachId) ]
 ]

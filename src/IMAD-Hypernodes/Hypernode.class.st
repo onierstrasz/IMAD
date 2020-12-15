@@ -288,7 +288,8 @@ Hypernode >> storageMethodName [
 Hypernode >> storeOn: aStream [
 	"We store the HypernodeGraph as a code snippet that asks a HypernodeBuilder to recreate the graph. Each Hypernode is assigned an id, which is used by the builder to uniquely identify the nodes."
 
-	<todo: 'Fix to handle context objects.
+	<todo:
+		'Fix to handle context objects.
 	- fix creation of subnodes to include contexts
 	'>
 	| allNodes nodeIdMap |
@@ -329,8 +330,8 @@ Hypernode >> storeOn: aStream [
 	"
 
 
-	"Add the subgraph nodes to each node."
-	allNodes
+	"OLD VERSION --- Add the subgraph nodes to each node."
+	"allNodes
 		doWithIndex: [ :each :id | 
 			each nodes isNotEmpty
 				ifTrue: [ aStream
@@ -341,6 +342,24 @@ Hypernode >> storeOn: aStream [
 						nextPutAll: ' }';
 						nextPutAll: ' for: ';
 						nextPutAll: id asString;
+						nextPutAll: ';';
+						cr ] ]."
+
+
+	"Add the subgraph nodes to each node."
+	allNodes
+		doWithIndex: [ :each :id | 
+			each contexts
+				do: [ :context | 
+					aStream
+						nextPutAll: '  addSubNode: ';
+						nextPutAll: (nodeIdMap at: context node) asString;
+						nextPutAll: '  for: ';
+						nextPutAll: id asString;
+						cr;
+						nextPutAll: '    withContextProperties: '.
+					context properties storeOn: aStream.
+					aStream
 						nextPutAll: ';';
 						cr ] ].
 
@@ -358,7 +377,7 @@ Hypernode >> storeOn: aStream [
 						nextPutAll: ' for: ';
 						nextPutAll: id asString;
 						cr;
-						nextPutAll: '  withProperties: '.
+						nextPutAll: '    withProperties: '.
 					edge properties storeOn: aStream.
 					aStream
 						nextPutAll: ';';
