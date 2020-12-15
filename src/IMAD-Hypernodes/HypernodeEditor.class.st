@@ -122,7 +122,9 @@ HypernodeEditor >> buildGraphHolder [
 HypernodeEditor >> contextMenu [
 	<todo: 'add graph context menu actions here'>
 	^ BrGlamorousSimpleContextMenuContent new
-		items: {('Inspect self' -> [ :e | self node inspect ])};
+		items:
+			{('Inspect self' -> [ :e | self node inspect ]).
+			('Reposition nodes' -> [ :e | self graph repositionNodes ])};
 		yourself
 ]
 
@@ -136,6 +138,13 @@ HypernodeEditor >> for: aHypernode [
 	self updateHeaderName.
 	self tagPane updateTagFilterButtonsForHand: self hand."
 	self updateGraph
+]
+
+{ #category : #accessing }
+HypernodeEditor >> graph [
+	"for debugging"
+
+	^ theGraph contentElement
 ]
 
 { #category : #accessing }
@@ -182,7 +191,7 @@ HypernodeEditor >> node: aHypernode [
 HypernodeEditor >> nodeElements [
 	"for debugging"
 
-	^ theGraph contentElement nodeElements
+	^ self graph nodeElements
 ]
 
 { #category : #accessing }
@@ -192,5 +201,6 @@ HypernodeEditor >> updateGraph [
 	newGraph := self buildGraph.
 	oldGraph ifNotNil: [ newGraph zoomTo: oldGraph zoomLevel ].
 	graphHolder removeChildren.
-	graphHolder addChild: newGraph
+	graphHolder addChild: newGraph.
+	self graph repositionNodes
 ]

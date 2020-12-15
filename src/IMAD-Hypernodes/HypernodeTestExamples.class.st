@@ -87,18 +87,20 @@ HypernodeTestExamples >> flatGraphWithNodeProperties [
 HypernodeTestExamples >> flatGraphWithPositionedNodes [
 	"Check that stored positions are restored."
 	<gtExample>
-	| root a b storedA storedB |
+	| root a b storedA storedB p1 p2 |
 	root := self flatGraphTwoNodes.
 	a := root contexts first.
 	b := root contexts second.
-	a position: 10 @ 10.
-	b position: 50 @ 50.
-	self assert: a position equals: 10 @ 10.
-	self assert: b position equals: 50 @ 50.
+	p1 := 10@10.
+	a position: p1.
+	p2 := 50@50.
+	b position: p2.
+	self assert: a position equals: p1.
+	self assert: b position equals: p2.
 	storedA := root generatedValue contexts first.
 	storedB := root generatedValue contexts second.
-	self assert: storedA position equals: 10 @ 10.
-	self assert: storedB position equals: 50 @ 50.
+	self assert: storedA position equals: p1.
+	self assert: storedB position equals: p2.
 	^ root
 ]
 

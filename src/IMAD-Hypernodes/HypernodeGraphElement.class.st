@@ -17,7 +17,8 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
-		'node'
+		'node',
+		'graphContextsDictionary'
 	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
@@ -30,19 +31,29 @@ HypernodeGraphElement class >> for: aHypernode [
 ]
 
 { #category : #accessing }
+HypernodeGraphElement >> contextFor: anEntity [
+	self assert: (graphContextsDictionary includesKey: anEntity).
+	^ graphContextsDictionary at: anEntity
+]
+
+{ #category : #accessing }
+HypernodeGraphElement >> contexts [
+	^ self node contexts
+]
+
+{ #category : #accessing }
 HypernodeGraphElement >> defaultLayout [
+	"NOT NEEDED?"
+
 	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
 	The Tree Layout leads to problems with cycles.
 	The Circle Layout can't cope with empty graphs."
 
 	"^ BlOnceLayout new layout: GtGradCircleLayout new"
-	
+
 	^ BlOnceLayout new layout: GtGradHorizontalTreeLayout new
 
 	"^ BlOnceLayout new layout: GtGradKamadaKawaiLayout new"
-	
-	
-	
 ]
 
 { #category : #accessing }
@@ -58,16 +69,15 @@ HypernodeGraphElement >> elementFor: anEntity [
 
 { #category : #accessing }
 HypernodeGraphElement >> initialize [
-	<todo: 'Fix creation of new node -- need announcements?'>
 	super initialize.
 	graphElementsDictionary := Dictionary new.
+	graphContextsDictionary := Dictionary new.
 	self
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
-			c vertical fitContent ].
+			c vertical fitContent ]
 	"Border for debugging only"
 	"self border: (BlBorder paint: Color paleBlue width: 0.5)."
-	
 ]
 
 { #category : #accessing }
@@ -77,19 +87,27 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
 	graphElementsDictionary := Dictionary new.
-	self nodes
-		ifNotEmpty: [ self nodes
-				do: [ :aNode | 
+	self contexts
+		ifNotEmpty: [ self contexts
+				do: [ :context | 
 					| nodeElement |
-					nodeElement := HypernodeElement for: aNode.
-					self mapModelEntity: aNode toElement: nodeElement.
+					nodeElement := HypernodeElement for: context node.
+					self mapModelEntity: context node toContext: context.
+					self mapModelEntity: context node toElement: nodeElement.
 					self addChild: nodeElement ] ].
 	self edges
 		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
 	"self layout: self style layout."
-	self layout: self defaultLayout.
+	"self layout: self defaultLayout."
+	self repositionNodes. "why does this have no effect?"
 	self clipChildren: false.
 	^ self
+]
+
+{ #category : #accessing }
+HypernodeGraphElement >> mapModelEntity: aNode toContext: aContext [
+	"Map nodes back to their context within this graph"
+	graphElementsDictionary at: aNode put: aContext
 ]
 
 { #category : #accessing }
@@ -112,4 +130,13 @@ HypernodeGraphElement >> nodeElements [
 { #category : #accessing }
 HypernodeGraphElement >> nodes [
 	^ self node nodes
+]
+
+{ #category : #accessing }
+HypernodeGraphElement >> repositionNodes [
+	self contexts
+		do: [ :context | 
+			context position isNotNil
+				ifTrue:
+					[ (self elementFor: context node) relocate: context position ] ]
 ]
