@@ -31,7 +31,7 @@ HNPropertyHolder >> assertInvariant [
 
 { #category : #properties }
 HNPropertyHolder >> get: propertyKey [
-	self assert: (properties includesKey: propertyKey) description: 'key ', propertyKey asString, ' has not been defined'.
+	"self assert: (properties includesKey: propertyKey) description: 'key ', propertyKey asString, ' has not been defined'."
 	^ properties at: propertyKey ifAbsent: nil
 ]
 

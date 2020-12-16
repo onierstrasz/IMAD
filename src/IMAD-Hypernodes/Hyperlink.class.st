@@ -38,6 +38,19 @@ Hyperlink >> nodes [
 ]
 
 { #category : #accessing }
+Hyperlink >> printOn: aStream [
+	"Placeholder version to help in debugging"
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: '(';
+		nextPutAll: source hash asString;
+		nextPutAll: ' -> ';
+		nextPutAll: target hash asString;
+		nextPutAll: ')'
+]
+
+{ #category : #accessing }
 Hyperlink >> source [
 	^ source
 ]
