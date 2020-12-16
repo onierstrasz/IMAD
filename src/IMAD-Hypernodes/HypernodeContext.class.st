@@ -52,3 +52,16 @@ HypernodeContext >> position [
 HypernodeContext >> position: aPosition [
 	self set: #position to: aPosition
 ]
+
+{ #category : #accessing }
+HypernodeContext >> printOn: aStream [
+	"Placeholder version to help in debugging"
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: '(child: ';
+		nextPutAll: node hash asString;
+		nextPutAll: '; parent: ';
+		nextPutAll: parent hash asString;
+		nextPutAll: ')'
+]
