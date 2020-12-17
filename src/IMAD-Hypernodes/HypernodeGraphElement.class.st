@@ -98,13 +98,7 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 	self edges
 		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
 	self repositionNodes.
-	
-	"What is the right Layout object to use?"
-	
-	self layout: BlBasicLayout new.
-	"self layout: BlFitChildrenLayout new."
-	"self layout: BlOnceLayout new."
-
+	self layout: BlFitLayout new.
 	self clipChildren: false.
 	^ self
 ]
