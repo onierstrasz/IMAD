@@ -120,7 +120,8 @@ HypernodeEditor >> buildGraphHolder [
 
 { #category : #accessing }
 HypernodeEditor >> contextMenu [
-	<todo: 'add graph context menu actions here'>
+	<todo: 'Add graph context menu actions here.
+	Those here are just placeholders, or used for debugging.'>
 	^ BrGlamorousSimpleContextMenuContent new
 		items:
 			{('Inspect self' -> [ :e | self node inspect ]).
@@ -201,6 +202,5 @@ HypernodeEditor >> updateGraph [
 	newGraph := self buildGraph.
 	oldGraph ifNotNil: [ newGraph zoomTo: oldGraph zoomLevel ].
 	graphHolder removeChildren.
-	graphHolder addChild: newGraph.
-	self graph repositionNodes
+	graphHolder addChild: newGraph
 ]

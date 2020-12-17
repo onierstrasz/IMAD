@@ -75,9 +75,9 @@ HypernodeGraphElement >> initialize [
 	self
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
-			c vertical fitContent ]
+			c vertical fitContent ].
 	"Border for debugging only"
-	"self border: (BlBorder paint: Color paleBlue width: 0.5)."
+	self border: (BlBorder paint: Color blue width: 1).
 ]
 
 { #category : #accessing }
@@ -97,9 +97,14 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 					self addChild: nodeElement ] ].
 	self edges
 		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
-	"self layout: self style layout."
-	"self layout: self defaultLayout."
-	self repositionNodes. "why does this have no effect?"
+	self repositionNodes.
+	
+	"What is the right Layout object to use?"
+	
+	self layout: BlBasicLayout new.
+	"self layout: BlFitChildrenLayout new."
+	"self layout: BlOnceLayout new."
+
 	self clipChildren: false.
 	^ self
 ]
@@ -134,9 +139,10 @@ HypernodeGraphElement >> nodes [
 
 { #category : #accessing }
 HypernodeGraphElement >> repositionNodes [
+	"Reposition all nodes according to the position stored in the context."
+
 	self contexts
 		do: [ :context | 
 			context position isNotNil
-				ifTrue:
-					[ (self elementFor: context node) relocate: context position ] ]
+				ifTrue: [ (self elementFor: context node) relocate: context position ] ]
 ]
