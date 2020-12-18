@@ -37,8 +37,8 @@ HyperlinkView >> addLook [
 { #category : #accessing }
 HyperlinkView >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
 	linkElement
-		fromAnchor: (BlElementCenterRightAnchor element: sourceElt);
-		toAnchor: (BlElementCenterLeftAnchor element: targetElt);
+		toAnchor: (BlNearestPositionTightCircleAnchor nearestTo: sourceElt from: targetElt);
+		fromAnchor: (BlNearestPositionTightCircleAnchor nearestTo: targetElt from: sourceElt);
 		toHead:
 			(BlArrowheadSimpleArrow new
 				border: (BlBorder paint: Color gray width: 3))
