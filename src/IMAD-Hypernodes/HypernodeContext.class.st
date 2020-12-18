@@ -28,6 +28,11 @@ HypernodeContext class >> forNode: aSubnode withParent: aHypernode [
 ]
 
 { #category : #accessing }
+HypernodeContext >> hasPosition [
+	^ self position isNotNil
+]
+
+{ #category : #accessing }
 HypernodeContext >> initializeNode: aSubnode parent: aHypernode [
 	node := aSubnode.
 	parent := aHypernode

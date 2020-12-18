@@ -70,8 +70,8 @@ HypernodeGraphElement >> elementFor: anEntity [
 { #category : #accessing }
 HypernodeGraphElement >> initialize [
 	super initialize.
-	graphElementsDictionary := Dictionary new.
-	graphContextsDictionary := Dictionary new.
+	graphElementsDictionary := IdentityDictionary new.
+	graphContextsDictionary := IdentityDictionary new.
 	self
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
@@ -86,31 +86,41 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
-	graphElementsDictionary := Dictionary new.
+	"graphElementsDictionary := IdentityDictionary new."
 	self contexts
 		ifNotEmpty: [ self contexts
 				do: [ :context | 
 					| nodeElement |
 					nodeElement := HypernodeElement for: context node.
-					self mapModelEntity: context node toContext: context.
 					self mapModelEntity: context node toElement: nodeElement.
+					self mapModelEntity: context node toContext: context.
 					self addChild: nodeElement ] ].
 	self edges
 		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
-	self repositionNodes.
-	self layout: BlFitLayout new.
+	self initializeLayout.
 	self clipChildren: false.
 	^ self
 ]
 
 { #category : #accessing }
+HypernodeGraphElement >> initializeLayout [
+	<todo: 'Assign a default layout if no positions available'>
+	self repositionNodes.
+	(self contexts detect: #hasPosition ifNone: [ nil ]) isNotNil
+		ifTrue: [ self layout: BlFitLayout new ]
+		ifFalse: [ self layout: self defaultLayout ]
+]
+
+{ #category : #accessing }
 HypernodeGraphElement >> mapModelEntity: aNode toContext: aContext [
 	"Map nodes back to their context within this graph"
-	graphElementsDictionary at: aNode put: aContext
+	self assert: (graphContextsDictionary includesKey: aNode) not.
+	graphContextsDictionary at: aNode put: aContext
 ]
 
 { #category : #accessing }
 HypernodeGraphElement >> mapModelEntity: aNode toElement: nodeElement [
+	self assert: (graphElementsDictionary includesKey: aNode) not.
 	graphElementsDictionary at: aNode put: nodeElement
 ]
 
