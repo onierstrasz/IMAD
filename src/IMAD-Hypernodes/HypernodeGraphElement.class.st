@@ -17,8 +17,7 @@ Class {
 	#superclass : #BlElement,
 	#instVars : [
 		'graphElementsDictionary',
-		'node',
-		'graphContextsDictionary'
+		'node'
 	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
@@ -31,9 +30,10 @@ HypernodeGraphElement class >> for: aHypernode [
 ]
 
 { #category : #accessing }
-HypernodeGraphElement >> contextFor: anEntity [
-	self assert: (graphContextsDictionary includesKey: anEntity).
-	^ graphContextsDictionary at: anEntity
+HypernodeGraphElement >> contextFor: aNode [
+	"Not yet used anywhere?"
+
+	^ (self elementFor: aNode) context
 ]
 
 { #category : #accessing }
@@ -62,16 +62,15 @@ HypernodeGraphElement >> edges [
 ]
 
 { #category : #accessing }
-HypernodeGraphElement >> elementFor: anEntity [
-	self assert: (graphElementsDictionary includesKey: anEntity).
-	^ graphElementsDictionary at: anEntity
+HypernodeGraphElement >> elementFor: aNode [
+	self assert: (graphElementsDictionary includesKey: aNode).
+	^ graphElementsDictionary at: aNode
 ]
 
 { #category : #accessing }
 HypernodeGraphElement >> initialize [
 	super initialize.
 	graphElementsDictionary := IdentityDictionary new.
-	graphContextsDictionary := IdentityDictionary new.
 	self
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
@@ -86,14 +85,12 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
-	"graphElementsDictionary := IdentityDictionary new."
 	self contexts
 		ifNotEmpty: [ self contexts
 				do: [ :context | 
 					| nodeElement |
-					nodeElement := HypernodeElement for: context node.
+					nodeElement := HypernodeElement forContext: context.
 					self mapModelEntity: context node toElement: nodeElement.
-					self mapModelEntity: context node toContext: context.
 					self addChild: nodeElement ] ].
 	self edges
 		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
@@ -112,14 +109,8 @@ HypernodeGraphElement >> initializeLayout [
 ]
 
 { #category : #accessing }
-HypernodeGraphElement >> mapModelEntity: aNode toContext: aContext [
-	"Map nodes back to their context within this graph"
-	self assert: (graphContextsDictionary includesKey: aNode) not.
-	graphContextsDictionary at: aNode put: aContext
-]
-
-{ #category : #accessing }
 HypernodeGraphElement >> mapModelEntity: aNode toElement: nodeElement [
+	"Map nodes back to their element within this graph"
 	self assert: (graphElementsDictionary includesKey: aNode) not.
 	graphElementsDictionary at: aNode put: nodeElement
 ]

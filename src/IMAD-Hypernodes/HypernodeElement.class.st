@@ -5,17 +5,35 @@ Class {
 	#name : #HypernodeElement,
 	#superclass : #BlElement,
 	#instVars : [
-		'node',
-		'isEditable'
+		'isEditable',
+		'nodeContext'
 	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
 
 { #category : #accessing }
 HypernodeElement class >> for: aNode [
+	self deprecated: 'Use forContext:'.
 	^ self new
 		node: aNode;
 		yourself
+]
+
+{ #category : #accessing }
+HypernodeElement class >> forContext: aNodeContext [
+	^ self new
+		context: aNodeContext;
+		yourself
+]
+
+{ #category : #accessing }
+HypernodeElement >> context [
+	^ nodeContext
+]
+
+{ #category : #accessing }
+HypernodeElement >> context: aNodeContext [
+	nodeContext := aNodeContext
 ]
 
 { #category : #accessing }
@@ -72,14 +90,14 @@ HypernodeElement >> handleEvents [
 				on: BlDoubleClickEvent
 				do: [ :evt | 
 					evt consumed: true.	"So the container does not also react."
-					self phlow spawnObject: node ])
+					self phlow spawnObject: self node ])
 ]
 
 { #category : #accessing }
 HypernodeElement >> initialize [
 	super initialize.
-	node := Hypernode new.
 	isEditable := false.
+	"NB: the node context will be set by context: when created via HypernodeElement class>>#forContext:"
 	self
 		layout: BlFrameLayout new;
 		geometry: (BlRectangle cornerRadius: 4);
@@ -95,8 +113,14 @@ HypernodeElement >> initialize [
 ]
 
 { #category : #accessing }
+HypernodeElement >> node [
+	^ self context node
+]
+
+{ #category : #accessing }
 HypernodeElement >> node: aNode [
-	node := aNode
+	self deprecated: 'Use context: instead'.
+	nodeContext := aNode
 ]
 
 { #category : #accessing }

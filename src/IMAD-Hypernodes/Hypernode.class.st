@@ -61,6 +61,23 @@ Hypernode >> addNode: aNode [
 ]
 
 { #category : #accessing }
+Hypernode >> addNode: aNode WithPosition: aPosition [
+	| context |
+	context := HypernodeContext forNode: aNode withParent: self.
+	context position: aPosition.
+	self addContext: context.
+	^ aNode
+]
+
+{ #category : #accessing }
+Hypernode >> addNodeWithPosition: aPosition [
+	| node |
+	node := Hypernode new.
+	self addNode: node WithPosition: aPosition.
+	^ node
+]
+
+{ #category : #accessing }
 Hypernode >> asElement [
 	^ HypernodeEditor for: self
 ]
@@ -97,6 +114,12 @@ Hypernode >> gtLiveFor: aView [
 		title: 'Live';
 		priority: 5;
 		stencil: [ self asElement ]
+]
+
+{ #category : #accessing }
+Hypernode >> hash [
+	<todo: 'Is there something we should do here?'>
+	^ super hash
 ]
 
 { #category : #accessing }

@@ -152,9 +152,9 @@ HypernodeTestExamples >> threeNodeCycle [
 	<gtExample>
 	| root a b c |
 	root := self emptyNode.
-	a := root addNode.
-	b := root addNode.
-	c := root addNode.
+	a := root addNodeWithPosition: 10@10.
+	b := root addNodeWithPosition: 100@10.
+	c := root addNodeWithPosition: 45@60.
 	root addLink: a -> b.
 	root addLink: b -> c.
 	root addLink: c -> a.
