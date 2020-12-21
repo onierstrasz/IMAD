@@ -12,6 +12,8 @@ We also plan to explore how such executable models can then be exploited to supp
 
 This work is being carried out in the context of the SNSF project [Agile Software Assistance](http://scg.unibe.ch/staff/oscar) (#200020-181973), and in particular the second track of this project on Executable domain models.
 
+See the [IMAD Project Board](https://github.com/onierstrasz/IMAD/projects/1) for ongoing tasks
+
 ## How to load IMAD
 
 First download the latest version of [Glamorous Toolkit](https://gtoolkit.com/download/) from [feenk](https://feenk.com).
@@ -23,6 +25,11 @@ Metacello new
    repository: 'github://onierstrasz/IMAD/src';
    load
 ```
+
+## Hypergraphs
+
+This is a reimplementation of the Card Decks described below.
+Nothing to see yet, but soon ...
 
 ## Domain modeling Card Decks (IMAD-Cards)
 
