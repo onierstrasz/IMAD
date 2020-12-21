@@ -39,7 +39,9 @@ Hypernode >> = anObject [
 
 { #category : #accessing }
 Hypernode >> addContext: aHypernodeContext [
-	self contexts add: aHypernodeContext
+	self contexts add: aHypernodeContext.
+	self announcer
+		announce: (CreateNodeContext new context: aHypernodeContext)
 ]
 
 { #category : #accessing }

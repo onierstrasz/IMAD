@@ -33,7 +33,8 @@ HypernodeElement >> context [
 
 { #category : #accessing }
 HypernodeElement >> context: aNodeContext [
-	nodeContext := aNodeContext
+	nodeContext := aNodeContext.
+	self subscribe 
 ]
 
 { #category : #accessing }
@@ -137,6 +138,12 @@ HypernodeElement >> nodeEditor [
 			c horizontal fitContent.
 			c vertical fitContent ].
 	^ element asScrollableElement"
+]
+
+{ #category : #accessing }
+HypernodeElement >> subscribe [
+	<todo: 'subscribe to my node''s announcements'>
+	"self node announcer when: XYZ do: [] for: self"
 ]
 
 { #category : #accessing }

@@ -7,8 +7,16 @@ See ${class:name=Hypernode}$.
 Class {
 	#name : #HypergraphEntity,
 	#superclass : #HNPropertyHolder,
+	#instVars : [
+		'announcer'
+	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
+
+{ #category : #accessing }
+HypergraphEntity >> announcer [
+	^ announcer
+]
 
 { #category : #invariant }
 HypergraphEntity >> assertGeneratedValueEqualsSelf [
@@ -79,6 +87,12 @@ HypergraphEntity >> inform: aString [
 	aSpace addChild: (BlTextElement new text: aString asRopedText).
 	aSpace withHalos.
 	aSpace show
+]
+
+{ #category : #accessing }
+HypergraphEntity >> initialize [
+	super initialize.
+	announcer := Announcer new
 ]
 
 { #category : #storing }

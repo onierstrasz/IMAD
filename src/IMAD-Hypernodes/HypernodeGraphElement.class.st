@@ -30,6 +30,14 @@ HypernodeGraphElement class >> for: aHypernode [
 ]
 
 { #category : #accessing }
+HypernodeGraphElement >> addNewContext: aHypernodeContext [
+	| nodeElement |
+	nodeElement := HypernodeElement forContext: aHypernodeContext.
+	self mapModelEntity: aHypernodeContext node toElement: nodeElement.
+	self addChild: nodeElement
+]
+
+{ #category : #accessing }
 HypernodeGraphElement >> contextFor: aNode [
 	"Not yet used anywhere?"
 
@@ -86,16 +94,13 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
 	self contexts
-		ifNotEmpty: [ self contexts
-				do: [ :context | 
-					| nodeElement |
-					nodeElement := HypernodeElement forContext: context.
-					self mapModelEntity: context node toElement: nodeElement.
-					self addChild: nodeElement ] ].
+		ifNotEmpty: [ self contexts do:
+				[ :context | self addNewContext: context ] ].
 	self edges
 		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
 	self initializeLayout.
 	self clipChildren: false.
+	self subscribe.
 	^ self
 ]
 
@@ -140,4 +145,16 @@ HypernodeGraphElement >> repositionNodes [
 		do: [ :context | 
 			context position isNotNil
 				ifTrue: [ (self elementFor: context node) relocate: context position ] ]
+]
+
+{ #category : #accessing }
+HypernodeGraphElement >> subscribe [
+	self node announcer
+		when: CreateNodeContext
+		do: [ :announcement :subscriber | 
+		self addNewContext: 
+		announcement context
+		
+		 ]
+		for: self
 ]
