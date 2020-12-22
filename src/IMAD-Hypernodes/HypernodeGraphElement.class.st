@@ -51,15 +51,16 @@ HypernodeGraphElement >> contexts [
 
 { #category : #accessing }
 HypernodeGraphElement >> defaultLayout [
-	"NOT NEEDED?"
+
+^ BlFitLayout new
+	
+	"^ BlOnceLayout new layout: GtGradHorizontalTreeLayout new"
 
 	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
 	The Tree Layout leads to problems with cycles.
 	The Circle Layout can't cope with empty graphs."
 
 	"^ BlOnceLayout new layout: GtGradCircleLayout new"
-
-	^ BlOnceLayout new layout: GtGradHorizontalTreeLayout new
 
 	"^ BlOnceLayout new layout: GtGradKamadaKawaiLayout new"
 ]
@@ -106,11 +107,12 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 
 { #category : #accessing }
 HypernodeGraphElement >> initializeLayout [
-	<todo: 'Assign a default layout if no positions available'>
 	self repositionNodes.
-	(self contexts detect: #hasPosition ifNone: [ nil ]) isNotNil
+	self layout: self defaultLayout
+
+	"(self contexts detect: #hasPosition ifNone: [ nil ]) isNotNil
 		ifTrue: [ self layout: BlFitLayout new ]
-		ifFalse: [ self layout: self defaultLayout ]
+		ifFalse: [ self layout: self defaultLayout ]"
 ]
 
 { #category : #accessing }
