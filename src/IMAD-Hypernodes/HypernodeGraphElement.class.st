@@ -51,9 +51,9 @@ HypernodeGraphElement >> contexts [
 
 { #category : #accessing }
 HypernodeGraphElement >> defaultLayout [
+	<todo: 'Note sure we really want this ... instead we need to change or set the layout depending on the situation'>
+	^ BlOnceLayout new layout: BlFitLayout new
 
-^ BlFitLayout new
-	
 	"^ BlOnceLayout new layout: GtGradHorizontalTreeLayout new"
 
 	"The KamadaKawai force-based layout seems to lead to zero-divide issues.
@@ -107,6 +107,11 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 
 { #category : #accessing }
 HypernodeGraphElement >> initializeLayout [
+	<todo: 'fix this to handle the various cases
+	- empty graph
+	- graph with positioned nodes
+	- graph with some unpositione nodes
+	'>
 	self repositionNodes.
 	self layout: self defaultLayout
 
