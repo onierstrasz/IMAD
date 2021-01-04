@@ -157,8 +157,12 @@ HypernodeEditor >> handleEvents [
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
-				do:
-					[ :evt | self node addNodeWithPosition: evt position - self graph position ])	"Double-click"
+				do: [ :evt | 
+					self node
+						addNodeWithPosition: (self graph globalPointToLocal: evt position)
+
+
+				])	"Double-click"
 ]
 
 { #category : #accessing }

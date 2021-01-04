@@ -25,10 +25,9 @@ This makes it easier to debug the definitions of the event handlers."
 - editor context menu
 '>
 
-| padding margin editor graph makeNode |
+| padding margin editor graph buttonBar makeNode |
 
 "graph editor example"
-
 
 padding := 5.
 margin := padding.
@@ -45,7 +44,7 @@ editor
 editor border: (BlBorder paint: Color blue width: 1).
 
 "The graph element holds the actual graph nodes and edges"
-graph := BlElement new.
+graph := BlElement new asPannableElement.
 graph
 	constraintsDo: [ :c | 
 		c horizontal matchParent.
@@ -57,6 +56,53 @@ graph border: (BlBorder paint: Color red width: 1).
 graph layout:BlBasicLayout new.
 graph clipChildren: false.
 
+buttonBar := BlElement new.
+buttonBar
+	constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical fitContent ];
+	padding: (BlInsets all: padding);
+	margin: (BlInsets all: margin);
+	layout: BlLinearLayout horizontal.
+buttonBar border: (BlBorder paint: Color orange width: 1).
+"NB: Zooming is not working"
+buttonBar
+	addChild:
+		(BrButton new
+			look: BrGlamorousButtonWithIconLook;
+			icon: BrGlamorousIcons zoomin;
+			label: 'Zoom In';
+			action: [ graph zoomIn ]).
+buttonBar
+	addChild:
+		(BrButton new
+			look: BrGlamorousButtonWithIconLook;
+			icon: BrGlamorousIcons zoomout;
+			label: 'Zoom Out';
+			action: [ graph zoomOut ]).
+buttonBar
+	addChild:
+		(BrButton new
+			look: BrGlamorousButtonWithIconLook;
+			icon: BrGlamorousIcons zoomtofit;
+			label: 'Fit';
+			action: [ graph zoomToFit ]).
+buttonBar
+	addChild:
+		(BrButton new
+			look: BrGlamorousButtonWithIconLook;
+			icon: BrGlamorousIcons actualsize;
+			label: 'Resize';
+			action: [ graph zoomToActualSize ]).
+buttonBar
+	addChild:
+		(BrButton new
+			look: BrGlamorousButtonWithIconLook;
+			icon: BrGlamorousVectorIcons refresh;
+			label: 'Refresh';
+			action: [ graph forceLayout "self updateGraph" ]).
+
+editor addChild: buttonBar.
 editor addChild: graph.
 
 "A constructor block in lieu of a method."
@@ -78,12 +124,11 @@ makeNode := 	[ | node |
 			(BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | 
-					evt consumed: true. "So the container does not also react."
+					evt consumed: true.	"So the container does not also react."
 					node phlow spawnObject: node ]).
 	node ].
 
-			
-editor addEventHandler:
+graph addEventHandler:
 	(BlEventHandler
 		on: BlDoubleClickEvent
 		do: [ :evt | | newNode |
@@ -94,5 +139,5 @@ editor addEventHandler:
 editor.
 
 ^ editor
-	
+
 ]

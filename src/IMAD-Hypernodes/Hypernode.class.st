@@ -75,6 +75,7 @@ Hypernode >> addNode: aNode WithPosition: aPosition [
 Hypernode >> addNodeWithPosition: aPosition [
 	| node |
 	node := Hypernode new.
+	"self halt."
 	self addNode: node WithPosition: aPosition.
 	^ node
 ]
