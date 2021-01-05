@@ -12,24 +12,22 @@ Class {
 
 { #category : #accessing }
 HypernodeExamples >> editorScript [
-"This example will also run as a Playground snippet.
+"This example will also run as a Playground snippet. (Just delete everything up to and including the variable declarations.)
 The purpose is to demonstrate all the GUI events and interactions without the scaffolding of the underlying model or the dedicated classed.
 This makes it easier to debug the definitions of the event handlers."
 
 <gtExample>
 <todo: '
-- add zoom buttons
-- highlight node when hovering over it
+- add zoom buttons (done, but zoom not working)
+- highlight node when hovering over it (not working correctly)
 - create edges
-- zoom and pan
-- editor context menu
 '>
 
-| padding margin editor graph buttonBar makeNode |
+| padding margin editor graph buttonBar makeNode graphHolder |
 
 "graph editor example"
 
-padding := 5.
+padding := 2.
 margin := padding.
 
 "The editor is the root element. It holds the graph and eventually some gui buttons."
@@ -55,6 +53,16 @@ graph
 graph border: (BlBorder paint: Color red width: 1).
 graph layout:BlBasicLayout new.
 graph clipChildren: false.
+
+graphHolder := BlElement new.
+graphHolder
+	constraintsDo: [ :c | 
+		c horizontal matchParent.
+		c vertical matchParent ];
+	padding: (BlInsets all: padding);
+	margin: (BlInsets all: margin);
+	layout: BlLinearLayout vertical;
+	border: (BlBorder paint: Color orange width: 1).
 
 buttonBar := BlElement new.
 buttonBar
@@ -103,7 +111,8 @@ buttonBar
 			action: [ graph forceLayout "self updateGraph" ]).
 
 editor addChild: buttonBar.
-editor addChild: graph.
+editor addChild: graphHolder.
+graphHolder addChild: graph.
 
 "A constructor block in lieu of a method."
 makeNode := 	[ | node |
@@ -116,8 +125,24 @@ makeNode := 	[ | node |
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ];
-		padding: (BlInsets all: 5).
+		padding: (BlInsets all: 10).
 	node graph beNode.
+	node
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look:
+			(BrInteractiveCommonLook new
+				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
+			+ ((BrGlamorousWithContextMenuLook content: [ 
+					BrGlamorousSimpleContextMenuContent new
+						items: {
+							( 'Inspect node' -> [ node inspect ] )
+						};
+					yourself
+					])
+				useSecondaryMouseButton;
+				"modifiersMatcher: #isCmd;"
+				yourself).
 	node addEventHandler: HypernodePullHandler new.
 	node
 		addEventHandler:
@@ -128,15 +153,21 @@ makeNode := 	[ | node |
 					node phlow spawnObject: node ]).
 	node ].
 
-graph addEventHandler:
+graphHolder
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look: (BrGlamorousWithContextMenuLook content: [
+			BrGlamorousSimpleContextMenuContent new
+						items: {
+							( 'Inspect graph' -> [ graph inspect ] )
+						};
+					yourself ]).
+graphHolder addEventHandler:
 	(BlEventHandler
 		on: BlDoubleClickEvent
 		do: [ :evt | | newNode |
 			newNode := makeNode value.
 			graph addChild: newNode.
 			newNode relocate: (graph globalPointToLocal: evt position)]).
-
-editor.
 
 ^ editor
 
