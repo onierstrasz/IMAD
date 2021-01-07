@@ -82,11 +82,11 @@ HypernodeGraphElement >> initialize [
 	graphElementsDictionary := IdentityDictionary new.
 	self
 		constraintsDo: [ :c | 
-			"c horizontal fitContent.
-			c vertical fitContent."
+			c horizontal fitContent.
+			c vertical fitContent.
 			
-			c horizontal matchParent.
-			c vertical matchParent 
+			"c horizontal matchParent.
+			c vertical matchParent "
 			].
 	"Border for debugging only"
 	self border: (BlBorder paint: Color blue width: 1).

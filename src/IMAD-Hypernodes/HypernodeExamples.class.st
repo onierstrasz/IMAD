@@ -18,12 +18,15 @@ This makes it easier to debug the definitions of the event handlers."
 
 <gtExample>
 <todo: '
-- add zoom buttons (done, but zoom not working)
-- highlight node when hovering over it (not working correctly)
+- fix zoom to fit!
 - create edges
+See also: https://github.com/onierstrasz/IMAD/issues/39
 '>
 
-| padding margin editor graph buttonBar makeNode graphHolder |
+| padding margin editor graph buttonBar makeNode graphHolder pannableGraph |
+
+"--- TO RUN IN PLAYGROUND, DELETE FROM HERE TO TOP ---"
+
 
 "graph editor example"
 
@@ -42,7 +45,7 @@ editor
 editor border: (BlBorder paint: Color blue width: 1).
 
 "The graph element holds the actual graph nodes and edges"
-graph := BlElement new asPannableElement.
+graph := BlElement new.
 graph
 	constraintsDo: [ :c | 
 		c horizontal matchParent.
@@ -53,6 +56,9 @@ graph
 graph border: (BlBorder paint: Color red width: 1).
 graph layout:BlBasicLayout new.
 graph clipChildren: false.
+
+pannableGraph := graph asPannableElement. 
+pannableGraph zoomableElement clipChildren: false.
 
 graphHolder := BlElement new.
 graphHolder
@@ -80,28 +86,28 @@ buttonBar
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousIcons zoomin;
 			label: 'Zoom In';
-			action: [ graph zoomIn ]).
+			action: [ pannableGraph zoomIn ]).
 buttonBar
 	addChild:
 		(BrButton new
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousIcons zoomout;
 			label: 'Zoom Out';
-			action: [ graph zoomOut ]).
+			action: [ pannableGraph zoomOut ]).
 buttonBar
 	addChild:
 		(BrButton new
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousIcons zoomtofit;
 			label: 'Fit';
-			action: [ graph zoomToFit ]).
+			action: [ pannableGraph zoomToFit ]).
 buttonBar
 	addChild:
 		(BrButton new
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousIcons actualsize;
 			label: 'Resize';
-			action: [ graph zoomToActualSize ]).
+			action: [ pannableGraph zoomToActualSize ]).
 buttonBar
 	addChild:
 		(BrButton new
@@ -112,7 +118,7 @@ buttonBar
 
 editor addChild: buttonBar.
 editor addChild: graphHolder.
-graphHolder addChild: graph.
+graphHolder addChild: pannableGraph.
 
 "A constructor block in lieu of a method."
 makeNode := 	[ | node |
@@ -120,7 +126,6 @@ makeNode := 	[ | node |
 	node 
 		layout: BlFrameLayout new;
 		geometry: (BlRectangle cornerRadius: 4);
-		border: (BlBorder paint: Color black width: 1);
 		background: Color white;
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
@@ -131,17 +136,13 @@ makeNode := 	[ | node |
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
 			(BrInteractiveCommonLook new
-				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
+				default: [ :elt | elt border: (BlBorder paint: Color black width: 2) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 2) ])
 			+ ((BrGlamorousWithContextMenuLook content: [ 
-					BrGlamorousSimpleContextMenuContent new
-						items: {
-							( 'Inspect node' -> [ node inspect ] )
-						};
-					yourself
-					])
-				useSecondaryMouseButton;
-				"modifiersMatcher: #isCmd;"
+				BrGlamorousSimpleContextMenuContent new
+					items: { ( 'Inspect node' -> [ node inspect ] ) };
+					yourself ])
+				useSecondaryMouseButton ;
 				yourself).
 	node addEventHandler: HypernodePullHandler new.
 	node
@@ -149,7 +150,7 @@ makeNode := 	[ | node |
 			(BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | 
-					evt consumed: true.	"So the container does not also react."
+					evt consumed: true.
 					node phlow spawnObject: node ]).
 	node ].
 
@@ -157,10 +158,8 @@ graphHolder
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look: (BrGlamorousWithContextMenuLook content: [
 			BrGlamorousSimpleContextMenuContent new
-						items: {
-							( 'Inspect graph' -> [ graph inspect ] )
-						};
-					yourself ]).
+				items: { ( 'Inspect graph' -> [ graph inspect ] ) };
+				yourself ]).
 graphHolder addEventHandler:
 	(BlEventHandler
 		on: BlDoubleClickEvent

@@ -65,7 +65,7 @@ HypernodeElement >> handleEvents [
 		look:
 			(BrInteractiveCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
+				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
 				+
 					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 						useSecondaryMouseButton;
