@@ -41,8 +41,12 @@ See also: https://github.com/onierstrasz/IMAD/issues/39
 
 "--- TO RUN IN PLAYGROUND, DELETE FROM HERE TO TOP ---"
 
-
-"graph editor example"
+"graph editor example
+- double click to create a node
+- click and drag to move it
+- double click node to inspect
+- drag the background to pan
+- zoom buttons only work partially"
 
 padding := 2.
 margin := padding.
@@ -128,7 +132,7 @@ buttonBar
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousVectorIcons refresh;
 			label: 'Refresh';
-			action: [ graph forceLayout "self updateGraph" ]).
+			action: [ graph requestLayout "editor phlow update" ]).
 
 editor addChild: buttonBar.
 editor addChild: graphHolder.
@@ -158,7 +162,7 @@ makeNode := 	[ | node |
 					yourself ])
 				useSecondaryMouseButton ;
 				yourself).
-	node addEventHandler: HypernodePullHandler new.
+	node addEventHandler:BlPullHandler new.
 	node
 		addEventHandler:
 			(BlEventHandler
@@ -183,5 +187,4 @@ graphHolder addEventHandler:
 			newNode relocate: (graph globalPointToLocal: evt position)]).
 
 ^ editor
-
 ]
