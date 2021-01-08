@@ -19,6 +19,20 @@ This makes it easier to debug the definitions of the event handlers."
 <gtExample>
 <todo: '
 - fix zoom to fit!
+
+The graph currently has the matchParent constraint, but it should be only initially so. Then when zooming in or out, the size should stay adjust with the zoom level instead of staying constant. When we add new elements, the bounds should adjust to include the new node.
+
+If I add some nodes to the graph and then perform:
+	self constraintsDo: [ :c | c horizontal fitContent. c vertical fitContent ]
+The bounds are set to nil. How can I get the bounds to adapt to the current nodes? (Plus a margin.)
+
+Sending:
+	self position: 50@50 extent: 100@100.
+	self requestLayout 
+Changes the position relative to the current position, as well as the extent.
+NB: At some point nodes lose the ability to be dragged themselves.
+
+- refresh button should trigger an update, but how do we update?
 - create edges
 See also: https://github.com/onierstrasz/IMAD/issues/39
 '>
