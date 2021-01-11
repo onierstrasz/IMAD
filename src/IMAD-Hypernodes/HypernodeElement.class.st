@@ -34,7 +34,8 @@ HypernodeElement >> context [
 { #category : #accessing }
 HypernodeElement >> context: aNodeContext [
 	nodeContext := aNodeContext.
-	self subscribe 
+	self graph model: aNodeContext node.
+	self subscribe
 ]
 
 { #category : #accessing }
@@ -121,7 +122,8 @@ HypernodeElement >> node [
 { #category : #accessing }
 HypernodeElement >> node: aNode [
 	self deprecated: 'Use context: instead'.
-	nodeContext := aNode
+	nodeContext := aNode.
+	self graph model: aNode
 ]
 
 { #category : #accessing }

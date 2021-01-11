@@ -23,19 +23,19 @@ HyperlinkDragHandler >> dragEndEvent: anEvent [
 		ifTrue: [ | endNode |
 			anEvent consumed: true.
 			"endNode := container findMouseEventTargetAt: anEvent position."
-			endNode := self findCardElementAt: anEvent position.
+			endNode := self findHypernodeElementAt: anEvent position.
 			endNode
 				ifNotNil: [ endNode graph isNode
-						ifTrue: [ | fromCard toCard |
-							fromCard := startNode graph model.
-							toCard := endNode graph model.
+						ifTrue: [ | fromNode toNode |
+							fromNode := startNode graph model.
+							toNode := endNode graph model.
 							self
-								assert: (fromCard isKindOf: Card)
-								description: fromCard asString , ' should be an instance of Card'.
+								assert: (fromNode isKindOf: Hypernode)
+								description: fromNode asString , ' should be an instance of Hypernode'.
 							self
-								assert: (toCard isKindOf: Card)
-								description: toCard asString , ' should be an instance of Card'.
-							fromCard connectTo: toCard ] ].
+								assert: (toNode isKindOf: Hypernode)
+								description: toNode asString , ' should be an instance of Hypernode'.
+							fromNode connectTo: toNode ] ].
 			container removeChild: mousePositionElement.
 			container removeChild: lineElement ]
 ]
@@ -72,10 +72,10 @@ HyperlinkDragHandler >> eventsToHandle [
 ]
 
 { #category : #accessing }
-HyperlinkDragHandler >> findCardElementAt: aPosition [
+HyperlinkDragHandler >> findHypernodeElementAt: aPosition [
 	| element |
 	element := container findMouseEventTargetAt: aPosition.
-	[ element isKindOf: CardNodeView ]
+	[ element isKindOf: HypernodeElement ]
 		whileFalse: [ (element = container or: [ element isNil ])
 				ifTrue: [ ^ nil ].
 			element := element parent ].
