@@ -18,29 +18,13 @@ This makes it easier to debug the definitions of the event handlers."
 
 <gtExample>
 <todo: '
-- fix zoom to fit!
-
-The graph currently has the matchParent constraint, but it should be only initially so. Then when zooming in or out, the size should stay adjust with the zoom level instead of staying constant. When we add new elements, the bounds should adjust to include the new node.
-
-If I add some nodes to the graph and then perform:
-	self constraintsDo: [ :c | c horizontal fitContent. c vertical fitContent ]
-The bounds are set to nil. How can I get the bounds to adapt to the current nodes? (Plus a margin.)
-
-Sending:
-	self position: 50@50 extent: 100@100.
-	self requestLayout 
-Changes the position relative to the current position, as well as the extent.
-NB: At some point nodes lose the ability to be dragged themselves.
-
-- refresh button should trigger an update, but how do we update?
-- create edges
+- Fix zoom to actual size -- should center the graph
 See also: https://github.com/onierstrasz/IMAD/issues/39
 '>
 
 | padding margin editor graph buttonBar makeNode graphHolder pannableGraph |
 
 "--- TO RUN IN PLAYGROUND, DELETE FROM HERE TO TOP ---"
-
 "graph editor example
 - double click to create a node
 - click and drag to move it
@@ -65,28 +49,30 @@ editor border: (BlBorder paint: Color blue width: 1).
 "The graph element holds the actual graph nodes and edges"
 graph := BlElement new.
 graph
+	layout: (BlWrapAroundChildrenLayout new addLayout: BlBasicNodeBasedLayout new);
 	constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ];
+		c horizontal fitContent.
+		c vertical fitContent ];
 	padding: (BlInsets all: padding);
 	margin: (BlInsets all: margin);
-	layout: BlLinearLayout vertical.
-graph border: (BlBorder paint: Color red width: 1).
-graph layout:BlBasicLayout new.
-graph clipChildren: false.
+	background: Color white;
+    effect: BrGlamorousShadowEffect new.
 
-pannableGraph := graph asPannableElement. 
-pannableGraph zoomableElement clipChildren: false.
+graphHolder := BlPinchableElement new
+	 zoomLevel: 2;
+	 clipChildren: false;
+	 contentElement: graph;
+	 border: (BlBorder paint: Color red).
 
-graphHolder := BlElement new.
-graphHolder
-	constraintsDo: [ :c | 
-		c horizontal matchParent.
-		c vertical matchParent ];
+pannableGraph := graphHolder asPannableElement
+	border: (BlBorder paint: Color orange);
 	padding: (BlInsets all: padding);
 	margin: (BlInsets all: margin);
-	layout: BlLinearLayout vertical;
-	border: (BlBorder paint: Color orange width: 1).
+	when: BlDoubleClickEvent
+	do: [ :evt | | newNode |
+    	newNode := makeNode asElement.
+    	graph addChild: newNode.
+   	 newNode relocate: (graphHolder globalPointToLocal: evt position) ].
 
 buttonBar := BlElement new.
 buttonBar
@@ -126,17 +112,9 @@ buttonBar
 			icon: BrGlamorousIcons actualsize;
 			label: 'Resize';
 			action: [ pannableGraph zoomToActualSize ]).
-buttonBar
-	addChild:
-		(BrButton new
-			look: BrGlamorousButtonWithIconLook;
-			icon: BrGlamorousVectorIcons refresh;
-			label: 'Refresh';
-			action: [ graph requestLayout "editor phlow update" ]).
 
 editor addChild: buttonBar.
-editor addChild: graphHolder.
-graphHolder addChild: pannableGraph.
+editor addChild: pannableGraph.
 
 "A constructor block in lieu of a method."
 makeNode := 	[ | node |
@@ -170,21 +148,15 @@ makeNode := 	[ | node |
 				do: [ :evt | 
 					evt consumed: true.
 					node phlow spawnObject: node ]).
-	node ].
+	node ] asStencil.
 
-graphHolder
+pannableGraph
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look: (BrGlamorousWithContextMenuLook content: [
 			BrGlamorousSimpleContextMenuContent new
 				items: { ( 'Inspect graph' -> [ graph inspect ] ) };
 				yourself ]).
-graphHolder addEventHandler:
-	(BlEventHandler
-		on: BlDoubleClickEvent
-		do: [ :evt | | newNode |
-			newNode := makeNode value.
-			graph addChild: newNode.
-			newNode relocate: (graph globalPointToLocal: evt position)]).
+
 
 ^ editor
 ]
