@@ -25,17 +25,20 @@ See also: https://github.com/onierstrasz/IMAD/issues/39
 | padding margin editor graph buttonBar makeNode graphHolder pannableGraph |
 
 "--- TO RUN IN PLAYGROUND, DELETE FROM HERE TO TOP ---"
-"graph editor example
+
+
+"graph editor example. This demo only builds a view without an underlying model, just to show in a script how to compose the key UI elements. See the IMAD Hypernode package for the implementation in terms of model and view classes instead of as a script. Each element has a border or shading to make its bounds visible.
 - double click to create a node
 - click and drag to move it
 - double click node to inspect
 - drag the background to pan
+- control-click node or background to open a context menu
 - zoom buttons only work partially"
 
 padding := 2.
 margin := padding.
 
-"The editor is the root element. It holds the graph and eventually some gui buttons."
+"The editor (blue border) is the root element. It holds a buttonBar and a pannableGraph (orange borders). The pannableGraph contains the (pinchable) graphHolder (red border), which holds the graph (white with shading)."
 editor := BlElement new.
 editor
 	constraintsDo: [ :c | 
@@ -46,33 +49,45 @@ editor
 	layout: BlLinearLayout vertical.
 editor border: (BlBorder paint: Color blue width: 1).
 
-"The graph element holds the actual graph nodes and edges"
+"The graph element (white with shading) holds the actual graph nodes. It adapts its size to its children with a BlWrapAroundChildrenLayout layout."
 graph := BlElement new.
 graph
-	layout: (BlWrapAroundChildrenLayout new addLayout: BlBasicNodeBasedLayout new);
+	layout: (BlWrapAroundChildrenLayout new 
+		addLayout: BlBasicNodeBasedLayout new);
 	constraintsDo: [ :c | 
 		c horizontal fitContent.
 		c vertical fitContent ];
 	padding: (BlInsets all: padding);
-	margin: (BlInsets all: margin);
+	margin: (BlInsets all: margin).
+graph
 	background: Color white;
     effect: BrGlamorousShadowEffect new.
 
+"The graphHolder (red border) is a pinchable container for the graph. See BlPinchableElement. Note that the graph it contains may overlap its own border, so we don't care about the red border when zooming or resizing."
 graphHolder := BlPinchableElement new
 	 zoomLevel: 2;
 	 clipChildren: false;
 	 contentElement: graph;
 	 border: (BlBorder paint: Color red).
 
+"The pannableGraph (orange border) supports panning and handles the background events for the graph (context menu and node creation)."
 pannableGraph := graphHolder asPannableElement
 	border: (BlBorder paint: Color orange);
 	padding: (BlInsets all: padding);
-	margin: (BlInsets all: margin);
+	margin: (BlInsets all: margin).
+pannableGraph
 	when: BlDoubleClickEvent
 	do: [ :evt | | newNode |
     	newNode := makeNode asElement.
     	graph addChild: newNode.
    	 newNode relocate: (graphHolder globalPointToLocal: evt position) ].
+
+pannableGraph
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look: (BrGlamorousWithContextMenuLook content: [
+			BrGlamorousSimpleContextMenuContent new
+				items: { ( 'Inspect graph' -> [ graph inspect ] ) };
+				yourself ]).
 
 buttonBar := BlElement new.
 buttonBar
@@ -83,7 +98,6 @@ buttonBar
 	margin: (BlInsets all: margin);
 	layout: BlLinearLayout horizontal.
 buttonBar border: (BlBorder paint: Color orange width: 1).
-"NB: Zooming is not working"
 buttonBar
 	addChild:
 		(BrButton new
@@ -116,8 +130,8 @@ buttonBar
 editor addChild: buttonBar.
 editor addChild: pannableGraph.
 
-"A constructor block in lieu of a method."
-makeNode := 	[ | node |
+"A constructor stencil in lieu of a method. Note that we use a stencil instead of just a block so we can have a live view of it."
+makeNode := [ | node |
 	node := BlElement new.
 	node 
 		layout: BlFrameLayout new;
@@ -149,14 +163,6 @@ makeNode := 	[ | node |
 					evt consumed: true.
 					node phlow spawnObject: node ]).
 	node ] asStencil.
-
-pannableGraph
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [
-			BrGlamorousSimpleContextMenuContent new
-				items: { ( 'Inspect graph' -> [ graph inspect ] ) };
-				yourself ]).
-
 
 ^ editor
 ]
