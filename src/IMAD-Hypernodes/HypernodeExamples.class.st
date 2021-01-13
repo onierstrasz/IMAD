@@ -188,3 +188,41 @@ graphHolder addEventHandler:
 
 ^ editor
 ]
+
+{ #category : #accessing }
+HypernodeExamples >> pinchableDemo [
+<gtExample>
+"Example by Aliaksei Syrel. Shows how bounds of parent element can automatically adjust to its children. Double-click on background to add children."
+| makeNode graph graphHolder pannable |
+
+"A constructor stencil"
+makeNode := [ | node |
+  node := BlElement new
+    geometry: (BlRectangle cornerRadius: 4);
+    border: (BlBorder paint: Color black width: 2);
+    background: Color white;
+    size: 20@20;
+    addEventHandler: BlPullHandler new ] asStencil.
+"The graph element holds the actual graph nodes and edges"
+graph := BlElement new
+  layout: (BlWrapAroundChildrenLayout new addLayout: BlBasicNodeBasedLayout new);
+  constraintsDo: [ :c | 
+    c horizontal fitContent.
+      c vertical fitContent ];
+      background: Color white;
+      effect: BrGlamorousShadowEffect new.
+graphHolder := BlPinchableElement new
+  zoomLevel: 2;
+  clipChildren: false;
+  contentElement: graph;
+  border: (BlBorder paint: Color black).
+pannable := graphHolder asPannableElement
+  background: Color veryLightGray;
+  when: BlDoubleClickEvent
+  do: [ :evt | | newNode |
+    newNode := makeNode asElement.
+    graph addChild: newNode.
+    newNode relocate: (graphHolder globalPointToLocal: evt position) ].
+
+^ pannable
+]
