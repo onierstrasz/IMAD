@@ -302,7 +302,7 @@ VirtualHandGUI >> updateGraph [
 	| newGraph oldGraph |
 	oldGraph := theGraph.
 	newGraph := self buildGraph.
-	oldGraph ifNotNil: [ newGraph zoomTo: oldGraph zoomLevel ].
+	oldGraph ifNotNil: [ newGraph zoomLevel: oldGraph zoomLevel ].
 	graphHolder removeChildren.
 	graphHolder addChild: newGraph
 ]
