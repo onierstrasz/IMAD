@@ -105,7 +105,7 @@ HypernodeEditor >> buildGraphContainer [
 
 	graph := HypernodeGraphElement for: self node.
 	graphHolder := BlPinchableElement new
-		zoomLevel: 2;
+		zoomLevel: 1;
 		clipChildren: false;
 		contentElement: graph.
 		
@@ -139,8 +139,8 @@ HypernodeEditor >> for: aHypernode [
 
 	"self subscribe.
 	self updateHeaderName.
-	self tagPane updateTagFilterButtonsForHand: self hand."
-	self updateGraph
+	self tagPane updateTagFilterButtonsForHand: self hand.
+	self updateGraph"
 ]
 
 { #category : #accessing }
@@ -195,7 +195,8 @@ HypernodeEditor >> node [
 
 { #category : #accessing }
 HypernodeEditor >> node: aHypernode [
-	node := aHypernode
+	node := aHypernode.
+	self updateGraph
 ]
 
 { #category : #accessing }
@@ -211,6 +212,7 @@ HypernodeEditor >> updateGraph [
 	<todo: 'Do we need to set the zoomLevel to the same as the old graph?
 	Should we reall build a new graph, or just update the existing one?
 	Revisit this when we install all the announcements.'>
+	
 	self graph: (HypernodeGraphElement for: self node)
 
 

@@ -34,7 +34,9 @@ HypernodeGraphElement >> addNewContext: aHypernodeContext [
 	| nodeElement |
 	nodeElement := HypernodeElement forContext: aHypernodeContext.
 	self mapModelEntity: aHypernodeContext node toElement: nodeElement.
-	self addChild: nodeElement
+	self addChild: nodeElement.
+	
+	nodeElement relocate: aHypernodeContext position
 ]
 
 { #category : #accessing }
@@ -81,20 +83,17 @@ HypernodeGraphElement >> initialize [
 	super initialize.
 	graphElementsDictionary := IdentityDictionary new.
 	self
-		layout:
-			(BlWrapAroundChildrenLayout new addLayout: BlBasicNodeBasedLayout new);
+		layout: (BlWrapAroundChildrenLayout new addLayout: BlBasicNodeBasedLayout new);
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ];
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin).
+		
 	self inDebugMode
 		ifTrue: [ self
 				background: Color white;
 				effect: BrGlamorousShadowEffect new ]
-
-
-	"self clipChildren: false."
 ]
 
 { #category : #accessing }
@@ -104,29 +103,11 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
 	self contexts
-		ifNotEmpty: [ self contexts do:
-				[ :context | self addNewContext: context ] ].
+		ifNotEmpty: [ self contexts do: [ :context | self addNewContext: context ] ].
 	self edges
 		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
-	self initializeLayout.
-	self clipChildren: false.
 	self subscribe.
 	^ self
-]
-
-{ #category : #accessing }
-HypernodeGraphElement >> initializeLayout [
-	<todo: 'fix this to handle the various cases
-	- empty graph
-	- graph with positioned nodes
-	- graph with some unpositione nodes
-	'>
-	self repositionNodes.
-	self layout: self defaultLayout
-
-	"(self contexts detect: #hasPosition ifNone: [ nil ]) isNotNil
-		ifTrue: [ self layout: BlFitLayout new ]
-		ifFalse: [ self layout: self defaultLayout ]"
 ]
 
 { #category : #accessing }
@@ -167,10 +148,7 @@ HypernodeGraphElement >> repositionNodes [
 HypernodeGraphElement >> subscribe [
 	self node announcer
 		when: CreateNodeContext
-		do: [ :announcement :subscriber | 
-		self addNewContext: 
-		announcement context
-		
-		 ]
+		do:
+			[ :announcement :subscriber | self addNewContext: announcement context ]
 		for: self
 ]
