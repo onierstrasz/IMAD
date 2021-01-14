@@ -3,7 +3,7 @@ I provide a dedicated view for a ${class:Hypernode}$ instance as a node within a
 "
 Class {
 	#name : #HypernodeElement,
-	#superclass : #BlElement,
+	#superclass : #AbstractHypernodeElement,
 	#instVars : [
 		'isEditable',
 		'nodeContext'
@@ -60,13 +60,21 @@ HypernodeElement >> contextMenu [
 ]
 
 { #category : #accessing }
+HypernodeElement >> defaultPadding [
+	^ 5
+]
+
+{ #category : #accessing }
 HypernodeElement >> handleEvents [
 	self
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
-			(BrInteractiveCommonLook new
+			"(BrInteractiveCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
+				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ]) +"
+			(BrStyleCommonLook  new
+		default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
+		hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])
 				+
 					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 						useSecondaryMouseButton;
@@ -107,8 +115,8 @@ HypernodeElement >> initialize [
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ];
-		padding: (BlInsets all: 5).
-	self updateNode .
+		padding: (BlInsets all: self defaultPadding).
+	self updateNode.
 	self graph beNode.
 	self handleEvents.
 	^ self
@@ -150,7 +158,7 @@ HypernodeElement >> subscribe [
 
 { #category : #accessing }
 HypernodeElement >> updateNode [
-<todo: '...'>
+<todo: 'To be wired into announcements!'>
 	"card name = card defaultName
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beText ].

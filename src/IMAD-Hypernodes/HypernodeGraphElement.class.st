@@ -14,7 +14,7 @@ Event handling is defined in ${method:name=HypernodeEditor>>#handleEvents}$.
 "
 Class {
 	#name : #HypernodeGraphElement,
-	#superclass : #BlElement,
+	#superclass : #AbstractHypernodeElement,
 	#instVars : [
 		'graphElementsDictionary',
 		'node'
@@ -81,15 +81,20 @@ HypernodeGraphElement >> initialize [
 	super initialize.
 	graphElementsDictionary := IdentityDictionary new.
 	self
+		layout:
+			(BlWrapAroundChildrenLayout new addLayout: BlBasicNodeBasedLayout new);
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
-			c vertical fitContent.
-			
-			"c horizontal matchParent.
-			c vertical matchParent "
-			].
-	"Border for debugging only"
-	self border: (BlBorder paint: Color blue width: 1).
+			c vertical fitContent ];
+		padding: (BlInsets all: self defaultPadding);
+		margin: (BlInsets all: self defaultMargin).
+	self inDebugMode
+		ifTrue: [ self
+				background: Color white;
+				effect: BrGlamorousShadowEffect new ]
+
+
+	"self clipChildren: false."
 ]
 
 { #category : #accessing }

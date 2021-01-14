@@ -20,8 +20,9 @@ Class {
 	#superclass : #AbstractHypernodeElement,
 	#instVars : [
 		'node',
-		'theGraph',
-		'graphHolder'
+		'graphContainer',
+		'graphHolder',
+		'graph'
 	],
 	#category : #'IMAD-Hypernodes'
 }
@@ -41,6 +42,8 @@ HypernodeEditor >> buildButtonBar [
 			c horizontal matchParent.
 			c vertical fitContent ];
 		layout: BlLinearLayout horizontal;
+		padding: (BlInsets all: self defaultPadding);
+		margin: (BlInsets all: self defaultMargin);
 		yourself.
 	buttonBar
 		addChild:
@@ -62,28 +65,28 @@ HypernodeEditor >> buildButtonBar [
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousIcons zoomin;
 				label: 'Zoom In';
-				action: [ theGraph zoomIn ]).
+				action: [ graphContainer zoomIn ]).
 	buttonBar
 		addChild:
 			(BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousIcons zoomout;
 				label: 'Zoom Out';
-				action: [ theGraph zoomOut ]).
+				action: [ graphContainer zoomOut ]).
 	buttonBar
 		addChild:
 			(BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousIcons zoomtofit;
 				label: 'Fit';
-				action: [ theGraph zoomToFit ]).
+				action: [ graphContainer zoomToFit ]).
 	buttonBar
 		addChild:
 			(BrButton new
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousIcons actualsize;
 				label: 'Resize';
-				action: [ theGraph zoomToActualSize ]).
+				action: [ graphContainer zoomToActualSize ]).
 	buttonBar
 		addChild:
 			(BrButton new
@@ -91,31 +94,34 @@ HypernodeEditor >> buildButtonBar [
 				icon: BrGlamorousVectorIcons refresh;
 				label: 'Refresh';
 				action: [ self updateGraph ]).
+	self inDebugMode
+		ifTrue: [ buttonBar border: (BlBorder paint: Color orange) ].
 	^ buttonBar
 ]
 
 { #category : #accessing }
-HypernodeEditor >> buildGraph [
-	theGraph := (HypernodeGraphElement for: self node) asPannableElement.
-	theGraph zoomableElement clipChildren: false.
-	^ theGraph
-]
-
-{ #category : #accessing }
-HypernodeEditor >> buildGraphHolder [
-	"I hold the actual graph (which may change), and handle mouse events."
+HypernodeEditor >> buildGraphContainer [
+	"I contain the graphHolder that holds actual graph (which may change), and handle mouse events."
 
 	<todo: 'Add CMD-click'>
-	graphHolder := BlElement new
+	graph := HypernodeGraphElement for: self node.
+	graphHolder := BlPinchableElement new
+		zoomLevel: 2;
+		clipChildren: false;
+		contentElement: graph.
+	graphContainer := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ];
-		padding: (BlInsets all: 5);
-		margin: (BlInsets all: 5);
 		layout: BlLinearLayout vertical;
+		padding: (BlInsets all: self defaultPadding);
+		margin: (BlInsets all: self defaultMargin);
 		yourself.
 	self handleEvents.
-	^ graphHolder
+	self inDebugMode
+		ifTrue: [ graphHolder border: (BlBorder paint: Color lightGray).
+			graphContainer border: (BlBorder paint: Color orange) ].
+	^ graphContainer
 ]
 
 { #category : #accessing }
@@ -143,17 +149,20 @@ HypernodeEditor >> for: aHypernode [
 
 { #category : #accessing }
 HypernodeEditor >> graph [
-	"for debugging"
+	^ graph
+]
 
-	^ theGraph contentElement
+{ #category : #accessing }
+HypernodeEditor >> graph: aHypernodeGraphElement [
+	graph := aHypernodeGraphElement.
+	graphHolder contentElement: graph
 ]
 
 { #category : #accessing }
 HypernodeEditor >> handleEvents [
-	graphHolder
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
-	graphHolder
+	"OLD CODE:"
+
+	"graphHolder
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
@@ -162,7 +171,24 @@ HypernodeEditor >> handleEvents [
 						addNodeWithPosition: (self graph globalPointToLocal: evt position)
 
 
-				])	"Double-click"
+				])"
+
+	"Double-click"
+	
+	<todo: 'I should not directly add and position the node, but this should be handled indiractly by announcements from the Hypernode model.'>
+
+	graphContainer
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
+	graphContainer
+		when: BlDoubleClickEvent
+		do: [ :evt | 
+			| newNode |
+			newNode := self node
+				addNodeWithPosition: (self graph globalPointToLocal: evt position).
+			"NB: The following code should disappear!"
+			graph addChild: newNode.
+			newNode relocate: (graphHolder globalPointToLocal: evt position) ]
 ]
 
 { #category : #accessing }
@@ -173,15 +199,15 @@ HypernodeEditor >> initialize [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ];
+		layout: BlLinearLayout vertical;
 		padding: (BlInsets all: self defaultPadding);
-		margin: (BlInsets all: self defaultMargin);
-		layout: BlLinearLayout vertical.
+		margin: (BlInsets all: self defaultMargin).
 	self inDebugMode
 		ifTrue: [ self border: (BlBorder paint: Color blue width: 1) ].
 	self
 		addChildren:
 			{self buildButtonBar.
-			self buildGraphHolder}.
+			self buildGraphContainer}.
 	self updateGraph
 ]
 
@@ -204,10 +230,15 @@ HypernodeEditor >> nodeElements [
 
 { #category : #accessing }
 HypernodeEditor >> updateGraph [
-	| newGraph oldGraph |
-	oldGraph := theGraph.
-	newGraph := self buildGraph.
+
+	<todo: 'Do we need to set the zoomLevel to the same as the old graph?
+	Should we reall build a new graph, or just update the existing one?
+	Revisit this when we install all the announcements.'>
+	self graph: (HypernodeGraphElement for: self node)
+
+
+	"newGraph := self buildGraph.
 	oldGraph ifNotNil: [ newGraph zoomLevel: oldGraph zoomLevel ].
 	graphHolder removeChildren.
-	graphHolder addChild: newGraph
+	graphHolder addChild: newGraph"
 ]
