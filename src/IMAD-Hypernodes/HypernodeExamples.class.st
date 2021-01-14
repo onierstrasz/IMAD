@@ -6,17 +6,17 @@ The ==editorScript== example illustrates how a ==Hypernode== graph editor is con
 
 In the example, each element has a colored border or shading to make it stand out.
 
-The """"editor"""" (blue border) is the root element. It holds a """"buttonBar"""" and a """"pannableGraph"""" (orange borders). The pannableGraph contains the (pinchable) """"graphHolder"""" (red border), which holds the """"graph"""" (white with shading).
+The """"editor"""" (blue border) is the root element. It holds a """"buttonBar"""" and a """"graphHolder"""" (orange borders). The graphHolder contains the (pinchable) """"graphPincher"""" (red border), which holds the """"graph"""" (white with shading).
 
 The """"graph"""" (shaded white element) is a plain ==BlElement== with a ==BlWrapAroundChildrenLayout== layout and ==fitContent== constraints. It will automatically adapt its size to its children as they are added.
 
-The """"graphHolder"""" (red) is an instance of ==BlPinchableElement==. This is similar to a zoomable element, except that its layout bounds are not affected by zoom operations. We actually don't care about its border.
+The """"graphPincher"""" (red) is an instance of ==BlPinchableElement==. This is similar to a zoomable element, except that its layout bounds are not affected by zoom operations. We actually don't care about its border.
 
-The """"pannableGraph"""" (orange) is a ==BlPannableElement== created by sending ==asPannableElement== to the graphHolder. It supports panning and handles the background events for the graph (context menu and node creation), since its (fixed) border defines the area where we want to capture mouse events.
+The """"graphHolder"""" (orange) is a ==BlPannableElement== created by sending ==asPannableElement== to the graphPincher. It supports panning and handles the background events for the graph (context menu and node creation), since its (fixed) border defines the area where we want to capture mouse events.
 
 The """"editor"""" (blue) is a plain BlElement with ==matchParent== constraints and a vertical linear layout (==BlLinearLayout vertical==).
 
-The """"buttonBar"""" (also orange), contains buttons that send zoom messages to the pannableGraph.
+The """"buttonBar"""" (also orange), contains buttons that send zoom messages to the graphHolder.
 
 "
 Class {
@@ -37,7 +37,7 @@ This makes it easier to debug the definitions of the event handlers."
 See also: https://github.com/onierstrasz/IMAD/issues/39
 '>
 
-| padding margin editor graph buttonBar makeNode graphHolder pannableGraph |
+| padding margin editor graph buttonBar makeNode graphPincher graphHolder |
 
 "--- TO RUN IN PLAYGROUND, DELETE FROM HERE TO TOP ---"
 
@@ -53,7 +53,7 @@ See also: https://github.com/onierstrasz/IMAD/issues/39
 padding := 2.
 margin := padding.
 
-"The editor (blue border) is the root element. It holds a buttonBar and a pannableGraph (orange borders). The pannableGraph contains the (pinchable) graphHolder (red border), which holds the graph (white with shading)."
+"The editor (blue border) is the root element. It holds a buttonBar and a graphHolder (orange borders). The graphHolder contains the (pinchable) graphPincher (red border), which holds the graph (white with shading)."
 editor := BlElement new.
 editor
 	constraintsDo: [ :c | 
@@ -78,26 +78,26 @@ graph
 	background: Color white;
     effect: BrGlamorousShadowEffect new.
 
-"The graphHolder (red border) is a pinchable container for the graph. See BlPinchableElement. Note that the graph it contains may overlap its own border, so we don't care about the red border when zooming or resizing."
-graphHolder := BlPinchableElement new
+"The graphPincher (red border) is a pinchable container for the graph. See BlPinchableElement. Note that the graph it contains may overlap its own border, so we don't care about the red border when zooming or resizing."
+graphPincher := BlPinchableElement new
 	 zoomLevel: 2;
 	 clipChildren: false;
 	 contentElement: graph;
 	 border: (BlBorder paint: Color red).
 
-"The pannableGraph (orange border) supports panning and handles the background events for the graph (context menu and node creation)."
-pannableGraph := graphHolder asPannableElement
+"The graphHolder (orange border) supports panning and handles the background events for the graph (context menu and node creation)."
+graphHolder := graphPincher asPannableElement
 	border: (BlBorder paint: Color orange);
 	padding: (BlInsets all: padding);
 	margin: (BlInsets all: margin).
-pannableGraph
+graphHolder
 	when: BlDoubleClickEvent
 	do: [ :evt | | newNode |
     	newNode := makeNode asElement.
     	graph addChild: newNode.
-   	 newNode relocate: (graphHolder globalPointToLocal: evt position) ].
+   	 newNode relocate: (graphPincher globalPointToLocal: evt position) ].
 
-pannableGraph
+graphHolder
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look: (BrGlamorousWithContextMenuLook content: [
 			BrGlamorousSimpleContextMenuContent new
@@ -119,31 +119,31 @@ buttonBar
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousIcons zoomin;
 			label: 'Zoom In';
-			action: [ pannableGraph zoomIn ]).
+			action: [ graphHolder zoomIn ]).
 buttonBar
 	addChild:
 		(BrButton new
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousIcons zoomout;
 			label: 'Zoom Out';
-			action: [ pannableGraph zoomOut ]).
+			action: [ graphHolder zoomOut ]).
 buttonBar
 	addChild:
 		(BrButton new
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousIcons zoomtofit;
 			label: 'Fit';
-			action: [ pannableGraph zoomToFit ]).
+			action: [ graphHolder zoomToFit ]).
 buttonBar
 	addChild:
 		(BrButton new
 			look: BrGlamorousButtonWithIconLook;
 			icon: BrGlamorousIcons actualsize;
 			label: 'Resize';
-			action: [ pannableGraph zoomToActualSize ]).
+			action: [ graphHolder zoomToActualSize ]).
 
 editor addChild: buttonBar.
-editor addChild: pannableGraph.
+editor addChild: graphHolder.
 
 "A constructor stencil in lieu of a method. Note that we use a stencil instead of just a block so we can have a live view of it."
 makeNode := [ | node |

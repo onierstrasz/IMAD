@@ -17,7 +17,7 @@ configurable look
 "
 Class {
 	#name : #HypernodeEditor,
-	#superclass : #BlElement,
+	#superclass : #AbstractHypernodeElement,
 	#instVars : [
 		'node',
 		'theGraph',
@@ -173,9 +173,11 @@ HypernodeEditor >> initialize [
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical matchParent ];
-		padding: (BlInsets all: 5);
-		margin: (BlInsets all: 5);
+		padding: (BlInsets all: self defaultPadding);
+		margin: (BlInsets all: self defaultMargin);
 		layout: BlLinearLayout vertical.
+	self inDebugMode
+		ifTrue: [ self border: (BlBorder paint: Color blue width: 1) ].
 	self
 		addChildren:
 			{self buildButtonBar.
