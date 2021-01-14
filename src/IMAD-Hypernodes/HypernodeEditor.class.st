@@ -103,20 +103,16 @@ HypernodeEditor >> buildButtonBar [
 HypernodeEditor >> buildGraphContainer [
 	"I contain the graphHolder that holds actual graph (which may change), and handle mouse events."
 
-	<todo: 'Add CMD-click'>
 	graph := HypernodeGraphElement for: self node.
 	graphHolder := BlPinchableElement new
 		zoomLevel: 2;
 		clipChildren: false;
 		contentElement: graph.
-	graphContainer := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ];
-		layout: BlLinearLayout vertical;
+		
+	graphContainer := graphHolder asPannableElement
 		padding: (BlInsets all: self defaultPadding);
-		margin: (BlInsets all: self defaultMargin);
-		yourself.
+		margin: (BlInsets all: self defaultMargin).
+
 	self handleEvents.
 	self inDebugMode
 		ifTrue: [ graphHolder border: (BlBorder paint: Color lightGray).
@@ -160,35 +156,16 @@ HypernodeEditor >> graph: aHypernodeGraphElement [
 
 { #category : #accessing }
 HypernodeEditor >> handleEvents [
-	"OLD CODE:"
-
-	"graphHolder
-		addEventHandler:
-			(BlEventHandler
-				on: BlDoubleClickEvent
-				do: [ :evt | 
-					self node
-						addNodeWithPosition: (self graph globalPointToLocal: evt position)
-
-
-				])"
-
-	"Double-click"
-	
-	<todo: 'I should not directly add and position the node, but this should be handled indiractly by announcements from the Hypernode model.'>
-
-	graphContainer
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
+	<todo: 'Add CMD-click'>
 	graphContainer
 		when: BlDoubleClickEvent
 		do: [ :evt | 
 			| newNode |
 			newNode := self node
-				addNodeWithPosition: (self graph globalPointToLocal: evt position).
-			"NB: The following code should disappear!"
-			graph addChild: newNode.
-			newNode relocate: (graphHolder globalPointToLocal: evt position) ]
+				addNodeWithPosition: (self graph globalPointToLocal: evt position) ].
+	graphContainer
+		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ])	"right-click"
 ]
 
 { #category : #accessing }

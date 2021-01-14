@@ -169,7 +169,7 @@ makeNode := [ | node |
 					yourself ])
 				useSecondaryMouseButton ;
 				yourself).
-	node addEventHandler:BlPullHandler new.
+	node addEventHandler: BlPullHandler new.
 	node
 		addEventHandler:
 			(BlEventHandler
