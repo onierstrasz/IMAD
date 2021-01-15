@@ -37,8 +37,7 @@ HypernodePullHandler >> dragEndEvent: anEvent [
 	"anEvent consumed: true."
 	self assert: self context isNotNil.
 	self context
-		position: (self element graphHolder globalPointToParent: anEvent position)
-	"position: (anEvent currentTarget globalPointToParent: anEvent position)"
+		reposition: (self element graphHolder globalPointToParent: anEvent position)
 ]
 
 { #category : #accessing }

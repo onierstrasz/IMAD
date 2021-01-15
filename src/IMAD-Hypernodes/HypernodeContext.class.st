@@ -55,8 +55,7 @@ HypernodeContext >> position [
 
 { #category : #accessing }
 HypernodeContext >> position: aPosition [
-	self set: #position to: aPosition.
-	self node announcer announce: (UpdateNodeContext new context: self)
+	self set: #position to: aPosition
 ]
 
 { #category : #accessing }
@@ -70,4 +69,12 @@ HypernodeContext >> printOn: aStream [
 		nextPutAll: '; parent: ';
 		nextPutAll: parent hash asString;
 		nextPutAll: ')'
+]
+
+{ #category : #accessing }
+HypernodeContext >> reposition: aPosition [
+	"NB: only announce an update on repositioning"
+
+	self position: aPosition.
+	self parent announcer announce: (UpdateNodeContext new context: self)
 ]
