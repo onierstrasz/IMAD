@@ -9,10 +9,10 @@ Class {
 	#superclass : #BlCustomEventHandler,
 	#instVars : [
 		'edgeStarted',
-		'startNode',
 		'lineElement',
 		'mousePositionElement',
-		'container'
+		'container',
+		'startElement'
 	],
 	#category : #'IMAD-Hypernodes'
 }
@@ -20,22 +20,23 @@ Class {
 { #category : #accessing }
 HyperlinkDragHandler >> dragEndEvent: anEvent [
 	edgeStarted
-		ifTrue: [ | endNode |
+		ifTrue: [ | endElement |
 			anEvent consumed: true.
 			"endNode := container findMouseEventTargetAt: anEvent position."
-			endNode := self findHypernodeElementAt: anEvent position.
-			endNode
-				ifNotNil: [ endNode graph isNode
+			endElement := self findHypernodeElementAt: anEvent position.
+			endElement
+				ifNotNil: [ endElement graph isNode
 						ifTrue: [ | fromNode toNode |
-							fromNode := startNode graph model.
-							toNode := endNode graph model.
+							self assert: (endElement isKindOf: HypernodeElement).
+							fromNode := startElement graph model.
+							toNode := endElement graph model.
 							self
 								assert: (fromNode isKindOf: Hypernode)
 								description: fromNode asString , ' should be an instance of Hypernode'.
 							self
 								assert: (toNode isKindOf: Hypernode)
 								description: toNode asString , ' should be an instance of Hypernode'.
-							fromNode connectTo: toNode ] ].
+							startElement context parent addLink: fromNode -> toNode ] ].
 			container removeChild: mousePositionElement.
 			container removeChild: lineElement ]
 ]
@@ -50,18 +51,19 @@ HyperlinkDragHandler >> dragEvent: anEvent [
 
 { #category : #accessing }
 HyperlinkDragHandler >> dragStartEvent: anEvent [
-	startNode := anEvent currentTarget.
-	startNode graph isNode
-		ifTrue: [ edgeStarted := true.
+	startElement := anEvent currentTarget.
+	startElement graph isNode
+		ifTrue: [ self assert: (startElement isKindOf: HypernodeElement).
+			edgeStarted := true.
 			anEvent consumed: true.
-			container := startNode parent.
+			container := startElement parent.
 			container addChild: mousePositionElement.
-			mousePositionElement relocate: startNode position.
+			mousePositionElement relocate: startElement position.
 			lineElement := BlLineElement new.
 			lineElement
 				zIndex: -1;
 				border: (BlBorder paint: Color blue width: 1);
-				fromAnchor: (BlElementCenterAnchor element: startNode);
+				fromAnchor: (BlElementCenterAnchor element: startElement);
 				toAnchor: (BlElementCenterAnchor element: mousePositionElement).
 			container addChild: lineElement ]
 ]
@@ -91,7 +93,7 @@ HyperlinkDragHandler >> initialize [
 		size: 10@10;
 		background: Color blue;
 		border: BlBorder empty.
-	mousePositionElement relocate: 0 @ 0
+	"mousePositionElement relocate: 0 @ 0"
 ]
 
 { #category : #accessing }
