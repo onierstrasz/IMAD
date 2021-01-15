@@ -159,15 +159,17 @@ HypernodeEditor >> graph: aHypernodeGraphElement [
 { #category : #accessing }
 HypernodeEditor >> handleEvents [
 	<todo: 'Add CMD-click'>
+	"double-click"
 	graphContainer
 		when: BlDoubleClickEvent
 		do: [ :evt | 
 			| newNode |
 			newNode := self node
 				addNodeWithPosition: (graphHolder globalPointToLocal: evt position) ].
+	"right-click"
 	graphContainer
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ])	"right-click"
+		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 ]
 
 { #category : #accessing }

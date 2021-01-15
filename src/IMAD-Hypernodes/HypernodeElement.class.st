@@ -67,14 +67,6 @@ HypernodeElement >> defaultPadding [
 ]
 
 { #category : #accessing }
-HypernodeElement >> graphHolder [
-	| graphHolder |
-	graphHolder := self parent parent.
-	self assert: (graphHolder isKindOf: BlPinchableElement).
-	^ graphHolder
-]
-
-{ #category : #accessing }
 HypernodeElement >> handleEvents [
 	self assert: self context isNotNil.
 	self
