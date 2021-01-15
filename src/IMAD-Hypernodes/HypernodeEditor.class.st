@@ -162,7 +162,7 @@ HypernodeEditor >> handleEvents [
 		do: [ :evt | 
 			| newNode |
 			newNode := self node
-				addNodeWithPosition: (self graph globalPointToLocal: evt position) ].
+				addNodeWithPosition: (graphHolder globalPointToLocal: evt position) ].
 	graphContainer
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ])	"right-click"
