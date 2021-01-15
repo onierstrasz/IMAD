@@ -152,3 +152,8 @@ HypernodeGraphElement >> subscribe [
 			[ :announcement :subscriber | self addNewContext: announcement context ]
 		for: self
 ]
+
+{ #category : #accessing }
+HypernodeGraphElement >> unsubscribe [
+	self node announcer unsubscribe: self
+]

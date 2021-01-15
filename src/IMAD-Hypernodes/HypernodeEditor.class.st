@@ -150,6 +150,8 @@ HypernodeEditor >> graph [
 
 { #category : #accessing }
 HypernodeEditor >> graph: aHypernodeGraphElement [
+	graph notNil
+		ifTrue: [ graph unsubscribe ].
 	graph := aHypernodeGraphElement.
 	graphHolder contentElement: graph
 ]
@@ -208,11 +210,12 @@ HypernodeEditor >> nodeElements [
 
 { #category : #accessing }
 HypernodeEditor >> updateGraph [
+	"Use this to build or rebuild the graph"
 
-	<todo: 'Do we need to set the zoomLevel to the same as the old graph?
+	<todo:
+		'Do we need to set the zoomLevel to the same as the old graph?
 	Should we reall build a new graph, or just update the existing one?
 	Revisit this when we install all the announcements.'>
-	
 	self graph: (HypernodeGraphElement for: self node)
 
 
