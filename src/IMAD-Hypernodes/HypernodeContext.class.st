@@ -55,7 +55,8 @@ HypernodeContext >> position [
 
 { #category : #accessing }
 HypernodeContext >> position: aPosition [
-	self set: #position to: aPosition
+	self set: #position to: aPosition.
+	self node announcer announce: (UpdateNodeContext new context: self)
 ]
 
 { #category : #accessing }

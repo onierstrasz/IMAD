@@ -135,13 +135,17 @@ HypernodeGraphElement >> nodes [
 ]
 
 { #category : #accessing }
+HypernodeGraphElement >> repositionNode: aHypernodeContext [
+	aHypernodeContext position isNotNil
+		ifTrue: [ (self elementFor: aHypernodeContext node)
+				relocate: aHypernodeContext position ]
+]
+
+{ #category : #accessing }
 HypernodeGraphElement >> repositionNodes [
 	"Reposition all nodes according to the position stored in the context."
 
-	self contexts
-		do: [ :context | 
-			context position isNotNil
-				ifTrue: [ (self elementFor: context node) relocate: context position ] ]
+	self contexts do: [ :context | self repositionNode: context ]
 ]
 
 { #category : #accessing }
@@ -150,6 +154,11 @@ HypernodeGraphElement >> subscribe [
 		when: CreateNodeContext
 		do:
 			[ :announcement :subscriber | self addNewContext: announcement context ]
+		for: self.
+	self node announcer
+		when: UpdateNodeContext
+		do:
+			[ :announcement :subscriber | self repositionNode: announcement context ]
 		for: self
 ]
 

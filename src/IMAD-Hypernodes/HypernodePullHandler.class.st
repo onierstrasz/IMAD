@@ -13,8 +13,38 @@ ON: I looked but do not see how that would be simpler ...
 Class {
 	#name : #HypernodePullHandler,
 	#superclass : #BlPullHandler,
+	#instVars : [
+		'nodeContext'
+	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
+
+{ #category : #accessing }
+HypernodePullHandler class >> for: aNodeContext [
+	^ self new
+		context: aNodeContext;
+		yourself
+]
+
+{ #category : #accessing }
+HypernodePullHandler >> context [
+	^ nodeContext
+]
+
+{ #category : #accessing }
+HypernodePullHandler >> context: aNodeContext [
+	self assert: aNodeContext isNotNil.
+	nodeContext := aNodeContext
+]
+
+{ #category : #accessing }
+HypernodePullHandler >> dragEndEvent: anEvent [
+	super dragEndEvent: anEvent.
+	"anEvent consumed: true."
+	self assert: self context isNotNil.
+	self context
+		position: (anEvent currentTarget globalPointToParent: anEvent position)
+]
 
 { #category : #accessing }
 HypernodePullHandler >> wantsEvent: anEvent [

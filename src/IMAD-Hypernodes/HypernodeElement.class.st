@@ -33,7 +33,9 @@ HypernodeElement >> context [
 
 { #category : #accessing }
 HypernodeElement >> context: aNodeContext [
+	self assert: aNodeContext isNotNil.
 	nodeContext := aNodeContext.
+	self handleEvents.
 	self graph model: aNodeContext node.
 	self subscribe
 ]
@@ -66,20 +68,21 @@ HypernodeElement >> defaultPadding [
 
 { #category : #accessing }
 HypernodeElement >> handleEvents [
+	self assert: self context isNotNil.
 	self
 		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
-			"(BrInteractiveCommonLook new
-				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ]) +"
-			(BrStyleCommonLook  new
-		default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
-		hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])
+			(BrStyleCommonLook new
+				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
+				hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])
 				+
 					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isCmd;
-						yourself).	"Open context menu on CMD-right-clicked node:"
+						yourself).
+	"(BrInteractiveCommonLook new
+				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
+				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ]) +"	"Open context menu on CMD-right-clicked node:"
 	"+
 					((BrGlamorousWithContextMenuLook content: [ self nodeEditor ]) 
 						useSecondaryMouseButton;
@@ -88,7 +91,7 @@ HypernodeElement >> handleEvents [
 	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
 
 	"Drag node to new position:"
-	self addEventHandler: HypernodePullHandler new.
+	self addEventHandler: (HypernodePullHandler for: self context).
 
 	"CTRL-drag to create an edge:"
 	self addEventHandler: HyperlinkDragHandler new.
@@ -118,7 +121,7 @@ HypernodeElement >> initialize [
 		padding: (BlInsets all: self defaultPadding).
 	self updateNode.
 	self graph beNode.
-	self handleEvents.
+	"self handleEvents."
 	^ self
 ]
 
