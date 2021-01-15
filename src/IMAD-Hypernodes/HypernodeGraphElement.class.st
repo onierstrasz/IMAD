@@ -30,6 +30,11 @@ HypernodeGraphElement class >> for: aHypernode [
 ]
 
 { #category : #accessing }
+HypernodeGraphElement >> addEdge: aHyperlink [
+	self addChild: (HyperlinkView forLink: aHyperlink inGraph: self)
+]
+
+{ #category : #accessing }
 HypernodeGraphElement >> addNewContext: aHypernodeContext [
 	| nodeElement |
 	nodeElement := HypernodeElement forContext: aHypernodeContext.
@@ -105,7 +110,12 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 	self contexts
 		ifNotEmpty: [ self contexts do: [ :context | self addNewContext: context ] ].
 	self edges
-		do: [ :edge | self addChild: (HyperlinkView forLink: edge inGraph: self) ].
+		do: [ :edge | 
+		
+		self addEdge: edge
+		.
+		
+		"self addChild: (HyperlinkView forLink: edge inGraph: self) "].
 	self subscribe.
 	^ self
 ]
@@ -159,6 +169,11 @@ HypernodeGraphElement >> subscribe [
 		when: UpdateNodeContext
 		do:
 			[ :announcement :subscriber | self repositionNode: announcement context ]
+		for: self.
+	self node announcer
+		when: CreateLink
+		do:
+			[ :announcement :subscriber | self addEdge: announcement link ]
 		for: self
 ]
 

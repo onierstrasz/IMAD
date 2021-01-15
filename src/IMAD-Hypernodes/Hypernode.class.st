@@ -46,7 +46,8 @@ Hypernode >> addContext: aHypernodeContext [
 
 { #category : #accessing }
 Hypernode >> addLink: aLink [
-	edges add: aLink
+	edges add: aLink.
+	self announcer announce: (CreateLink new link: aLink)
 ]
 
 { #category : #accessing }
