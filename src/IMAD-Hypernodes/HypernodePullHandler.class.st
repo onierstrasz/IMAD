@@ -14,27 +14,21 @@ Class {
 	#name : #HypernodePullHandler,
 	#superclass : #BlPullHandler,
 	#instVars : [
-		'nodeContext'
+		'hypernodeElement'
 	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
 
 { #category : #accessing }
-HypernodePullHandler class >> for: aNodeContext [
+HypernodePullHandler class >> for: aHypernodeElement [
 	^ self new
-		context: aNodeContext;
+		element: aHypernodeElement;
 		yourself
 ]
 
 { #category : #accessing }
 HypernodePullHandler >> context [
-	^ nodeContext
-]
-
-{ #category : #accessing }
-HypernodePullHandler >> context: aNodeContext [
-	self assert: aNodeContext isNotNil.
-	nodeContext := aNodeContext
+	^ hypernodeElement context
 ]
 
 { #category : #accessing }
@@ -43,7 +37,19 @@ HypernodePullHandler >> dragEndEvent: anEvent [
 	"anEvent consumed: true."
 	self assert: self context isNotNil.
 	self context
-		position: (anEvent currentTarget globalPointToParent: anEvent position)
+		position: (self element graphHolder globalPointToParent: anEvent position)
+	"position: (anEvent currentTarget globalPointToParent: anEvent position)"
+]
+
+{ #category : #accessing }
+HypernodePullHandler >> element [
+	^ hypernodeElement
+]
+
+{ #category : #accessing }
+HypernodePullHandler >> element: aHypernodeElement [
+	self assert: aHypernodeElement isNotNil.
+	hypernodeElement := aHypernodeElement
 ]
 
 { #category : #accessing }

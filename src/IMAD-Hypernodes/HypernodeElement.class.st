@@ -67,6 +67,14 @@ HypernodeElement >> defaultPadding [
 ]
 
 { #category : #accessing }
+HypernodeElement >> graphHolder [
+	| graphHolder |
+	graphHolder := self parent parent.
+	self assert: (graphHolder isKindOf: BlPinchableElement).
+	^ graphHolder
+]
+
+{ #category : #accessing }
 HypernodeElement >> handleEvents [
 	self assert: self context isNotNil.
 	self
@@ -91,7 +99,7 @@ HypernodeElement >> handleEvents [
 	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
 
 	"Drag node to new position:"
-	self addEventHandler: (HypernodePullHandler for: self context).
+	self addEventHandler: (HypernodePullHandler for: self).
 
 	"CTRL-drag to create an edge:"
 	self addEventHandler: HyperlinkDragHandler new.
