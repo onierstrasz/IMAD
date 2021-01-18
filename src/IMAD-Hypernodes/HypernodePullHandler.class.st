@@ -33,11 +33,14 @@ HypernodePullHandler >> context [
 
 { #category : #accessing }
 HypernodePullHandler >> dragEndEvent: anEvent [
+<todo: 'The final position is not correct. Instead of the mouse (event) position, it should be offset by the distance of the mouse position and the origin of the element. Can we just use the current element position?'>
 	super dragEndEvent: anEvent.
 	"anEvent consumed: true."
 	self assert: self context isNotNil.
 	self context
 		reposition: (self element parent globalPointToParent: anEvent position)
+		"reposition: (self element parent globalPointToParent: anEvent currentTarget constraints position)"
+		"reposition: (self element position)"
 ]
 
 { #category : #accessing }
