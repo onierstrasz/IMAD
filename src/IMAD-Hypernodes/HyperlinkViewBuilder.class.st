@@ -45,7 +45,6 @@ HyperlinkViewBuilder >> connectCenterLeftToRightAnchorFrom: sourceElt To: target
 
 { #category : #accessing }
 HyperlinkViewBuilder >> contextMenu [
-	<todo: 'Adapt for links'>
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:

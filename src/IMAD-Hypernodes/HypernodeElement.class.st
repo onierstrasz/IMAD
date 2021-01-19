@@ -46,17 +46,10 @@ HypernodeElement >> contextMenu [
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
-			{
-			
-			"('Rename card'
-				-> [ isEditable
-						ifFalse: [ self beEditable ] ]).
-			('Inspect card' -> [ card inspect ]).
-			('Delete card'
-				-> [ menu anchor: BlElement new.
-					card delete ])"
-					
-					};
+			{('Inspect node' -> [ self node inspect ]).
+			('Delete node from parent'
+				-> [ "menu anchor: BlElement new."
+					self context delete ])};
 		yourself.
 	^ menu
 ]
@@ -74,34 +67,15 @@ HypernodeElement >> handleEvents [
 			(BrStyleCommonLook new
 				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])
-				+
-					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
-						useSecondaryMouseButton;
-						modifiersMatcher: #isCmd;
-						yourself).
-	"(BrInteractiveCommonLook new
-				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
-				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ]) +"	"Open context menu on CMD-right-clicked node:"
-	"+
-					((BrGlamorousWithContextMenuLook content: [ self nodeEditor ]) 
-						useSecondaryMouseButton;
-						modifiersMatcher: #isEmpty; 
-							yourself)"	"right-click"
-	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
-
-	"Drag node to new position:"
+				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
 	self addEventHandler: (HypernodePullHandler for: self).
-
-	"CTRL-drag to create an edge:"
 	self addEventHandler: HyperlinkDragHandler new.
-
-	"Spawn new inspect pane on clicked Hypernode:"
 	self
 		addEventHandler:
 			(BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | 
-					evt consumed: true.	"So the container does not also react."
+					evt consumed: true.
 					self phlow spawnObject: self node ])
 ]
 
@@ -154,8 +128,9 @@ HypernodeElement >> nodeEditor [
 
 { #category : #accessing }
 HypernodeElement >> subscribe [
-	<todo: 'subscribe to my node''s announcements'>
+	<todo: 'subscribe to my node''s update announcements'>
 	"self node announcer when: XYZ do: [] for: self"
+	
 ]
 
 { #category : #accessing }

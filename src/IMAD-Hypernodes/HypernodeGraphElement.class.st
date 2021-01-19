@@ -43,15 +43,7 @@ HypernodeGraphElement >> addNewContext: aHypernodeContext [
 	nodeElement := HypernodeElement forContext: aHypernodeContext.
 	self mapModelEntity: aHypernodeContext node toElement: nodeElement.
 	self addChild: nodeElement.
-	
 	nodeElement relocate: aHypernodeContext position
-]
-
-{ #category : #accessing }
-HypernodeGraphElement >> contextFor: aNode [
-	"Not yet used anywhere?"
-
-	^ (self elementFor: aNode) context
 ]
 
 { #category : #accessing }
@@ -73,6 +65,11 @@ HypernodeGraphElement >> defaultLayout [
 	"^ BlOnceLayout new layout: GtGradCircleLayout new"
 
 	"^ BlOnceLayout new layout: GtGradKamadaKawaiLayout new"
+]
+
+{ #category : #accessing }
+HypernodeGraphElement >> deleteContext: aHypernodeContext [
+	self removeChild: (self elementFor: aHypernodeContext node)
 ]
 
 { #category : #accessing }
@@ -175,6 +172,11 @@ HypernodeGraphElement >> subscribe [
 		when: UpdateNodeContext
 		do:
 			[ :announcement :subscriber | self repositionNode: announcement context ]
+		for: self.
+	self node announcer
+		when: DeleteNodeContext
+		do:
+			[ :announcement :subscriber | self deleteContext: announcement context ]
 		for: self.
 	self node announcer
 		when: CreateLink

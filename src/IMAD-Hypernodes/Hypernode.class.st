@@ -95,9 +95,20 @@ Hypernode >> contexts [
 ]
 
 { #category : #accessing }
+Hypernode >> deleteContext: aHypernodeContext [
+	self contexts remove: aHypernodeContext ifAbsent: [  ].
+	self announcer announce: (DeleteNodeContext new context: aHypernodeContext)
+]
+
+{ #category : #accessing }
 Hypernode >> deleteLink: aLink [
 	self links remove: aLink ifAbsent: [  ].
 	self announcer announce: (DeleteLink new link: aLink)
+]
+
+{ #category : #accessing }
+Hypernode >> deleteNode: aNode [
+
 ]
 
 { #category : #accessing }
