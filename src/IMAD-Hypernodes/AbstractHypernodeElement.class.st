@@ -21,5 +21,5 @@ AbstractHypernodeElement >> defaultPadding [
 AbstractHypernodeElement >> inDebugMode [
 	"Use this to enable various features useful for debugging."
 
-	^ false
+	^ true
 ]
