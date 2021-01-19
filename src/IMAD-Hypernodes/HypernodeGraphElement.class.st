@@ -95,10 +95,10 @@ HypernodeGraphElement >> initialize [
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin);
 		clipChildren: false.
-	self inDebugMode
+	"self debugMode
 		ifTrue: [ self
 				background: Color white;
-				effect: BrGlamorousShadowEffect new ]
+				effect: BrGlamorousShadowEffect new ]"
 ]
 
 { #category : #accessing }

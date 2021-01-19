@@ -22,7 +22,8 @@ Class {
 		'node',
 		'graphContainer',
 		'graphHolder',
-		'graph'
+		'graph',
+		'buttonBar'
 	],
 	#category : #'IMAD-Hypernodes'
 }
@@ -36,7 +37,6 @@ HypernodeEditor class >> for: aHypernode [
 
 { #category : #accessing }
 HypernodeEditor >> buildButtonBar [
-	| buttonBar |
 	buttonBar := BlElement new
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -94,8 +94,6 @@ HypernodeEditor >> buildButtonBar [
 				icon: BrGlamorousVectorIcons refresh;
 				label: 'Refresh';
 				action: [ self updateGraph ]).
-	self inDebugMode
-		ifTrue: [ buttonBar border: (BlBorder paint: Color orange) ].
 	^ buttonBar
 ]
 
@@ -109,27 +107,51 @@ HypernodeEditor >> buildGraphContainer [
 		zoomStep: 0.5;
 		clipChildren: false;
 		contentElement: graph.
-		
 	graphContainer := graphHolder asPannableElement
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin).
-
 	self handleEvents.
-	self inDebugMode
-		ifTrue: [ graphHolder border: (BlBorder paint: Color lightGray).
-			graphContainer border: (BlBorder paint: Color orange) ].
 	^ graphContainer
 ]
 
 { #category : #accessing }
 HypernodeEditor >> contextMenu [
-	<todo: 'Add graph context menu actions here.
-	Those here are just placeholders, or used for debugging.'>
 	^ BrGlamorousSimpleContextMenuContent new
 		items:
 			{('Inspect self' -> [ :e | self node inspect ]).
-			('Reposition nodes' -> [ :e | self graph repositionNodes ])};
+			('Reposition nodes' -> [ :e | self graph repositionNodes ]).
+			('Toggle debug view' -> [ :e | self toggleDebugMode ])};
 		yourself
+]
+
+{ #category : #accessing }
+HypernodeEditor >> debugOffActions [
+	self border: (BlBorder paint: Color transparent width: 0).
+	buttonBar isNotNil
+		ifTrue: [ buttonBar border: (BlBorder paint: Color transparent) ].
+	graphHolder isNotNil
+		ifTrue: [ graphHolder border: (BlBorder paint: Color transparent) ].
+	graphContainer isNotNil
+		ifTrue: [ graphContainer border: (BlBorder paint: Color transparent) ].
+	self graph isNotNil
+		ifTrue: [ self graph
+				background: Color transparent;
+				effect: BlNullEffect new ]
+]
+
+{ #category : #accessing }
+HypernodeEditor >> debugOnActions [
+	self border: (BlBorder paint: Color blue width: 1).
+	buttonBar isNotNil
+		ifTrue: [ buttonBar border: (BlBorder paint: Color orange) ].
+	graphHolder isNotNil
+		ifTrue: [ graphHolder border: (BlBorder paint: Color lightGray) ].
+	graphContainer isNotNil
+		ifTrue: [ graphContainer border: (BlBorder paint: Color orange) ].
+	self graph isNotNil
+		ifTrue: [ self graph
+				background: Color white;
+				effect: BrGlamorousShadowEffect new ]
 ]
 
 { #category : #accessing }
@@ -183,8 +205,6 @@ HypernodeEditor >> initialize [
 		layout: BlLinearLayout vertical;
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin).
-	self inDebugMode
-		ifTrue: [ self border: (BlBorder paint: Color blue width: 1) ].
 	self
 		addChildren:
 			{self buildButtonBar.
