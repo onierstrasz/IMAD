@@ -1,7 +1,7 @@
 "
 I represent an edge between Hypernodes. Unlike an edge in a normal graph, I might link to a node in another graph.
 
-I am a model entity. My view is provided by ${class:name=HyperlinkView}$.
+I am a model entity. My view is provided by ${class:name=HyperlinkViewBuilder}$.
 
 "
 Class {
@@ -9,7 +9,8 @@ Class {
 	#superclass : #HypergraphEntity,
 	#instVars : [
 		'source',
-		'target'
+		'target',
+		'parent'
 	],
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
@@ -27,6 +28,12 @@ Hyperlink >> = anObject [
 ]
 
 { #category : #accessing }
+Hyperlink >> delete [
+	self assert: self parent isNotNil.
+	self parent deleteLink: self
+]
+
+{ #category : #accessing }
 Hyperlink >> from: aSourceNode to: aTargetNode [
 	self source: aSourceNode.
 	self target: aTargetNode
@@ -35,6 +42,16 @@ Hyperlink >> from: aSourceNode to: aTargetNode [
 { #category : #accessing }
 Hyperlink >> nodes [
 	^ OrderedCollection with: self source with: self target
+]
+
+{ #category : #accessing }
+Hyperlink >> parent [
+	^ parent
+]
+
+{ #category : #accessing }
+Hyperlink >> parent: aNode [
+	parent := aNode
 ]
 
 { #category : #accessing }

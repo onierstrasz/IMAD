@@ -30,8 +30,11 @@ HypernodeGraphElement class >> for: aHypernode [
 ]
 
 { #category : #accessing }
-HypernodeGraphElement >> addEdge: aHyperlink [
-	self addChild: (HyperlinkView forLink: aHyperlink inGraph: self)
+HypernodeGraphElement >> addLink: aHyperlink [
+	| linkElement |
+	linkElement := HyperlinkViewBuilder forLink: aHyperlink inGraph: self.
+	self mapModelEntity: aHyperlink toElement: linkElement.
+	self addChild: linkElement
 ]
 
 { #category : #accessing }
@@ -73,14 +76,14 @@ HypernodeGraphElement >> defaultLayout [
 ]
 
 { #category : #accessing }
-HypernodeGraphElement >> edges [
-	^ node edges
+HypernodeGraphElement >> deleteLink: aLink [
+	self removeChild: (self elementFor: aLink)
 ]
 
 { #category : #accessing }
-HypernodeGraphElement >> elementFor: aNode [
-	self assert: (graphElementsDictionary includesKey: aNode).
-	^ graphElementsDictionary at: aNode
+HypernodeGraphElement >> elementFor: aNodeOrLink [
+	self assert: (graphElementsDictionary includesKey: aNodeOrLink).
+	^ graphElementsDictionary at: aNodeOrLink
 ]
 
 { #category : #accessing }
@@ -109,22 +112,25 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 	node := aHypernode.
 	self contexts
 		ifNotEmpty: [ self contexts do: [ :context | self addNewContext: context ] ].
-	self edges
-		do: [ :edge | 
-		
-		self addEdge: edge
-		.
-		
-		"self addChild: (HyperlinkView forLink: edge inGraph: self) "].
+	self links
+		do: [ :link | 
+			self addLink: link
+
+			"self addChild: (HyperlinkView forLink: edge inGraph: self) " ].
 	self subscribe.
 	^ self
 ]
 
 { #category : #accessing }
-HypernodeGraphElement >> mapModelEntity: aNode toElement: nodeElement [
+HypernodeGraphElement >> links [
+	^ node links
+]
+
+{ #category : #accessing }
+HypernodeGraphElement >> mapModelEntity: aNodeOrLink toElement: nodeOrLinkElement [
 	"Map nodes back to their element within this graph"
-	self assert: (graphElementsDictionary includesKey: aNode) not.
-	graphElementsDictionary at: aNode put: nodeElement
+	self assert: (graphElementsDictionary includesKey: aNodeOrLink) not.
+	graphElementsDictionary at: aNodeOrLink put: nodeOrLinkElement
 ]
 
 { #category : #accessing }
@@ -172,8 +178,11 @@ HypernodeGraphElement >> subscribe [
 		for: self.
 	self node announcer
 		when: CreateLink
-		do:
-			[ :announcement :subscriber | self addEdge: announcement link ]
+		do: [ :announcement :subscriber | self addLink: announcement link ]
+		for: self.
+	self node announcer
+		when: DeleteLink
+		do: [ :announcement :subscriber | self deleteLink: announcement link ]
 		for: self
 ]
 

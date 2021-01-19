@@ -19,8 +19,8 @@ Class {
 	#name : #Hypernode,
 	#superclass : #HypergraphEntity,
 	#instVars : [
-		'edges',
-		'nodeContexts'
+		'nodeContexts',
+		'links'
 	],
 	#category : #'IMAD-Hypernodes'
 }
@@ -46,7 +46,8 @@ Hypernode >> addContext: aHypernodeContext [
 
 { #category : #accessing }
 Hypernode >> addLink: aLink [
-	edges add: aLink.
+	aLink parent: self.
+	self links add: aLink.
 	self announcer announce: (CreateLink new link: aLink)
 ]
 
@@ -94,8 +95,15 @@ Hypernode >> contexts [
 ]
 
 { #category : #accessing }
+Hypernode >> deleteLink: aLink [
+	self links remove: aLink ifAbsent: [  ].
+	self announcer announce: (DeleteLink new link: aLink)
+]
+
+{ #category : #accessing }
 Hypernode >> edges [
-	^ edges
+	self deprecated: 'use links instead'.
+	^ links
 ]
 
 { #category : #accessing }
@@ -131,7 +139,7 @@ Hypernode >> initialize [
 	super initialize.
 	"nodes := OrderedCollection new."
 	nodeContexts := OrderedCollection new.
-	edges := OrderedCollection new
+	links := OrderedCollection new
 ]
 
 { #category : #accessing }
@@ -147,7 +155,7 @@ Hypernode >> isGraph [
 
 { #category : #accessing }
 Hypernode >> isLeaf [
-	^ self nodes isEmpty and: [ self edges isEmpty ]
+	^ self nodes isEmpty and: [ self links isEmpty ]
 ]
 
 { #category : #accessing }
@@ -204,8 +212,8 @@ Hypernode >> isomorphicTo: anotherHypernode [
 	myNodes
 		withIndexDo: [ :node :i | 
 			| mySubedges otherSubedges |
-			mySubedges := node edges.
-			otherSubedges := (otherNodes at: i) edges.
+			mySubedges := node links.
+			otherSubedges := (otherNodes at: i) links.
 			mySubedges size = otherSubedges size
 				ifFalse: [ ^ false ].
 			mySubedges
@@ -217,6 +225,12 @@ Hypernode >> isomorphicTo: anotherHypernode [
 						= (otherIndices at: (otherSubedges at: j) target)
 						ifFalse: [ ^ false ] ] ].
 	^ true
+]
+
+{ #category : #accessing }
+Hypernode >> links [
+	"Collection of all my hyperlinks"
+	^ links
 ]
 
 { #category : #accessing }
@@ -245,10 +259,10 @@ Hypernode >> printOn: aStream [
 				ifTrue: [ '' ]
 				ifFalse: [ 's' ]);
 		nextPutAll: '; ';
-		nextPutAll: edges size asString;
+		nextPutAll: links size asString;
 		nextPutAll: ' edge';
 		nextPutAll:
-			(edges size = 1
+			(links size = 1
 				ifTrue: [ '' ]
 				ifFalse: [ 's' ]).
 	subgraphs isEmpty
@@ -265,7 +279,7 @@ Hypernode >> printOn: aStream [
 
 { #category : #accessing }
 Hypernode >> reachableEdges [
-	^ self reachableNodes flatCollect: #edges
+	^ self reachableNodes flatCollect: #links
 ]
 
 { #category : #accessing }
@@ -277,7 +291,7 @@ Hypernode >> reachableNodes [
 	reachable := OrderedCollection with: self.
 	reachedSet := IdentitySet with: self.
 	toCheck := self nodes copy.
-	toCheck addAll: (self edges flatCollect: #nodes).
+	toCheck addAll: (self links flatCollect: #nodes).
 	[ toCheck notEmpty ]
 		whileTrue: [ | nextNode |
 			nextNode := toCheck removeFirst.
@@ -286,7 +300,7 @@ Hypernode >> reachableNodes [
 				ifFalse: [ reachedSet add: nextNode.
 					reachable addLast: nextNode.
 					toCheck addAll: nextNode nodes.
-					toCheck addAll: (nextNode edges flatCollect: #nodes) ] ].
+					toCheck addAll: (nextNode links flatCollect: #nodes) ] ].
 	^ reachable
 ]
 
@@ -394,7 +408,7 @@ Hypernode >> storeOn: aStream [
 	"HB addEdgeFrom:to:for:withProperties:"
 	allNodes
 		doWithIndex: [ :each :id | 
-			each edges
+			each links
 				do: [ :edge | 
 					aStream
 						nextPutAll: '  addEdgeFrom: ';

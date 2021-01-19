@@ -1,10 +1,10 @@
 "
-I present a Hyperlink as an edge within a graph of a Hypernode within a HypernodeView.
+I build a view of a ${class:name=Hyperlink}$ as an edge within a ${class:name=HypernodeGraphElement}$.
 
 See also: ${class:name=CardRelationViewBuilder}$. 
 "
 Class {
-	#name : #HyperlinkView,
+	#name : #HyperlinkViewBuilder,
 	#superclass : #Object,
 	#instVars : [
 		'link',
@@ -15,13 +15,13 @@ Class {
 }
 
 { #category : #accessing }
-HyperlinkView class >> forLink: edge inGraph: aHypernodeGraphElement [
+HyperlinkViewBuilder class >> forLink: edge inGraph: aHypernodeGraphElement [
 	^ self new
 		forLink: edge inGraph: aHypernodeGraphElement
 ]
 
 { #category : #accessing }
-HyperlinkView >> addLook [
+HyperlinkViewBuilder >> addLook [
 	linkElement
 		look:
 			(BrStyleCommonLook new
@@ -34,7 +34,7 @@ HyperlinkView >> addLook [
 ]
 
 { #category : #accessing }
-HyperlinkView >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
+HyperlinkViewBuilder >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
 	linkElement
 		toAnchor: (BlNearestPositionTightCircleAnchor nearestTo: sourceElt from: targetElt);
 		fromAnchor: (BlNearestPositionTightCircleAnchor nearestTo: targetElt from: sourceElt);
@@ -44,7 +44,7 @@ HyperlinkView >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
 ]
 
 { #category : #accessing }
-HyperlinkView >> contextMenu [
+HyperlinkViewBuilder >> contextMenu [
 	<todo: 'Adapt for links'>
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
@@ -58,7 +58,7 @@ HyperlinkView >> contextMenu [
 ]
 
 { #category : #accessing }
-HyperlinkView >> forLink: aHyperlink inGraph: aHypernodeGraphElement [
+HyperlinkViewBuilder >> forLink: aHyperlink inGraph: aHypernodeGraphElement [
 	"Look up the source and target elements in the graph and connect them with a new edge element (BlLineElement or other curve)"
 
 	<todo:
@@ -83,12 +83,12 @@ HyperlinkView >> forLink: aHyperlink inGraph: aHypernodeGraphElement [
 ]
 
 { #category : #accessing }
-HyperlinkView >> link [
+HyperlinkViewBuilder >> link [
 	^ link
 ]
 
 { #category : #accessing }
-HyperlinkView >> newDirectedCurvedEdge [
+HyperlinkViewBuilder >> newDirectedCurvedEdge [
 	^ BlParabollaArcElement new
 		zIndex: 0;
 		curvatureFraction: 0.2;
@@ -103,7 +103,7 @@ HyperlinkView >> newDirectedCurvedEdge [
 ]
 
 { #category : #accessing }
-HyperlinkView >> newDirectedEdge [
+HyperlinkViewBuilder >> newDirectedEdge [
 	^ BlParabollaArcElement new
 		zIndex: 0;
 		curvatureFraction: 0;
@@ -118,7 +118,7 @@ HyperlinkView >> newDirectedEdge [
 ]
 
 { #category : #accessing }
-HyperlinkView >> newEdgeElement [
+HyperlinkViewBuilder >> newEdgeElement [
 	"^ self newSigmoid"
 
 	^ self newDirectedCurvedEdge
@@ -126,7 +126,7 @@ HyperlinkView >> newEdgeElement [
 ]
 
 { #category : #accessing }
-HyperlinkView >> newSigmoid [
+HyperlinkViewBuilder >> newSigmoid [
 	^ BlSigmoidElement new
 		border: (BlBorder paint: Color gray width: 3);
 		zIndex: 10;
@@ -136,7 +136,7 @@ HyperlinkView >> newSigmoid [
 ]
 
 { #category : #accessing }
-HyperlinkView >> tooltipWithText: aString [
+HyperlinkViewBuilder >> tooltipWithText: aString [
 	"From TCardModelElement"
 	^ BrLabel new
 		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
