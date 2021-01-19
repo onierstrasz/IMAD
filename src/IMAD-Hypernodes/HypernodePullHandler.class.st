@@ -33,11 +33,12 @@ HypernodePullHandler >> context [
 
 { #category : #accessing }
 HypernodePullHandler >> dragEndEvent: anEvent [
+	| newPosition |
 	super dragEndEvent: anEvent.
 	"anEvent consumed: true."
 	self assert: self context isNotNil.
-	self context
-		reposition: (self element parent globalPointToParent: anEvent position)
+	newPosition := self element constraints position.
+	self context reposition: newPosition
 ]
 
 { #category : #accessing }

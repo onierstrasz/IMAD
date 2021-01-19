@@ -93,8 +93,8 @@ HypernodeGraphElement >> initialize [
 			c horizontal fitContent.
 			c vertical fitContent ];
 		padding: (BlInsets all: self defaultPadding);
-		margin: (BlInsets all: self defaultMargin).
-		
+		margin: (BlInsets all: self defaultMargin);
+		clipChildren: false.
 	self inDebugMode
 		ifTrue: [ self
 				background: Color white;

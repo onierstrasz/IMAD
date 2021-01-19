@@ -106,6 +106,7 @@ HypernodeEditor >> buildGraphContainer [
 	graph := HypernodeGraphElement for: self node.
 	graphHolder := BlPinchableElement new
 		zoomLevel: 1;
+		zoomStep: 0.5;
 		clipChildren: false;
 		contentElement: graph.
 		
