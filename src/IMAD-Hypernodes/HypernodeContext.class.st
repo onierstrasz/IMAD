@@ -33,6 +33,11 @@ HypernodeContext >> delete [
 ]
 
 { #category : #accessing }
+HypernodeContext >> deleteLinks [
+	self parent deleteLinksForContext: self
+]
+
+{ #category : #accessing }
 HypernodeContext >> hasPosition [
 	^ self position isNotNil
 ]
