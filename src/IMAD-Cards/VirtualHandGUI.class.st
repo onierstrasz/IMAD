@@ -104,7 +104,7 @@ VirtualHandGUI >> buildGraphHolder [
 		layout: BlLinearLayout vertical;
 		yourself.
 	graphHolder
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
+		"viewModel: (BrInteractiveModel with: BrHoverModel new);"
 		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
 	graphHolder
 		addEventHandler:

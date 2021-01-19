@@ -169,7 +169,6 @@ HypernodeEditor >> handleEvents [
 				addNodeWithPosition: (graphHolder globalPointToLocal: evt position) ].
 	"right-click"
 	graphContainer
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 ]
 

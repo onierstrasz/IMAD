@@ -98,7 +98,6 @@ graphContainer
    	 newNode relocate: (graphHolder globalPointToLocal: evt position) ].
 
 graphContainer
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look: (BrGlamorousWithContextMenuLook content: [
 			BrGlamorousSimpleContextMenuContent new
 				items: { ( 'Inspect graph' -> [ graph inspect ] ) };
@@ -158,7 +157,6 @@ makeNode := [ | node |
 		padding: (BlInsets all: 10).
 	node graph beNode.
 	node
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
 			(BrStyleCommonLook  new
 				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];

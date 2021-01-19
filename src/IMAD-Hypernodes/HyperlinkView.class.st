@@ -23,9 +23,8 @@ HyperlinkView class >> forLink: edge inGraph: aHypernodeGraphElement [
 { #category : #accessing }
 HyperlinkView >> addLook [
 	linkElement
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
-			(BrInteractiveCommonLook new
+			(BrStyleCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ])
 				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ])

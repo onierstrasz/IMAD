@@ -114,9 +114,8 @@ CardNodeView >> initialize [
 			c vertical fitContent ];
 		padding: (BlInsets all: 5).
 	self
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
-			(BrInteractiveCommonLook new
+			(BrStyleCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
 				+

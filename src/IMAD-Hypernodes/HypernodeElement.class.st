@@ -70,7 +70,6 @@ HypernodeElement >> defaultPadding [
 HypernodeElement >> handleEvents [
 	self assert: self context isNotNil.
 	self
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
 			(BrStyleCommonLook new
 				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];

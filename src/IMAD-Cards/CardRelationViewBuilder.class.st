@@ -23,9 +23,8 @@ Class {
 CardRelationViewBuilder >> addLook [
 
 	edgeElement
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
-			(BrInteractiveCommonLook new
+			(BrStyleCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ])
 				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ])

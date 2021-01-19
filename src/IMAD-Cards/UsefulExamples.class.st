@@ -412,9 +412,8 @@ UsefulExamples >> elementHandlingClickEvents [
 		margin: (BlInsets all: 10);
 		background: (Color blue alpha: 0.2).
 	clickElt
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
-			(BrInteractiveCommonLook new
+			(BrStyleCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color transparent width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
 				+
@@ -661,9 +660,8 @@ UsefulExamples >> lineWithHoverAndContextMenu [
 		border: (BlBorder paint: Color blue width: 4);
 		yourself.
 	line
-		viewModel: (BrInteractiveModel with: BrHoverModel new);
 		look:
-			(BrInteractiveCommonLook new
+			(BrStyleCommonLook new
 				default: [ :elt | elt border: (BlBorder paint: Color gray width: 4) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 4) ])
 				+
