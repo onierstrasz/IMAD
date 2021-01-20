@@ -48,21 +48,73 @@ HypernodeTestExamples >> emptyNode [
 ]
 
 { #category : #accessing }
+HypernodeTestExamples >> flatGraphFourNodesFiveLinks [
+	<gtExample>
+	| root a b c d |
+	root := self flatGraphWithPositionedNodes.
+	a := root contexts first.
+	b := root contexts second.
+	self assert: (root hasLink: a -> b).
+	c := root addNode.
+	c node set: #name to: 'c'.
+	c position: b position + (100 @ 0).
+	d := root addNode.
+	d position: b position + (0 @ 100).
+	d node set: #name to: 'd'.
+	root addLink: b -> c.
+	root addLink: b -> d.
+	root addLink: a -> d.
+	root addLink: d -> c.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> flatGraphFourNodesOneDeleted [
+	<gtExample>
+	| root a b c d |
+	root := self flatGraphFourNodesFiveLinks.
+	a := root contexts first.
+	b := root contexts second.
+	c := root contexts third.
+	d := root contexts fourth.
+	self assert: (root hasLink: a -> b).
+	self assert: (root hasLink: a -> d).
+	self assert: (root hasLink: b -> c).
+	self assert: (root hasLink: b -> d).
+	self assert: (root hasLink: d -> c).
+	self assert: (root hasContext: b).
+	root deleteContext: b.
+	self assert: (root hasContext: b) not.
+	self assert: (root hasLink: a -> b) not.
+	self assert: (root hasLink: a -> d).
+	self assert: (root hasLink: b -> c) not.
+	self assert: (root hasLink: b -> d) not.
+	self assert: (root hasLink: d -> c).
+	^ root
+]
+
+{ #category : #accessing }
 HypernodeTestExamples >> flatGraphTwoNodes [
 	"Root node with connected subnodes a and b"
 
-	<todo: 'fix Hysenbug https://github.com/onierstrasz/IMAD/issues/32'>
 	<gtExample>
 	| root a b |
 	root := self emptyNode.
 	a := root addNode.
-	"a set: #name to: 'a'."
+	a node set: #name to: 'a'.
 	b := root addNode.
-	"b set: #name to: 'b'."
+	b node set: #name to: 'b'.
 	root addLink: a -> b.
-	self assert: a isLeaf.
-	self assert: b isLeaf.
+	self assert: a node isLeaf.
+	self assert: b node isLeaf.
 	self assert: (a == b) not.
+	
+	self assert:  (root hasContext: a).
+	self assert:  (root hasNode: a node).
+	self assert:  (root hasContext: b).
+	self assert:  (root hasNode: b node).
+	
+	self assert: (root hasLink: a -> b).
 	self assert: root reachableNodes size equals: 3.
 	self assert: (root reachableNodes select: #isLeaf) size equals: 2.
 	self assert: root reachableEdges size equals: 1.
@@ -91,9 +143,9 @@ HypernodeTestExamples >> flatGraphWithPositionedNodes [
 	root := self flatGraphTwoNodes.
 	a := root contexts first.
 	b := root contexts second.
-	p1 := 10@10.
+	p1 := 50@50.
 	a position: p1.
-	p2 := 50@50.
+	p2 := 150@50.
 	b position: p2.
 	self assert: a position equals: p1.
 	self assert: b position equals: p2.

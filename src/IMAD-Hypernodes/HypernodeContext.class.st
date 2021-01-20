@@ -28,6 +28,13 @@ HypernodeContext class >> forNode: aSubnode withParent: aHypernode [
 ]
 
 { #category : #accessing }
+HypernodeContext >> -> aContext [
+	"convenience method"
+
+	^ self node -> aContext node
+]
+
+{ #category : #accessing }
 HypernodeContext >> delete [
 	self parent deleteContext: self
 ]
@@ -60,7 +67,11 @@ HypernodeContext >> parent [
 
 { #category : #accessing }
 HypernodeContext >> position [
-	^ self get: #position
+	<todo: 'assign a random position if nil?'>
+	| position |
+	position := self get: #position.
+	self assert: position isNotNil.
+	^ position
 ]
 
 { #category : #accessing }

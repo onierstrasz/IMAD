@@ -41,11 +41,13 @@ Hypernode >> = anObject [
 Hypernode >> addContext: aHypernodeContext [
 	self contexts add: aHypernodeContext.
 	self announcer
-		announce: (CreateNodeContext new context: aHypernodeContext)
+		announce: (CreateNodeContext new context: aHypernodeContext).
+	^ aHypernodeContext
 ]
 
 { #category : #accessing }
 Hypernode >> addLink: aLink [
+	self assert: (aLink isKindOf: Hyperlink).
 	aLink parent: self.
 	self links add: aLink.
 	self announcer announce: (CreateLink new link: aLink)
@@ -53,15 +55,14 @@ Hypernode >> addLink: aLink [
 
 { #category : #accessing }
 Hypernode >> addNode [
-	| node |
-	node := Hypernode new.
-	self addNode: node.
-	^ node
+	"NB: returns a new NypernodeContext for the node"
+
+	^ self addNode: Hypernode new
 ]
 
 { #category : #accessing }
 Hypernode >> addNode: aNode [
-	self addContext: (HypernodeContext forNode: aNode withParent: self)
+	^ self addContext: (HypernodeContext forNode: aNode withParent: self)
 ]
 
 { #category : #accessing }
@@ -110,9 +111,9 @@ Hypernode >> deleteLink: aLink [
 
 { #category : #accessing }
 Hypernode >> deleteLinksForContext: aContext [
-	(self links select: [ :l | l source = aContext node ])
+	(self links select: [ :l | l source == aContext node ])
 		do: [ :l | self deleteLink: l ].
-	(self links select: [ :l | l target = aContext node ])
+	(self links select: [ :l | l target == aContext node ])
 		do: [ :l | self deleteLink: l ]
 ]
 
@@ -136,6 +137,23 @@ Hypernode >> gtLiveFor: aView [
 		title: 'Live';
 		priority: 5;
 		stencil: [ self asElement ]
+]
+
+{ #category : #accessing }
+Hypernode >> hasContext: aHypernodeContext [
+	^ self contexts includes: aHypernodeContext
+]
+
+{ #category : #accessing }
+Hypernode >> hasLink: aLink [
+	self assert: (aLink isKindOf: Hyperlink).
+	"^ (self links select: [ :l | l = aLink ]) size = 1"
+	^ self links includes: aLink
+]
+
+{ #category : #accessing }
+Hypernode >> hasNode: aHypernode [
+	^ self nodes includes: aHypernode
 ]
 
 { #category : #accessing }
