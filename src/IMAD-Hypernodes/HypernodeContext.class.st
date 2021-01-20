@@ -67,11 +67,9 @@ HypernodeContext >> parent [
 
 { #category : #accessing }
 HypernodeContext >> position [
-	<todo: 'assign a random position if nil?'>
 	| position |
 	position := self get: #position.
-	self assert: position isNotNil.
-	^ position
+	^ position ifNil: [ self randomPosition ] ifNotNil: [ position ]
 ]
 
 { #category : #accessing }
@@ -90,6 +88,13 @@ HypernodeContext >> printOn: aStream [
 		nextPutAll: '; parent: ';
 		nextPutAll: parent hash asString;
 		nextPutAll: ')'
+]
+
+{ #category : #accessing }
+HypernodeContext >> randomPosition [
+	"Only really used to inspect test examples without explicit positions"
+
+	^ (1 to: 100) atRandom @ (1 to: 100) atRandom
 ]
 
 { #category : #accessing }

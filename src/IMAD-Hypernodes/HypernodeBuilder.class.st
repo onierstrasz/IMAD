@@ -54,7 +54,7 @@ HypernodeBuilder >> addSubNodes: nodeIds for: id [
 	self
 		deprecated: 'Use addSubNode: nodeId for: id withContextProperties:'.
 	nodeIds
-		do: [ :eachId | (self nodeForId: id) addNode: (self nodeForId: eachId) ]
+		do: [ :eachId | (self nodeForId: id) addContextForNode: (self nodeForId: eachId) ]
 ]
 
 { #category : #accessing }

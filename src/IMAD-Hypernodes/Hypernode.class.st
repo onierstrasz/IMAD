@@ -46,6 +46,11 @@ Hypernode >> addContext: aHypernodeContext [
 ]
 
 { #category : #accessing }
+Hypernode >> addContextForNode: aNode [
+	^ self addContext: (HypernodeContext forNode: aNode withParent: self)
+]
+
+{ #category : #accessing }
 Hypernode >> addLink: aLink [
 	self assert: (aLink isKindOf: Hyperlink).
 	aLink parent: self.
@@ -54,15 +59,10 @@ Hypernode >> addLink: aLink [
 ]
 
 { #category : #accessing }
-Hypernode >> addNode [
+Hypernode >> addNewNodeContext [
 	"NB: returns a new NypernodeContext for the node"
 
-	^ self addNode: Hypernode new
-]
-
-{ #category : #accessing }
-Hypernode >> addNode: aNode [
-	^ self addContext: (HypernodeContext forNode: aNode withParent: self)
+	^ self addContextForNode: Hypernode new
 ]
 
 { #category : #accessing }

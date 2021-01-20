@@ -55,10 +55,10 @@ HypernodeTestExamples >> flatGraphFourNodesFiveLinks [
 	a := root contexts first.
 	b := root contexts second.
 	self assert: (root hasLink: a -> b).
-	c := root addNode.
+	c := root addNewNodeContext.
 	c node set: #name to: 'c'.
 	c position: b position + (100 @ 0).
-	d := root addNode.
+	d := root addNewNodeContext.
 	d position: b position + (0 @ 100).
 	d node set: #name to: 'd'.
 	root addLink: b -> c.
@@ -100,9 +100,9 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 	<gtExample>
 	| root a b |
 	root := self emptyNode.
-	a := root addNode.
+	a := root addNewNodeContext.
 	a node set: #name to: 'a'.
-	b := root addNode.
+	b := root addNewNodeContext.
 	b node set: #name to: 'b'.
 	root addLink: a -> b.
 	self assert: a node isLeaf.
@@ -173,7 +173,7 @@ HypernodeTestExamples >> simpleRecursiveNode [
 	<gtExample>
 	| root |
 	root := self emptyNode.
-	root addNode: root.
+	root addContextForNode: root.
 	root addLink: root -> root.
 	self assert: root reachableNodes size equals: 1.
 	self assert: root reachableEdges size equals: 1.
@@ -186,9 +186,9 @@ HypernodeTestExamples >> threeLevelGraph [
 	<gtExample>
 	| root |
 	root := self emptyNode.
-	root addNode: self twoLevelGraph.
-	root addNode: self twoLevelGraph.
-	root addNode: self twoLevelGraph.
+	root addContextForNode: self twoLevelGraph.
+	root addContextForNode: self twoLevelGraph.
+	root addContextForNode: self twoLevelGraph.
 	self assert: root reachableNodes size equals: 22.
 	self
 		assert: (root reachableNodes select: #isLeaf) size
@@ -220,8 +220,8 @@ HypernodeTestExamples >> twoLevelGraph [
 	<gtExample>
 	| root |
 	root := self emptyNode.
-	root addNode: self flatGraphTwoNodes.
-	root addNode: self flatGraphTwoNodes.
+	root addContextForNode: self flatGraphTwoNodes.
+	root addContextForNode: self flatGraphTwoNodes.
 	self assert: root reachableNodes size equals: 7.
 	self
 		assert: (root reachableNodes select: #isLeaf) size
