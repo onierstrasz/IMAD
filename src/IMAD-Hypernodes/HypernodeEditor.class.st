@@ -94,6 +94,7 @@ HypernodeEditor >> buildButtonBar [
 				icon: BrGlamorousVectorIcons refresh;
 				label: 'Refresh';
 				action: [ self updateGraph ]).
+	buttonBar addChild: self saveButton.
 	^ buttonBar
 ]
 
@@ -158,7 +159,9 @@ HypernodeEditor >> debugOnActions [
 HypernodeEditor >> for: aHypernode [
 	"self unsubscribe."
 
-	self node: aHypernode.
+	self assert: aHypernode root isNotNil.
+	self node: aHypernode
+
 
 	"self subscribe.
 	self updateHeaderName.
@@ -197,7 +200,7 @@ HypernodeEditor >> handleEvents [
 { #category : #accessing }
 HypernodeEditor >> initialize [
 	super initialize.
-	node := Hypernode new.
+	node := Hypernode root.
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -228,6 +231,36 @@ HypernodeEditor >> nodeElements [
 	"for debugging"
 
 	^ self graph nodeElements
+]
+
+{ #category : #accessing }
+HypernodeEditor >> saveButton [
+	^ BrButton new
+		look:
+			BrGlamorousButtonWithIconLook
+				+
+					(BrGlamorousWithDropdownLook
+						handle: [ BrButton new
+								look:
+									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
+										- BrGlamorousButtonExteriorLook;
+								icon: BrGlamorousIcons save;
+								label: 'Saved to ' , self node storageClassMethod ]
+						content: [ | dropdown |
+							dropdown := BlElement new
+								layout: BlLinearLayout vertical;
+								constraintsDo: [ :c | 
+									c padding: (BlInsets all: 5).
+									c vertical fitContent.
+									c horizontal fitContent ].
+							self node storageClassExists
+								ifTrue: [ self node saveState.
+									dropdown
+										addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
+								ifFalse: [ dropdown addChild: self node newClassDefinitionDialog ].
+							dropdown ]);
+		icon: BrGlamorousIcons save;
+		label: 'Save to method ' , self node storageClassMethod
 ]
 
 { #category : #accessing }

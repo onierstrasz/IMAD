@@ -244,7 +244,7 @@ VirtualHandGUI >> saveButton [
 									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
 										- BrGlamorousButtonExteriorLook;
 								icon: BrGlamorousIcons save;
-								label: 'Save to method ' , self deck storageClassMethod ]
+								label: 'Saved to ' , self deck storageClassMethod ]
 						content: [ | dropdown |
 							dropdown := BlElement new
 								layout: BlLinearLayout vertical;

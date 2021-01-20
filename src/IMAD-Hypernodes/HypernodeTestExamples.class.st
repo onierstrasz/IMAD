@@ -38,7 +38,8 @@ HypernodeTestExamples >> addPropertyAbcToNode [
 HypernodeTestExamples >> emptyNode [
 	<gtExample>
 	| root |
-	root := Hypernode new.
+	root := Hypernode root.
+	self assert: root isRoot.
 	self assert: root nodes isEmpty.
 	self assert: root isLeaf.
 	self assert: root reachableNodes size equals: 1.

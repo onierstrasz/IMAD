@@ -67,3 +67,8 @@ HypernodeBuilder >> initialize [
 HypernodeBuilder >> nodeForId: id [
 	^ idMap at: id
 ]
+
+{ #category : #accessing }
+HypernodeBuilder >> setRootFor: id to: theRootId [
+	(self nodeForId: id) root: (self nodeForId: theRootId)
+]

@@ -35,6 +35,11 @@ HNPropertyHolder >> get: propertyKey [
 	^ properties at: propertyKey ifAbsent: nil
 ]
 
+{ #category : #accessing }
+HNPropertyHolder >> get: propertyKey ifAbsent: defaultValue [
+	^ properties at: propertyKey ifAbsent: defaultValue
+]
+
 { #category : #comparing }
 HNPropertyHolder >> hash [
 	^ super hash bitXor: self properties hash

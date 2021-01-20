@@ -67,5 +67,38 @@ HypernodeExampleRepo >> flatGraphWithNodeProperties [
 			to: 3
 			for: 1
 			withProperties: Dictionary new;
+		setRootFor: 1 to: 1;
+		setRootFor: 2 to: 1;
+		setRootFor: 3 to: 1;
+		nodeForId: 1
+]
+
+{ #category : #'as yet unclassified' }
+HypernodeExampleRepo >> temp [
+	<storedHypernode>
+	<gtExample>
+	^ HypernodeBuilder new
+		addNode: Hypernode new yourself for: 1;
+		addNode: Hypernode new yourself for: 2;
+		addNode: Hypernode new yourself for: 3;
+		addSubNode: 2
+			for: 1
+			withContextProperties:
+			(Dictionary new
+				add: #position -> (148.9609375 @ 149.6011962890625);
+				yourself);
+		addSubNode: 3
+			for: 1
+			withContextProperties:
+			(Dictionary new
+				add: #position -> (283.19921875 @ 213.0426025390625);
+				yourself);
+		addEdgeFrom: 3
+			to: 2
+			for: 1
+			withProperties: Dictionary new;
+		setRootFor: 1 to: 1;
+		setRootFor: 2 to: 1;
+		setRootFor: 3 to: 1;
 		nodeForId: 1
 ]

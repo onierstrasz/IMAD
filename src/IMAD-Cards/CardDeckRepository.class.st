@@ -172,6 +172,21 @@ The door changes state when it receives a signal from the remote, or from a sens
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+CardDeckRepository >> generateCardDeck [
+	<storedCardDeck>
+	<gtExample>
+	^ CardDeck new
+		name: #CardDeck897965056;
+		description: 'To do';
+		properties:
+			(Dictionary new
+				add: #storageClassName -> 'CardDeckRepository';
+				add: #storageMethodName -> 'generateCardDeck';
+				yourself);
+		yourself
+]
+
 { #category : #accessing }
 CardDeckRepository >> gtOverview [
 	<storedCardDeck>

@@ -13,6 +13,7 @@ Instead each application is free to impose specific constraints, such as a stric
 
 I am a model entity. My views are provided by ${class:name=HypernodeEditor}$ (live view), ${class:name=HypernodeGraphElement}$ (subgraph view within the editor view), and ${class:name=HypernodeElement}$ (as a node within a graph).
 
+A Hypernode graph should have a clearly identified root node from which all other nodes can be reached. This is needed to save the graph of reachable nodes. For this reason a new Hypernode should either be instantiated by sending ==Hypernode root== or ==Hypernode for: aNode==, where ==aNode== is an existing node with a root.
 
 "
 Class {
@@ -20,10 +21,25 @@ Class {
 	#superclass : #HypergraphEntity,
 	#instVars : [
 		'nodeContexts',
-		'links'
+		'links',
+		'root'
 	],
 	#category : #'IMAD-Hypernodes'
 }
+
+{ #category : #accessing }
+Hypernode class >> for: aHypernode [
+	^ Hypernode new
+		root: aHypernode root;
+		yourself
+]
+
+{ #category : #accessing }
+Hypernode class >> root [
+	^ Hypernode new
+		beRoot;
+		yourself
+]
 
 { #category : #accessing }
 Hypernode >> -> aNode [
@@ -60,9 +76,9 @@ Hypernode >> addLink: aLink [
 
 { #category : #accessing }
 Hypernode >> addNewNodeContext [
-	"NB: returns a new NypernodeContext for the node"
+	"NB: returns a new HypernodeContext for the node"
 
-	^ self addContextForNode: Hypernode new
+	^ self addContextForNode: (Hypernode for: self)
 ]
 
 { #category : #accessing }
@@ -77,8 +93,7 @@ Hypernode >> addNode: aNode WithPosition: aPosition [
 { #category : #accessing }
 Hypernode >> addNodeWithPosition: aPosition [
 	| node |
-	node := Hypernode new.
-	"self halt."
+	node := Hypernode for: self.
 	self addNode: node WithPosition: aPosition.
 	^ node
 ]
@@ -89,10 +104,35 @@ Hypernode >> asElement [
 ]
 
 { #category : #accessing }
+Hypernode >> beRoot [
+	self root: self
+]
+
+{ #category : #accessing }
 Hypernode >> contexts [
 	"returns the collection of HypernodeContexts holding the subnodes of my subgraph"
 
 	^ nodeContexts
+]
+
+{ #category : #accessing }
+Hypernode >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackage [
+	^ aSuperclass , ' subclass: #' , aClass
+		,
+			'
+	instanceVariableNames: ''''
+	classVariableNames: ''''
+	package: ''' , aPackage , ''''
+]
+
+{ #category : #accessing }
+Hypernode >> defaultClassName [
+	^ #HypernodeExampleRepo
+]
+
+{ #category : #accessing }
+Hypernode >> defaultMethodname [
+	^ #temp
 ]
 
 { #category : #accessing }
@@ -187,6 +227,11 @@ Hypernode >> isLeaf [
 ]
 
 { #category : #accessing }
+Hypernode >> isRoot [
+	^ self root == self
+]
+
+{ #category : #accessing }
 Hypernode >> isTree [
 	<todo: 'Need to search for absence of any kind of cycles, directed or not.'>
 	^ self notYetImplemented
@@ -262,6 +307,82 @@ Hypernode >> links [
 ]
 
 { #category : #accessing }
+Hypernode >> newClassDefinitionDialog [
+	| container theSuperClass theClass thePackage |
+	container := self newLinearLayout.
+	theSuperClass := 'Object' asBrEditableLabel.
+	theClass := self storageClassName asBrEditableLabel.
+	thePackage := '' asBrEditableLabel.
+	^ container
+		addChild:
+			(BrLabel new
+				look: BrGlamorousLabelLook new bold;
+				text: 'Please edit and create the storage class first.');
+		addChild:
+			(self newLinearBoxedLayout
+				addChild:
+					(self newFlowElement
+						addChildren:
+							{theSuperClass.
+							' subclass: #' asBrLabel.
+							theClass});
+				addChild: '	instanceVariableNames: ''''' asBrLabel;
+				addChild: 'classVariableNames: ''''' asBrLabel;
+				addChild:
+					(self newFlowElement
+						addChildren:
+							{'package: ''' asBrLabel.
+							thePackage.
+							'''' asBrLabel}));
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithLabelLook;
+				label: 'Create class';
+				action: [ :button | 
+					self storageClassName: theClass text asString.
+					[ OpalCompiler new
+						evaluate:
+							(self
+								createClassNamed: theClass text asString
+								subclassOf: theSuperClass text asString
+								inPackage: thePackage text asString).
+					self saveState.
+					container removeChildren.
+					container
+						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
+						on: Exception
+						do: [ :e | self inform: e description ] ])
+]
+
+{ #category : #accessing }
+Hypernode >> newFlowElement [
+	^ BlElement new
+		layout: BlFlowLayout horizontal;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ]
+]
+
+{ #category : #accessing }
+Hypernode >> newLinearBoxedLayout [
+	^ BlElement new
+		layout: BlLinearLayout vertical;
+		look: BrGlamorousInputFieldSpacingLook;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ]
+]
+
+{ #category : #accessing }
+Hypernode >> newLinearLayout [
+	^ BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ]
+]
+
+{ #category : #accessing }
 Hypernode >> nodes [ 
 	^ self contexts collect: #node
 ]
@@ -333,6 +454,22 @@ Hypernode >> reachableNodes [
 ]
 
 { #category : #accessing }
+Hypernode >> root [
+	self
+		assert: root isNotNil
+		description:
+			'The root must not be nil. Be sure to instantiate all Hypernodes with "Hypernode root" or "Hypernode for: aNode".'.
+	^ root
+]
+
+{ #category : #accessing }
+Hypernode >> root: aHypernode [
+	"Should only be set once during initialization, or exceptionally to define a subgraph as a new root."
+
+	root := aHypernode
+]
+
+{ #category : #accessing }
 Hypernode >> saveState [
 	| storageClass |
 	storageClass := self classNamed: self storageClassName.
@@ -343,14 +480,28 @@ Hypernode >> saveState [
 ]
 
 { #category : #accessing }
-Hypernode >> storageClassName [
-	^ self get: #storageClassName
+Hypernode >> storageClassExists [
+	^ (self classNamed: self storageClassName) isClass
+]
 
+{ #category : #accessing }
+Hypernode >> storageClassMethod [
+	^ self storageClassName , '>>#' , self storageMethodName
+]
+
+{ #category : #accessing }
+Hypernode >> storageClassName [
+	^ self root get: #storageClassName ifAbsent: self defaultClassName
+]
+
+{ #category : #accessing }
+Hypernode >> storageClassName: aString [
+	self set: #storageClassName to: aString
 ]
 
 { #category : #accessing }
 Hypernode >> storageMethodName [
-	^ self get: #storageMethodName
+	^ self root get: #storageMethodName ifAbsent: self defaultMethodname
 ]
 
 { #category : #accessing }
@@ -361,12 +512,13 @@ Hypernode >> storeOn: aStream [
 		'Fix to handle context objects.
 	- fix creation of subnodes to include contexts
 	'>
-	| allNodes nodeIdMap |
+	| allNodes nodeIdMap rootId |
 	allNodes := self reachableNodes asOrderedCollection.
 
 	"Note the id of each node."
 	nodeIdMap := IdentityDictionary new.
 	allNodes doWithIndex: [ :each :id | nodeIdMap at: each put: id ].
+	rootId := nodeIdMap at: self.
 
 	"Use the builder to map each old id to the new node."
 	aStream
@@ -390,29 +542,6 @@ Hypernode >> storeOn: aStream [
 				nextPutAll: id asString;
 				nextPutAll: ';';
 				cr ].
-
-
-	"Change
-		HypernodeBuilder>>#addSubNodes:for:
-	to multiple calls of
-		HypernodeBuilder>>#addSubNode:withContextProperties:for:
-	"
-
-
-	"OLD VERSION --- Add the subgraph nodes to each node."
-	"allNodes
-		doWithIndex: [ :each :id | 
-			each nodes isNotEmpty
-				ifTrue: [ aStream
-						nextPutAll: '  addSubNodes: { ';
-						nextPutAll:
-							(' . '
-								join: (each nodes collect: [ :subnode | nodeIdMap at: subnode ]));
-						nextPutAll: ' }';
-						nextPutAll: ' for: ';
-						nextPutAll: id asString;
-						nextPutAll: ';';
-						cr ] ]."
 
 
 	"Add the subgraph nodes to each node."
@@ -451,6 +580,17 @@ Hypernode >> storeOn: aStream [
 					aStream
 						nextPutAll: ';';
 						cr ] ].
+
+	"Set the root for each node"
+	allNodes
+		doWithIndex: [ :each :id | 
+			aStream
+				nextPutAll: '  setRootFor: ';
+				nextPutAll: id asString;
+				nextPutAll: '  to: ';
+				nextPutAll: rootId asString;
+				nextPutAll: ';';
+				cr ].
 
 	"Return the root node"
 	aStream
