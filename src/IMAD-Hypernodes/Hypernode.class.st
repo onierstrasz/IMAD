@@ -110,14 +110,10 @@ Hypernode >> deleteLink: aLink [
 
 { #category : #accessing }
 Hypernode >> deleteLinksForContext: aContext [
-	self links
-		select: [ :l | l source = aContext node ]
-		thenDo: [ :l | self deleteLink: l ]
-		ifNone: [  ].
-	self links
-		select: [ :l | l target = aContext node ]
-		thenDo: [ :l | self deleteLink: l ]
-		ifNone: [  ]
+	(self links select: [ :l | l source = aContext node ])
+		do: [ :l | self deleteLink: l ].
+	(self links select: [ :l | l target = aContext node ])
+		do: [ :l | self deleteLink: l ]
 ]
 
 { #category : #accessing }
