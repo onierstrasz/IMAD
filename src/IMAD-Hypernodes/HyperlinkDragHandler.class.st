@@ -57,6 +57,7 @@ HyperlinkDragHandler >> dragStartEvent: anEvent [
 			edgeStarted := true.
 			anEvent consumed: true.
 			container := startElement parent.
+			"container := startElement container."
 			container addChild: mousePositionElement.
 			mousePositionElement relocate: startElement position.
 			lineElement := BlLineElement new.

@@ -27,6 +27,20 @@ HypernodeElement class >> forContext: aNodeContext [
 ]
 
 { #category : #accessing }
+HypernodeElement >> container [
+	"Return the graph container for this node. See: HypernodeEditor>>#buildGraphContainer"
+
+	| container graph graphHolder |
+	graph := self parent.
+	self assert: (graph isKindOf: HypernodeGraphElement).
+	graphHolder := graph parent.
+	self assert: (graphHolder isKindOf: BlPinchableElement).
+	container := graphHolder parent.
+	self assert: (container isKindOf: BlPannableElement).
+	^ container
+]
+
+{ #category : #accessing }
 HypernodeElement >> context [
 	^ nodeContext
 ]
