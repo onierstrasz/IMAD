@@ -128,13 +128,13 @@ Hypernode >> contexts [
 ]
 
 { #category : #storing }
-Hypernode >> defaultClassName [
-	^ #HypernodeExampleRepo
+Hypernode >> defaultStorageClassName [
+	^ 'HypernodeRepository'
 ]
 
 { #category : #storing }
-Hypernode >> defaultMethodname [
-	^ #temp
+Hypernode >> defaultStorageMethodName [
+	^ 'sampleHypernodeGraph'
 ]
 
 { #category : #updating }
@@ -157,6 +157,15 @@ Hypernode >> deleteLinksForContext: aContext [
 		do: [ :l | self deleteLink: l ].
 	(self links select: [ :l | l target == aContext node ])
 		do: [ :l | self deleteLink: l ]
+]
+
+{ #category : #storing }
+Hypernode >> ensureDefaultStorageClassMethod [
+	self storageClassName isNil
+		ifTrue: [ self storageClassName: self defaultStorageClassName ].
+		
+	self storageMethodName isNil
+		ifTrue: [ self storageMethodName: self defaultStorageMethodName ]
 ]
 
 { #category : #storing }
@@ -406,28 +415,41 @@ Hypernode >> saveState [
 ]
 
 { #category : #storing }
-Hypernode >> storageClassExists [
-	^ (self classNamed: self storageClassName) isClass
-]
-
-{ #category : #storing }
 Hypernode >> storageClassMethod [
-	^ self storageClassName , '>>#' , self storageMethodName
+	| class method |
+	class := self root get: #storageClassName ifAbsent: '(TBD)'.
+	method := self root get: #storageMethodName ifAbsent: '(TBD)'.
+	^ class , '>>#' , method
 ]
 
 { #category : #storing }
 Hypernode >> storageClassName [
-	^ self root get: #storageClassName ifAbsent: self defaultClassName
+	^ self root get: #storageClassName
 ]
 
 { #category : #storing }
 Hypernode >> storageClassName: aString [
-	self set: #storageClassName to: aString
+	self root set: #storageClassName to: aString
+]
+
+{ #category : #storing }
+Hypernode >> storageMethodDefined [
+	| className methodName |
+	className := self storageClassName.
+	methodName := self storageMethodName.
+	^ className isNotNil
+		and:
+			[ (self classNamed: className) isClass and: [ methodName isNotNil ] ]
 ]
 
 { #category : #storing }
 Hypernode >> storageMethodName [
-	^ self root get: #storageMethodName ifAbsent: self defaultMethodname
+	^ self root get: #storageMethodName
+]
+
+{ #category : #storing }
+Hypernode >> storageMethodName: aString [
+	self root set: #storageMethodName to: aString
 ]
 
 { #category : #storing }

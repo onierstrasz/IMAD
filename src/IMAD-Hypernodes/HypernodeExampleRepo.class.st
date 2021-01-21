@@ -18,7 +18,7 @@ Class {
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 HypernodeExampleRepo >> flatGraphWithNodeProperties [
 	<storedHypernode>
 	<gtExample>
@@ -27,7 +27,7 @@ HypernodeExampleRepo >> flatGraphWithNodeProperties [
 			(Hypernode new
 				properties:
 					(Dictionary new
-						add: 'storageClassName' -> 'HypernodeExampleRepo';
+						add: 'storageClassName' -> 'HypernodeRepository';
 						add: 'storageMethodName' -> 'flatGraphWithNodeProperties';
 						yourself);
 				yourself)

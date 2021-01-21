@@ -166,6 +166,11 @@ HypernodeEditor >> debugOnActions [
 ]
 
 { #category : #accessing }
+HypernodeEditor >> defaultStoragePackage [
+	^ 'IMAD-Hypernode'
+]
+
+{ #category : #accessing }
 HypernodeEditor >> for: aHypernode [
 	"self unsubscribe."
 
@@ -227,11 +232,13 @@ HypernodeEditor >> initialize [
 
 { #category : #accessing }
 HypernodeEditor >> newClassDefinitionDialog [
+	<todo: 'Add dialogue for method name as well.'>
 	| container theSuperClass theClass thePackage |
 	container := self newLinearLayout.
 	theSuperClass := 'Object' asBrEditableLabel.
+	self node ensureDefaultStorageClassMethod.
 	theClass := self node storageClassName asBrEditableLabel.
-	thePackage := '' asBrEditableLabel.
+	thePackage := self defaultStoragePackage asBrEditableLabel.
 	^ container
 		addChild:
 			(BrLabel new
@@ -268,7 +275,8 @@ HypernodeEditor >> newClassDefinitionDialog [
 					self node saveState.
 					container removeChildren.
 					container
-						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
+						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)).
+					self spawnStoredMethodView ]
 						on: Exception
 						do: [ :e | self inform: e description ] ])
 ]
@@ -339,14 +347,22 @@ HypernodeEditor >> saveButton [
 									c padding: (BlInsets all: 5).
 									c vertical fitContent.
 									c horizontal fitContent ].
-							self node storageClassExists
+							self node storageMethodDefined
 								ifTrue: [ self node saveState.
+									self phlow spawnObject: self node storageClassName asClass.
 									dropdown
 										addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
 								ifFalse: [ dropdown addChild: self newClassDefinitionDialog ].
 							dropdown ]);
 		icon: BrGlamorousIcons save;
 		label: 'Save to method ' , self node storageClassMethod
+]
+
+{ #category : #accessing }
+HypernodeEditor >> spawnStoredMethodView [
+	<todo:
+		'Fix this to show the actual created method in the context of its class'>
+	self phlow spawnObject: self node storageClassName asClass
 ]
 
 { #category : #accessing }
