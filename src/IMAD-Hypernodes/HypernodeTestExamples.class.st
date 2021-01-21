@@ -122,6 +122,7 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 	"self assert: root isDAG."
 	"self assert: root isTree."
 	root assertGeneratedValueEqualsSelf.
+	root allNodes do: [ :node | self assert: root == node root ].
 	^ root
 ]
 
@@ -190,13 +191,25 @@ HypernodeTestExamples >> threeLevelGraph [
 	root addContextForNode: self twoLevelGraph.
 	root addContextForNode: self twoLevelGraph.
 	root addContextForNode: self twoLevelGraph.
+	root beRootForAllNodes.
+	root allNodes do: [ :node | self assert: root == node root ].
 	self assert: root reachableNodes size equals: 22.
-	self
-		assert: (root reachableNodes select: #isLeaf) size
-		equals: 12.
+	self assert: (root reachableNodes select: #isLeaf) size equals: 12.
 	self assert: root reachableEdges size equals: 6.
 	"self assert: root isTree."
 	root assertGeneratedValueEqualsSelf.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> threeLevelGraphAllNodesGenerateSameGraph [
+	"Every node should generate the same graph, since they all have the same root. (Not true for a graph with multiple subroots.)"
+
+	<gtExample>
+	| root |
+	root := self threeLevelGraph.
+	root allNodes do: [ :node | self assert: root == node root ].
+	root allNodes do: [ :node | self assert: root = node generatedValue ].
 	^ root
 ]
 
@@ -223,10 +236,10 @@ HypernodeTestExamples >> twoLevelGraph [
 	root := self emptyNode.
 	root addContextForNode: self flatGraphTwoNodes.
 	root addContextForNode: self flatGraphTwoNodes.
+	root beRootForAllNodes.
+	root allNodes do: [ :node | self assert: root == node root ].
 	self assert: root reachableNodes size equals: 7.
-	self
-		assert: (root reachableNodes select: #isLeaf) size
-		equals: 4.
+	self assert: (root reachableNodes select: #isLeaf) size equals: 4.
 	self assert: root reachableEdges size equals: 2.
 	"self assert: root isTree."
 	root assertGeneratedValueEqualsSelf.

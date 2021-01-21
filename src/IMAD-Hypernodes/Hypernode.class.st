@@ -99,6 +99,11 @@ Hypernode >> addNodeWithPosition: aPosition [
 ]
 
 { #category : #accessing }
+Hypernode >> allNodes [
+	^ self reachableNodes asOrderedCollection
+]
+
+{ #category : #accessing }
 Hypernode >> asElement [
 	^ HypernodeEditor for: self
 ]
@@ -106,6 +111,13 @@ Hypernode >> asElement [
 { #category : #accessing }
 Hypernode >> beRoot [
 	self root: self
+]
+
+{ #category : #accessing }
+Hypernode >> beRootForAllNodes [
+	"Useful for tests, where we build subgraphs, and want them to all have the same global root."
+
+	self allNodes do: [ :node | node root: self ]
 ]
 
 { #category : #accessing }
@@ -506,19 +518,15 @@ Hypernode >> storageMethodName [
 
 { #category : #accessing }
 Hypernode >> storeOn: aStream [
-	"We store the HypernodeGraph as a code snippet that asks a HypernodeBuilder to recreate the graph. Each Hypernode is assigned an id, which is used by the builder to uniquely identify the nodes."
+	"We store the HypernodeGraph as a code snippet that asks a HypernodeBuilder to recreate the graph. Each Hypernode is assigned an id, which is used by the builder to uniquely identify the nodes. Note that we start the search for all nodes not from this node, but from the root of the graph. Most graphs have a single root, but some may have multiple subroots."
 
-	<todo:
-		'Fix to handle context objects.
-	- fix creation of subnodes to include contexts
-	'>
 	| allNodes nodeIdMap rootId |
-	allNodes := self reachableNodes asOrderedCollection.
+	allNodes := self root allNodes.
 
 	"Note the id of each node."
 	nodeIdMap := IdentityDictionary new.
 	allNodes doWithIndex: [ :each :id | nodeIdMap at: each put: id ].
-	rootId := nodeIdMap at: self.
+	rootId := nodeIdMap at: self root.
 
 	"Use the builder to map each old id to the new node."
 	aStream
@@ -542,7 +550,6 @@ Hypernode >> storeOn: aStream [
 				nextPutAll: id asString;
 				nextPutAll: ';';
 				cr ].
-
 
 	"Add the subgraph nodes to each node."
 	allNodes
@@ -595,7 +602,7 @@ Hypernode >> storeOn: aStream [
 	"Return the root node"
 	aStream
 		nextPutAll: '  nodeForId: ';
-		nextPutAll: (nodeIdMap at: self) asString;
+		nextPutAll: rootId asString;
 		nextPutAll: '.';
 		cr
 ]
