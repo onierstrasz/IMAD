@@ -46,7 +46,10 @@ HyperlinkDragHandler >> dragEvent: anEvent [
 	edgeStarted
 		ifTrue: [ anEvent consumed: true.
 			mousePositionElement
-				relocate: (anEvent currentTarget globalPointToParent: anEvent position) ]
+				relocate:
+					(mousePositionElement globalPointToParent: anEvent position)
+						- (mousePositionElement extent / 2)
+						- mousePositionElement parent padding topLeft ]
 ]
 
 { #category : #accessing }
@@ -58,7 +61,6 @@ HyperlinkDragHandler >> dragStartEvent: anEvent [
 			anEvent consumed: true.
 			container := startElement parent.
 			"container := startElement container."
-			container addChild: mousePositionElement.
 			mousePositionElement relocate: startElement position.
 			lineElement := BlLineElement new.
 			lineElement
@@ -66,6 +68,7 @@ HyperlinkDragHandler >> dragStartEvent: anEvent [
 				border: (BlBorder paint: Color blue width: 1);
 				fromAnchor: (BlElementCenterAnchor element: startElement);
 				toAnchor: (BlElementCenterAnchor element: mousePositionElement).
+			container addChild: mousePositionElement.
 			container addChild: lineElement ]
 ]
 
@@ -93,7 +96,8 @@ HyperlinkDragHandler >> initialize [
 		geometry: BlEllipse new;
 		size: 10@10;
 		background: Color blue;
-		border: BlBorder empty.
+		border: BlBorder empty;
+		zIndex: -1.
 	"mousePositionElement relocate: 0 @ 0"
 ]
 
