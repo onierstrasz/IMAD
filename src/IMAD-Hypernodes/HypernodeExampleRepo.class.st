@@ -85,18 +85,14 @@ HypernodeExampleRepo >> temp [
 			for: 1
 			withContextProperties:
 			(Dictionary new
-				add: #position -> (148.9609375 @ 149.6011962890625);
+				add: #position -> (191.08203125 @ 206.5582275390625);
 				yourself);
 		addSubNode: 3
 			for: 1
 			withContextProperties:
 			(Dictionary new
-				add: #position -> (283.19921875 @ 213.0426025390625);
+				add: #position -> (155.5234375 @ 89.0738525390625);
 				yourself);
-		addEdgeFrom: 3
-			to: 2
-			for: 1
-			withProperties: Dictionary new;
 		setRootFor: 1 to: 1;
 		setRootFor: 2 to: 1;
 		setRootFor: 3 to: 1;

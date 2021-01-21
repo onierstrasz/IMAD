@@ -128,16 +128,6 @@ Hypernode >> contexts [
 ]
 
 { #category : #storing }
-Hypernode >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackage [
-	^ aSuperclass , ' subclass: #' , aClass
-		,
-			'
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''' , aPackage , ''''
-]
-
-{ #category : #storing }
 Hypernode >> defaultClassName [
 	^ #HypernodeExampleRepo
 ]
@@ -316,82 +306,6 @@ Hypernode >> isomorphicTo: anotherHypernode [
 Hypernode >> links [
 	"Collection of all my hyperlinks"
 	^ links
-]
-
-{ #category : #storing }
-Hypernode >> newClassDefinitionDialog [
-	| container theSuperClass theClass thePackage |
-	container := self newLinearLayout.
-	theSuperClass := 'Object' asBrEditableLabel.
-	theClass := self storageClassName asBrEditableLabel.
-	thePackage := '' asBrEditableLabel.
-	^ container
-		addChild:
-			(BrLabel new
-				look: BrGlamorousLabelLook new bold;
-				text: 'Please edit and create the storage class first.');
-		addChild:
-			(self newLinearBoxedLayout
-				addChild:
-					(self newFlowElement
-						addChildren:
-							{theSuperClass.
-							' subclass: #' asBrLabel.
-							theClass});
-				addChild: '	instanceVariableNames: ''''' asBrLabel;
-				addChild: 'classVariableNames: ''''' asBrLabel;
-				addChild:
-					(self newFlowElement
-						addChildren:
-							{'package: ''' asBrLabel.
-							thePackage.
-							'''' asBrLabel}));
-		addChild:
-			(BrButton new
-				look: BrGlamorousButtonWithLabelLook;
-				label: 'Create class';
-				action: [ :button | 
-					self storageClassName: theClass text asString.
-					[ OpalCompiler new
-						evaluate:
-							(self
-								createClassNamed: theClass text asString
-								subclassOf: theSuperClass text asString
-								inPackage: thePackage text asString).
-					self saveState.
-					container removeChildren.
-					container
-						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
-						on: Exception
-						do: [ :e | self inform: e description ] ])
-]
-
-{ #category : #accessing }
-Hypernode >> newFlowElement [
-	^ BlElement new
-		layout: BlFlowLayout horizontal;
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical fitContent ]
-]
-
-{ #category : #accessing }
-Hypernode >> newLinearBoxedLayout [
-	^ BlElement new
-		layout: BlLinearLayout vertical;
-		look: BrGlamorousInputFieldSpacingLook;
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical fitContent ]
-]
-
-{ #category : #accessing }
-Hypernode >> newLinearLayout [
-	^ BlElement new
-		layout: BlLinearLayout vertical;
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ]
 ]
 
 { #category : #accessing }

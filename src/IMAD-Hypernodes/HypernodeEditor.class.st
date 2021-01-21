@@ -125,6 +125,16 @@ HypernodeEditor >> contextMenu [
 		yourself
 ]
 
+{ #category : #utility }
+HypernodeEditor >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackage [
+	^ aSuperclass , ' subclass: #' , aClass
+		,
+			'
+	instanceVariableNames: ''''
+	classVariableNames: ''''
+	package: ''' , aPackage , ''''
+]
+
 { #category : #accessing }
 HypernodeEditor >> debugOffActions [
 	self border: (BlBorder paint: Color transparent width: 0).
@@ -216,6 +226,82 @@ HypernodeEditor >> initialize [
 ]
 
 { #category : #accessing }
+HypernodeEditor >> newClassDefinitionDialogFor: aHypernode [
+	| container theSuperClass theClass thePackage |
+	container := self newLinearLayout.
+	theSuperClass := 'Object' asBrEditableLabel.
+	theClass := aHypernode storageClassName asBrEditableLabel.
+	thePackage := '' asBrEditableLabel.
+	^ container
+		addChild:
+			(BrLabel new
+				look: BrGlamorousLabelLook new bold;
+				text: 'Please edit and create the storage class first.');
+		addChild:
+			(self newLinearBoxedLayout
+				addChild:
+					(self newFlowElement
+						addChildren:
+							{theSuperClass.
+							' subclass: #' asBrLabel.
+							theClass});
+				addChild: '	instanceVariableNames: ''''' asBrLabel;
+				addChild: 'classVariableNames: ''''' asBrLabel;
+				addChild:
+					(self newFlowElement
+						addChildren:
+							{'package: ''' asBrLabel.
+							thePackage.
+							'''' asBrLabel}));
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithLabelLook;
+				label: 'Create class';
+				action: [ :button | 
+					aHypernode storageClassName: theClass text asString.
+					[ OpalCompiler new
+						evaluate:
+							(self
+								createClassNamed: theClass text asString
+								subclassOf: theSuperClass text asString
+								inPackage: thePackage text asString).
+					aHypernode saveState.
+					container removeChildren.
+					container
+						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
+						on: Exception
+						do: [ :e | self inform: e description ] ])
+]
+
+{ #category : #accessing }
+HypernodeEditor >> newFlowElement [
+	^ BlElement new
+		layout: BlFlowLayout horizontal;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ]
+]
+
+{ #category : #accessing }
+HypernodeEditor >> newLinearBoxedLayout [
+	^ BlElement new
+		layout: BlLinearLayout vertical;
+		look: BrGlamorousInputFieldSpacingLook;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ]
+]
+
+{ #category : #accessing }
+HypernodeEditor >> newLinearLayout [
+	^ BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ]
+]
+
+{ #category : #accessing }
 HypernodeEditor >> node [
 	^ node
 ]
@@ -257,7 +343,7 @@ HypernodeEditor >> saveButton [
 								ifTrue: [ self node saveState.
 									dropdown
 										addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
-								ifFalse: [ dropdown addChild: self node newClassDefinitionDialog ].
+								ifFalse: [ dropdown addChild: (self  newClassDefinitionDialogFor: node) ].
 							dropdown ]);
 		icon: BrGlamorousIcons save;
 		label: 'Save to method ' , self node storageClassMethod
