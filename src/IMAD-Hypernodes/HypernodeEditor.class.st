@@ -360,9 +360,16 @@ HypernodeEditor >> saveButton [
 
 { #category : #accessing }
 HypernodeEditor >> spawnStoredMethodView [
+
 	<todo:
-		'Fix this to show the actual created method in the context of its class'>
-	self phlow spawnObject: self node storageClassName asClass
+		'Fix this to show a coder instead of an inspector on a coder!'>
+	self phlow
+		spawnObject:
+			(GtCoder
+				forMethod:
+					self node storageClassName asClass
+						>> self node storageMethodName asSymbol)
+
 ]
 
 { #category : #accessing }
