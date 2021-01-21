@@ -27,21 +27,21 @@ Class {
 	#category : #'IMAD-Hypernodes'
 }
 
-{ #category : #accessing }
+{ #category : #creation }
 Hypernode class >> for: aHypernode [
 	^ Hypernode new
 		root: aHypernode root;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #creation }
 Hypernode class >> root [
 	^ Hypernode new
 		beRoot;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #factory }
 Hypernode >> -> aNode [
 	^ Hyperlink from: self to: aNode
 ]
@@ -53,7 +53,7 @@ Hypernode >> = anObject [
 	^ super = anObject and: [ self isomorphicTo: anObject ]
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> addContext: aHypernodeContext [
 	self contexts add: aHypernodeContext.
 	self announcer
@@ -61,12 +61,12 @@ Hypernode >> addContext: aHypernodeContext [
 	^ aHypernodeContext
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> addContextForNode: aNode [
 	^ self addContext: (HypernodeContext forNode: aNode withParent: self)
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> addLink: aLink [
 	self assert: (aLink isKindOf: Hyperlink).
 	aLink parent: self.
@@ -74,14 +74,14 @@ Hypernode >> addLink: aLink [
 	self announcer announce: (CreateLink new link: aLink)
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> addNewNodeContext [
 	"NB: returns a new HypernodeContext for the node"
 
 	^ self addContextForNode: (Hypernode for: self)
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> addNode: aNode WithPosition: aPosition [
 	| context |
 	context := HypernodeContext forNode: aNode withParent: self.
@@ -90,7 +90,7 @@ Hypernode >> addNode: aNode WithPosition: aPosition [
 	^ aNode
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> addNodeWithPosition: aPosition [
 	| node |
 	node := Hypernode for: self.
@@ -103,17 +103,17 @@ Hypernode >> allNodes [
 	^ self reachableNodes asOrderedCollection
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extension' }
 Hypernode >> asElement [
 	^ HypernodeEditor for: self
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> beRoot [
 	self root: self
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> beRootForAllNodes [
 	"Useful for tests, where we build subgraphs, and want them to all have the same global root."
 
@@ -127,7 +127,7 @@ Hypernode >> contexts [
 	^ nodeContexts
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackage [
 	^ aSuperclass , ' subclass: #' , aClass
 		,
@@ -137,17 +137,17 @@ Hypernode >> createClassNamed: aClass subclassOf: aSuperclass inPackage: aPackag
 	package: ''' , aPackage , ''''
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> defaultClassName [
 	^ #HypernodeExampleRepo
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> defaultMethodname [
 	^ #temp
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> deleteContext: aHypernodeContext [
 	aHypernodeContext deleteLinks.
 	self contexts remove: aHypernodeContext ifAbsent: [  ].
@@ -155,13 +155,13 @@ Hypernode >> deleteContext: aHypernodeContext [
 		announce: (DeleteNodeContext new context: aHypernodeContext)
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> deleteLink: aLink [
 	self links remove: aLink ifAbsent: [  ].
 	self announcer announce: (DeleteLink new link: aLink)
 ]
 
-{ #category : #accessing }
+{ #category : #updating }
 Hypernode >> deleteLinksForContext: aContext [
 	(self links select: [ :l | l source == aContext node ])
 		do: [ :l | self deleteLink: l ].
@@ -169,7 +169,7 @@ Hypernode >> deleteLinksForContext: aContext [
 		do: [ :l | self deleteLink: l ]
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> generateStorageMethodString [
 	| stream |
 	self assertValidStorageMethod.
@@ -182,7 +182,7 @@ Hypernode >> generateStorageMethodString [
 	^ OpalCompiler new format: stream contents
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extension' }
 Hypernode >> gtLiveFor: aView [
 	<gtView>
 	^ aView explicit
@@ -191,30 +191,30 @@ Hypernode >> gtLiveFor: aView [
 		stencil: [ self asElement ]
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> hasContext: aHypernodeContext [
 	^ self contexts includes: aHypernodeContext
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> hasLink: aLink [
 	self assert: (aLink isKindOf: Hyperlink).
 	"^ (self links select: [ :l | l = aLink ]) size = 1"
 	^ self links includes: aLink
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> hasNode: aHypernode [
 	^ self nodes includes: aHypernode
 ]
 
-{ #category : #accessing }
+{ #category : #comparing }
 Hypernode >> hash [
 	<todo: 'Is there something we should do here?'>
 	^ super hash
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 Hypernode >> initialize [
 	super initialize.
 	"nodes := OrderedCollection new."
@@ -222,34 +222,34 @@ Hypernode >> initialize [
 	links := OrderedCollection new
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> isDAG [
 	<todo: 'Need to search for absence of directed cycles. Requires a DFS.'>
 	^ self notYetImplemented
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> isGraph [
 	^ self isLeaf not
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> isLeaf [
 	^ self nodes isEmpty and: [ self links isEmpty ]
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> isRoot [
 	^ self root == self
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> isTree [
 	<todo: 'Need to search for absence of any kind of cycles, directed or not.'>
 	^ self notYetImplemented
 ]
 
-{ #category : #accessing }
+{ #category : #querying }
 Hypernode >> isomorphicTo: anotherHypernode [
 	"Note that we do not search for an isomorphism, but simply check if the contained nodes and edges in the same, given order establish an isomrphism."
 
@@ -318,7 +318,7 @@ Hypernode >> links [
 	^ links
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> newClassDefinitionDialog [
 	| container theSuperClass theClass thePackage |
 	container := self newLinearLayout.
@@ -399,7 +399,7 @@ Hypernode >> nodes [
 	^ self contexts collect: #node
 ]
 
-{ #category : #accessing }
+{ #category : #printing }
 Hypernode >> printOn: aStream [
 	<todo:
 		'Expand this with more detailed information; adapt to different kinds of graphs.'>
@@ -474,14 +474,14 @@ Hypernode >> root [
 	^ root
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 Hypernode >> root: aHypernode [
 	"Should only be set once during initialization, or exceptionally to define a subgraph as a new root."
 
 	root := aHypernode
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> saveState [
 	| storageClass |
 	storageClass := self classNamed: self storageClassName.
@@ -491,32 +491,32 @@ Hypernode >> saveState [
 	storageClass compile: self generateStorageMethodString
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> storageClassExists [
 	^ (self classNamed: self storageClassName) isClass
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> storageClassMethod [
 	^ self storageClassName , '>>#' , self storageMethodName
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> storageClassName [
 	^ self root get: #storageClassName ifAbsent: self defaultClassName
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> storageClassName: aString [
 	self set: #storageClassName to: aString
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> storageMethodName [
 	^ self root get: #storageMethodName ifAbsent: self defaultMethodname
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 Hypernode >> storeOn: aStream [
 	"We store the HypernodeGraph as a code snippet that asks a HypernodeBuilder to recreate the graph. Each Hypernode is assigned an id, which is used by the builder to uniquely identify the nodes. Note that we start the search for all nodes not from this node, but from the root of the graph. Most graphs have a single root, but some may have multiple subroots."
 
