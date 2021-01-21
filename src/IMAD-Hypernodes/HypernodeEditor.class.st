@@ -226,11 +226,11 @@ HypernodeEditor >> initialize [
 ]
 
 { #category : #accessing }
-HypernodeEditor >> newClassDefinitionDialogFor: aHypernode [
+HypernodeEditor >> newClassDefinitionDialog [
 	| container theSuperClass theClass thePackage |
 	container := self newLinearLayout.
 	theSuperClass := 'Object' asBrEditableLabel.
-	theClass := aHypernode storageClassName asBrEditableLabel.
+	theClass := self node storageClassName asBrEditableLabel.
 	thePackage := '' asBrEditableLabel.
 	^ container
 		addChild:
@@ -258,14 +258,14 @@ HypernodeEditor >> newClassDefinitionDialogFor: aHypernode [
 				look: BrGlamorousButtonWithLabelLook;
 				label: 'Create class';
 				action: [ :button | 
-					aHypernode storageClassName: theClass text asString.
+					self node storageClassName: theClass text asString.
 					[ OpalCompiler new
 						evaluate:
 							(self
 								createClassNamed: theClass text asString
 								subclassOf: theSuperClass text asString
 								inPackage: thePackage text asString).
-					aHypernode saveState.
+					self node saveState.
 					container removeChildren.
 					container
 						addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
@@ -343,7 +343,7 @@ HypernodeEditor >> saveButton [
 								ifTrue: [ self node saveState.
 									dropdown
 										addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
-								ifFalse: [ dropdown addChild: (self  newClassDefinitionDialogFor: node) ].
+								ifFalse: [ dropdown addChild: self newClassDefinitionDialog ].
 							dropdown ]);
 		icon: BrGlamorousIcons save;
 		label: 'Save to method ' , self node storageClassMethod
