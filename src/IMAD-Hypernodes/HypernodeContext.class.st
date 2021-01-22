@@ -45,6 +45,16 @@ HypernodeContext >> deleteLinks [
 ]
 
 { #category : #accessing }
+HypernodeContext >> description [
+	^ self node description
+]
+
+{ #category : #accessing }
+HypernodeContext >> description: aString [
+	^ self node description: aString
+]
+
+{ #category : #accessing }
 HypernodeContext >> hasPosition [
 	^ self position isNotNil
 ]
@@ -53,6 +63,16 @@ HypernodeContext >> hasPosition [
 HypernodeContext >> initializeNode: aSubnode parent: aHypernode [
 	node := aSubnode.
 	parent := aHypernode
+]
+
+{ #category : #accessing }
+HypernodeContext >> name [
+	^ self node name
+]
+
+{ #category : #accessing }
+HypernodeContext >> name: aString [
+	^ self node name: aString
 ]
 
 { #category : #accessing }

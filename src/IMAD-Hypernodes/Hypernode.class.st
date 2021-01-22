@@ -81,6 +81,13 @@ Hypernode >> addNewNodeContext [
 	^ self addContextForNode: (Hypernode for: self)
 ]
 
+{ #category : #accessing }
+Hypernode >> addNode [
+	"convenience method"
+
+	^ self addNewNodeContext
+]
+
 { #category : #updating }
 Hypernode >> addNode: aNode WithPosition: aPosition [
 	| context |
@@ -121,6 +128,11 @@ Hypernode >> beRootForAllNodes [
 ]
 
 { #category : #accessing }
+Hypernode >> contextForNodeNamed: aString [
+	^ self contexts detect: [ :c | c name = aString ]
+]
+
+{ #category : #accessing }
 Hypernode >> contexts [
 	"returns the collection of HypernodeContexts holding the subnodes of my subgraph"
 
@@ -139,14 +151,18 @@ Hypernode >> defaultStorageMethodName [
 
 { #category : #updating }
 Hypernode >> deleteContext: aHypernodeContext [
+	"NB: we must remove the specific link by object identity, not equality."
+
 	aHypernodeContext deleteLinks.
-	self contexts remove: aHypernodeContext ifAbsent: [  ].
+	self contexts removeAllSuchThat: [ :c | c == aHypernodeContext ].
 	self announcer
 		announce: (DeleteNodeContext new context: aHypernodeContext)
 ]
 
 { #category : #updating }
 Hypernode >> deleteLink: aLink [
+	"NB: we remove the link by equality, not identity."
+
 	self links remove: aLink ifAbsent: [  ].
 	self announcer announce: (DeleteLink new link: aLink)
 ]
@@ -192,7 +208,7 @@ Hypernode >> gtLiveFor: aView [
 
 { #category : #querying }
 Hypernode >> hasContext: aHypernodeContext [
-	^ self contexts includes: aHypernodeContext
+	^ self contexts identityIncludes: aHypernodeContext
 ]
 
 { #category : #querying }
@@ -204,7 +220,7 @@ Hypernode >> hasLink: aLink [
 
 { #category : #querying }
 Hypernode >> hasNode: aHypernode [
-	^ self nodes includes: aHypernode
+	^ self nodes identityIncludes: aHypernode
 ]
 
 { #category : #comparing }
@@ -315,6 +331,12 @@ Hypernode >> isomorphicTo: anotherHypernode [
 Hypernode >> links [
 	"Collection of all my hyperlinks"
 	^ links
+]
+
+{ #category : #accessing }
+Hypernode >> nodeNamed: aString [
+	<todo: 'handle case where not found'>
+	^ (self contextForNodeNamed: aString) node
 ]
 
 { #category : #accessing }
@@ -429,7 +451,7 @@ Hypernode >> storageClassName [
 
 { #category : #storing }
 Hypernode >> storageClassName: aString [
-	self root set: #storageClassName to: aString
+	self set: #storageClassName to: aString
 ]
 
 { #category : #storing }

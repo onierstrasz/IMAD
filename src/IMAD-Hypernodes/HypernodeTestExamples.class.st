@@ -49,6 +49,18 @@ HypernodeTestExamples >> emptyNode [
 ]
 
 { #category : #accessing }
+HypernodeTestExamples >> flatGraphFindTwoNodes [
+	<gtExample>
+	| root a b |
+	root := self flatGraphTwoNodes.
+	a := root contextForNodeNamed: 'a'.
+	self assert: a name equals: 'a'.
+	b := root nodeNamed: 'b'.
+	self assert: b name equals: 'b'.
+	^ root
+]
+
+{ #category : #accessing }
 HypernodeTestExamples >> flatGraphFourNodesFiveLinks [
 	<gtExample>
 	| root a b c d |
@@ -101,13 +113,16 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 	<gtExample>
 	| root a b |
 	root := self emptyNode.
-	a := root addNewNodeContext.
-	a node set: #name to: 'a'.
-	b := root addNewNodeContext.
-	b node set: #name to: 'b'.
+	"a := root addNewNodeContext."
+	
+	a := root addNode name: 'a'; yourself.
+	b := root addNode name: 'b'; yourself.
 	root addLink: a -> b.
+	
 	self assert: a node isLeaf.
+	self assert: a name equals: 'a'.
 	self assert: b node isLeaf.
+	self assert: b name equals: 'b'.
 	self assert: (a == b) not.
 	
 	self assert:  (root hasContext: a).
@@ -155,6 +170,37 @@ HypernodeTestExamples >> flatGraphWithPositionedNodes [
 	storedB := root generatedValue contexts second.
 	self assert: storedA position equals: p1.
 	self assert: storedB position equals: p2.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> fourNodeTree [
+	<gtExample>
+	| root a b c d |
+	root := Hypernode root.
+	a := root addNode name: 'a'; yourself.
+	b := root addNode name: 'b'; yourself.
+	c := root addNode name: 'c'; yourself.
+	d := root addNode name: 'd'; yourself.
+	root
+		addLink: a -> b;
+		addLink: b -> c;
+		addLink: b -> d.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> fourNodeTreeMiddleNodeDeleted [
+	"This case resulted in a broken element dictionary"
+
+	<gtExample>
+	| root a b c d |
+	root := self fourNodeTree.
+	a := root contextForNodeNamed: 'a'.
+	b := root contextForNodeNamed: 'b'.
+	c := root contextForNodeNamed: 'c'.
+	d := root contextForNodeNamed: 'd'.
+	root deleteContext: b.
 	^ root
 ]
 
@@ -211,6 +257,58 @@ HypernodeTestExamples >> threeLevelGraphAllNodesGenerateSameGraph [
 	root allNodes do: [ :node | self assert: root == node root ].
 	root allNodes do: [ :node | self assert: node = node generatedValue ].
 	root allNodes do: [ :node | self assert: root = node root generatedValue ].
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> threeNodeChain [
+	<gtExample>
+	| root a b c d |
+	root := Hypernode root.
+	a := root addNode name: 'a'; yourself.
+	b := root addNode name: 'b'; yourself.
+	c := root addNode name: 'c'; yourself.
+	root
+		addLink: a -> b;
+		addLink: b -> c.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> threeNodeChainMiddleNodeDeleted [
+	"Ensure the right node is deleted"
+	<gtExample>
+	| root a b c |
+	root := self threeNodeChain.
+	a := root contextForNodeNamed: 'a'.
+	b := root contextForNodeNamed: 'b'.
+	c := root contextForNodeNamed: 'c'.
+	self assert: a name equals: 'a'.
+	self assert: b name equals: 'b'.
+	self assert: c name equals: 'c'.
+	root deleteContext: b.
+	self assert: (root hasContext: a).
+	self assert: (root hasContext: b) not.
+	self assert: (root hasContext: c).
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> threeNodeChainSecondLinkDeleted [
+	"Ensure the right link is deleted"
+
+	<gtExample>
+	| root a b c |
+	root := self threeNodeChain.
+	a := root contextForNodeNamed: 'a'.
+	b := root contextForNodeNamed: 'b'.
+	c := root contextForNodeNamed: 'c'.
+	self assert: a name equals: 'a'.
+	self assert: b name equals: 'b'.
+	self assert: c name equals: 'c'.
+	root deleteLink: b -> c.
+	self assert: (root hasLink: a -> b).
+	self assert: (root hasLink: b -> c) not.
 	^ root
 ]
 

@@ -69,6 +69,16 @@ HypergraphEntity >> classNamed: aClassName [
 	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
 ]
 
+{ #category : #accessing }
+HypergraphEntity >> description [
+	^ self get: #description ifAbsent: ''
+]
+
+{ #category : #accessing }
+HypergraphEntity >> description: aString [
+	self set: #description to: aString
+]
+
 { #category : #storing }
 HypergraphEntity >> generatedValue [
 	^ OpalCompiler new
@@ -93,6 +103,16 @@ HypergraphEntity >> inform: aString [
 HypergraphEntity >> initialize [
 	super initialize.
 	announcer := Announcer new
+]
+
+{ #category : #accessing }
+HypergraphEntity >> name [
+	^ self get: #name ifAbsent: ''
+]
+
+{ #category : #accessing }
+HypergraphEntity >> name: aString [
+	self set: #name to: aString
 ]
 
 { #category : #storing }

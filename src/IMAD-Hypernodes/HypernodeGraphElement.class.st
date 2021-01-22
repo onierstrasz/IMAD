@@ -79,7 +79,9 @@ HypernodeGraphElement >> deleteLink: aLink [
 
 { #category : #accessing }
 HypernodeGraphElement >> elementFor: aNodeOrLink [
-	self assert: (graphElementsDictionary includesKey: aNodeOrLink).
+	self
+		assert: (graphElementsDictionary includesKey: aNodeOrLink)
+		description: 'Missing the dictionary element value for a node or link'.
 	^ graphElementsDictionary at: aNodeOrLink
 ]
 
