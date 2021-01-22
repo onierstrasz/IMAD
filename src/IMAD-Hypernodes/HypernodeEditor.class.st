@@ -329,6 +329,9 @@ HypernodeEditor >> nodeElements [
 
 { #category : #accessing }
 HypernodeEditor >> saveButton [
+	"NB: Here we hard-wire the fact that we are saving the graph for the root node. Later we might want a save button for any arbitrary subnode and its reachable graph."
+	| rootNode |
+	rootNode := self node root.
 	^ BrButton new
 		look:
 			BrGlamorousButtonWithIconLook
@@ -339,7 +342,7 @@ HypernodeEditor >> saveButton [
 									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
 										- BrGlamorousButtonExteriorLook;
 								icon: BrGlamorousIcons save;
-								label: 'Saved to ' , self node storageClassMethod ]
+								label: 'Saved to ' , rootNode storageClassMethod ]
 						content: [ | dropdown |
 							dropdown := BlElement new
 								layout: BlLinearLayout vertical;
@@ -347,15 +350,15 @@ HypernodeEditor >> saveButton [
 									c padding: (BlInsets all: 5).
 									c vertical fitContent.
 									c horizontal fitContent ].
-							self node storageMethodDefined
-								ifTrue: [ self node saveState.
-									self phlow spawnObject: self node storageClassName asClass.
+							rootNode storageMethodDefined
+								ifTrue: [ rootNode saveState.
+									self spawnStoredMethodView.
 									dropdown
 										addChild: (BlTextElement new text: ('Saved' asRopedText fontSize: 12)) ]
 								ifFalse: [ dropdown addChild: self newClassDefinitionDialog ].
 							dropdown ]);
 		icon: BrGlamorousIcons save;
-		label: 'Save to method ' , self node storageClassMethod
+		label: 'Save to method ' , rootNode storageClassMethod
 ]
 
 { #category : #accessing }
@@ -364,7 +367,7 @@ HypernodeEditor >> spawnStoredMethodView [
 		spawnTool:
 			(GtMethodCoderTool
 				compiledMethod:
-					self node storageClassName asClass
+					self node root storageClassName asClass
 						>> self node storageMethodName asSymbol)
 ]
 

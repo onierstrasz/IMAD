@@ -456,13 +456,14 @@ Hypernode >> storageMethodName: aString [
 Hypernode >> storeOn: aStream [
 	"We store the HypernodeGraph as a code snippet that asks a HypernodeBuilder to recreate the graph. Each Hypernode is assigned an id, which is used by the builder to uniquely identify the nodes. Note that we start the search for all nodes not from this node, but from the root of the graph. Most graphs have a single root, but some may have multiple subroots."
 
-	| allNodes nodeIdMap rootId |
+	| allNodes nodeIdMap rootId myId |
 	allNodes := self root allNodes.
 
 	"Note the id of each node."
 	nodeIdMap := IdentityDictionary new.
 	allNodes doWithIndex: [ :each :id | nodeIdMap at: each put: id ].
 	rootId := nodeIdMap at: self root.
+	myId := nodeIdMap at: self .
 
 	"Use the builder to map each old id to the new node."
 	aStream
@@ -535,10 +536,10 @@ Hypernode >> storeOn: aStream [
 				nextPutAll: ';';
 				cr ].
 
-	"Return the root node"
+	"Return myself"
 	aStream
 		nextPutAll: '  nodeForId: ';
-		nextPutAll: rootId asString;
+		nextPutAll: myId asString;
 		nextPutAll: '.';
 		cr
 ]
