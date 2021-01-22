@@ -209,7 +209,8 @@ HypernodeTestExamples >> threeLevelGraphAllNodesGenerateSameGraph [
 	| root |
 	root := self threeLevelGraph.
 	root allNodes do: [ :node | self assert: root == node root ].
-	root allNodes do: [ :node | self assert: root = node generatedValue ].
+	root allNodes do: [ :node | self assert: node = node generatedValue ].
+	root allNodes do: [ :node | self assert: root = node root generatedValue ].
 	^ root
 ]
 

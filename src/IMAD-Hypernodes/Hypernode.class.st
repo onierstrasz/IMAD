@@ -444,12 +444,12 @@ Hypernode >> storageMethodDefined [
 
 { #category : #storing }
 Hypernode >> storageMethodName [
-	^ self root get: #storageMethodName
+	^ self get: #storageMethodName
 ]
 
 { #category : #storing }
 Hypernode >> storageMethodName: aString [
-	self root set: #storageMethodName to: aString
+	self set: #storageMethodName to: aString
 ]
 
 { #category : #storing }
