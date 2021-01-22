@@ -167,7 +167,7 @@ HypernodeEditor >> debugOnActions [
 
 { #category : #accessing }
 HypernodeEditor >> defaultStoragePackage [
-	^ 'IMAD-Hypernode'
+	^ 'IMAD-Hypernodes'
 ]
 
 { #category : #accessing }
