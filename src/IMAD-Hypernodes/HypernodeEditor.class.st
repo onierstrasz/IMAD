@@ -367,7 +367,7 @@ HypernodeEditor >> spawnStoredMethodView [
 			(GtMethodCoderTool
 				compiledMethod:
 					self node root storageClassName asClass
-						>> self node storageMethodName asSymbol)
+						>> self node root storageMethodName asSymbol)
 ]
 
 { #category : #accessing }
