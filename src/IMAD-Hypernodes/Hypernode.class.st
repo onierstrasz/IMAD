@@ -68,7 +68,12 @@ Hypernode >> addContextForNode: aNode [
 
 { #category : #updating }
 Hypernode >> addLink: aLink [
+	"For now avoid the complication of multiple links between the same nodes."
+
 	self assert: (aLink isKindOf: Hyperlink).
+	(self hasLink: aLink)
+		ifTrue: [ self inform: 'There already is a link between these nodes.'.
+			^ self ].
 	aLink parent: self.
 	self links add: aLink.
 	self announcer announce: (CreateLink new link: aLink)
@@ -215,7 +220,9 @@ Hypernode >> hasContext: aHypernodeContext [
 Hypernode >> hasLink: aLink [
 	self assert: (aLink isKindOf: Hyperlink).
 	"^ (self links select: [ :l | l = aLink ]) size = 1"
-	^ self links includes: aLink
+	"^ self links identityIncludes: aLink"
+	^ self links
+		anySatisfy: [ :l | l source == aLink source and: [ l target == aLink target ] ]
 ]
 
 { #category : #querying }

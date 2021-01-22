@@ -142,6 +142,21 @@ HypernodeTestExamples >> flatGraphTwoNodes [
 ]
 
 { #category : #accessing }
+HypernodeTestExamples >> flatGraphTwoNodesLinkDeletedAndRestored [
+	<gtExample>
+	| root a b |
+	root := self flatGraphTwoNodes.
+	a := root nodeNamed: 'a'.
+	b := root nodeNamed: 'b'.
+	self assert: (root hasLink: a -> b).
+	root deleteLink: a -> b.
+	self assert: (root hasLink: a -> b) not.
+	root addLink: a -> b.
+	self assert: (root hasLink: a -> b).
+	^ root
+]
+
+{ #category : #accessing }
 HypernodeTestExamples >> flatGraphWithNodeProperties [
 	<gtExample>
 	| root a b |
