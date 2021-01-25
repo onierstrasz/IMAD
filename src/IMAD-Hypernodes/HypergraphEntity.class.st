@@ -34,7 +34,7 @@ HypergraphEntity >> assertValidStorageMethod [
 	| methodName className |
 	methodName := self storageMethodName.
 	self
-		assert: methodName notNil
+		assert: methodName isNotNil
 		description: 'storage method name must be defined'.
 	self
 		assert: methodName isString
@@ -51,7 +51,7 @@ HypergraphEntity >> assertValidStorageMethod [
 		description: 'storage method name must start with lower case character'.
 	className := self storageClassName.
 	self
-		assert: className notNil
+		assert: className isNotNil
 		description: 'storage class name must be defined'.
 	self
 		assert: className isString

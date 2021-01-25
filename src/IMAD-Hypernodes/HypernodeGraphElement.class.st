@@ -109,13 +109,8 @@ HypernodeGraphElement >> initializeFor: aHypernode [
 
 	<todo: 'also pass style as a parameter?'>
 	node := aHypernode.
-	self contexts
-		ifNotEmpty: [ self contexts do: [ :context | self addNewContext: context ] ].
-	self links
-		do: [ :link | 
-			self addLink: link
-
-			"self addChild: (HyperlinkView forLink: edge inGraph: self) " ].
+	self contexts do: [ :context | self addNewContext: context ].
+	self links do: [ :link | self addLink: link ].
 	self subscribe.
 	^ self
 ]

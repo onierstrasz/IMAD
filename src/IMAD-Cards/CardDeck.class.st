@@ -128,7 +128,7 @@ CardDeck >> assertValidStorageMethod [
 	| methodName className |
 	methodName := self storageMethodName.
 	self
-		assert: methodName notNil
+		assert: methodName isNotNil
 		description: 'storage method name must be defined'.
 	self
 		assert: methodName isString
@@ -142,7 +142,7 @@ CardDeck >> assertValidStorageMethod [
 		description: 'storage method name must be alphanumeric'.
 	className := self storageClassName.
 	self
-		assert: className notNil
+		assert: className isNotNil
 		description: 'storage class name must be defined'.
 	self
 		assert: className isString

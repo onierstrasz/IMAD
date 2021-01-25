@@ -152,31 +152,23 @@ HypernodeEditor >> createClassNamed: aClass subclassOf: aSuperclass inPackage: a
 { #category : #accessing }
 HypernodeEditor >> debugOffActions [
 	self border: (BlBorder paint: Color transparent width: 0).
-	buttonBar isNotNil
-		ifTrue: [ buttonBar border: (BlBorder paint: Color transparent) ].
-	graphHolder isNotNil
-		ifTrue: [ graphHolder border: (BlBorder paint: Color transparent) ].
-	graphContainer isNotNil
-		ifTrue: [ graphContainer border: (BlBorder paint: Color transparent) ].
-	self graph isNotNil
-		ifTrue: [ self graph
-				background: Color transparent;
-				effect: BlNullEffect new ]
+	buttonBar border: (BlBorder paint: Color transparent).
+	graphHolder border: (BlBorder paint: Color transparent).
+	graphContainer border: (BlBorder paint: Color transparent).
+	self graph
+		background: Color transparent;
+		effect: BlNullEffect new
 ]
 
 { #category : #accessing }
 HypernodeEditor >> debugOnActions [
 	self border: (BlBorder paint: Color blue width: 1).
-	buttonBar isNotNil
-		ifTrue: [ buttonBar border: (BlBorder paint: Color orange) ].
-	graphHolder isNotNil
-		ifTrue: [ graphHolder border: (BlBorder paint: Color lightGray) ].
-	graphContainer isNotNil
-		ifTrue: [ graphContainer border: (BlBorder paint: Color orange) ].
-	self graph isNotNil
-		ifTrue: [ self graph
-				background: Color white;
-				effect: BrGlamorousShadowEffect new ]
+	buttonBar border: (BlBorder paint: Color orange).
+	graphHolder border: (BlBorder paint: Color lightGray).
+	graphContainer border: (BlBorder paint: Color orange).
+	self graph
+		background: Color white;
+		effect: BrGlamorousShadowEffect new
 ]
 
 { #category : #accessing }
@@ -205,8 +197,8 @@ HypernodeEditor >> graph [
 
 { #category : #accessing }
 HypernodeEditor >> graph: aHypernodeGraphElement [
-	graph notNil
-		ifTrue: [ graph unsubscribe ].
+	self assert: graph isNotNil.
+	graph unsubscribe.
 	graph := aHypernodeGraphElement.
 	graphHolder contentElement: graph
 ]
@@ -386,17 +378,7 @@ HypernodeEditor >> spawnStoredMethodView [
 
 { #category : #accessing }
 HypernodeEditor >> updateGraph [
-	"Use this to build or rebuild the graph"
+	"Use this to build or rebuild the graph, not for incremental updates."
 
-	<todo:
-		'Do we need to set the zoomLevel to the same as the old graph?
-	Should we reall build a new graph, or just update the existing one?
-	Revisit this when we install all the announcements.'>
 	self graph: (HypernodeGraphElement for: self node)
-
-
-	"newGraph := self buildGraph.
-	oldGraph ifNotNil: [ newGraph zoomLevel: oldGraph zoomLevel ].
-	graphHolder removeChildren.
-	graphHolder addChild: newGraph"
 ]

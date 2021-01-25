@@ -128,7 +128,7 @@ Card >> deck: aCardDeck [
 
 { #category : #tags }
 Card >> deckAnnounce: anAnnouncement [
-	self deck notNil
+	self deck isNotNil
 		ifTrue: [ self deck announcer announce: anAnnouncement ]
 ]
 

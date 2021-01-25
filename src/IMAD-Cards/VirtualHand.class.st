@@ -166,15 +166,15 @@ VirtualHand >> unsubscribe [
 
 { #category : #accessing }
 VirtualHand >> updateCards [
-	self assert: deck notNil description: 'deck should not be nil'.
-	self assert: filter notNil description: 'filter should not be nil'.
+	self assert: deck isNotNil description: 'deck should not be nil'.
+	self assert: filter isNotNil description: 'filter should not be nil'.
 	self cards: (self deck cards select: [ :card | self filter matches: card ])
 ]
 
 { #category : #accessing }
 VirtualHand >> updateRelations [
-	self assert: deck notNil description: 'deck should not be nil'.
-	self assert: filter notNil description: 'filter should not be nil'.
+	self assert: deck isNotNil description: 'deck should not be nil'.
+	self assert: filter isNotNil description: 'filter should not be nil'.
 	self
 		relations:
 			(deck relations
