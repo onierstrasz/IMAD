@@ -95,6 +95,14 @@ HypernodeEditor >> buildButtonBar [
 				label: 'Refresh';
 				action: [ self updateGraph ]).
 	buttonBar addChild: self saveButton.
+	buttonBar
+		addChild:
+			(BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousIcons help;
+				label: 'Refresh';
+				action:
+						[ self phlow spawnTool: (GtDocumenterTool forClass: HypernodeDocumentation) ]).
 	^ buttonBar
 ]
 
