@@ -73,10 +73,11 @@ HypernodeExampleRepo >> flatGraphWithNodeProperties [
 		nodeForId: 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 HypernodeExampleRepo >> temp [
 	<storedHypernode>
 	<gtExample>
+	
 	^ HypernodeBuilder new
 		addNode: Hypernode new yourself for: 1;
 		addNode: Hypernode new yourself for: 2;
