@@ -20,7 +20,7 @@ Class {
 		'configuration',
 		'basicLook'
 	],
-	#category : #'IMAD-Cards-View'
+	#category : #'IMAD-Hypernodes'
 }
 
 { #category : #accessing }

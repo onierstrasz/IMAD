@@ -476,12 +476,6 @@ UsefulExamples >> elementHandlingClickEvents [
 ]
 
 { #category : #accessing }
-UsefulExamples >> elementWithChangingLook [
-	<gtExample>
-	^ ConfigurableLookExamples new elementWithChangingLook
-]
-
-{ #category : #accessing }
 UsefulExamples >> examplesExplorerForPackage [
 	<gtExample>
 	| baseline repo |

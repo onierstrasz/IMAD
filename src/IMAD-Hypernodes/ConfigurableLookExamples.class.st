@@ -1,7 +1,7 @@
 Class {
 	#name : #ConfigurableLookExamples,
 	#superclass : #Object,
-	#category : #'IMAD-Cards-View'
+	#category : #'IMAD-Hypernodes'
 }
 
 { #category : #accessing }
