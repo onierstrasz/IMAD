@@ -12,14 +12,6 @@ Class {
 }
 
 { #category : #accessing }
-HypernodeElement class >> for: aNode [
-	self deprecated: 'Use forContext:'.
-	^ self new
-		node: aNode;
-		yourself
-]
-
-{ #category : #accessing }
 HypernodeElement class >> forContext: aNodeContext [
 	^ self new
 		context: aNodeContext;
@@ -125,33 +117,23 @@ HypernodeElement >> node: aNode [
 ]
 
 { #category : #accessing }
-HypernodeElement >> nodeEditor [
-"for right-click"
-	"| element |
-	element := (self card gtDescriptionFor: GtPhlowEmptyView new)
-		asElementDo: #yourself.
-	(element childNamed: #doc)
-		fitContent;
-		hExact: 300.
-	element
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ].
-	^ element asScrollableElement"
-]
-
-{ #category : #accessing }
 HypernodeElement >> subscribe [
-	<todo: 'subscribe to my node''s update announcements'>
+	<todo: 'subscribe to my node''s update announcements.
+	for example, change my border when I start to contain subnodes;
+	change my text label when my name changes ...'>
+	
 	"self node announcer when: XYZ do: [] for: self"
 	
 ]
 
 { #category : #accessing }
 HypernodeElement >> updateNode [
-<todo: 'To be wired into announcements!'>
+
+	<todo: 'To be wired into announcements!'>
+	
 	"card name = card defaultName
 		ifTrue: [ self beEditable ]
 		ifFalse: [ self beText ].
 	self graph model: card"
+	
 ]
