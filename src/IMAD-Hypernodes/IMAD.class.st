@@ -9,6 +9,13 @@ IMAD gtExamples
 IMAD todos
 ]]]
 
+[[[
+IMAD deprecated
+]]]
+
+[[[
+IMAD assertAllStoredHypernodesEqualSelf
+]]]
 
 "
 Class {
@@ -25,6 +32,16 @@ IMAD class >> assertAllStoredCardDecksEqualSelf [
 		do: [ :cm | 
 			(cm valueWithReceiver: cm methodClass arguments: {})
 				assertGeneratedDeckEqualsSelf ]
+]
+
+{ #category : #accessing }
+IMAD class >> assertAllStoredHypernodesEqualSelf [
+	"IMAD assertAllStoredHypernodesEqualSelf"
+
+	self new storedHypernodes result
+		do: [ :cm | 
+			(cm valueWithReceiver: cm methodClass arguments: {})
+				assertGeneratedValueEqualsSelf ]
 ]
 
 { #category : #accessing }
@@ -47,8 +64,22 @@ IMAD class >> migrateAllStoredCardDecks [
 ]
 
 { #category : #accessing }
+IMAD class >> migrateAllStoredHypernodes [
+	"Find and store again all stored hypernodes. Useful if the storage API changed. Keep the old API active until after migration, then deprecate it. Note that saveState checks that the stored state equals the actual state."
+
+	^ self storedHypernodes result
+		collect:
+			[ :cm | (cm valueWithReceiver: cm methodClass arguments: {}) saveState ]
+]
+
+{ #category : #accessing }
 IMAD class >> storedCardDecks [
 	^ self new storedCardDecks
+]
+
+{ #category : #accessing }
+IMAD class >> storedHypernodes [
+	^ self new storedHypernodes
 ]
 
 { #category : #converting }
@@ -59,20 +90,15 @@ IMAD class >> todos [
 { #category : #accessing }
 IMAD >> allExamples [
 	<gtExample>
-	^ ('IMAD' gtPackageMatches & #gtExample gtReferences
+	^ ('IMAD-Hypernodes' gtPackageMatches & #gtExample gtReferences
 		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
-]
-
-{ #category : #accessing }
-IMAD >> cardTodos [
-	<gtExample>
-	^ #todo: gtPragmas & 'IMAD-Card' gtPackageMatches
 ]
 
 { #category : #accessing }
 IMAD >> deprecated [
 	<gtExample>
-	^ 'IMAD' gtPackageMatches & #deprecated: gtReferences
+	^ 'IMAD-Hypernodes' gtPackageMatches & #deprecated: gtReferences
+		& (GtSearchMethodsInClassFilter forClass: IMAD) not
 ]
 
 { #category : #accessing }
@@ -110,7 +136,7 @@ updateReport value.
 { #category : #accessing }
 IMAD >> gtExamples [
 	<gtExample>
-	^ ('IMAD' gtPackageMatches & #gtExample gtReferences
+	^ ('IMAD-Hypernodes' gtPackageMatches & #gtExample gtReferences
 		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
 ]
 
@@ -163,6 +189,12 @@ IMAD >> loadForkedAMT [
 IMAD >> storedCardDecks [
 	<gtExample>
 	^ #storedCardDeck gtPragmas
+]
+
+{ #category : #accessing }
+IMAD >> storedHypernodes [
+	<gtExample>
+	^ #storedHypernode gtPragmas
 ]
 
 { #category : #accessing }
