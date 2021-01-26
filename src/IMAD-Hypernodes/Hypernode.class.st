@@ -211,6 +211,20 @@ Hypernode >> gtLiveFor: aView [
 		stencil: [ self asElement ]
 ]
 
+{ #category : #accessing }
+Hypernode >> gtStoreStringFor: aView [
+	<gtView>
+	<todo: 'update when any changes occur; add a refresh button?'>
+	^ aView explicit
+		title: 'Serialized';
+		priority: 90;
+		stencil: [ (GtPharoSnippetCoder new forSource: self storeString) asElement
+				matchParent ]
+	
+	"updateWhen: PropertiesUpdated in: [ self announcer ];
+		updateWhen: TagsUpdated in: [ self announcer ]"
+]
+
 { #category : #querying }
 Hypernode >> hasContext: aHypernodeContext [
 	^ self contexts identityIncludes: aHypernodeContext

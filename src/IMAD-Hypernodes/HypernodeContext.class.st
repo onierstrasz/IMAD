@@ -87,9 +87,7 @@ HypernodeContext >> parent [
 
 { #category : #accessing }
 HypernodeContext >> position [
-	| position |
-	position := self get: #position.
-	^ position ifNil: [ self randomPosition ] ifNotNil: [ position ]
+	^ self get: #position ifAbsentPut: [ self randomPosition ]
 ]
 
 { #category : #accessing }
