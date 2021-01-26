@@ -146,9 +146,8 @@ HypernodeGraphElement >> nodes [
 
 { #category : #accessing }
 HypernodeGraphElement >> repositionNode: aHypernodeContext [
-	aHypernodeContext position isNotNil
-		ifTrue: [ (self elementFor: aHypernodeContext node)
-				relocate: aHypernodeContext position ]
+	(self elementFor: aHypernodeContext node)
+		relocate: aHypernodeContext position
 ]
 
 { #category : #accessing }
