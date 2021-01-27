@@ -203,15 +203,15 @@ Hypernode >> generateStorageMethodString [
 ]
 
 { #category : #'gt-extension' }
-Hypernode >> gtLiveFor: aView [
+Hypernode >> gtGraphFor: aView [
 	<gtView>
 	^ aView explicit
-		title: 'Live';
+		title: 'Graph';
 		priority: 5;
 		stencil: [ self asElement ]
 ]
 
-{ #category : #accessing }
+{ #category : #'gt-extension' }
 Hypernode >> gtStoreStringFor: aView [
 	<gtView>
 	<todo: 'update when any changes occur; add a refresh button?'>
