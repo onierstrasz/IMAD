@@ -10,17 +10,17 @@ Class {
 { #category : #accessing }
 HypernodeTestExamples >> addPropertyAbcToNode [
 	<gtExample>
-	| node key value |
-	node := self emptyNode.
-	self assert: node properties size equals: 0.
+	| root key value |
+	root := self emptyNode.
+	self assert: root properties size equals: 0.
 	key := 'abc'.
 	value := 'xyz'.
-	self assert: (node properties includesKey: key) not.
-	node set: key to: value.
-	self assert: node properties size equals: 1.
-	self assert: (node properties includesKey: key).
-	self assert: (node get: key) equals: value.
-	^ node
+	self assert: (root properties includesKey: key) not.
+	root set: key to: value.
+	self assert: root properties size equals: 1.
+	self assert: (root properties includesKey: key).
+	self assert: (root get: key) equals: value.
+	^ root
 ]
 
 { #category : #accessing }
@@ -44,6 +44,7 @@ HypernodeTestExamples >> emptyRootWithComplexPropertiesEqualsSelf [
 	root := self emptyNode.
 	root set: #tags to: {'foo' . 'bar'} asOrderedCollection.
 	root set: #nested to: self nestedProperties asDictionary.
+	self assert: root invariant.
 	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
