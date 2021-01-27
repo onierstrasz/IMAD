@@ -8,17 +8,6 @@ Class {
 }
 
 { #category : #accessing }
-HypernodeTestExamples >> addComplexPropertiesToNode [
-	<gtExample>
-	<todo: 'test generated node equals self'>
-	| node |
-	node := self emptyNode.
-	node set: #tags to: {'foo' . 'bar'} asOrderedCollection.
-	node set: #nested to: self nestedProperties asDictionary.
-	^ node
-]
-
-{ #category : #accessing }
 HypernodeTestExamples >> addPropertyAbcToNode [
 	<gtExample>
 	| node key value |
@@ -44,6 +33,17 @@ HypernodeTestExamples >> emptyNode [
 	self assert: root isLeaf.
 	self assert: root reachableNodes size equals: 1.
 	"self assert: root isTree."
+	root assertGeneratedValueEqualsSelf.
+	^ root
+]
+
+{ #category : #accessing }
+HypernodeTestExamples >> emptyRootWithComplexPropertiesEqualsSelf [
+	<gtExample>
+	| root |
+	root := self emptyNode.
+	root set: #tags to: {'foo' . 'bar'} asOrderedCollection.
+	root set: #nested to: self nestedProperties asDictionary.
 	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
