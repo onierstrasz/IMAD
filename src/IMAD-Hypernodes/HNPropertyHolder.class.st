@@ -27,9 +27,7 @@ HNPropertyHolder >> = anObject [
 
 { #category : #invariant }
 HNPropertyHolder >> assertInvariant [
-	self
-		assert: properties isNotNil
-		description: 'properties must be defined'
+	self assert: self invariant
 ]
 
 { #category : #accessing }
@@ -98,7 +96,8 @@ HNPropertyHolder >> properties: aDictionary [
 
 { #category : #properties }
 HNPropertyHolder >> set: propertyKey to: aValue [
-	self properties at: propertyKey put: aValue
+	self properties at: propertyKey put: aValue.
+	^ aValue
 	"self announcer announce: PropertiesUpdated new"
 ]
 
