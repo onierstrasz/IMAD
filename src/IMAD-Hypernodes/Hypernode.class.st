@@ -214,15 +214,21 @@ Hypernode >> gtGraphFor: aView [
 { #category : #'gt-extension' }
 Hypernode >> gtStoreStringFor: aView [
 	<gtView>
-	<todo: 'update when any changes occur; add a refresh button?'>
+	<todo:
+		'update when any changes occur
+		"updateWhen: PropertiesUpdated in: [ self announcer ];"
+	'>
 	^ aView explicit
 		title: 'Serialized';
 		priority: 90;
 		stencil: [ (GtPharoSnippetCoder new forSource: self storeString) asElement
-				matchParent ]
-	
-	"updateWhen: PropertiesUpdated in: [ self announcer ];
-		updateWhen: TagsUpdated in: [ self announcer ]"
+				matchParent ];
+		actionStencil: [ :aTab | 
+			BrButton new
+				look: BrGlamorousButtonWithIconLook;
+				icon: BrGlamorousVectorIcons refresh asElement;
+				label: 'Refresh';
+				action: [ aTab viewContentElement phlow update ] ]
 ]
 
 { #category : #querying }
