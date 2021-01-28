@@ -1,7 +1,7 @@
 "
-I am an object that holds a ${class:name=Dictionary}$ of properties.
+I am an object that holds a ${class:name=KeyedTree}$ of properties.
 Each property consists of a key and a value. The key should normally be a ${class:name=Symbol}$.
-The value may be a primitive value, such as a ${class:name=ByteString}$, or  a ${class:name=Number}$ , or it may be an ${class:name=OrderedCollection}$ or ${class:name=Dictionary}$ of values.
+The value may be a primitive value, such as a ${class:name=ByteString}$, or  a ${class:name=Number}$ , or it may be an ${class:name=OrderedCollection}$ or ${class:name=KeyedTree}$ of values.
 
 
 "
@@ -32,19 +32,27 @@ HNPropertyHolder >> assertInvariant [
 
 { #category : #invariant }
 HNPropertyHolder >> assertValidKeysAndValuesFor: aKeyedTree [
-	<todo: 'recurse into collections and dictionaries'>
 	self assert: (aKeyedTree isKindOf: KeyedTree).
 	aKeyedTree keys do: [ :key | self assert: key isSymbol ].
-	aKeyedTree values
-		do: [ :val | 
-			self
-				assert:
-					((val isKindOf: ByteString)
-						or: [ (val isKindOf: Number)
-								or: [ (val isKindOf: KeyedTree) or: [ val isKindOf: OrderedCollection ] ] ])
-				description:
-					'expected value of type ByteString, Number, OrderedCollection or KeyedTree, got a '
-						, val class name ]
+	aKeyedTree values do: [ :val | self assertValidValuesFor: val ]
+]
+
+{ #category : #accessing }
+HNPropertyHolder >> assertValidValuesFor: aKeyedTreeValue [
+	self
+		assert:
+			((aKeyedTreeValue isKindOf: ByteString)
+				or: [ (aKeyedTreeValue isKindOf: Number)
+						or: [ (aKeyedTreeValue isKindOf: KeyedTree)
+								or: [ aKeyedTreeValue isKindOf: OrderedCollection ] ] ])
+		description:
+			'expected value of type ByteString, Number, OrderedCollection or KeyedTree, got a '
+				, aKeyedTreeValue class name.
+	(aKeyedTreeValue isKindOf: KeyedTree)
+		ifTrue: [ self assertValidKeysAndValuesFor: aKeyedTreeValue ].
+	(aKeyedTreeValue isKindOf: OrderedCollection)
+		ifTrue:
+			[ aKeyedTreeValue do: [ :each | self assertValidValuesFor: each ] ]
 ]
 
 { #category : #properties }

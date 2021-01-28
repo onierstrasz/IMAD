@@ -333,13 +333,6 @@ UsefulExamples >> cardTagger [
 ]
 
 { #category : #accessing }
-UsefulExamples >> coderHeaderElementForClass [
-	<gtExample>
-	"Example of new UI prototype for classes"
-	^ GtClassCoderHeaderElementExamples new coderHeaderElementForClass
-]
-
-{ #category : #accessing }
 UsefulExamples >> createPlayGroundWithSnippets [
 	<gtExample>
 	| snippets playbook |
@@ -348,7 +341,7 @@ UsefulExamples >> createPlayGroundWithSnippets [
 	snippets allButFirst
 		do:
 			[ :el | playbook pages first addSnippet: (GtCoderSnippet new sourceCode: el) ].
-	GtPlayground openOn: playbook.
+	"GtPlayground openOn: playbook."
 	^ playbook
 ]
 
@@ -838,7 +831,7 @@ UsefulExamples >> scrollableMethodCoder [
 	^ ((GtMethodCoder
 		forClass: CardDeckExamples
 		source: CardDeckExamples new facultyDoodleDomain generateStorageMethodString)
-		expanded: true;
+		"expanded: true;"
 		asElement) asScrollableElement
 ]
 

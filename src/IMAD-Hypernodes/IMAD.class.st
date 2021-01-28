@@ -90,6 +90,13 @@ IMAD class >> todos [
 { #category : #accessing }
 IMAD >> allExamples [
 	<gtExample>
+	^ ('IMAD' gtPackageMatches & #gtExample gtReferences
+		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
+]
+
+{ #category : #accessing }
+IMAD >> allHypernodeExamples [
+	<gtExample>
 	^ ('IMAD-Hypernodes' gtPackageMatches & #gtExample gtReferences
 		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
 ]
@@ -131,13 +138,6 @@ updateReport value.
 
 ^ report
 
-]
-
-{ #category : #accessing }
-IMAD >> gtExamples [
-	<gtExample>
-	^ ('IMAD-Hypernodes' gtPackageMatches & #gtExample gtReferences
-		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
 ]
 
 { #category : #accessing }
