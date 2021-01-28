@@ -15,6 +15,18 @@ HNPropertyHolderTestExamples >> emptyProperties [
 ]
 
 { #category : #accessing }
+HNPropertyHolderTestExamples >> nestedProperties [
+	<gtExample>
+	^ {(#a -> 1).
+	(#b -> 2).
+	(#c
+		->
+			({(#x -> 'hello').
+			(#y -> {'hi' . 'there'} asOrderedCollection)} as: KeyedTree))}
+		as: KeyedTree
+]
+
+{ #category : #accessing }
 HNPropertyHolderTestExamples >> setName [
 	<gtExample>
 	| holder |

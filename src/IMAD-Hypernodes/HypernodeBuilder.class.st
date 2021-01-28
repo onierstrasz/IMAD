@@ -60,7 +60,7 @@ HypernodeBuilder >> addSubNodes: nodeIds for: id [
 { #category : #accessing }
 HypernodeBuilder >> initialize [
 	super initialize.
-	idMap := Dictionary new
+	idMap := KeyedTree new
 ]
 
 { #category : #accessing }

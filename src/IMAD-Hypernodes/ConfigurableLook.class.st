@@ -72,13 +72,13 @@ ConfigurableLook >> configuration: aDictionary [
 { #category : #private }
 ConfigurableLook >> defaultConfiguration [
 	<todo: 'Add any default bindings here (eg border black'>
-	^ {} asDictionary
+	^ {} as: KeyedTree
 ]
 
 { #category : #private }
 ConfigurableLook >> initialize [
 	super initialize.
-	configuration := Dictionary new.
+	configuration := KeyedTree new.
 
 ]
 
@@ -96,7 +96,7 @@ ConfigurableLook >> lookChangeBlockFor: key [
 	(#background -> [ :aColorSymbol | self setBackground: aColorSymbol ]).
 	(#shape -> [ :aShapeSymbol | self setShape: aShapeSymbol ]).
 	(#width -> [ :aNumber | self setWidth: aNumber ]).
-	(#text -> [ :aString | self setText: aString ])} asDictionary.
+	(#text -> [ :aString | self setText: aString ])} as: KeyedTree.
 	self
 		assert: (actions includesKey: key)
 		description: key asString , ' is not a valid configuration key'.

@@ -13,7 +13,7 @@ HypernodeTestExamples >> addPropertyAbcToNode [
 	| root key value |
 	root := self emptyNode.
 	self assert: root properties size equals: 0.
-	key := 'abc'.
+	key := #abc.
 	value := 'xyz'.
 	self assert: (root properties includesKey: key) not.
 	root set: key to: value.
@@ -43,8 +43,8 @@ HypernodeTestExamples >> emptyRootWithComplexPropertiesEqualsSelf [
 	| root |
 	root := self emptyNode.
 	root set: #tags to: {'foo' . 'bar'} asOrderedCollection.
-	root set: #nested to: self nestedProperties asDictionary.
-	self assert: root invariant.
+	root set: #nested to: self nestedProperties.
+	root assertInvariant.
 	root assertGeneratedValueEqualsSelf.
 	^ root
 ]
@@ -222,12 +222,14 @@ HypernodeTestExamples >> fourNodeTreeMiddleNodeDeleted [
 
 { #category : #accessing }
 HypernodeTestExamples >> nestedProperties [
+	<gtExample>
 	^ {(#a -> 1).
 	(#b -> 2).
 	(#c
 		->
-			{(#x -> 'hello').
-			(#y -> {'hi' . 'there'} asOrderedCollection)} asDictionary)}
+			({(#x -> 'hello').
+			(#y -> {'hi' . 'there'} asOrderedCollection)} as: KeyedTree))}
+		as: KeyedTree
 ]
 
 { #category : #accessing }

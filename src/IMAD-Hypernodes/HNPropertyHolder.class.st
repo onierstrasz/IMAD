@@ -27,25 +27,24 @@ HNPropertyHolder >> = anObject [
 
 { #category : #invariant }
 HNPropertyHolder >> assertInvariant [
-	self assert: self invariant
+	self assertValidKeysAndValuesFor: self properties
 ]
 
-{ #category : #accessing }
-HNPropertyHolder >> checkPropertyKeysAndValues: aDictionary [
+{ #category : #invariant }
+HNPropertyHolder >> assertValidKeysAndValuesFor: aKeyedTree [
 	<todo: 'recurse into collections and dictionaries'>
-	(aDictionary isKindOf: Dictionary)
-		ifFalse: [ ^ false ].
-	aDictionary keys
-		detect: [ :key | key isSymbol not ]
-		ifFound: [ ^ false ].
-	aDictionary values
-		detect: [ :val | 
-			(val isKindOf: ByteString) not
-				and: [ (val isKindOf: Number) not
-						and: [ (val isKindOf: Dictionary) not
-								and: [ (val isKindOf: OrderedCollection) not ] ] ] ]
-		ifFound: [ ^ false ].
-	^ true
+	self assert: (aKeyedTree isKindOf: KeyedTree).
+	aKeyedTree keys do: [ :key | self assert: key isSymbol ].
+	aKeyedTree values
+		do: [ :val | 
+			self
+				assert:
+					((val isKindOf: ByteString)
+						or: [ (val isKindOf: Number)
+								or: [ (val isKindOf: KeyedTree) or: [ val isKindOf: OrderedCollection ] ] ])
+				description:
+					'expected value of type ByteString, Number, OrderedCollection or KeyedTree, got a '
+						, val class name ]
 ]
 
 { #category : #properties }
@@ -74,12 +73,7 @@ HNPropertyHolder >> hash [
 { #category : #initialization }
 HNPropertyHolder >> initialize [
 	super initialize.
-	properties := Dictionary new
-]
-
-{ #category : #accessing }
-HNPropertyHolder >> invariant [
-	^ self checkPropertyKeysAndValues: self properties
+	properties := KeyedTree new
 ]
 
 { #category : #properties }
