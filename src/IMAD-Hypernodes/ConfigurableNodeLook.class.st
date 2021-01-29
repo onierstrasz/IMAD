@@ -8,10 +8,9 @@ My configuration can be exported and imported as a KeyedTree.
 
 See also: ${class:name=ConfigurableNodeLookExamples}$
 
-!Extensions
-For every configuration key xyz there is a public method #xyz:, a private setter #setXyz:, and an action defined in the dictionary in the method #lookChangeBlockFor:
+For every configuration key ==#xyz== there is a public method ==#xyz:==, a private setter ==#setXyz:==, and an action defined in the dictionary in the method ${method:name=ConfigurableNodeLook>>#lookChangeBlockFor:}$.
 
-Any default bindings can be defined in ${method:name=ConfigurableNodeLook>>#defaultConfiguration}$. They may be overriden in ${method:name=ConfigurableNodeLook>>#configuration:}$
+Any default bindings can be defined in ${method:name=ConfigurableNodeLook>>#defaultConfiguration}$. They may be overridden in ${method:name=ConfigurableNodeLook>>#configuration:}$
 "
 Class {
 	#name : #ConfigurableNodeLook,
@@ -90,17 +89,21 @@ ConfigurableNodeLook >> interpretConfiguration [
 
 { #category : #private }
 ConfigurableNodeLook >> lookChangeBlockFor: key [
-	| actions |
-	actions := {(#border
-		-> [ :aColorSymbol | self setBorder: aColorSymbol ]).
-	(#background -> [ :aColorSymbol | self setBackground: aColorSymbol ]).
-	(#shape -> [ :aShapeSymbol | self setShape: aShapeSymbol ]).
-	(#width -> [ :aNumber | self setWidth: aNumber ]).
-	(#text -> [ :aString | self setText: aString ])} as: KeyedTree.
+	"For each key in actions, there should be a #key: method to update the configuration, and a #setKey: method to update the look."
+
+	| actions method |
+	actions := #(#border #background #shape #width #text ).
 	self
-		assert: (actions includesKey: key)
+		assert: (actions includes: key)
 		description: key asString , ' is not a valid configuration key'.
-	^ actions at: key
+	self
+		assert: (self respondsTo: (key , ':') asSymbol)
+		description: key asString , ' is missing a ' , key , ': method'.
+	method := ('set' , key capitalized , ':') asSymbol.
+	self
+		assert: (self respondsTo: method)
+		description: key asString , ' is missing a ' , method , ' method'.
+	^ [ :arg | self perform: method with: arg ]
 ]
 
 { #category : #public }
