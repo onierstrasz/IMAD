@@ -4,13 +4,23 @@ I provide a high-level API to define the look of an element.
 I am mainly intended to configure the appearance of nodes (and edges) in a graph.
 
 I can set the text label, foreground and background color, shape, and border.
-My configuration can be exported and imported as a KeyedTree.
+My configuration can be exported and imported as a Dictionary.
+For every configuration key ==#xyz== there is a public method ==#xyz:==, a private setter ==#setXyz:==, and an action defined in the dictionary in the method ${method:name=ConfigurableNodeLook>>#lookChangeBlockFor:}$.
+
+Any default bindings can be defined in ${method:name=ConfigurableNodeLook>>#defaultConfiguration}$. They may be overridden in ${method:name=ConfigurableNodeLook>>#configuration:}$.
+
+The following features can be configured:
+
+==background== : a Color Symbol (#black, #white, see ${method:name=ConfigurableNodeLook>>#colorFor:}$)
+==border== : a Color Symbol
+==shape== : a shape Symbol (#circle, #ellipse, ... see ${method:name=ConfigurableNodeLook>>#shapeFor:}$)
+==text== : a String
+==width== : a Number
+
+__TO BE EXTENDED__
 
 See also: ${class:name=ConfigurableNodeLookExamples}$
 
-For every configuration key ==#xyz== there is a public method ==#xyz:==, a private setter ==#setXyz:==, and an action defined in the dictionary in the method ${method:name=ConfigurableNodeLook>>#lookChangeBlockFor:}$.
-
-Any default bindings can be defined in ${method:name=ConfigurableNodeLook>>#defaultConfiguration}$. They may be overridden in ${method:name=ConfigurableNodeLook>>#configuration:}$
 "
 Class {
 	#name : #ConfigurableNodeLook,
@@ -21,6 +31,13 @@ Class {
 	],
 	#category : #'IMAD-Hypernodes'
 }
+
+{ #category : #private }
+ConfigurableNodeLook >> actions [
+	"For each key in actions, there should be a #key: method to update the configuration, and a #setKey: method to update the look. See lookChangeBlockFor:"
+
+	^ #(border background shape width text)
+]
 
 { #category : #accessing }
 ConfigurableNodeLook >> background: aColorSymbol [
@@ -88,21 +105,22 @@ ConfigurableNodeLook >> interpretConfiguration [
 ]
 
 { #category : #private }
-ConfigurableNodeLook >> lookChangeBlockFor: key [
-	"For each key in actions, there should be a #key: method to update the configuration, and a #setKey: method to update the look."
+ConfigurableNodeLook >> lookChangeBlockFor: actionKeySymbol [
+	"Return the block to perform for this action key."
 
-	| actions method |
-	actions := #(#border #background #shape #width #text ).
+	| method |
 	self
-		assert: (actions includes: key)
-		description: key asString , ' is not a valid configuration key'.
+		assert: (self actions includes: actionKeySymbol)
+		description: actionKeySymbol asString , ' is not a valid configuration key'.
 	self
-		assert: (self respondsTo: (key , ':') asSymbol)
-		description: key asString , ' is missing a ' , key , ': method'.
-	method := ('set' , key capitalized , ':') asSymbol.
+		assert: (self respondsTo: (actionKeySymbol , ':') asSymbol)
+		description:
+			actionKeySymbol asString , ' is missing a ' , actionKeySymbol
+				, ': method'.
+	method := ('set' , actionKeySymbol capitalized , ':') asSymbol.
 	self
 		assert: (self respondsTo: method)
-		description: key asString , ' is missing a ' , method , ' method'.
+		description: actionKeySymbol asString , ' is missing a ' , method , ' method'.
 	^ [ :arg | self perform: method with: arg ]
 ]
 
