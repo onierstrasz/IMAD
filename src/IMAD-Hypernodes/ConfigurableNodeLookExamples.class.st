@@ -116,7 +116,7 @@ ConfigurableNodeLookExamples >> roundedTextNode [
 		equals:
 			({(#shape -> #roundedRectangle).
 			(#text -> 'The quick brown fox').
-			(#border -> #brown)} as: KeyedTree).
+			(#border -> #brown)} asDictionary).
 	elt look: aLook.
 	^ elt
 ]

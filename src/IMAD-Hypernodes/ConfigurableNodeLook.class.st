@@ -26,8 +26,7 @@ Class {
 	#name : #ConfigurableNodeLook,
 	#superclass : #BrLook,
 	#instVars : [
-		'configuration',
-		'basicLook'
+		'configuration'
 	],
 	#category : #'IMAD-Hypernodes'
 }
@@ -36,7 +35,12 @@ Class {
 ConfigurableNodeLook >> actions [
 	"For each key in actions, there should be a #key: method to update the configuration, and a #setKey: method to update the look. See lookChangeBlockFor:"
 
-	^ #(border background shape width text)
+	^ #(border background shape cornerRadius width text)
+]
+
+{ #category : #accessing }
+ConfigurableNodeLook >> at: keySymbol put: aValue [
+	self configuration at: keySymbol put: aValue
 ]
 
 { #category : #accessing }
@@ -85,16 +89,22 @@ ConfigurableNodeLook >> configuration: aDictionary [
 	self reset
 ]
 
+{ #category : #accessing }
+ConfigurableNodeLook >> cornerRadius: aNumber [
+	self configAt: #cornerRadius put: aNumber.
+	self reset
+]
+
 { #category : #private }
 ConfigurableNodeLook >> defaultConfiguration [
 	<todo: 'Add any default bindings here (eg border black'>
-	^ {} as: KeyedTree
+	^ {} asDictionary
 ]
 
 { #category : #private }
 ConfigurableNodeLook >> initialize [
 	super initialize.
-	configuration := KeyedTree new.
+	configuration := Dictionary new. "Probably a Dictionary is enough ..."
 
 ]
 
