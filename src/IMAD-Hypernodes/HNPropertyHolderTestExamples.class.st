@@ -53,7 +53,26 @@ HNPropertyHolderTestExamples >> setNameWhenAbsent [
 ]
 
 { #category : #accessing }
-HNPropertyHolderTestExamples >> testPath [
+HNPropertyHolderTestExamples >> testGetPath [
+	<gtExample>
+	| holder  |
+	holder := HNPropertyHolder new.
+	holder properties: self nestedProperties.
+
+	self assert: (holder getPath: #(#a)) equals: 1.
+	self assert: (holder getPath: #(#a) ifAbsent: [ 0 ]) equals: 1.
+	self assert: (holder getPath: #(#a) ifAbsentPut: [ 0 ]) equals: 1.
+	self assert: (holder getPath: #(#c #x) ifAbsentPut: [ 0 ]) equals: 'hello'.
+	self assert: (holder getPath: #(#d) ifAbsentPut: [ #foo ]) equals: #foo.
+	self assert: (holder getPath: #(#e #f) ifAbsentPut: [ #bar ]) equals: #bar.
+
+	^ holder
+]
+
+{ #category : #accessing }
+HNPropertyHolderTestExamples >> testKeyedTreePath [
+	"Here we only test the core KeyedTree methods, not the HNPropertyHolder API."
+
 	<gtExample>
 	| kt |
 	kt := self nestedProperties.

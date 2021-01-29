@@ -73,6 +73,21 @@ HNPropertyHolder >> get: propertyKey ifAbsentPut: aBlock [
 	^ properties at: propertyKey ifAbsentPut: aBlock
 ]
 
+{ #category : #accessing }
+HNPropertyHolder >> getPath: aKeyPath [
+	^ properties atPath: aKeyPath
+]
+
+{ #category : #accessing }
+HNPropertyHolder >> getPath: aKeyPath ifAbsent: aBlock [
+	^ properties atPath: aKeyPath ifAbsent: aBlock
+]
+
+{ #category : #accessing }
+HNPropertyHolder >> getPath: aKeyPath ifAbsentPut: aBlock [
+	^ properties atPath: aKeyPath ifAbsentPut: aBlock
+]
+
 { #category : #comparing }
 HNPropertyHolder >> hash [
 	^ super hash bitXor: self properties hash
