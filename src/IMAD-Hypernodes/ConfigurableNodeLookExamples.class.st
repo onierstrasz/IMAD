@@ -1,11 +1,11 @@
 Class {
-	#name : #ConfigurableLookExamples,
+	#name : #ConfigurableNodeLookExamples,
 	#superclass : #Object,
 	#category : #'IMAD-Hypernodes'
 }
 
 { #category : #accessing }
-ConfigurableLookExamples >> basicElement [
+ConfigurableNodeLookExamples >> basicElement [
 	<gtExample>
 	<todo:
 		'Only needed if we have text or other children. Should this be part of the look?'>
@@ -17,63 +17,69 @@ ConfigurableLookExamples >> basicElement [
 ]
 
 { #category : #accessing }
-ConfigurableLookExamples >> circleNode [
+ConfigurableNodeLookExamples >> changingLookMenuFor: configLook [
+	^ BrGlamorousSimpleContextMenuContent new
+		items:
+			{('Green border and rounded rectangle'
+				-> [ configLook
+						border: #green;
+						shape: #roundedRectangle;
+						text: 'Green border and rounded rectangle' ]).
+			('Red border and straight rectangle'
+				-> [ configLook
+						border: #red;
+						shape: #rectangle;
+						text: 'Red border and straight rectangle' ]).
+			('Green background' -> [ configLook background: #lightGreen ]).
+			('White background' -> [ configLook background: #white ]).
+			('Circle' -> [ configLook shape: #circle ]).
+			('Square' -> [ configLook shape: #square ]).
+			('Be wider' -> [ configLook beWider ])};
+		yourself
+]
+
+{ #category : #accessing }
+ConfigurableNodeLookExamples >> circleNode [
 	<gtExample>
 	<todo: 'How to make this work with no text, or empty text?'>
 	| elt |
 	elt := self basicElement.
-	elt look: (ConfigurableLook new shape: #circle;
+	elt look: (ConfigurableNodeLook new shape: #circle;
 	text: '';
 	border: #red).
 	^ elt
 ]
 
 { #category : #accessing }
-ConfigurableLookExamples >> elementWithChangingLook [
+ConfigurableNodeLookExamples >> elementWithChangingLook [
 	"See BrLookChangeExamples>>#buttonLookPropertyChange"
 
 	<gtExample>
 	| elt menuLook configLook |
 	elt := BlElement new.
-	elt layout: BlFrameLayout new. "needed to enable alignCenter for embedded Text elements"
+	elt layout: BlFrameLayout new.	"needed to enable alignCenter for embedded Text elements"
 	elt
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
-	configLook := ConfigurableLook new
+	configLook := ConfigurableNodeLook new
 		text: 'Right-click to change my look'.
 	menuLook := BrGlamorousWithContextMenuLook
-		content: [ BrGlamorousSimpleContextMenuContent new
-				items:
-					{('Green border and rounded rectangle'
-						-> [ configLook
-								border: #green;
-								shape: #roundedRectangle;
-								text: 'Green border and rounded rectangle' ]).
-					('Red border and straight rectangle'
-						-> [ configLook
-								border: #red;
-								shape: #rectangle;
-								text: 'Red border and straight rectangle' ]).
-					('Green background' -> [ configLook background: #lightGreen ]).
-					('White background' -> [ configLook background: #white ]).
-					('Circle' -> [ configLook shape: #circle ]).
-					('Square' -> [ configLook shape: #square ]).
-					('Be wider' -> [ configLook beWider ])};
-				yourself ].
+		content:
+			[ self changingLookMenuFor: configLook ].
 	elt look: menuLook + configLook.
 	^ elt
 ]
 
 { #category : #accessing }
-ConfigurableLookExamples >> newRoundedTextNode [
+ConfigurableNodeLookExamples >> newRoundedTextNode [
 	"Copy configurations and directly interpret them."
 
 	<gtExample>
 	| elt aLook aRoundedTextLook |
 	aRoundedTextLook := self roundedTextNode look.
 	elt := self basicElement.
-	aLook := ConfigurableLook new
+	aLook := ConfigurableNodeLook new
 		configuration: aRoundedTextLook configuration.
 	elt look: aLook.
 	self
@@ -84,24 +90,24 @@ ConfigurableLookExamples >> newRoundedTextNode [
 ]
 
 { #category : #accessing }
-ConfigurableLookExamples >> plainTextBox [
+ConfigurableNodeLookExamples >> plainTextBox [
 	<gtExample>
 	| elt |
 	elt := self basicElement.
 	elt
 		look:
-			(ConfigurableLook new
+			(ConfigurableNodeLook new
 				text: 'woohoo';
 				border: #black).
 	^ elt
 ]
 
 { #category : #accessing }
-ConfigurableLookExamples >> roundedTextNode [
+ConfigurableNodeLookExamples >> roundedTextNode [
 	<gtExample>
 	| elt aLook |
 	elt := self basicElement.
-	aLook := ConfigurableLook new
+	aLook := ConfigurableNodeLook new
 		shape: #roundedRectangle;
 		text: 'The quick brown fox';
 		border: #brown.

@@ -4,17 +4,17 @@ I provide a high-level API to define the look of an element.
 I am mainly intended to configure the appearance of nodes (and edges) in a graph.
 
 I can set the text label, foreground and background color, shape, and border.
-My configuration can be exported and imported as a Dictionary.
+My configuration can be exported and imported as a KeyedTree.
 
-See also: ${class:name=ConfigurableLookExamples}$
+See also: ${class:name=ConfigurableNodeLookExamples}$
 
 !Extensions
 For every configuration key xyz there is a public method #xyz:, a private setter #setXyz:, and an action defined in the dictionary in the method #lookChangeBlockFor:
 
-Any default bindings can be defined in ${method:name=ConfigurableLook>>#defaultConfiguration}$. They may be overriden in ${method:name=ConfigurableLook>>#configuration:}$
+Any default bindings can be defined in ${method:name=ConfigurableNodeLook>>#defaultConfiguration}$. They may be overriden in ${method:name=ConfigurableNodeLook>>#configuration:}$
 "
 Class {
-	#name : #ConfigurableLook,
+	#name : #ConfigurableNodeLook,
 	#superclass : #BrLook,
 	#instVars : [
 		'configuration',
@@ -24,13 +24,13 @@ Class {
 }
 
 { #category : #accessing }
-ConfigurableLook >> background: aColorSymbol [
+ConfigurableNodeLook >> background: aColorSymbol [
 	self configAt: #background put: aColorSymbol.
 	self reset
 ]
 
 { #category : #accessing }
-ConfigurableLook >> beWider [
+ConfigurableNodeLook >> beWider [
 	"be 10% bigger in width"
 
 	self configAt: #width put: self widget width * 1.1.
@@ -38,13 +38,13 @@ ConfigurableLook >> beWider [
 ]
 
 { #category : #public }
-ConfigurableLook >> border: aColorSymbol [
+ConfigurableNodeLook >> border: aColorSymbol [
 	self configAt: #border put: aColorSymbol.
 	self reset
 ]
 
 { #category : #private }
-ConfigurableLook >> colorFor: aColorSymbol [
+ConfigurableNodeLook >> colorFor: aColorSymbol [
 	self
 		assert: (Color class includesSelector: aColorSymbol)
 		description: aColorSymbol asString , ' is not a valid Color'.
@@ -52,17 +52,17 @@ ConfigurableLook >> colorFor: aColorSymbol [
 ]
 
 { #category : #private }
-ConfigurableLook >> configAt: anObject put: aString [
+ConfigurableNodeLook >> configAt: anObject put: aString [
 	self configuration at: anObject put: aString
 ]
 
 { #category : #public }
-ConfigurableLook >> configuration [
+ConfigurableNodeLook >> configuration [
 	^ configuration
 ]
 
 { #category : #public }
-ConfigurableLook >> configuration: aDictionary [
+ConfigurableNodeLook >> configuration: aDictionary [
 	configuration := self defaultConfiguration
 		addAll: aDictionary;
 		yourself.
@@ -70,26 +70,26 @@ ConfigurableLook >> configuration: aDictionary [
 ]
 
 { #category : #private }
-ConfigurableLook >> defaultConfiguration [
+ConfigurableNodeLook >> defaultConfiguration [
 	<todo: 'Add any default bindings here (eg border black'>
 	^ {} as: KeyedTree
 ]
 
 { #category : #private }
-ConfigurableLook >> initialize [
+ConfigurableNodeLook >> initialize [
 	super initialize.
 	configuration := KeyedTree new.
 
 ]
 
 { #category : #private }
-ConfigurableLook >> interpretConfiguration [
+ConfigurableNodeLook >> interpretConfiguration [
 	configuration
 		keysAndValuesDo: [ :key :val | (self lookChangeBlockFor: key) value: val ]
 ]
 
 { #category : #private }
-ConfigurableLook >> lookChangeBlockFor: key [
+ConfigurableNodeLook >> lookChangeBlockFor: key [
 	| actions |
 	actions := {(#border
 		-> [ :aColorSymbol | self setBorder: aColorSymbol ]).
@@ -104,7 +104,7 @@ ConfigurableLook >> lookChangeBlockFor: key [
 ]
 
 { #category : #public }
-ConfigurableLook >> reset [
+ConfigurableNodeLook >> reset [
 	"Clear all changes and recreate them (to avoid building up garbage changes)."
 	self isAttachedToWidget
 		ifTrue: [ self changes downOn: self ].
@@ -115,28 +115,28 @@ ConfigurableLook >> reset [
 ]
 
 { #category : #accessing }
-ConfigurableLook >> setBackground: aColorSymbol [
+ConfigurableNodeLook >> setBackground: aColorSymbol [
 	self
 		addChangeProperty: #(widget background)
 		with: [ (self colorFor: aColorSymbol) asBlBackground ]
 ]
 
 { #category : #private }
-ConfigurableLook >> setBorder: aColorSymbol [ 
+ConfigurableNodeLook >> setBorder: aColorSymbol [ 
 	self
 		addChangeProperty: #(widget border)
 		with: [ BlBorder paint: (self colorFor: aColorSymbol) width: 1 ]
 ]
 
 { #category : #private }
-ConfigurableLook >> setShape: aShapeSymbol [
+ConfigurableNodeLook >> setShape: aShapeSymbol [
 	self
 		addChangeProperty: #(widget geometry)
 		with: (self shapeFor: aShapeSymbol)
 ]
 
 { #category : #private }
-ConfigurableLook >> setText: aString [
+ConfigurableNodeLook >> setText: aString [
 	self
 		addChangeAddChildAs: #(label)
 		with: [ BlTextElement new
@@ -153,19 +153,19 @@ ConfigurableLook >> setText: aString [
 ]
 
 { #category : #private }
-ConfigurableLook >> setWidth: aNumber [
+ConfigurableNodeLook >> setWidth: aNumber [
 	<todo: 'set both width and height for Squares and Circles'>
 	self addChangeProperty: #(widget width) with: [ aNumber ]
 ]
 
 { #category : #public }
-ConfigurableLook >> shape: aShapeSymbol [
+ConfigurableNodeLook >> shape: aShapeSymbol [
 	self configAt: #shape put: aShapeSymbol.
 	self reset
 ]
 
 { #category : #private }
-ConfigurableLook >> shapeFor: aShapeSymbol [
+ConfigurableNodeLook >> shapeFor: aShapeSymbol [
 	^ {(#circle -> [ BlCircle new ]).
 	(#ellipse -> [ BlEllipse new ]).
 	(#square -> [ BlSquare new ]).
@@ -175,7 +175,7 @@ ConfigurableLook >> shapeFor: aShapeSymbol [
 ]
 
 { #category : #public }
-ConfigurableLook >> text: aString [
+ConfigurableNodeLook >> text: aString [
 	self configAt: #text put: aString.
 	self reset
 ]
