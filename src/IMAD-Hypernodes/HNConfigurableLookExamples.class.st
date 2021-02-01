@@ -14,6 +14,7 @@ HNConfigurableLookExamples >> basicElement [
 		BlFrameLayout or BlLinearLayout vertical ?'>
 	^ BlElement new
 		layout: BlFrameLayout new;
+		"layout: BlLinearLayout vertical;"
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ]
@@ -47,7 +48,8 @@ HNConfigurableLookExamples >> changingLookMenuFor: configLook [
 { #category : #accessing }
 HNConfigurableLookExamples >> circleNode [
 	<gtExample>
-	<todo: 'How to make this work with no text, or empty text?'>
+	<todo: 'How to make this work with no text, or empty text?
+	NB: if we leave out the text then we see nothing.'>
 	| elt |
 	elt := self basicElement.
 	elt

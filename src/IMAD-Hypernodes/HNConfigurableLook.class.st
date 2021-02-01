@@ -95,6 +95,7 @@ HNConfigurableLook >> initializeDefaults [
 	defaults := {(#borderColor -> #black).
 	(#borderWidth -> 1).
 	(#cornerRadius -> 4).
+	(#text -> '').
 	(#padding -> 5)} asDictionary
 ]
 

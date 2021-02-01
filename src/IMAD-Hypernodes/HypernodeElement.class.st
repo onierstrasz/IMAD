@@ -123,6 +123,15 @@ HypernodeElement >> initialize [
 ]
 
 { #category : #accessing }
+HypernodeElement >> mindmapLook [
+	^ HNConfigurableLook
+		configuration:
+			{(#borderColor -> #black).
+			(#text -> 'topic').
+			(#shape -> #roundedRectangle)}
+]
+
+{ #category : #accessing }
 HypernodeElement >> node [
 	^ self context node
 ]
