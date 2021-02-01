@@ -39,6 +39,7 @@ HypernodeElement >> context [
 
 { #category : #accessing }
 HypernodeElement >> context: aNodeContext [
+	<todo: 'update the configurable look from the context'>
 	self assert: aNodeContext isNotNil.
 	nodeContext := aNodeContext.
 	self handleEvents.
@@ -61,19 +62,32 @@ HypernodeElement >> contextMenu [
 ]
 
 { #category : #accessing }
+HypernodeElement >> defaultLook [
+	^ HNConfigurableLook
+		configuration:
+			{(#borderColor -> #black).
+			(#text -> '').
+			(#shape -> #circle)}
+]
+
+{ #category : #accessing }
 HypernodeElement >> defaultPadding [
 	^ 5
 ]
 
 { #category : #accessing }
 HypernodeElement >> handleEvents [
+	"Some events will be handled directly by the configurable look."
+
 	self assert: self context isNotNil.
-	self
+	"self
 		look:
 			(BrStyleCommonLook new
 				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])
-				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
+				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ])."
+	self look
+		add: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
 	self addEventHandler: (HypernodePullHandler for: self).
 	self addEventHandler: HyperlinkDragHandler new.
 	self
@@ -87,17 +101,21 @@ HypernodeElement >> handleEvents [
 
 { #category : #accessing }
 HypernodeElement >> initialize [
+	<todo:
+		'What should be the basic layout? BlFrameLayout or BlLinearLayout vertical? SHould this also be part of the configurable look?'>
 	super initialize.
 	isEditable := false.
 	"NB: the node context will be set by context: when created via HypernodeElement class>>#forContext:"
 	self
 		layout: BlFrameLayout new;
-		geometry: (BlRectangle cornerRadius: 4);
-		background: Color white;
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
-			c vertical fitContent ];
-		padding: (BlInsets all: self defaultPadding).
+			c vertical fitContent ].
+	"self
+		geometry: (BlRectangle cornerRadius: 4);
+		background: Color white;
+		padding: (BlInsets all: self defaultPadding)."
+	self look: self defaultLook. 
 	self updateNode.
 	self graph beNode.
 	"self handleEvents."

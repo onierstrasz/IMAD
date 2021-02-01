@@ -76,6 +76,20 @@ HNConfigurableLookExamples >> elementWithChangingLook [
 ]
 
 { #category : #accessing }
+HNConfigurableLookExamples >> hoverColorChange [
+	"Copy configurations and directly interpret them."
+
+	<gtExample>
+	| elt |
+	elt := self newRoundedTextNode.
+	elt look
+		updateAll:
+			{(#borderColor -> #blue).
+			(#hoverColor -> #red)}.
+	^ elt
+]
+
+{ #category : #accessing }
 HNConfigurableLookExamples >> newRoundedTextNode [
 	"Copy configurations and directly interpret them."
 

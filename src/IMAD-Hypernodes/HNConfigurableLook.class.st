@@ -116,7 +116,7 @@ HNConfigurableLook >> interpretConfiguration [
 HNConfigurableLook >> properties [
 	"For each key in properties, there should be a #updateKeyLook method to update the look. See updateLookFor:"
 
-	^ #(borderColor borderWidth background shape cornerRadius width text padding)
+	^ #(borderColor hoverColor borderWidth background shape cornerRadius width text padding)
 ]
 
 { #category : #public }
@@ -183,6 +183,10 @@ HNConfigurableLook >> updateCornerRadiusLook [
 	"NB: #shapeFor: will look up the cornerRadius property if it is needed."
 
 	self updateShapeLook
+]
+
+{ #category : #accessing }
+HNConfigurableLook >> updateHoverColorLook [
 ]
 
 { #category : #private }
