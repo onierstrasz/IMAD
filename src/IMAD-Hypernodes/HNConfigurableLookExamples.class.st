@@ -62,7 +62,7 @@ HNConfigurableLookExamples >> circleNode [
 
 { #category : #accessing }
 HNConfigurableLookExamples >> elementWithChangingLook [
-	"See BrLookChangeExamples>>#buttonLookPropertyChange"
+	"See also BrLookChangeExamples>>#buttonLookPropertyChange"
 
 	<gtExample>
 	| elt menuLook configLook |
@@ -124,5 +124,50 @@ HNConfigurableLookExamples >> roundedTextNode [
 			(#text -> 'The quick brown fox').
 			(#borderColor -> #brown)} asDictionary.
 	elt look: aLook.
+	^ elt
+]
+
+{ #category : #accessing }
+HNConfigurableLookExamples >> updateBorderColor [
+	<gtExample>
+	| elt aLook |
+	elt := self roundedTextNode.
+	elt look update: #borderColor ->#green.
+	^ elt
+]
+
+{ #category : #accessing }
+HNConfigurableLookExamples >> updateCornerRadius [
+	<gtExample>
+	| elt aLook |
+	elt := self roundedTextNode.
+	elt look update: #cornerRadius -> 10.
+	^ elt
+]
+
+{ #category : #accessing }
+HNConfigurableLookExamples >> updatePadding [
+	<gtExample>
+	| elt aLook |
+	elt := self roundedTextNode.
+	elt look update: #padding -> 20.
+	^ elt
+]
+
+{ #category : #accessing }
+HNConfigurableLookExamples >> updateShape [
+	<gtExample>
+	| elt aLook |
+	elt := self roundedTextNode.
+	elt look update: #shape ->#rectangle.
+	^ elt
+]
+
+{ #category : #accessing }
+HNConfigurableLookExamples >> updateText [
+	<gtExample>
+	| elt aLook |
+	elt := self roundedTextNode.
+	elt look update: #text -> 'The lazy dog'.
 	^ elt
 ]
