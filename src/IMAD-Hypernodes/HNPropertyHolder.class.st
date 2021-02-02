@@ -55,6 +55,27 @@ HNPropertyHolder >> assertValidValuesFor: aKeyedTreeValue [
 			[ aKeyedTreeValue do: [ :each | self assertValidValuesFor: each ] ]
 ]
 
+{ #category : #'gt-extension' }
+HNPropertyHolder >> editableLabelFor: aString withSetter: aOneArgumentBlock [
+	"NB: stateless utility method"
+
+	| label |
+	label := BrEditableLabel new
+		look:
+			(BrGlamorousEditableLabelLook new defaultBackground: Color white);
+		text: aString.
+	label
+		when: BrEditorAcceptWish
+		do: [ :aWish | 
+			aString ~= aWish text asString
+				ifTrue: [ [ aOneArgumentBlock value: aWish text asString ]
+						on: AssertionFailure
+						do: [ :e | 
+							label text: aString.
+							self inform: e printString ] ] ].
+	^ label
+]
+
 { #category : #properties }
 HNPropertyHolder >> get: propertyKey [
 	"self assert: (properties includesKey: propertyKey) description: 'key ', propertyKey asString, ' has not been defined'."

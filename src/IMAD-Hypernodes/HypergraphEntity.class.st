@@ -64,6 +64,70 @@ HypergraphEntity >> assertValidStorageMethod [
 		description: 'storage class name must refer to an existing class'
 ]
 
+{ #category : #'gt-extension' }
+HypergraphEntity >> buildDescriptionPane [
+	| contentPane gtDoc aSaveButton |
+	contentPane := BlElement new.
+	contentPane layout: BlLinearLayout vertical.
+	contentPane
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical matchParent ].
+	contentPane addChild: self buildHeaderPane.
+	gtDoc := GtDocument new.
+	gtDoc text: self description.
+	aSaveButton := BrButton new.
+	aSaveButton
+		look: BrGlamorousButtonWithIconLook;
+		visibility: BlVisibility hidden;
+		icon: BrGlamorousVectorIcons accept;
+		label: 'Save';
+		action: [ self description: gtDoc text asString.
+			aSaveButton visibility: BlVisibility hidden ].
+	gtDoc editor
+		when: BrTextEditorModifiedEvent
+		do: [ :anEvent | 
+			anEvent text asString = gtDoc text
+				ifTrue: [ aSaveButton visibility: BlVisibility hidden ]
+				ifFalse: [ aSaveButton visibility: BlVisibility visible ] ].
+	contentPane
+		addChild: gtDoc asElementWithoutSaveAction matchParent
+		as: #doc.
+	contentPane addChild: aSaveButton.
+	^ contentPane
+]
+
+{ #category : #'gt-extension' }
+HypergraphEntity >> buildHeaderPane [
+	"A placeholder for subclasses to add something."
+
+	| header |
+	header := BlElement new.
+	header layout: BlLinearLayout vertical.
+	header
+		constraintsDo: [ :c | 
+			c horizontal matchParent.
+			c vertical fitContent ].
+	header addChild: self buildLabel.
+	^ header
+]
+
+{ #category : #'gt-extension' }
+HypergraphEntity >> buildLabel [
+	"See also GtBehaviorCoderElement>>#buildClassLabel"
+
+	^ (self
+		editableLabelFor: self name
+		withSetter: [ :newName | self name: newName ])
+		look:
+			(BrGlamorousEditableLabelLook new
+				defaultBackground: Color transparent;
+				glamorousCodeFont;
+				bold;
+				fontSize: 20);
+		margin: (BlInsets all: 0)
+]
+
 { #category : #utilities }
 HypergraphEntity >> classNamed: aClassName [
 	^ Smalltalk at: aClassName asSymbol ifAbsent: [ nil ]
@@ -71,7 +135,7 @@ HypergraphEntity >> classNamed: aClassName [
 
 { #category : #accessing }
 HypergraphEntity >> description [
-	^ self get: #description ifAbsent: ''
+	^ self get: #description ifAbsent: '<edit description; click checkbox below to commit>'
 ]
 
 { #category : #accessing }
@@ -84,6 +148,16 @@ HypergraphEntity >> generatedValue [
 	^ OpalCompiler new
 		source: self storeString;
 		evaluate
+]
+
+{ #category : #'gt-extension' }
+HypergraphEntity >> gtDescriptionFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Description';
+		priority: 0;
+		stencil: [ self buildDescriptionPane ];
+		updateWhen: HNPropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #utilities }
@@ -107,12 +181,19 @@ HypergraphEntity >> initialize [
 
 { #category : #accessing }
 HypergraphEntity >> name [
-	^ self get: #name ifAbsent: ''
+	^ self get: #name ifAbsent: '<edit name>'
 ]
 
 { #category : #accessing }
 HypergraphEntity >> name: aString [
 	self set: #name to: aString
+]
+
+{ #category : #accessing }
+HypergraphEntity >> set: propertyKey to: aValue [
+	super set: propertyKey to: aValue.
+	self announcer announce: HNPropertiesUpdated new.
+	^ aValue
 ]
 
 { #category : #storing }

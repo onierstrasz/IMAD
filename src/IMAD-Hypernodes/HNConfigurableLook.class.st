@@ -3,11 +3,11 @@ I provide a high-level API to define the look of an element.
 
 I am mainly intended to configure the appearance of nodes (and edges) in a graph.
 
-I can set the text label, foreground and background color, shape, and border.
-My configuration can be exported and imported as a Dictionary.
-For every configuration key ==#xyz== there is a public method ==#xyz:==, a private setter ==#setXyz:==, and an action defined in the dictionary in the method ${method:name=HNConfigurableLook>>#lookChangeBlockFor:}$.
+I can set various properties, such as the text label, foreground and background color, shape, and border. My configuration can be exported and imported as a Dictionary.
 
-Any default bindings can be defined in ${method:name=HNConfigurableLook>>#defaultConfiguration}$. They may be overridden in ${method:name=HNConfigurableLook>>#configuration:}$.
+For every configuration key ==#xyz== there is a public method ==#updateXyzLook:==, called by ${method:name=HNConfigurableLook>>#updateLookFor:}$ via ${method:name=HNConfigurableLook>>#interpretConfiguration}$.
+
+Bindings are changed by calling  ${method:name=HNConfigurableLook>>#configuration:}$ to set the configuration, or ${method:name=HNConfigurableLook>>#update:}$ to change a single property or ${method:name=HNConfigurableLook>>#updateAll:}$ to update several.
 
 The following features can be configured:
 

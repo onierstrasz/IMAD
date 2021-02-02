@@ -51,6 +51,7 @@ HypernodeEditor >> buildButtonBar [
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin);
 		yourself.
+	buttonBar addChild: self node buildLabel.
 	buttonBar
 		addChild:
 			(BlElement new
@@ -107,8 +108,7 @@ HypernodeEditor >> buildButtonBar [
 				look: BrGlamorousButtonWithIconLook;
 				icon: BrGlamorousIcons help;
 				label: 'Refresh';
-				action:
-						[ self phlow spawnTool: (GtDocumenterTool forClass: HypernodeEditor) ]).
+				action: [ self phlow spawnTool: (GtDocumenterTool forClass: HypernodeEditor) ]).
 	^ buttonBar
 ]
 
