@@ -29,7 +29,8 @@ Class {
 		'graphContainer',
 		'graphHolder',
 		'graph',
-		'buttonBar'
+		'buttonBar',
+		'nameHolder'
 	],
 	#category : #'IMAD-Hypernodes'
 }
@@ -51,7 +52,14 @@ HypernodeEditor >> buildButtonBar [
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin);
 		yourself.
-	buttonBar addChild: self node buildLabel.
+	nameHolder := BlElement new
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ];
+		layout: BlLinearLayout vertical;
+		yourself.
+	self updateHeaderName.
+	buttonBar addChild: nameHolder.
 	buttonBar
 		addChild:
 			(BlElement new
@@ -233,7 +241,8 @@ HypernodeEditor >> initialize [
 		addChildren:
 			{self buildButtonBar.
 			self buildGraphContainer}.
-	self updateGraph
+	self updateGraph.
+	self subscribe
 ]
 
 { #category : #accessing }
@@ -322,7 +331,9 @@ HypernodeEditor >> node [
 
 { #category : #accessing }
 HypernodeEditor >> node: aHypernode [
+	self unsubscribe.
 	node := aHypernode.
+	self subscribe.
 	self updateGraph
 ]
 
@@ -377,8 +388,27 @@ HypernodeEditor >> spawnStoredMethodView [
 ]
 
 { #category : #accessing }
+HypernodeEditor >> subscribe [
+	self node announcer
+		when: HNPropertiesUpdated
+		do: [ self updateHeaderName ]
+		for: self.
+]
+
+{ #category : #accessing }
+HypernodeEditor >> unsubscribe [
+	self node announcer unsubscribe: self.
+]
+
+{ #category : #accessing }
 HypernodeEditor >> updateGraph [
 	"Use this to build or rebuild the graph, not for incremental updates."
 
 	self graph: (HypernodeGraphElement for: self node)
+]
+
+{ #category : #accessing }
+HypernodeEditor >> updateHeaderName [
+	nameHolder removeChildren.
+	nameHolder addChild: self node buildLabel
 ]
