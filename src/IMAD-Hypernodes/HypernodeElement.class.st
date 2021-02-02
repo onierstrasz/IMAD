@@ -66,6 +66,7 @@ HypernodeElement >> defaultLook [
 	^ HNConfigurableLook
 		configuration:
 			{(#borderColor -> #black).
+			(#hoverColor -> #red).
 			(#text -> '').
 			(#shape -> #circle)}
 ]
@@ -80,12 +81,11 @@ HypernodeElement >> handleEvents [
 	"Some events will be handled directly by the configurable look."
 
 	self assert: self context isNotNil.
-	"self
-		look:
+	"self look
+		add:
 			(BrStyleCommonLook new
 				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
-				hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])
-				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ])."
+				hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])."
 	self look
 		add: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
 	self addEventHandler: (HypernodePullHandler for: self).

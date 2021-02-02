@@ -102,15 +102,7 @@ HNConfigurableLook >> initializeDefaults [
 { #category : #private }
 HNConfigurableLook >> interpretConfiguration [
 	configuration
-		keysDo: [ : lookProperty | 
-		
-		self updateLookFor: lookProperty
-		
-		"(self lookChangeBlockFor: key) value: val "
-		
-		
-		
-		]
+		keysDo: [ :lookProperty | self updateLookFor: lookProperty ]
 ]
 
 { #category : #private }
@@ -188,6 +180,22 @@ HNConfigurableLook >> updateCornerRadiusLook [
 
 { #category : #accessing }
 HNConfigurableLook >> updateHoverColorLook [
+	<todo: 'Is this correct?'>
+	self
+		add:
+			(BrStyleCommonLook new
+				default: [ :aStyle | 
+					aStyle
+						border:
+							(BlBorder
+								paint: (self colorFor: (self at: #borderColor))
+								width: (self at: #borderWidth)) ];
+				hovered: [ :aStyle | 
+					aStyle
+						border:
+							(BlBorder
+								paint: (self colorFor: (self at: #hoverColor))
+								width: (self at: #borderWidth)) ])
 ]
 
 { #category : #private }
