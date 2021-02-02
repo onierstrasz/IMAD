@@ -32,10 +32,6 @@ The purpose is to demonstrate all the GUI events and interactions without the sc
 This makes it easier to debug the definitions of the event handlers."
 
 <gtExample>
-<todo: '
-- Fix zoom to actual size -- should center the graph
-See also: https://github.com/onierstrasz/IMAD/issues/39
-'>
 
 | padding margin editor graph buttonBar makeNode graphHolder graphContainer |
 

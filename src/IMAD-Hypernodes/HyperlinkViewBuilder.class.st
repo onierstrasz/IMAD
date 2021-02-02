@@ -60,13 +60,11 @@ HyperlinkViewBuilder >> contextMenu [
 HyperlinkViewBuilder >> forLink: aHyperlink inGraph: aHypernodeGraphElement [
 	"Look up the source and target elements in the graph and connect them with a new edge element (BlLineElement or other curve)"
 
-	<todo:
-		'
-		- FIX Center Anchor connections
+	<todo: '
 		- offer a way to plug in different styles of edges (subclasses of BlCurveElement) 
 		- find a better way to draw directed edges
     	- add space between multiple edges along same path
-	'>
+		'>
 	| sourceElt targetElt |
 	link := aHyperlink.
 	graph := aHypernodeGraphElement.

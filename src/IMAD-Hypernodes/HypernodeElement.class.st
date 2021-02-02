@@ -49,7 +49,7 @@ HypernodeElement >> context: aNodeContext [
 
 { #category : #accessing }
 HypernodeElement >> contextMenu [
-	<todo: 'context menu for nodes'>
+	<todo: 'add more context menu actions for nodes'>
 	| menu |
 	menu := BrGlamorousSimpleContextMenuContent new
 		items:
@@ -78,14 +78,9 @@ HypernodeElement >> defaultPadding [
 
 { #category : #accessing }
 HypernodeElement >> handleEvents [
-	"Some events will be handled directly by the configurable look."
-
+	<todo:
+		'Move the context menu and double-click handling to the configurable look. Possibly move the other eventhandlers too, if that is possible.'>
 	self assert: self context isNotNil.
-	"self look
-		add:
-			(BrStyleCommonLook new
-				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
-				hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])."
 	self look
 		add: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
 	self addEventHandler: (HypernodePullHandler for: self).

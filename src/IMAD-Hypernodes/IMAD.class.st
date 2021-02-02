@@ -200,5 +200,5 @@ IMAD >> storedHypernodes [
 { #category : #accessing }
 IMAD >> todos [
 	<gtExample>
-	^ #todo: gtPragmas & 'IMAD-Hypernodes' gtPackageMatches
+	^ 'IMAD-Hypernodes' gtPackageMatches & #todo: gtPragmas
 ]

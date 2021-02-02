@@ -64,7 +64,6 @@ HNPropertyHolder >> get: propertyKey [
 
 { #category : #accessing }
 HNPropertyHolder >> get: propertyKey ifAbsent: defaultValue [
-	<todo: 'Do we need this method? Prefer #get:ifAbsentPut:'>
 	^ properties at: propertyKey ifAbsent: defaultValue
 ]
 
