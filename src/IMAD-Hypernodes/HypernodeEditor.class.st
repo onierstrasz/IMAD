@@ -334,6 +334,7 @@ HypernodeEditor >> node: aHypernode [
 	self unsubscribe.
 	node := aHypernode.
 	self subscribe.
+	self updateHeaderName.
 	self updateGraph
 ]
 
