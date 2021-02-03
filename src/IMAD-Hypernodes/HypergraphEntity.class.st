@@ -152,6 +152,8 @@ HypergraphEntity >> generatedValue [
 
 { #category : #'gt-extension' }
 HypergraphEntity >> gtDescriptionFor: aView [
+<todo: 'Does not update if the view is hidden.
+https://github.com/onierstrasz/IMAD/issues/74'>
 	<gtView>
 	^ aView explicit
 		title: 'Description';
