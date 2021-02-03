@@ -14,6 +14,8 @@ HypernodeRepository >> flatGraphWithNodeProperties [
 				properties:
 					(Dictionary new
 						add: 'storageClassName' -> 'HypernodeRepository';
+						add: #name -> 'Flat graph';
+						add: #description -> 'I am a flat graph whose nodes store some properties.';
 						add: 'storageMethodName' -> 'flatGraphWithNodeProperties';
 						yourself);
 				yourself)
@@ -47,8 +49,18 @@ HypernodeRepository >> flatGraphWithNodeProperties [
 				yourself)
 			for: 2;
 		addNode: Hypernode new yourself for: 3;
-		addSubNode: 2 for: 1 withContextProperties: Dictionary new;
-		addSubNode: 3 for: 1 withContextProperties: Dictionary new;
+		addSubNode: 2
+			for: 1
+			withContextProperties:
+			(Dictionary new
+				add: #position -> (38 @ 56);
+				yourself);
+		addSubNode: 3
+			for: 1
+			withContextProperties:
+			(Dictionary new
+				add: #position -> (76 @ 12);
+				yourself);
 		addEdgeFrom: 2
 			to: 3
 			for: 1
@@ -69,6 +81,8 @@ HypernodeRepository >> sampleHypernodeGraph [
 				properties:
 					(KeyedTree new
 						add: #storageClassName -> 'HypernodeRepository';
+						add: #name -> 'sample graph';
+						add: #description -> 'For playing around.';
 						add: #storageMethodName -> 'sampleHypernodeGraph';
 						yourself);
 				yourself)
@@ -102,7 +116,7 @@ HypernodeRepository >> sampleHypernodeGraph [
 ]
 
 { #category : #'as yet unclassified' }
-HypernodeRepository >> test1 [
+HypernodeRepository >> testGraph [
 	<storedHypernode>
 	<gtExample>
 	^ HypernodeBuilder new
@@ -111,7 +125,9 @@ HypernodeRepository >> test1 [
 				properties:
 					(Dictionary new
 						add: #storageClassName -> 'HypernodeRepository';
-						add: #storageMethodName -> 'test1';
+						add: #name -> 'Test graph';
+						add: #description -> 'I serve as a simple test graph for experiments.';
+						add: #storageMethodName -> 'testGraph';
 						yourself);
 				yourself)
 			for: 1;
