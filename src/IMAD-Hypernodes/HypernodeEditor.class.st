@@ -35,14 +35,14 @@ Class {
 	#category : #'IMAD-Hypernodes'
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 HypernodeEditor class >> for: aHypernode [
 	^ self new
 		for: aHypernode;
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #gui }
 HypernodeEditor >> buildButtonBar [
 	buttonBar := BlElement new
 		constraintsDo: [ :c | 
@@ -120,7 +120,19 @@ HypernodeEditor >> buildButtonBar [
 	^ buttonBar
 ]
 
-{ #category : #accessing }
+{ #category : #debugging }
+HypernodeEditor >> buildEditor [
+	"run this when the node is assigned"
+
+	self removeChildren.
+	self
+		addChildren:
+			{self buildButtonBar.
+			self buildGraphContainer}.
+	self updateGraph
+]
+
+{ #category : #gui }
 HypernodeEditor >> buildGraphContainer [
 	"I contain the graphHolder that holds actual graph (which may change), and handle mouse events."
 
@@ -137,7 +149,7 @@ HypernodeEditor >> buildGraphContainer [
 	^ graphContainer
 ]
 
-{ #category : #accessing }
+{ #category : #debugging }
 HypernodeEditor >> contextMenu [
 	^ BrGlamorousSimpleContextMenuContent new
 		items:
@@ -157,7 +169,7 @@ HypernodeEditor >> createClassNamed: aClass subclassOf: aSuperclass inPackage: a
 	package: ''' , aPackage , ''''
 ]
 
-{ #category : #accessing }
+{ #category : #debugging }
 HypernodeEditor >> debugOffActions [
 	self border: (BlBorder paint: Color transparent width: 0).
 	buttonBar border: (BlBorder paint: Color transparent).
@@ -168,7 +180,7 @@ HypernodeEditor >> debugOffActions [
 		effect: BlNullEffect new
 ]
 
-{ #category : #accessing }
+{ #category : #gui }
 HypernodeEditor >> debugOnActions [
 	self border: (BlBorder paint: Color blue width: 1).
 	buttonBar border: (BlBorder paint: Color orange).
@@ -179,23 +191,15 @@ HypernodeEditor >> debugOnActions [
 		effect: BrGlamorousShadowEffect new
 ]
 
-{ #category : #accessing }
+{ #category : #storage }
 HypernodeEditor >> defaultStoragePackage [
 	^ 'IMAD-Hypernodes'
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 HypernodeEditor >> for: aHypernode [
-	"self unsubscribe."
-
 	self assert: aHypernode root isNotNil.
 	self node: aHypernode
-
-
-	"self subscribe.
-	self updateHeaderName.
-	self tagPane updateTagFilterButtonsForHand: self hand.
-	self updateGraph"
 ]
 
 { #category : #accessing }
@@ -211,7 +215,7 @@ HypernodeEditor >> graph: aHypernodeGraphElement [
 	graphHolder contentElement: graph
 ]
 
-{ #category : #accessing }
+{ #category : #gui }
 HypernodeEditor >> handleEvents [
 	<todo: 'Add CMD-click'>
 	"double-click"
@@ -226,10 +230,9 @@ HypernodeEditor >> handleEvents [
 		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ])
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 HypernodeEditor >> initialize [
 	super initialize.
-	node := Hypernode root.
 	self
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
@@ -237,15 +240,12 @@ HypernodeEditor >> initialize [
 		layout: BlLinearLayout vertical;
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin).
-	self
-		addChildren:
-			{self buildButtonBar.
-			self buildGraphContainer}.
-	self updateGraph.
+	node := Hypernode root.
+	self buildEditor.
 	self subscribe
 ]
 
-{ #category : #accessing }
+{ #category : #gui }
 HypernodeEditor >> newClassDefinitionDialog [
 	<todo: 'Add dialogue for method name as well.'>
 	| container theSuperClass theClass thePackage |
@@ -296,7 +296,7 @@ HypernodeEditor >> newClassDefinitionDialog [
 						do: [ :e | self inform: e description ] ])
 ]
 
-{ #category : #accessing }
+{ #category : #gui }
 HypernodeEditor >> newFlowElement [
 	^ BlElement new
 		layout: BlFlowLayout horizontal;
@@ -305,7 +305,7 @@ HypernodeEditor >> newFlowElement [
 			c vertical fitContent ]
 ]
 
-{ #category : #accessing }
+{ #category : #gui }
 HypernodeEditor >> newLinearBoxedLayout [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
@@ -315,7 +315,7 @@ HypernodeEditor >> newLinearBoxedLayout [
 			c vertical fitContent ]
 ]
 
-{ #category : #accessing }
+{ #category : #gui }
 HypernodeEditor >> newLinearLayout [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
@@ -338,14 +338,14 @@ HypernodeEditor >> node: aHypernode [
 	self updateGraph
 ]
 
-{ #category : #accessing }
+{ #category : #debugging }
 HypernodeEditor >> nodeElements [
 	"for debugging"
 
 	^ self graph nodeElements
 ]
 
-{ #category : #accessing }
+{ #category : #gui }
 HypernodeEditor >> saveButton [
 	"NB: Here we hard-wire the fact that we are saving the graph for the root node. Later we might want a save button for any arbitrary subnode and its reachable graph."
 
@@ -378,7 +378,7 @@ HypernodeEditor >> saveButton [
 		label: 'Save to method ' , self node root storageClassMethod
 ]
 
-{ #category : #accessing }
+{ #category : #storing }
 HypernodeEditor >> spawnStoredMethodView [
 	self phlow
 		spawnTool:
@@ -388,7 +388,7 @@ HypernodeEditor >> spawnStoredMethodView [
 						>> self node root storageMethodName asSymbol)
 ]
 
-{ #category : #accessing }
+{ #category : #announcements }
 HypernodeEditor >> subscribe [
 	self node announcer
 		when: HNPropertiesUpdated
@@ -396,19 +396,19 @@ HypernodeEditor >> subscribe [
 		for: self.
 ]
 
-{ #category : #accessing }
+{ #category : #announcements }
 HypernodeEditor >> unsubscribe [
 	self node announcer unsubscribe: self.
 ]
 
-{ #category : #accessing }
+{ #category : #announcements }
 HypernodeEditor >> updateGraph [
 	"Use this to build or rebuild the graph, not for incremental updates."
 
 	self graph: (HypernodeGraphElement for: self node)
 ]
 
-{ #category : #accessing }
+{ #category : #announcements }
 HypernodeEditor >> updateHeaderName [
 	nameHolder removeChildren.
 	nameHolder addChild: self node buildLabel
