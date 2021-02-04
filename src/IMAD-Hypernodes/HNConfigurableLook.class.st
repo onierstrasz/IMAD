@@ -139,8 +139,7 @@ HNConfigurableLook >> shapeFor: aShapeSymbol [
 
 { #category : #accessing }
 HNConfigurableLook >> update: anAssociation [
-	self updateAll: {anAssociation}.
-	self reset
+	self updateAll: {anAssociation}
 ]
 
 { #category : #accessing }
@@ -229,6 +228,7 @@ HNConfigurableLook >> updateShapeLook [
 { #category : #private }
 HNConfigurableLook >> updateTextLook [
 	| padding |
+	self widgetDo: [ :w | w removeChildNamed: #label ].
 	padding := self at: #padding.
 	self
 		addChangeAddChildAs: #(label)
