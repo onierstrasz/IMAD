@@ -115,9 +115,12 @@ HNConfigurableLook >> properties [
 { #category : #public }
 HNConfigurableLook >> reset [
 	"Clear all changes and recreate them (to avoid building up garbage changes)."
+
 	self isAttachedToWidget
 		ifTrue: [ self changes downOn: self ].
 	self changes initialize.
+	self children do: [ :c | self remove: c ].
+	"remove the BrStyleCommonLook and possibly others"
 	self isAttachedToWidget
 		ifTrue: [ self changes upOn: self ].
 	self interpretConfiguration
