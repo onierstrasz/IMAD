@@ -81,37 +81,12 @@ HypernodeRepository >> sampleHypernodeGraph [
 				properties:
 					(KeyedTree new
 						add: #storageClassName -> 'HypernodeRepository';
-						add: #name -> 'sample graph';
-						add: #description -> 'For playing around.';
+						add: #name -> 'test';
 						add: #storageMethodName -> 'sampleHypernodeGraph';
 						yourself);
 				yourself)
 			for: 1;
-		addNode: Hypernode new yourself for: 2;
-		addNode: Hypernode new yourself for: 3;
-		addNode: Hypernode new yourself for: 4;
-		addSubNode: 2
-			for: 1
-			withContextProperties:
-			(KeyedTree new
-				add: #position -> (75.875 @ 136.7496337890625);
-				yourself);
-		addSubNode: 3
-			for: 1
-			withContextProperties:
-			(KeyedTree new
-				add: #position -> (275.72265625 @ 227.4293212890625);
-				yourself);
-		addSubNode: 4
-			for: 1
-			withContextProperties:
-			(KeyedTree new
-				add: #position -> (149.6328125 @ 72.1949462890625);
-				yourself);
 		setRootFor: 1 to: 1;
-		setRootFor: 2 to: 1;
-		setRootFor: 3 to: 1;
-		setRootFor: 4 to: 1;
 		nodeForId: 1
 ]
 

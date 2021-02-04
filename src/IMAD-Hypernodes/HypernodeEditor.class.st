@@ -151,11 +151,12 @@ HypernodeEditor >> buildGraphContainer [
 
 { #category : #debugging }
 HypernodeEditor >> contextMenu [
+	<todo: 'Add cascading menu for graph styles'>
 	^ BrGlamorousSimpleContextMenuContent new
 		items:
-			{('Inspect self' -> [ :e | self node inspect ]).
-			('Reposition nodes' -> [ :e | self graph repositionNodes ]).
-			('Toggle debug view' -> [ :e | self toggleDebugMode ])};
+			{('Inspect self' -> [ self node inspect ]).
+			('Select graph style' -> [ "not sure what goes here!" ]).
+			('Toggle debug view' -> [ self toggleDebugMode ])};
 		yourself
 ]
 
