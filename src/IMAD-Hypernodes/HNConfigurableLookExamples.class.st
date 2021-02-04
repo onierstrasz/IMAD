@@ -8,7 +8,7 @@ Class {
 HNConfigurableLookExamples >> basicElement [
 	<gtExample>
 	<todo:
-		'Here we mirror the basuc setup of the HypernodeElement.
+		'Here we mirror the basic setup of the HypernodeElement.
 		Can we make the layout also part of the configuration?
 		What layout should we use by default?
 		BlFrameLayout or BlLinearLayout vertical ?'>
@@ -48,8 +48,6 @@ HNConfigurableLookExamples >> changingLookMenuFor: configLook [
 { #category : #accessing }
 HNConfigurableLookExamples >> circleNode [
 	<gtExample>
-	<todo: 'How to make this work with no text, or empty text?
-	NB: if we leave out the text then we see nothing.'>
 	| elt |
 	elt := self basicElement.
 	elt
@@ -57,7 +55,6 @@ HNConfigurableLookExamples >> circleNode [
 			(HNConfigurableLook new
 				configuration:
 					{(#shape -> #circle).
-					(#text -> '').
 					(#borderColor -> #red)}).
 	^ elt
 ]
@@ -138,7 +135,8 @@ HNConfigurableLookExamples >> roundedTextNode [
 		equals:
 			{(#shape -> #roundedRectangle).
 			(#text -> 'The quick brown fox').
-			(#borderColor -> #brown)} asDictionary.
+			(#borderColor -> #brown).
+			(#padding -> 5)} asDictionary.
 	elt look: aLook.
 	^ elt
 ]

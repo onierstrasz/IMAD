@@ -73,8 +73,14 @@ HNConfigurableLook >> configuration [
 HNConfigurableLook >> configuration: aDictionary [
 	"For convenience, argument may be an association list."
 
-	configuration := aDictionary asDictionary.
+	configuration := self defaultConfiguration.
+	configuration addAll: aDictionary asDictionary.
 	self reset
+]
+
+{ #category : #accessing }
+HNConfigurableLook >> defaultConfiguration [
+	^ {(#padding -> (self defaults at: #padding))} asDictionary
 ]
 
 { #category : #accessing }
@@ -215,7 +221,9 @@ HNConfigurableLook >> updateLookFor: lookProperty [
 
 { #category : #accessing }
 HNConfigurableLook >> updatePaddingLook [
-	self updateTextLook
+	self
+		addChangeProperty: #(widget padding)
+		with: [ BlInsets all: (self at: #padding) ]
 ]
 
 { #category : #private }
@@ -227,22 +235,14 @@ HNConfigurableLook >> updateShapeLook [
 
 { #category : #private }
 HNConfigurableLook >> updateTextLook [
-	| padding |
 	self widgetDo: [ :w | w removeChildNamed: #label ].
-	padding := self at: #padding.
 	self
 		addChangeAddChildAs: #(label)
 		with: [ BlTextElement new
 				text: (self at: #text) asRopedText;
 				constraintsDo: [ :c | 
 					c frame horizontal alignCenter.
-					c frame vertical alignCenter ];
-				padding:
-					(BlInsets
-						top: padding
-						right: padding
-						bottom: padding
-						left: padding) ]
+					c frame vertical alignCenter ] ]
 ]
 
 { #category : #accessing }
