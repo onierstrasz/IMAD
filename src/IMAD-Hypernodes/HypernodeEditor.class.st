@@ -243,12 +243,11 @@ HypernodeEditor >> initialize [
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin).
 	self
-		addChild: "placeholder to be removed when node is set"
-			(BlTextElement new
-				text: (self missingNodeErrorString asRopedText foreground: Color red);
-				constraintsDo: [ :c | 
-					c horizontal matchParent.
-					c vertical matchParent ])
+		addChild:
+			(BrEditor new
+				beReadOnlyWithSelection;
+				look: BrGlamorousRegularEditorLook new;
+				text: (self missingNodeErrorString asRopedText foreground: Color red))
 ]
 
 { #category : #initialization }

@@ -8,7 +8,7 @@ Class {
 HNConfigurableLookExamples >> basicElement [
 	<gtExample>
 	<todo:
-		'Here we mirror the basuc setup of the HypernodeElement.
+		'Here we mirror the basic setup of the HypernodeElement.
 		Can we make the layout also part of the configuration?
 		What layout should we use by default?
 		BlFrameLayout or BlLinearLayout vertical ?'>
@@ -57,7 +57,8 @@ HNConfigurableLookExamples >> circleNode [
 			(HNConfigurableLook new
 				configuration:
 					{(#shape -> #circle).
-					(#text -> '').
+					"(#text -> '')."
+					"#padding -> 5."
 					(#borderColor -> #red)}).
 	^ elt
 ]
