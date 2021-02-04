@@ -232,6 +232,7 @@ HypernodeEditor >> handleEvents [
 
 { #category : #initialization }
 HypernodeEditor >> initialize [
+	<todo: 'how to get the error message wrapped?'>
 	super initialize.
 	self
 		constraintsDo: [ :c | 
@@ -240,9 +241,18 @@ HypernodeEditor >> initialize [
 		layout: BlLinearLayout vertical;
 		padding: (BlInsets all: self defaultPadding);
 		margin: (BlInsets all: self defaultMargin).
-	node := Hypernode root.
-	self buildEditor.
-	self subscribe
+	self
+		addChild: "placeholder to be removed when node is set"
+			(BlTextElement new
+				text: (self missingNodeErrorString asRopedText foreground: Color red);
+				constraintsDo: [ :c | 
+					c horizontal matchParent.
+					c vertical matchParent ])
+]
+
+{ #category : #initialization }
+HypernodeEditor >> missingNodeErrorString [
+^ 'The node must not be nil. Be sure to instantiate the HypernodeEditor with "HypernodeEditor for: aNode".'
 ]
 
 { #category : #gui }
@@ -326,12 +336,13 @@ HypernodeEditor >> newLinearLayout [
 
 { #category : #accessing }
 HypernodeEditor >> node [
+	self assert: node isNotNil description: self missingNodeErrorString.
 	^ node
 ]
 
 { #category : #accessing }
 HypernodeEditor >> node: aHypernode [
-	self unsubscribe.
+	node ifNotNil: [ self unsubscribe ].
 	node := aHypernode.
 	self subscribe.
 	self buildEditor

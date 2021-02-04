@@ -157,7 +157,7 @@ https://github.com/onierstrasz/IMAD/issues/74'>
 	<gtView>
 	^ aView explicit
 		title: 'Description';
-		priority: 0;
+		priority: 10;
 		stencil: [ self buildDescriptionPane ];
 		updateWhen: HNPropertiesUpdated in: [ self announcer ]
 ]
