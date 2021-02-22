@@ -11,6 +11,7 @@ BaselineOfIMAD >> baseline: spec [
 		for: #common
 		do: [ spec
 				package: #'IMAD-Hypernodes';
+				package: #'IMAD-Layout';
 				package: #'IMAD-Cards';
 				package: #'IMAD-FSA'
 			"package: #'IMAD-EGM'" ]
