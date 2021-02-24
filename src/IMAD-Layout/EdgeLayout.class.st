@@ -46,3 +46,38 @@ view edges
 view layout tree.
 ^ view
 ]
+
+{ #category : #accessing }
+EdgeLayout >> twoNodesFooBar [
+<gtExample>
+"self root graph edgeChildren first fromAnchor"
+
+| anchorClass makeArrow view |
+	anchorClass := BlAnchorOnBorderAlongCenterPath.
+
+makeArrow := [ :x | 
+BlLineElement new
+	border: (BlBorder paint: Color gray);
+	toHead: (BlArrowheadSimpleArrow new
+		border: (BlBorder builder paint: Color gray; build))].
+
+view := GtMondrian new.
+view nodes
+	shape: [ :x |
+		BlTextElement new
+			text: (x asRopedText );
+			border: (BlBorder paint: Color gray);
+			padding: (BlInsets all: 5) ];
+	with: { 'Foo' . 'Bar' } .
+
+view edges
+	fromAnchor: anchorClass;
+	toAnchor: anchorClass;
+	shape: makeArrow;
+	connect: { 'Foo' -> 'Bar' }
+	from: #key to: #value.
+
+view layout tree.
+
+^ view
+]
