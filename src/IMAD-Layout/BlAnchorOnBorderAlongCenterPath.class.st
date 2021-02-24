@@ -18,10 +18,20 @@ Class {
 { #category : #accessing }
 BlAnchorOnBorderAlongCenterPath >> globalPositionWithin: aGeometryElement [
 	"Compute and return a global position (in space) of this anchor"
+
 	<return: #Point>
-
-
-	^ self referenceElement boundsInSpace pointNearestTo: self nearestToElement boundsInSpace center
+	| br edges path |
+	br := self referenceElement boundsInSpace.
+	edges := {(LineSegment from: br topLeft to: br topRight).
+	(LineSegment from: br topRight to: br bottomRight).
+	(LineSegment from: br bottomRight to: br bottomLeft).
+	(LineSegment from: br bottomLeft to: br topLeft)}.
+	path := LineSegment
+		from: br center
+		to: self nearestToElement boundsInSpace center.
+	^ (edges collect: [ :each | each intersectionWith: path ])
+		detect: #isNotNil
+		ifNone: [ br center ]
 ]
 
 { #category : #accessing }
