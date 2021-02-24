@@ -48,36 +48,51 @@ view layout tree.
 ]
 
 { #category : #accessing }
+EdgeLayout >> fixedLayoutDemo [
+	"This snippet illustrates the issue. From/to nearest bounds (using BlNearestPositionBoundsAnchor) nicely connects edges to the boundaries of nodes, but the connection anchors are ugly. From/to nearest tight circle (using BlNearestPositionTightCircleAnchor) nicely aligns the edges along the paths between the centers of the connected nodes, but does not put the edges anchors on the boundaries of the nodes."
+
+	<gtExample>
+	| view |
+	view := GtMondrian new.
+	view nodes
+		shape: [ :x | 
+			BlTextElement new
+				text: x asRopedText;
+				border: (BlBorder paint: Color gray);
+				padding: (BlInsets all: 5) ];
+		with: {'Shape' . 'Square' . 'Rectangle' . 'Circle' . 'Ellipse'}.
+	view edges
+		fromCenterPath;
+		toCenterPath;
+		connect:
+			{('Shape' -> 'Square').
+			('Square' -> 'Rectangle').
+			('Shape' -> 'Circle').
+			('Circle' -> 'Ellipse')}
+			from: #key
+			to: #value.
+	view layout tree.
+	^ view
+]
+
+{ #category : #accessing }
 EdgeLayout >> twoNodesFooBar [
-<gtExample>
-"self root graph edgeChildren first fromAnchor"
+	"self root graph edgeChildren first fromAnchor"
 
-| anchorClass makeArrow view |
-	anchorClass := BlAnchorOnBorderAlongCenterPath.
-
-makeArrow := [ :x | 
-BlLineElement new
-	border: (BlBorder paint: Color gray);
-	toHead: (BlArrowheadSimpleArrow new
-		border: (BlBorder builder paint: Color gray; build))].
-
-view := GtMondrian new.
-view nodes
-	shape: [ :x |
-		BlTextElement new
-			text: (x asRopedText );
-			border: (BlBorder paint: Color gray);
-			padding: (BlInsets all: 5) ];
-	with: { 'Foo' . 'Bar' } .
-
-view edges
-	fromAnchor: anchorClass;
-	toAnchor: anchorClass;
-	shape: makeArrow;
-	connect: { 'Foo' -> 'Bar' }
-	from: #key to: #value.
-
-view layout tree.
-
-^ view
+	<gtExample>
+	| view |
+	view := GtMondrian new.
+	view nodes
+		shape: [ :x | 
+			BlTextElement new
+				text: x asRopedText;
+				border: (BlBorder paint: Color gray);
+				padding: (BlInsets all: 5) ];
+		with: {'Foo' . 'Bar'}.
+	view edges
+		fromCenterPath;
+		toCenterPath;
+		connect: {('Foo' -> 'Bar')} from: #key to: #value.
+	view layout tree.
+	^ view
 ]
