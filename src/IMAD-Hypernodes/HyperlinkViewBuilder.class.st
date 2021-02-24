@@ -34,7 +34,7 @@ HyperlinkViewBuilder >> addLook [
 ]
 
 { #category : #accessing }
-HyperlinkViewBuilder >> connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt [
+HyperlinkViewBuilder >> connectCircleBordersFrom: sourceElt To: targetElt [
 	linkElement
 		toAnchor: (BlNearestPositionTightCircleAnchor nearestTo: sourceElt from: targetElt);
 		fromAnchor: (BlNearestPositionTightCircleAnchor nearestTo: targetElt from: sourceElt);
@@ -72,7 +72,7 @@ HyperlinkViewBuilder >> forLink: aHyperlink inGraph: aHypernodeGraphElement [
 	targetElt := graph elementFor: self link target.
 	sourceElt graph connectTo: targetElt.
 	linkElement := self newEdgeElement .
-	self connectCenterLeftToRightAnchorFrom: sourceElt To: targetElt.
+	self connectCircleBordersFrom: sourceElt To: targetElt.
 	"edgeElement := self newLine."
 	"self connectNearestPositionBoundsAnchorFrom: sourceElt To: targetElt."
 	self addLook.
