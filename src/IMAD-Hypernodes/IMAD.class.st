@@ -90,6 +90,7 @@ IMAD class >> todos [
 { #category : #accessing }
 IMAD >> allExamples [
 	<gtExample>
+	<noTest>
 	^ ('IMAD' gtPackageMatches & #gtExample gtReferences
 		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
 ]
@@ -97,6 +98,7 @@ IMAD >> allExamples [
 { #category : #accessing }
 IMAD >> allHypernodeExamples [
 	<gtExample>
+	<noTest>
 	^ ('IMAD-Hypernodes' gtPackageMatches & #gtExample gtReferences
 		& (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples
 ]
@@ -143,6 +145,7 @@ updateReport value.
 { #category : #accessing }
 IMAD >> loadAMT [
 	<gtExample>
+	<noTest>
 	^ Metacello new
 		baseline: 'AMT';
 		repository: 'https://github.com/artthik/ActorModelingTool';
@@ -179,6 +182,7 @@ IMAD >> loadEpicRN [
 { #category : #accessing }
 IMAD >> loadForkedAMT [
 	<gtExample>
+	<noTest>
 	^ Metacello new
 		baseline: 'AMT';
 		repository: 'https://github.com/onierstrasz/ActorModelingTool';
