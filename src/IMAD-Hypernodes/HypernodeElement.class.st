@@ -63,7 +63,7 @@ HypernodeElement >> contextMenu [
 
 { #category : #accessing }
 HypernodeElement >> defaultLook [
-	^ HNConfigurableLook
+	^ HNConfigurableAptitude
 		configuration:
 			{(#borderColor -> #black).
 			(#hoverColor -> #red).
@@ -119,7 +119,7 @@ HypernodeElement >> initialize [
 
 { #category : #accessing }
 HypernodeElement >> mindmapLook [
-	^ HNConfigurableLook
+	^ HNConfigurableAptitude
 		configuration:
 			{(#borderColor -> #black).
 			(#text -> 'topic').

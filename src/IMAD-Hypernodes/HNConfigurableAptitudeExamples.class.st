@@ -1,11 +1,11 @@
 Class {
-	#name : #HNConfigurableLookExamples,
+	#name : #HNConfigurableAptitudeExamples,
 	#superclass : #Object,
 	#category : #'IMAD-Hypernodes'
 }
 
 { #category : #accessing }
-HNConfigurableLookExamples >> basicElement [
+HNConfigurableAptitudeExamples >> basicElement [
 	<gtExample>
 	<todo:
 		'Here we mirror the basic setup of the HypernodeElement.
@@ -21,7 +21,7 @@ HNConfigurableLookExamples >> basicElement [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> changingLookMenuFor: configLook [
+HNConfigurableAptitudeExamples >> changingLookMenuFor: configLook [
 	^ BrGlamorousSimpleContextMenuContent new
 		items:
 			{('Green border and rounded rectangle'
@@ -46,13 +46,13 @@ HNConfigurableLookExamples >> changingLookMenuFor: configLook [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> circleNode [
+HNConfigurableAptitudeExamples >> circleNode [
 	<gtExample>
 	| elt |
 	elt := self basicElement.
 	elt
 		aptitude:
-			(HNConfigurableLook new
+			(HNConfigurableAptitude new
 				configuration:
 					{(#shape -> #circle).
 					(#borderColor -> #red)}).
@@ -60,13 +60,13 @@ HNConfigurableLookExamples >> circleNode [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> elementWithChangingLook [
+HNConfigurableAptitudeExamples >> elementWithChangingLook [
 	"See also BrLookChangeExamples>>#buttonLookPropertyChange"
 
 	<gtExample>
 	| elt menuLook configLook |
 	elt := self basicElement.
-	configLook := HNConfigurableLook
+	configLook := HNConfigurableAptitude
 		configuration: {(#text -> 'Right-click to change my look')} asDictionary.
 	menuLook := BrGlamorousWithContextMenuAptitude
 		content: [ self changingLookMenuFor: configLook ].
@@ -75,7 +75,7 @@ HNConfigurableLookExamples >> elementWithChangingLook [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> hoverColorChange [
+HNConfigurableAptitudeExamples >> hoverColorChange [
 	"Copy configurations and directly interpret them."
 
 	<gtExample>
@@ -89,14 +89,14 @@ HNConfigurableLookExamples >> hoverColorChange [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> newRoundedTextNode [
+HNConfigurableAptitudeExamples >> newRoundedTextNode [
 	"Copy configurations and directly interpret them."
 
 	<gtExample>
 	| elt aLook aRoundedTextLook |
 	aRoundedTextLook := self roundedTextNode aptitude.
 	elt := self basicElement.
-	aLook := HNConfigurableLook new
+	aLook := HNConfigurableAptitude new
 		configuration: aRoundedTextLook configuration.
 	elt aptitude: aLook.
 	self
@@ -107,13 +107,13 @@ HNConfigurableLookExamples >> newRoundedTextNode [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> plainTextBox [
+HNConfigurableAptitudeExamples >> plainTextBox [
 	<gtExample>
 	| elt |
 	elt := self basicElement.
 	elt
 		aptitude:
-			(HNConfigurableLook new
+			(HNConfigurableAptitude new
 				configuration:
 					{(#text -> 'woohoo').
 					(#borderColor -> #black)}).
@@ -121,11 +121,11 @@ HNConfigurableLookExamples >> plainTextBox [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> roundedTextNode [
+HNConfigurableAptitudeExamples >> roundedTextNode [
 	<gtExample>
 	| elt aLook |
 	elt := self basicElement.
-	aLook := HNConfigurableLook
+	aLook := HNConfigurableAptitude
 		configuration:
 			{(#shape -> #roundedRectangle).
 			(#text -> 'The quick brown fox').
@@ -142,7 +142,7 @@ HNConfigurableLookExamples >> roundedTextNode [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> updateBorderColor [
+HNConfigurableAptitudeExamples >> updateBorderColor [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
@@ -151,7 +151,7 @@ HNConfigurableLookExamples >> updateBorderColor [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> updateCornerRadius [
+HNConfigurableAptitudeExamples >> updateCornerRadius [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
@@ -160,7 +160,7 @@ HNConfigurableLookExamples >> updateCornerRadius [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> updatePadding [
+HNConfigurableAptitudeExamples >> updatePadding [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
@@ -169,7 +169,7 @@ HNConfigurableLookExamples >> updatePadding [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> updateShape [
+HNConfigurableAptitudeExamples >> updateShape [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
@@ -178,7 +178,7 @@ HNConfigurableLookExamples >> updateShape [
 ]
 
 { #category : #accessing }
-HNConfigurableLookExamples >> updateText [
+HNConfigurableAptitudeExamples >> updateText [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.

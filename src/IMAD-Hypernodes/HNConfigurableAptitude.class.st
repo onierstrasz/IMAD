@@ -5,15 +5,15 @@ I am mainly intended to configure the appearance of nodes (and edges) in a graph
 
 I can set various properties, such as the text label, foreground and background color, shape, and border. My configuration can be exported and imported as a Dictionary.
 
-For every configuration key ==#xyz== there is a public method ==#updateXyzLook:==, called by ${method:name=HNConfigurableLook>>#updateLookFor:}$ via ${method:name=HNConfigurableLook>>#interpretConfiguration}$.
+For every configuration key ==#xyz== there is a public method ==#updateXyzLook:==, called by ${method:name=HNConfigurableAptitude>>#updateLookFor:}$ via ${method:name=HNConfigurableAptitude>>#interpretConfiguration}$.
 
-Bindings are changed by calling  ${method:name=HNConfigurableLook>>#configuration:}$ to set the configuration, or ${method:name=HNConfigurableLook>>#update:}$ to change a single property or ${method:name=HNConfigurableLook>>#updateAll:}$ to update several.
+Bindings are changed by calling  ${method:name=HNConfigurableAptitude>>#configuration:}$ to set the configuration, or ${method:name=HNConfigurableAptitude>>#update:}$ to change a single property or ${method:name=HNConfigurableAptitude>>#updateAll:}$ to update several.
 
 The following features can be configured:
 
-==background== : a Color Symbol (#black, #white, see ${method:name=HNConfigurableLook>>#colorFor:}$)
+==background== : a Color Symbol (#black, #white, see ${method:name=HNConfigurableAptitude>>#colorFor:}$)
 ==border== : a Color Symbol
-==shape== : a shape Symbol (#circle, #ellipse, ... see ${method:name=HNConfigurableLook>>#shapeFor:}$)
+==shape== : a shape Symbol (#circle, #ellipse, ... see ${method:name=HNConfigurableAptitude>>#shapeFor:}$)
 ==text== : a String
 ==width== : a Number
 
@@ -23,8 +23,8 @@ See also: ${class:name=HNConfigurableLookExamples}$
 
 "
 Class {
-	#name : #HNConfigurableLook,
-	#superclass : #BrLook,
+	#name : #HNConfigurableAptitude,
+	#superclass : #BrAptitude,
 	#instVars : [
 		'configuration',
 		'defaults'
@@ -33,14 +33,14 @@ Class {
 }
 
 { #category : #accessing }
-HNConfigurableLook class >> configuration: aDictionary [
+HNConfigurableAptitude class >> configuration: aDictionary [
 	^ self new
 		configuration: aDictionary;
 		yourself
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> at: keySymbol [
+HNConfigurableAptitude >> at: keySymbol [
 	<todo:
 		'do we need to handle the case of a missing key? Is it an error, or should we provide some reasonable default? (Needs a defaults method.)'>
 	^ self configuration
@@ -52,12 +52,12 @@ HNConfigurableLook >> at: keySymbol [
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> beWider [
+HNConfigurableAptitude >> beWider [
 	self update: #width -> (self widget width * 1.1)
 ]
 
 { #category : #private }
-HNConfigurableLook >> colorFor: aColorSymbol [
+HNConfigurableAptitude >> colorFor: aColorSymbol [
 	self
 		assert: (Color class includesSelector: aColorSymbol)
 		description: aColorSymbol asString , ' is not a valid Color'.
@@ -65,12 +65,12 @@ HNConfigurableLook >> colorFor: aColorSymbol [
 ]
 
 { #category : #public }
-HNConfigurableLook >> configuration [
+HNConfigurableAptitude >> configuration [
 	^ configuration
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> configuration: aDictionary [
+HNConfigurableAptitude >> configuration: aDictionary [
 	"For convenience, argument may be an association list."
 
 	configuration := self defaultConfiguration.
@@ -79,17 +79,17 @@ HNConfigurableLook >> configuration: aDictionary [
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> defaultConfiguration [
+HNConfigurableAptitude >> defaultConfiguration [
 	^ {(#padding -> (self defaults at: #padding))} asDictionary
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> defaults [
+HNConfigurableAptitude >> defaults [
 	^ defaults
 ]
 
 { #category : #private }
-HNConfigurableLook >> initialize [
+HNConfigurableAptitude >> initialize [
 	super initialize.
 	configuration := Dictionary new. "Probably a Dictionary is enough ..."
 	self initializeDefaults 
@@ -97,7 +97,7 @@ HNConfigurableLook >> initialize [
 ]
 
 { #category : #private }
-HNConfigurableLook >> initializeDefaults [
+HNConfigurableAptitude >> initializeDefaults [
 	defaults := {(#borderColor -> #black).
 	(#borderWidth -> 1).
 	(#cornerRadius -> 4).
@@ -106,20 +106,20 @@ HNConfigurableLook >> initializeDefaults [
 ]
 
 { #category : #private }
-HNConfigurableLook >> interpretConfiguration [
+HNConfigurableAptitude >> interpretConfiguration [
 	configuration
 		keysDo: [ :lookProperty | self updateLookFor: lookProperty ]
 ]
 
 { #category : #private }
-HNConfigurableLook >> properties [
+HNConfigurableAptitude >> properties [
 	"For each key in properties, there should be a #updateKeyLook method to update the look. See updateLookFor:"
 
 	^ #(borderColor hoverColor borderWidth background shape cornerRadius width text padding)
 ]
 
 { #category : #public }
-HNConfigurableLook >> reset [
+HNConfigurableAptitude >> reset [
 	"Clear all changes and recreate them (to avoid building up garbage changes)."
 
 	self isAttachedToWidget
@@ -133,7 +133,7 @@ HNConfigurableLook >> reset [
 ]
 
 { #category : #private }
-HNConfigurableLook >> shapeFor: aShapeSymbol [
+HNConfigurableAptitude >> shapeFor: aShapeSymbol [
 	^ {(#circle -> [ BlCircle new ]).
 	(#ellipse -> [ BlEllipse new ]).
 	(#square -> [ BlSquare new ]).
@@ -144,50 +144,50 @@ HNConfigurableLook >> shapeFor: aShapeSymbol [
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> update: anAssociation [
+HNConfigurableAptitude >> update: anAssociation [
 	self updateAll: {anAssociation}
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> updateAll: anAssociationList [
+HNConfigurableAptitude >> updateAll: anAssociationList [
 	anAssociationList
 		do: [ :assoc | self configuration at: assoc key put: assoc value ].
 	self reset
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> updateBackgroundLook [
+HNConfigurableAptitude >> updateBackgroundLook [
 	self
 		addChangeProperty: #(widget background)
 		with: [ (self colorFor: (self at: #background)) asBlBackground ]
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> updateBorderColorLook [
+HNConfigurableAptitude >> updateBorderColorLook [
 	self updateBorderLook
 ]
 
 { #category : #private }
-HNConfigurableLook >> updateBorderLook [
+HNConfigurableAptitude >> updateBorderLook [
 	self
 		addChangeProperty: #(widget border)
 		with: [ BlBorder paint: (self colorFor: (self at: #borderColor)) width: (self at: #borderWidth) ]
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> updateBorderWidthLook [
+HNConfigurableAptitude >> updateBorderWidthLook [
 	self updateBorderLook
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> updateCornerRadiusLook [
+HNConfigurableAptitude >> updateCornerRadiusLook [
 	"NB: #shapeFor: will look up the cornerRadius property if it is needed."
 
 	self updateShapeLook
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> updateHoverColorLook [
+HNConfigurableAptitude >> updateHoverColorLook [
 	<todo: 'Is this correct?'>
 	self
 		add:
@@ -207,7 +207,7 @@ HNConfigurableLook >> updateHoverColorLook [
 ]
 
 { #category : #private }
-HNConfigurableLook >> updateLookFor: lookProperty [
+HNConfigurableAptitude >> updateLookFor: lookProperty [
 	| method |
 	self
 		assert: (self properties includes: lookProperty)
@@ -220,21 +220,21 @@ HNConfigurableLook >> updateLookFor: lookProperty [
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> updatePaddingLook [
+HNConfigurableAptitude >> updatePaddingLook [
 	self
 		addChangeProperty: #(widget padding)
 		with: [ BlInsets all: (self at: #padding) ]
 ]
 
 { #category : #private }
-HNConfigurableLook >> updateShapeLook [
+HNConfigurableAptitude >> updateShapeLook [
 	self
 		addChangeProperty: #(widget geometry)
 		with: (self shapeFor: (self at: #shape))
 ]
 
 { #category : #private }
-HNConfigurableLook >> updateTextLook [
+HNConfigurableAptitude >> updateTextLook [
 	self widgetDo: [ :w | w removeChildNamed: #label ].
 	self
 		addChangeAddChildAs: #(label)
@@ -246,7 +246,7 @@ HNConfigurableLook >> updateTextLook [
 ]
 
 { #category : #accessing }
-HNConfigurableLook >> updateWidthLook [
+HNConfigurableAptitude >> updateWidthLook [
 	<todo: 'set both width and height for Squares and Circles'>
 	self addChangeProperty: #(widget width) with: [ (self at: #width) ]
 ]
