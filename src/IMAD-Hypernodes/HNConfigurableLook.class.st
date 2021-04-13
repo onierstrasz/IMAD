@@ -126,7 +126,7 @@ HNConfigurableLook >> reset [
 		ifTrue: [ self changes downOn: self ].
 	self changes initialize.
 	self children do: [ :c | self remove: c ].
-	"remove the BrStyleCommonLook and possibly others"
+	"remove the BrStyleCommonAptitude and possibly others"
 	self isAttachedToWidget
 		ifTrue: [ self changes upOn: self ].
 	self interpretConfiguration
@@ -191,7 +191,7 @@ HNConfigurableLook >> updateHoverColorLook [
 	<todo: 'Is this correct?'>
 	self
 		add:
-			(BrStyleCommonLook new
+			(BrStyleCommonAptitude new
 				default: [ :aStyle | 
 					aStyle
 						border:

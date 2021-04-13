@@ -24,12 +24,12 @@ HyperlinkViewBuilder class >> forLink: edge inGraph: aHypernodeGraphElement [
 HyperlinkViewBuilder >> addLook [
 	linkElement
 		look:
-			(BrStyleCommonLook new
+			(BrStyleCommonAptitude new
 				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ])
-				+ (BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+				+ (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ])
 				"+
-					(BrGlamorousWithTooltipLook2
+					(BrGlamorousWithTooltipAptitude2
 						content: (self tooltipWithText: self link kind))"
 ]
 
@@ -136,7 +136,7 @@ HyperlinkViewBuilder >> newSigmoid [
 HyperlinkViewBuilder >> tooltipWithText: aString [
 	"From TCardModelElement"
 	^ BrLabel new
-		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+		look: BrGlamorousLabelAptitude new glamorousRegularFontAndSize;
 		padding: (BlInsets all: 5);
 		alignCenter;
 		text: aString asRopedText;

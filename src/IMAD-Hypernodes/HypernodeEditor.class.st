@@ -70,42 +70,42 @@ HypernodeEditor >> buildButtonBar [
 	"buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add card';
 				action: [ self deck addCard: Card new ])."
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomin;
 				label: 'Zoom In';
 				action: [ graphContainer zoomIn ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomout;
 				label: 'Zoom Out';
 				action: [ graphContainer zoomOut ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomtofit;
 				label: 'Fit';
 				action: [ graphContainer zoomToFit ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize;
 				label: 'Resize';
 				action: [ graphContainer zoomToActualSize ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons refresh;
 				label: 'Refresh';
 				action: [ self updateGraph ]).
@@ -113,7 +113,7 @@ HypernodeEditor >> buildButtonBar [
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons help;
 				label: 'Refresh';
 				action: [ self phlow spawnTool: (GtDocumenterTool forClass: HypernodeEditor) ]).
@@ -228,7 +228,7 @@ HypernodeEditor >> handleEvents [
 				addNodeWithPosition: (graphHolder globalPointToLocal: evt position) ].
 	"right-click"
 	graphContainer
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+		look: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ])
 ]
 
 { #category : #initialization }
@@ -246,7 +246,7 @@ HypernodeEditor >> initialize [
 		addChild:
 			(BrEditor new
 				beReadOnlyWithSelection;
-				look: BrGlamorousRegularEditorLook new;
+				look: BrGlamorousRegularEditorAptitude new;
 				text: (self missingNodeErrorString asRopedText foreground: Color red))
 ]
 
@@ -267,7 +267,7 @@ HypernodeEditor >> newClassDefinitionDialog [
 	^ container
 		addChild:
 			(BrLabel new
-				look: BrGlamorousLabelLook new bold;
+				look: BrGlamorousLabelAptitude new bold;
 				text: 'Please edit and create the storage class first.');
 		addChild:
 			(self newLinearBoxedLayout
@@ -287,7 +287,7 @@ HypernodeEditor >> newClassDefinitionDialog [
 							'''' asBrLabel}));
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithLabelLook;
+				look: BrGlamorousButtonWithLabelAptitude;
 				label: 'Create class';
 				action: [ :button | 
 					self node storageClassName: theClass text asString.
@@ -319,7 +319,7 @@ HypernodeEditor >> newFlowElement [
 HypernodeEditor >> newLinearBoxedLayout [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
-		look: BrGlamorousInputFieldSpacingLook;
+		look: BrGlamorousInputFieldSpacingAptitude;
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical fitContent ]
@@ -361,13 +361,13 @@ HypernodeEditor >> saveButton [
 
 	^ BrButton new
 		look:
-			BrGlamorousButtonWithIconLook
+			BrGlamorousButtonWithIconAptitude
 				+
-					(BrGlamorousWithDropdownLook
+					(BrGlamorousWithDropdownAptitude
 						handle: [ BrButton new
 								look:
-									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
-										- BrGlamorousButtonExteriorLook;
+									BrGlamorousButtonWithIconAptitude - BrGlamorousWithLabelTooltipAptitude
+										- BrGlamorousButtonExteriorAptitude;
 								icon: BrGlamorousIcons save;
 								label: 'Saved to ' , self node root storageClassMethod ]
 						content: [ | dropdown |

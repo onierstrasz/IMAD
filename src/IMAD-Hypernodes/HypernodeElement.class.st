@@ -82,7 +82,7 @@ HypernodeElement >> handleEvents [
 		'Move the context menu and double-click handling to the configurable look. Possibly move the other eventhandlers too, if that is possible.'>
 	self assert: self context isNotNil.
 	self look
-		add: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).
+		add: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ]).
 	self addEventHandler: (HypernodePullHandler for: self).
 	self addEventHandler: HyperlinkDragHandler new.
 	self

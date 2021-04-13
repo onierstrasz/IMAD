@@ -225,7 +225,7 @@ Hypernode >> gtStoreStringFor: aView [
 				matchParent ];
 		actionStencil: [ :aTab | 
 			BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons refresh asElement;
 				label: 'Refresh';
 				action: [ aTab viewContentElement phlow update ] ]

@@ -94,7 +94,7 @@ graphContainer
    	 newNode relocate: (graphHolder globalPointToLocal: evt position) ].
 
 graphContainer
-		look: (BrGlamorousWithContextMenuLook content: [
+		look: (BrGlamorousWithContextMenuAptitude content: [
 			BrGlamorousSimpleContextMenuContent new
 				items: { ( 'Inspect graph' -> [ graph inspect ] ) };
 				yourself ]).
@@ -111,28 +111,28 @@ buttonBar border: (BlBorder paint: Color orange width: 1).
 buttonBar
 	addChild:
 		(BrButton new
-			look: BrGlamorousButtonWithIconLook;
+			look: BrGlamorousButtonWithIconAptitude;
 			icon: BrGlamorousIcons zoomin;
 			label: 'Zoom In';
 			action: [ graphContainer zoomIn ]).
 buttonBar
 	addChild:
 		(BrButton new
-			look: BrGlamorousButtonWithIconLook;
+			look: BrGlamorousButtonWithIconAptitude;
 			icon: BrGlamorousIcons zoomout;
 			label: 'Zoom Out';
 			action: [ graphContainer zoomOut ]).
 buttonBar
 	addChild:
 		(BrButton new
-			look: BrGlamorousButtonWithIconLook;
+			look: BrGlamorousButtonWithIconAptitude;
 			icon: BrGlamorousIcons zoomtofit;
 			label: 'Fit';
 			action: [ graphContainer zoomToFit ]).
 buttonBar
 	addChild:
 		(BrButton new
-			look: BrGlamorousButtonWithIconLook;
+			look: BrGlamorousButtonWithIconAptitude;
 			icon: BrGlamorousIcons actualsize;
 			label: 'Resize';
 			action: [ graphContainer zoomToActualSize ]).
@@ -154,10 +154,10 @@ makeNode := [ | node |
 	node graph beNode.
 	node
 		look:
-			(BrStyleCommonLook  new
+			(BrStyleCommonAptitude  new
 				default: [ :aStyle | aStyle border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :aStyle | aStyle border: (BlBorder paint: Color red width: 1) ])
-			+ ((BrGlamorousWithContextMenuLook content: [ 
+			+ ((BrGlamorousWithContextMenuAptitude content: [ 
 				BrGlamorousSimpleContextMenuContent new
 					items: { ( 'Inspect node' -> [ node inspect ] ) };
 					yourself ])

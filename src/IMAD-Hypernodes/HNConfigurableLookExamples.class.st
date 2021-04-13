@@ -68,7 +68,7 @@ HNConfigurableLookExamples >> elementWithChangingLook [
 	elt := self basicElement.
 	configLook := HNConfigurableLook
 		configuration: {(#text -> 'Right-click to change my look')} asDictionary.
-	menuLook := BrGlamorousWithContextMenuLook
+	menuLook := BrGlamorousWithContextMenuAptitude
 		content: [ self changingLookMenuFor: configLook ].
 	elt look: menuLook + configLook.
 	^ elt
