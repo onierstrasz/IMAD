@@ -87,7 +87,7 @@ Card >> buildTagHeader [
 		'Fix bug with adding deleting and adding, or adding 3x raising an exception. See IMAD issue #23'>
 	| tagger |
 	tagger := BrTagger new
-		look: BrGlamorousTaggerEditableLook new;
+		look: BrGlamorousTaggerEditableAptitude new;
 		namedTags: self tags;
 		when: BrTaggerAddTagRequest
 			do:

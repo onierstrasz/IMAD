@@ -176,15 +176,15 @@ UsefulExamples >> buildDifferentKindsOfTabs [
 	BrExamplesShowroom>>#glamorousTabs
 	"
 	tabs := BrTabGroup new.
-	tabs look: BrGlamorousTabGroupLook new.
+	tabs look: BrGlamorousTabGroupAptitude new.
 		
 	tabs addTab: (BrTab new
-		look: BrGlamorousTabLook new;
+		look: BrGlamorousTabAptitude new;
 		label: 'Text';
 		stencil: [ GtDocument new text: 'Sample text']).
 
 	tabs addTab: (BrTab new
-		look: BrGlamorousTabLook new;
+		look: BrGlamorousTabAptitude new;
 		label: 'BlueBox';
 		stencil: [ BlElement new
 			constraintsDo: [ :c |
@@ -194,7 +194,7 @@ UsefulExamples >> buildDifferentKindsOfTabs [
 			background: (Color blue alpha: 0.2) ]).
 
 	tabs addTab: (BrTab new
-		look: BrGlamorousTabLook new;
+		look: BrGlamorousTabAptitude new;
 		label: 'Simpsons';
 		stencil: [
 			(self simpsons gtItemsFor: GtPhlowEmptyView new)
@@ -230,7 +230,7 @@ UsefulExamples >> buttonWithActions [
 									('Action 3' -> [ self openTextInOwnWindow: 'action 3' ])}.
 							BrAnchoredElement new
 								look:
-									(BrGlamorousDropdownLook new
+									(BrGlamorousDropdownAptitude new
 										handle:
 											(BrButton new
 												icon: BrGlamorousIcons hamburger asElement;
@@ -247,14 +247,14 @@ UsefulExamples >> buttonWithActions [
 UsefulExamples >> buttonWithColoredBackgroundAndForeground [
 	<gtExample>
 	| look |
-	look := BrGlamorousButtonLabelLook new
+	look := BrGlamorousButtonLabelAptitude new
 		selectedColor: Color white;
 		bold;
 		yourself.
 	look remove: look children last.
 	look
 		add:
-			(BrInteractiveCommonLook new
+			(BrInteractiveCommonAptitude new
 				default: [ look foreground: Color white ];
 				hovered: [ look foreground: BrGlamorousColors hoveredButtonTextColor ];
 				pressed: [ look foreground: BrGlamorousColors pressedButtonTextColor ];
@@ -263,7 +263,7 @@ UsefulExamples >> buttonWithColoredBackgroundAndForeground [
 		label: 'a Button';
 		look:
 			look + (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color blue)
-				+ BrGlamorousButtonRectangularLook new
+				+ BrGlamorousButtonRectangularAptitude new
 ]
 
 { #category : #accessing }
@@ -280,15 +280,15 @@ UsefulExamples >> buttonWithThreeStates [
 				yourself ].
 	state := 'off'.	"'off', 'on' or 'negated'"
 	offLook := BrGlamorousButtonWithLabelAptitude + tooltipLook.
-	onLook := (BrGlamorousButtonLabelLook new
+	onLook := (BrGlamorousButtonLabelAptitude new
 		bold;
 		yourself) + BrGlamorousButtonExteriorAptitude new
-		+ BrGlamorousButtonRectangularLook new + tooltipLook.
-	negatedLook := (BrGlamorousButtonLabelLook new
+		+ BrGlamorousButtonRectangularAptitude new + tooltipLook.
+	negatedLook := (BrGlamorousButtonLabelAptitude new
 		bold;
 		yourself)
 		+ (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color pink)
-		+ BrGlamorousButtonRectangularLook new + tooltipLook.
+		+ BrGlamorousButtonRectangularAptitude new + tooltipLook.
 	^ BrButton new
 		look: offLook;
 		label: 'StatefulButton';
@@ -880,7 +880,7 @@ UsefulExamples >> textWithMenuAtRight [
 
 { #category : #accessing }
 UsefulExamples >> wrappedTooltip [
-	"Note that the exact width has to be set on the BrEditor and not the container. The problem is that the look (BrTooltipBottomCenterLook) will override the horizontal constaint on the content anyway."
+	"Note that the exact width has to be set on the BrEditor and not the container. The problem is that the look (BrTooltipBottomCenterAptitude) will override the horizontal constaint on the content anyway."
 
 	<gtExample>
 	^ BlElement new

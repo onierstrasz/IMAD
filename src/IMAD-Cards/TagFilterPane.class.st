@@ -102,18 +102,18 @@ TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 		-> (BrGlamorousButtonWithLabelAptitude + tooltipLook)).
 	(#on
 		->
-			((BrGlamorousButtonLabelLook new
+			((BrGlamorousButtonLabelAptitude new
 				bold;
 				yourself)
 				+ (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color lightGreen)
-				+ BrGlamorousButtonRectangularLook new + tooltipLook)).
+				+ BrGlamorousButtonRectangularAptitude new + tooltipLook)).
 	(#negated
 		->
-			((BrGlamorousButtonLabelLook new
+			((BrGlamorousButtonLabelAptitude new
 				bold;
 				yourself)
 				+ (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color pink)
-				+ BrGlamorousButtonRectangularLook new + tooltipLook))}
+				+ BrGlamorousButtonRectangularAptitude new + tooltipLook))}
 		asDictionary.
 	nextState := {(#off -> #on).
 	(#on -> #negated).

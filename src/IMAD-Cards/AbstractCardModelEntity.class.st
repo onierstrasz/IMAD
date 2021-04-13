@@ -114,7 +114,7 @@ AbstractCardModelEntity >> labelFor: aString [
 
 	| label |
 	label := BrEditableLabel new
-		look: BrGlamorousEditorLook new; "NB: not really editable"
+		look: BrGlamorousEditorAptitude new; "NB: not really editable"
 		text: aString.
 	^ label
 ]
