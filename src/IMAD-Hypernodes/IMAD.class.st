@@ -157,6 +157,7 @@ IMAD >> loadEpic [
 	"https://github.com/vaano94/SCG_EpicGit"
 
 	<gtExample>
+	<noTest>
 	^ Metacello new
 		baseline: 'Epic';
 		repository: 'github://vaano94/SCG_EpicGit';
@@ -173,6 +174,7 @@ IMAD >> loadEpicRN [
 	"
 
 	<gtExample>
+	<noTest>
 	^ Metacello new
 		baseline: 'Epic';
 		repository: 'github://rniem379349/SCG_EpicGit';

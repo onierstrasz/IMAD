@@ -114,19 +114,21 @@ CardNodeView >> initialize [
 			c vertical fitContent ];
 		padding: (BlInsets all: 5).
 	self
-		look:
+		aptitude:
 			(BrStyleCommonAptitude new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
 				+
 					((BrGlamorousWithContextMenuAptitude content: [ self cardEditor ])
 						useSecondaryMouseButton;
-						modifiersMatcher: #isEmpty; "right-click"
+						modifiersMatcher: #isEmpty;
+						"right-click"
 							yourself)
 				+
 					((BrGlamorousWithContextMenuAptitude content: [ self contextMenu ])
 						useSecondaryMouseButton;
-						modifiersMatcher: #isCmd; "CMD right-click"
+						modifiersMatcher: #isCmd;
+						"CMD right-click"
 							yourself).
 	"+ (BrGlamorousWithTooltipAptitude2 content: [ self cardEditor ])"
 	self updateCard.

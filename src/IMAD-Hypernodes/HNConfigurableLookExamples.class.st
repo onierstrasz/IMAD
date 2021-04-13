@@ -51,7 +51,7 @@ HNConfigurableLookExamples >> circleNode [
 	| elt |
 	elt := self basicElement.
 	elt
-		look:
+		aptitude:
 			(HNConfigurableLook new
 				configuration:
 					{(#shape -> #circle).
@@ -70,7 +70,7 @@ HNConfigurableLookExamples >> elementWithChangingLook [
 		configuration: {(#text -> 'Right-click to change my look')} asDictionary.
 	menuLook := BrGlamorousWithContextMenuAptitude
 		content: [ self changingLookMenuFor: configLook ].
-	elt look: menuLook + configLook.
+	elt aptitude: menuLook + configLook.
 	^ elt
 ]
 
@@ -81,7 +81,7 @@ HNConfigurableLookExamples >> hoverColorChange [
 	<gtExample>
 	| elt |
 	elt := self newRoundedTextNode.
-	elt look
+	elt aptitude
 		updateAll:
 			{(#borderColor -> #blue).
 			(#hoverColor -> #red)}.
@@ -94,15 +94,15 @@ HNConfigurableLookExamples >> newRoundedTextNode [
 
 	<gtExample>
 	| elt aLook aRoundedTextLook |
-	aRoundedTextLook := self roundedTextNode look.
+	aRoundedTextLook := self roundedTextNode aptitude.
 	elt := self basicElement.
 	aLook := HNConfigurableLook new
 		configuration: aRoundedTextLook configuration.
-	elt look: aLook.
+	elt aptitude: aLook.
 	self
 		assert: aLook configuration
 		equals: aRoundedTextLook configuration.
-	elt look: aLook.
+	elt aptitude: aLook.
 	^ elt
 ]
 
@@ -112,7 +112,7 @@ HNConfigurableLookExamples >> plainTextBox [
 	| elt |
 	elt := self basicElement.
 	elt
-		look:
+		aptitude:
 			(HNConfigurableLook new
 				configuration:
 					{(#text -> 'woohoo').
@@ -137,7 +137,7 @@ HNConfigurableLookExamples >> roundedTextNode [
 			(#text -> 'The quick brown fox').
 			(#borderColor -> #brown).
 			(#padding -> 5)} asDictionary.
-	elt look: aLook.
+	elt aptitude: aLook.
 	^ elt
 ]
 
@@ -146,7 +146,7 @@ HNConfigurableLookExamples >> updateBorderColor [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
-	elt look update: #borderColor ->#green.
+	elt aptitude update: #borderColor -> #green.
 	^ elt
 ]
 
@@ -155,7 +155,7 @@ HNConfigurableLookExamples >> updateCornerRadius [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
-	elt look update: #cornerRadius -> 10.
+	elt aptitude update: #cornerRadius -> 10.
 	^ elt
 ]
 
@@ -164,7 +164,7 @@ HNConfigurableLookExamples >> updatePadding [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
-	elt look update: #padding -> 20.
+	elt aptitude update: #padding -> 20.
 	^ elt
 ]
 
@@ -173,7 +173,7 @@ HNConfigurableLookExamples >> updateShape [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
-	elt look update: #shape ->#rectangle.
+	elt aptitude update: #shape -> #rectangle.
 	^ elt
 ]
 
@@ -182,6 +182,6 @@ HNConfigurableLookExamples >> updateText [
 	<gtExample>
 	| elt aLook |
 	elt := self roundedTextNode.
-	elt look update: #text -> 'The lazy dog'.
+	elt aptitude update: #text -> 'The lazy dog'.
 	^ elt
 ]

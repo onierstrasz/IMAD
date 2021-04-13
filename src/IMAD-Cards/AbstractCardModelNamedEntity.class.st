@@ -92,7 +92,7 @@ AbstractCardModelNamedEntity >> buildLabel [
 	^ (self
 		editableLabelFor: self name
 		withSetter: [ :newName | self name: newName ])
-		look:
+		aptitude:
 			(BrGlamorousEditableLabelAptitude new
 				defaultBackground: Color transparent;
 				glamorousCodeFont;

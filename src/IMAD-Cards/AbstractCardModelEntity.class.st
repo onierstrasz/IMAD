@@ -51,8 +51,7 @@ AbstractCardModelEntity >> editableLabelFor: aString withSetter: aOneArgumentBlo
 
 	| label |
 	label := BrEditableLabel new
-		look:
-			(BrGlamorousEditableLabelAptitude new defaultBackground: Color white);
+		aptitude: (BrGlamorousEditableLabelAptitude new defaultBackground: Color white);
 		text: aString.
 	label
 		when: BrEditorAcceptWish

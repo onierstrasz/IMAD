@@ -105,7 +105,9 @@ TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 			((BrGlamorousButtonLabelAptitude new
 				bold;
 				yourself)
-				+ (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color lightGreen)
+				+
+					(BrGlamorousButtonExteriorAptitude new
+						backgroundPaint: Color lightGreen)
 				+ BrGlamorousButtonRectangularAptitude new + tooltipLook)).
 	(#negated
 		->
@@ -119,7 +121,7 @@ TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 	(#on -> #negated).
 	(#negated -> #off)} asDictionary.
 	^ button
-		look: (buttonLooks at: aState);
+		aptitude: (buttonLooks at: aState);
 		label: aTagString;
 		action: [ :e | 
 			| newState |
