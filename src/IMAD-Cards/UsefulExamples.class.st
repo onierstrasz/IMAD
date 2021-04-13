@@ -63,12 +63,12 @@ UsefulExamples >> boxWithToolTip [
 		background: Color green;
 		yourself.
 	tooltip := BrLabel new
-		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+		look: BrGlamorousLabelAptitude new glamorousRegularFontAndSize;
 		padding: (BlInsets all: 5);
 		alignCenter;
 		text: 'woohoo' asRopedText;
 		yourself.
-	box look: (BrGlamorousWithTooltipLook2 content: tooltip).
+	box look: (BrGlamorousWithTooltipAptitude2 content: tooltip).
 	^ box
 ]
 
@@ -81,7 +81,7 @@ UsefulExamples >> boxWithWrappedToolTip [
 		size: 20 @ 20;
 		background: Color blue;
 		yourself.
-	tooltipLook := BrGlamorousWithTooltipLook2
+	tooltipLook := BrGlamorousWithTooltipAptitude2
 		content: self wrappedTooltip.
 	box look: tooltipLook.
 	^ box
@@ -218,9 +218,9 @@ UsefulExamples >> buttonWithActions [
 		padding: (BlInsets all: 7);
 		icon: BrGlamorousIcons hamburger asElement;
 		look:
-			BrGlamorousButtonWithIconLook
+			BrGlamorousButtonWithIconAptitude
 				+
-					(BrGlamorousWithDropdownLook new
+					(BrGlamorousWithDropdownAptitude new
 						stencil: [ | aList |
 							aList := BrGlamorousSimpleContextMenuContent new.
 							aList
@@ -234,7 +234,7 @@ UsefulExamples >> buttonWithActions [
 										handle:
 											(BrButton new
 												icon: BrGlamorousIcons hamburger asElement;
-												look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook);
+												look: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude);
 										content:
 											(aList
 												padding: (BlInsets all: 5);
@@ -262,7 +262,7 @@ UsefulExamples >> buttonWithColoredBackgroundAndForeground [
 	^ BrButton new
 		label: 'a Button';
 		look:
-			look + (BrGlamorousButtonExteriorLook new backgroundPaint: Color blue)
+			look + (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color blue)
 				+ BrGlamorousButtonRectangularLook new
 ]
 
@@ -271,23 +271,23 @@ UsefulExamples >> buttonWithThreeStates [
 	<gtExample>
 	| tooltip state offLook onLook negatedLook tooltipLook |
 	tooltip := 'Switch on'.
-	tooltipLook := BrGlamorousWithTooltipLook2
+	tooltipLook := BrGlamorousWithTooltipAptitude2
 		content: [ BrLabel new
-				look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+				look: BrGlamorousLabelAptitude new glamorousRegularFontAndSize;
 				padding: (BlInsets all: 5);
 				alignCenter;
 				text: tooltip asRopedText;
 				yourself ].
 	state := 'off'.	"'off', 'on' or 'negated'"
-	offLook := BrGlamorousButtonWithLabelLook + tooltipLook.
+	offLook := BrGlamorousButtonWithLabelAptitude + tooltipLook.
 	onLook := (BrGlamorousButtonLabelLook new
 		bold;
-		yourself) + BrGlamorousButtonExteriorLook new
+		yourself) + BrGlamorousButtonExteriorAptitude new
 		+ BrGlamorousButtonRectangularLook new + tooltipLook.
 	negatedLook := (BrGlamorousButtonLabelLook new
 		bold;
 		yourself)
-		+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color pink)
+		+ (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color pink)
 		+ BrGlamorousButtonRectangularLook new + tooltipLook.
 	^ BrButton new
 		look: offLook;
@@ -353,9 +353,9 @@ UsefulExamples >> dropdownOnRightClick [
 	^ BrButton new
 		label: '';
 		look:
-			BrGlamorousButtonWithLabelLook
+			BrGlamorousButtonWithLabelAptitude
 				+
-					(BrGlamorousWithContextMenuLook
+					(BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 								items:
 									{('Change to blue' -> [ :e | e background: Color blue ]).
@@ -381,7 +381,7 @@ UsefulExamples >> dropdownWithChangingContent [
 			menu
 				addChild:
 					(BrButton new
-						look: BrGlamorousButtonWithLabelLook;
+						look: BrGlamorousButtonWithLabelAptitude;
 						label: 'Do it!';
 						action: [ :button | 
 						menu removeChildren.
@@ -406,60 +406,60 @@ UsefulExamples >> elementHandlingClickEvents [
 		background: (Color blue alpha: 0.2).
 	clickElt
 		look:
-			(BrStyleCommonLook new
+			(BrStyleCommonAptitude new
 				default: [ :elt | elt border: (BlBorder paint: Color transparent width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 1) ])
 				+
-					((BrGlamorousWithContextMenuLook
+					((BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Click' -> [ :e |  ])} ])
 						usePrimaryMouseButton;
 						modifiersMatcher: #isEmpty;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook
+					((BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Ctrl-click' -> [ :e |  ])} ])
 						usePrimaryMouseButton;
 						modifiersMatcher: #isCtrl;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook
+					((BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Alt-click' -> [ :e |  ])} ])
 						usePrimaryMouseButton;
 						modifiersMatcher: #isAlt;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook
+					((BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Cmd-click' -> [ :e |  ])} ])
 						usePrimaryMouseButton;
 						modifiersMatcher: #isCmd;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook
+					((BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isEmpty;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook
+					((BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Ctrl-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isCtrl;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook
+					((BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Alt-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isAlt;
 						yourself)
 				+
-					((BrGlamorousWithContextMenuLook
+					((BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 						items: {('Cmd-right-click' -> [ :e |  ])} ])
 						useSecondaryMouseButton;
@@ -575,13 +575,13 @@ UsefulExamples >> gtToolsMenu [
 			c vertical fitContent ];
 		addChildren: {
 			BrButton new
-				look: BrGlamorousButtonWithLabelLook new;
+				look: BrGlamorousButtonWithLabelAptitude new;
 				label: 'Save';
 				hMatchParent;
 				action: [ :aButton | aButton space universe snapshot: true andQuit: false ].
 				
 			BrButton new
-				look: (BrGlamorousButtonWithLabelLook new);
+				look: (BrGlamorousButtonWithLabelAptitude new);
 				label: 'Quit';
 				hMatchParent;
 				action: [ :aButton | aButton space universe snapshot: false andQuit: true ] }).
@@ -595,13 +595,13 @@ UsefulExamples >> hamburgerDropdown [
 	| subSpaceDropdown |
 	subSpaceDropdown := BrButton new
 		look:
-			BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook
+			BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude
 				+
-					(BrGlamorousWithDropdownLook
+					(BrGlamorousWithDropdownAptitude
 						handle: [ BrButton new
 								look:
-									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
-										- BrGlamorousButtonExteriorLook;
+									BrGlamorousButtonWithIconAptitude - BrGlamorousWithLabelTooltipAptitude
+										- BrGlamorousButtonExteriorAptitude;
 								icon: BrGlamorousIcons hamburger asElement;
 								label: 'Menu' ]
 						content: [
@@ -617,7 +617,7 @@ UsefulExamples >> hamburgerDropdown [
 UsefulExamples >> hamburgerWithIconLook [
 	<gtExample>
 	^ BrButton new 
-	look: BrGlamorousButtonWithIconLook;
+	look: BrGlamorousButtonWithIconAptitude;
 	icon: BrGlamorousIcons hamburger asElement;
 	label: 'Menu'
 ]
@@ -626,7 +626,7 @@ UsefulExamples >> hamburgerWithIconLook [
 UsefulExamples >> hamburgerWithLabelLook [
 	<gtExample>
 	^ BrButton new 
-	look: BrGlamorousButtonWithLabelLook;
+	look: BrGlamorousButtonWithLabelAptitude;
 	icon: BrGlamorousIcons hamburger asElement;
 	label: 'Menu'
 ]
@@ -648,11 +648,11 @@ UsefulExamples >> lineWithHoverAndContextMenu [
 		yourself.
 	line
 		look:
-			(BrStyleCommonLook new
+			(BrStyleCommonAptitude new
 				default: [ :elt | elt border: (BlBorder paint: Color gray width: 4) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color red width: 4) ])
 				+
-					(BrGlamorousWithContextMenuLook
+					(BrGlamorousWithContextMenuAptitude
 						content: [ BrGlamorousSimpleContextMenuContent new
 								items:
 									{('Change to blue'
@@ -698,9 +698,9 @@ UsefulExamples >> linesDontRespondToEevents [
 { #category : #accessing }
 UsefulExamples >> lookSubtraction [
 	<gtExample>
-	"this simply means that we are not taking BrGlamorousButtonExteriorLook into account in this case, and we will get no border"
+	"this simply means that we are not taking BrGlamorousButtonExteriorAptitude into account in this case, and we will get no border"
 	^ BrButton new 
-	look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
+	look: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude;
 	icon: BrGlamorousIcons hamburger asElement;
 	label: 'Menu'
 ]
@@ -735,7 +735,7 @@ UsefulExamples >> mondrianWithButton [
 	container
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons add;
 				label: 'Menu').
 	container addChild: mondrian root.
@@ -750,7 +750,7 @@ UsefulExamples >> nestedMenuTOFIX [
 	nested := BlTextElement new text: 'nested' asRopedText.
 	nested
 		look:
-			(BrGlamorousWithContextMenuLook
+			(BrGlamorousWithContextMenuAptitude
 				content: [ BrGlamorousSimpleContextMenuContent new
 						items:
 							{('Change to blue' -> [ :e | e background: Color blue ]).
@@ -763,7 +763,7 @@ UsefulExamples >> nestedMenuTOFIX [
 		yourself.
 	main
 		look:
-			(BrGlamorousWithContextMenuLook
+			(BrGlamorousWithContextMenuAptitude
 				content: [ BrGlamorousSimpleContextMenuContent new
 						items: {(nested -> [  ])};
 						yourself ]);
@@ -795,7 +795,7 @@ UsefulExamples >> paneWithTabs [
 			c vertical matchParent ].
 	label := BrLabel new
 		margin: (BlInsets left: 10);
-		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
+		look: (BrGlamorousLabelAptitude new bold glamorousRegularFont fontSize: 20);
 		text: 'Woohoo'.
 	contentPane addChild: label.
 	contentPane addChild: self buildDifferentKindsOfTabs.
@@ -860,7 +860,7 @@ UsefulExamples >> textWithMenuAtRight [
 
 	left := BrLabel new
 		margin: (BlInsets left: 10);
-		look: (BrGlamorousLabelLook new bold glamorousRegularFont fontSize: 20);
+		look: (BrGlamorousLabelAptitude new bold glamorousRegularFont fontSize: 20);
 		text: 'Woohoo!'.
 	
 	span := BlElement new.
@@ -869,7 +869,7 @@ UsefulExamples >> textWithMenuAtRight [
 		c vertical matchParent. ].
 
 	right := BrButton new 
-		look: BrGlamorousButtonWithIconLook;
+		look: BrGlamorousButtonWithIconAptitude;
 		icon: BrGlamorousIcons hamburger asElement;
 		label: 'Menu'.
 
@@ -891,7 +891,7 @@ UsefulExamples >> wrappedTooltip [
 			c horizontal fitContent ];
 		addChild:
 			(BrEditor new
-				look: BrGlamorousRegularEditorLook new;
+				look: BrGlamorousRegularEditorAptitude new;
 				text: Boolean comment;
 				hExact: 200;
 				yourself)

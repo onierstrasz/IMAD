@@ -37,42 +37,42 @@ VirtualHandGUI >> buildButtonBar [
 	"buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add card';
 				action: [ self deck addCard: Card new ])."
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomin;
 				label: 'Zoom In';
 				action: [ theGraph zoomIn ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomout;
 				label: 'Zoom Out';
 				action: [ theGraph zoomOut ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomtofit;
 				label: 'Fit';
 				action: [ theGraph zoomToFit ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize;
 				label: 'Resize';
 				action: [ theGraph zoomToActualSize ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons refresh;
 				label: 'Refresh';
 				action: [ self updateGraph ]).
@@ -105,7 +105,7 @@ VirtualHandGUI >> buildGraphHolder [
 		yourself.
 	graphHolder
 		"viewModel: (BrInteractiveModel with: BrHoverModel new);"
-		look: (BrGlamorousWithContextMenuLook content: [ self contextMenu ]).	"right-click"
+		look: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ]).	"right-click"
 	graphHolder
 		addEventHandler:
 			(BlEventHandler
@@ -162,7 +162,7 @@ VirtualHandGUI >> buildGuiHeaderPane [
 	header
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons inspect;
 				label: 'Open inspector window';
 				action: [ self hand inspect ]).
@@ -236,13 +236,13 @@ VirtualHandGUI >> initialize [
 VirtualHandGUI >> saveButton [
 	^ BrButton new
 		look:
-			BrGlamorousButtonWithIconLook
+			BrGlamorousButtonWithIconAptitude
 				+
-					(BrGlamorousWithDropdownLook
+					(BrGlamorousWithDropdownAptitude
 						handle: [ BrButton new
 								look:
-									BrGlamorousButtonWithIconLook - BrGlamorousWithLabelTooltipLook
-										- BrGlamorousButtonExteriorLook;
+									BrGlamorousButtonWithIconAptitude - BrGlamorousWithLabelTooltipAptitude
+										- BrGlamorousButtonExteriorAptitude;
 								icon: BrGlamorousIcons save;
 								label: 'Saved to ' , self deck storageClassMethod ]
 						content: [ | dropdown |

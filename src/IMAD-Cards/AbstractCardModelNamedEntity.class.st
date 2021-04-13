@@ -51,7 +51,7 @@ AbstractCardModelNamedEntity >> buildDescriptionPane [
 	gtDoc text: self description.
 	aSaveButton := BrButton new.
 	aSaveButton
-		look: BrGlamorousButtonWithIconLook;
+		look: BrGlamorousButtonWithIconAptitude;
 		visibility: BlVisibility hidden;
 		icon: BrGlamorousVectorIcons accept;
 		label: 'Save';
@@ -93,7 +93,7 @@ AbstractCardModelNamedEntity >> buildLabel [
 		editableLabelFor: self name
 		withSetter: [ :newName | self name: newName ])
 		look:
-			(BrGlamorousEditableLabelLook new
+			(BrGlamorousEditableLabelAptitude new
 				defaultBackground: Color transparent;
 				glamorousCodeFont;
 				bold;
@@ -165,7 +165,7 @@ AbstractCardModelNamedEntity >> gtPropertiesFor: aView [
 				stencil: [ :assoc | self removePropertyButtonFor: assoc ];
 				noWidth ];
 		actionStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add property';
 				action: [ self set: self freshKey to: self defaultValue ] ];
@@ -212,7 +212,7 @@ AbstractCardModelNamedEntity >> name: aString [
 AbstractCardModelNamedEntity >> newLinearBoxedLayout [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
-		look: BrGlamorousInputFieldSpacingLook;
+		look: BrGlamorousInputFieldSpacingAptitude;
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical fitContent ]
@@ -243,7 +243,7 @@ AbstractCardModelNamedEntity >> protectedKeys [
 { #category : #'gt-extensions' }
 AbstractCardModelNamedEntity >> removePropertyButtonFor: anAssociation [
 	^ BrButton new
-		look: BrGlamorousButtonWithIconLook;
+		look: BrGlamorousButtonWithIconAptitude;
 		icon: BrGlamorousVectorIcons remove;
 		label: 'Remove ', anAssociation key;
 		action: [ :button | self removePropertyWithKey: anAssociation key  ]

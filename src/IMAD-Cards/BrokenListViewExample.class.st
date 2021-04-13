@@ -20,7 +20,7 @@ BrokenListViewExample >> gtAutoUpdatingListFor: aView [
 	^ (super gtAutoUpdatingListFor: aView)
 		actionStencil: [ :aTab | 
 			BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons refresh;
 				label: 'Refresh';
 				action: [ aTab viewContentElement phlow update ] ]

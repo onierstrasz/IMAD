@@ -30,7 +30,7 @@ CardDeck >> addCard: aCard [
 CardDeck >> addCardButton [
 	"NB: Still used in gtCardsFor:"
 	^ BrButton new
-		look: BrGlamorousButtonWithIconLook;
+		look: BrGlamorousButtonWithIconAptitude;
 		icon: BrGlamorousVectorIcons add;
 		label: 'Add card';
 		action: [ :button | 
@@ -217,7 +217,7 @@ CardDeck >> deleteCard: aCard [
 { #category : #'gt-extensions' }
 CardDeck >> deleteCardButtonFor: aCard [
 	^ BrButton new
-		look: BrGlamorousButtonWithIconLook;
+		look: BrGlamorousButtonWithIconAptitude;
 		icon: BrGlamorousVectorIcons remove;
 		label: 'Delete ', aCard name;
 		action: [ :button | aCard delete ]
@@ -232,7 +232,7 @@ CardDeck >> deleteRelation: aRelation [
 { #category : #'gt-extensions' }
 CardDeck >> deleteRelationButtonFor: aRelation [
 	^ BrButton new
-		look: BrGlamorousButtonWithIconLook;
+		look: BrGlamorousButtonWithIconAptitude;
 		icon: BrGlamorousVectorIcons remove;
 		label: 'Remove ', aRelation asString;
 		action: [ :button | aRelation delete ]
@@ -364,7 +364,7 @@ CardDeck >> gtRelationsFor: aView [
 				stencil: [ :aRelation | self deleteRelationButtonFor: aRelation ];
 				noWidth ];
 		actionStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconLook;
+				look: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add relation';
 				action: [ self addDummyRelation ] ];
@@ -450,7 +450,7 @@ CardDeck >> newClassDefinitionDialog [
 	^ container
 		addChild:
 			(BrLabel new
-				look: BrGlamorousLabelLook new bold;
+				look: BrGlamorousLabelAptitude new bold;
 				text: 'Please edit and create the storage class first.');
 		addChild:
 			(self newLinearBoxedLayout
@@ -470,7 +470,7 @@ CardDeck >> newClassDefinitionDialog [
 							'''' asBrLabel}));
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithLabelLook;
+				look: BrGlamorousButtonWithLabelAptitude;
 				label: 'Create class';
 				action: [ :button | 
 					self storageClassName: theClass text asString.

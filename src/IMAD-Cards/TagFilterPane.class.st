@@ -91,7 +91,7 @@ TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 	| tooltipLook button buttonLooks nextState |
 	button := BrButton new.
 	button userData at: #state put: aState.
-	tooltipLook := BrGlamorousWithTooltipLook2
+	tooltipLook := BrGlamorousWithTooltipAptitude2
 		content: [ self
 				tooltipWithText:
 					({(#off -> 'Ignore').
@@ -99,20 +99,20 @@ TagFilterPane >> filterButtonForTag: aTagString withState: aState [
 					(#negated -> 'Must be absent')} asDictionary
 						at: (button userData at: #state)) ].
 	buttonLooks := {(#off
-		-> (BrGlamorousButtonWithLabelLook + tooltipLook)).
+		-> (BrGlamorousButtonWithLabelAptitude + tooltipLook)).
 	(#on
 		->
 			((BrGlamorousButtonLabelLook new
 				bold;
 				yourself)
-				+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color lightGreen)
+				+ (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color lightGreen)
 				+ BrGlamorousButtonRectangularLook new + tooltipLook)).
 	(#negated
 		->
 			((BrGlamorousButtonLabelLook new
 				bold;
 				yourself)
-				+ (BrGlamorousButtonExteriorLook new backgroundPaint: Color pink)
+				+ (BrGlamorousButtonExteriorAptitude new backgroundPaint: Color pink)
 				+ BrGlamorousButtonRectangularLook new + tooltipLook))}
 		asDictionary.
 	nextState := {(#off -> #on).
@@ -175,7 +175,7 @@ TagFilterPane >> tagStateDictionary [
 TagFilterPane >> tooltipWithText: aString [
 	"From TCardModelElement"
 	^ BrLabel new
-		look: BrGlamorousLabelLook new glamorousRegularFontAndSize;
+		look: BrGlamorousLabelAptitude new glamorousRegularFontAndSize;
 		padding: (BlInsets all: 5);
 		alignCenter;
 		text: aString asRopedText;

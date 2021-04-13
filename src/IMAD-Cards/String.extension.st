@@ -4,7 +4,7 @@ Extension { #name : #String }
 String >> asBrEditableLabel [
 	^ BrEditableLabel new
 		look:
-			(BrGlamorousEditableLabelLook new
+			(BrGlamorousEditableLabelAptitude new
 				defaultBackground: Color veryVeryLightGray);
 		text: self
 ]
@@ -12,7 +12,7 @@ String >> asBrEditableLabel [
 { #category : #'*IMAD-Cards' }
 String >> asBrLabel [
 	^ BrLabel new
-		look: BrGlamorousLabelLook;
+		look: BrGlamorousLabelAptitude;
 		text: self
 ]
 

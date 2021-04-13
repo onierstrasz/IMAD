@@ -115,20 +115,20 @@ CardNodeView >> initialize [
 		padding: (BlInsets all: 5).
 	self
 		look:
-			(BrStyleCommonLook new
+			(BrStyleCommonAptitude new
 				default: [ :elt | elt border: (BlBorder paint: Color black width: 1) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 1) ])
 				+
-					((BrGlamorousWithContextMenuLook content: [ self cardEditor ])
+					((BrGlamorousWithContextMenuAptitude content: [ self cardEditor ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isEmpty; "right-click"
 							yourself)
 				+
-					((BrGlamorousWithContextMenuLook content: [ self contextMenu ])
+					((BrGlamorousWithContextMenuAptitude content: [ self contextMenu ])
 						useSecondaryMouseButton;
 						modifiersMatcher: #isCmd; "CMD right-click"
 							yourself).
-	"+ (BrGlamorousWithTooltipLook2 content: [ self cardEditor ])"
+	"+ (BrGlamorousWithTooltipAptitude2 content: [ self cardEditor ])"
 	self updateCard.
 	self graph beNode.
 	self addEventHandler: NoCtrlEventsPullHandler new.
@@ -155,7 +155,7 @@ CardNodeView >> tooltipWithWrappingText: aString [
 	tooltip
 		addChild:
 			(BrEditor new
-				look: BrGlamorousRegularEditorLook new;
+				look: BrGlamorousRegularEditorAptitude new;
 				text: aString;
 				hExact: 200;
 				yourself).

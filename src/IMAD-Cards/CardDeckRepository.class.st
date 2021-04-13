@@ -258,18 +258,18 @@ See the comment of ${class:name=BrLook}$.
 
 Looks can also be composed, for example,
 [[[
-BrGlamorousButtonWithIconLook new
+BrGlamorousButtonWithIconAptitude new
 ]]]
 shows that it is made of 4 other looks.
 
 So, this:
 [[[
 BrButton new 
-	look: BrGlamorousButtonWithIconLook - BrGlamorousButtonExteriorLook;
+	look: BrGlamorousButtonWithIconAptitude - BrGlamorousButtonExteriorAptitude;
 	icon: BrGlamorousIcons hamburger asElement;
 	label: ''Menu''
 ]]]
-simply means that we are not taking ${class:name=BrGlamorousButtonExteriorLook}$ into account in this case, and we will get no border.
+simply means that we are not taking ${class:name=BrGlamorousButtonExteriorAptitude}$ into account in this case, and we will get no border.
 
 
 ';
@@ -774,7 +774,7 @@ What kind of card is a valid mindmap node?';
 
 Improved layout: add space between multiple edges along same path
 
-Tree menu for layouts? (Need alternative to ${class:name=BrGlamorousSimpleContextMenuContent}$ and ${class:name=BrGlamorousWithContextMenuLook}$)';
+Tree menu for layouts? (Need alternative to ${class:name=BrGlamorousSimpleContextMenuContent}$ and ${class:name=BrGlamorousWithContextMenuAptitude}$)';
 				properties:
 					(Dictionary new
 						add:
