@@ -180,7 +180,7 @@ HypernodeExamples >> pinchableDemo [
 "A constructor stencil"
 makeNode := [ | node |
   node := BlElement new
-    geometry: (BlRectangle cornerRadius: 4);
+    geometry: (BlRoundedRectangleGeometry cornerRadius: 4);
     border: (BlBorder paint: Color black width: 2);
     background: Color white;
     size: 20@20;
