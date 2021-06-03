@@ -352,7 +352,7 @@ UsefulExamples >> dropdownOnRightClick [
 	<gtExample>
 	^ BrButton new
 		label: '';
-		look:
+		aptitude:
 			BrGlamorousButtonWithLabelAptitude
 				+
 					(BrGlamorousWithContextMenuAptitude
@@ -749,7 +749,7 @@ UsefulExamples >> nestedMenuTOFIX [
 	| main nested |
 	nested := BlTextElement new text: 'nested' asRopedText.
 	nested
-		look:
+		aptitude:
 			(BrGlamorousWithContextMenuAptitude
 				content: [ BrGlamorousSimpleContextMenuContent new
 						items:
@@ -762,7 +762,7 @@ UsefulExamples >> nestedMenuTOFIX [
 		background: Color red;
 		yourself.
 	main
-		look:
+		aptitude:
 			(BrGlamorousWithContextMenuAptitude
 				content: [ BrGlamorousSimpleContextMenuContent new
 						items: {(nested -> [  ])};

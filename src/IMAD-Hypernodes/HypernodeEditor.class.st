@@ -152,12 +152,51 @@ HypernodeEditor >> buildGraphContainer [
 { #category : #debugging }
 HypernodeEditor >> contextMenu [
 	<todo: 'Add cascading menu for graph styles'>
-	^ BrGlamorousSimpleContextMenuContent new
+	| content |
+	content := BlElement new
+		layout: BlLinearLayout vertical;
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ];
+		yourself.
+	content
+		addChild:
+			(BrButton new
+				aptitude: BrGlamorousButtonWithLabelAptitude;
+				label: 'Inspect self';
+				action: [ self node inspect ]);
+		addChild:
+			(BrButton new
+				aptitude: BrGlamorousButtonWithLabelAptitude;
+				label: 'Toggle debug view';
+				action: [ self toggleDebugMode ]);
+		addChild:
+			(BrButton new
+				aptitude:
+					BrGlamorousButtonWithLabelAptitude
+						+
+							(BrGlamorousWithDropdownAptitude
+								handle: [ BrButton new
+										aptitude: BrGlamorousButtonWithLabelAptitude;
+										label: 'Select graph style' ]
+								content: [ BrGlamorousSimpleContextMenuContent new
+										items:
+											{('Inspect self' -> [ self node inspect ]).
+											('Select graph style' -> [ "not sure what goes here!" ]).
+											('Toggle debug view' -> [ self toggleDebugMode ])};
+										yourself ]);
+				label: 'Select graph style').
+	^ content
+	"^ BrGlamorousSimpleContextMenuContent new
 		items:
 			{('Inspect self' -> [ self node inspect ]).
-			('Select graph style' -> [ "not sure what goes here!" ]).
+			('Select graph style' -> [ ""not sure what goes here!""
+			
+			
+			
+			 ]).
 			('Toggle debug view' -> [ self toggleDebugMode ])};
-		yourself
+		yourself"
 ]
 
 { #category : #utility }

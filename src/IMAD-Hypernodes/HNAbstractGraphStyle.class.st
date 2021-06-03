@@ -19,8 +19,19 @@ Class {
 }
 
 { #category : #accessing }
-HNAbstractGraphStyle >> layout [
-	"The default layout just fits all the nodes, and lets them be repositioned according to the positions stored in the node's contexts."
+HNAbstractGraphStyle >> graphLayout [
+	"Default layout for HypernodeGraphLement just fits all the nodes, and lets them be repositioned according to the positions stored in the node's contexts."
 
 	^ BlOnceLayout new layout: BlFitLayout new
+]
+
+{ #category : #accessing }
+HNAbstractGraphStyle >> nodeLayout [
+	"Default layout for HypernodeElement"
+
+	^ BlFrameLayout
+		new;
+		constraintsDo: [ :c | 
+			c horizontal fitContent.
+			c vertical fitContent ]
 ]
