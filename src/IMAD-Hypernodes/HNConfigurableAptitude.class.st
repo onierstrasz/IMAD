@@ -19,7 +19,7 @@ The following features can be configured:
 
 __TO BE EXTENDED__
 
-See also: ${class:name=HNConfigurableLookExamples}$
+See also: ${class:name=HNConfigurableAptitudeExamples}$
 
 "
 Class {

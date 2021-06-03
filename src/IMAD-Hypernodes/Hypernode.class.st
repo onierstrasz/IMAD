@@ -1,6 +1,8 @@
 "
 A Hypernode is a node in a nested graph. Each Hypernode contains (possibly empty sets) of Hypernodes and Hyperlinks. A Hyperlink represents an edge from one Hypernode to another. 
 
+Note that a Hypernode does not directly contain other Hypernode instances but rather ${class:name=HypernodeContext}$ instances, each of which provides contextual information (look etc.) for that node within this one. (A Hypernode may be contained in multiple parents, but in different contexts, so the same node may appear as a UML class, or a MindMap node, or a FSA node.)
+
 There are no a priori constraints on the nesting structure of a Hypernode graph. In particular, a Hyperlink may link to a Hypernode that is not properly nested within the same parent Hypernode.
 
 The design is based on the Hypernode model of *Levene and Poulovassilis>http://scg.unibe.ch/scgbib?query=Leve90a&display=abstract*. In this version of the Hypernode model, links may span Hypernodes. In contrast, their *later model>http://scg.unibe.ch/scgbib?query=Poul94a&display=abstract* imposes a strict nesting hierarchy.
@@ -225,10 +227,11 @@ Hypernode >> gtStoreStringFor: aView [
 				matchParent ];
 		actionStencil: [ :aTab | 
 			BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons refresh asElement;
 				label: 'Refresh';
-				action: [ aTab viewContentElement phlow update ] ]
+				action: [ aTab viewContentElement phlow update ] ];
+		updateWhen: HNPropertiesUpdated in: [ self announcer ]
 ]
 
 { #category : #querying }

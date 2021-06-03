@@ -61,8 +61,7 @@ HNPropertyHolder >> editableLabelFor: aString withSetter: aOneArgumentBlock [
 
 	| label |
 	label := BrEditableLabel new
-		look:
-			(BrGlamorousEditableLabelAptitude new defaultBackground: Color white);
+		aptitude: (BrGlamorousEditableLabelAptitude new defaultBackground: Color white);
 		text: aString.
 	label
 		when: BrEditorAcceptWish

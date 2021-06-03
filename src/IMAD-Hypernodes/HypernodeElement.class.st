@@ -81,7 +81,7 @@ HypernodeElement >> handleEvents [
 	<todo:
 		'Move the context menu and double-click handling to the configurable look. Possibly move the other eventhandlers too, if that is possible.'>
 	self assert: self context isNotNil.
-	self look
+	self aptitude
 		add: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ]).
 	self addEventHandler: (HypernodePullHandler for: self).
 	self addEventHandler: HyperlinkDragHandler new.
@@ -110,7 +110,7 @@ HypernodeElement >> initialize [
 		geometry: (BlRectangle cornerRadius: 4);
 		background: Color white;
 		padding: (BlInsets all: self defaultPadding)."
-	self look: self defaultLook. 
+	self aptitude: self defaultLook.
 	self updateNode.
 	self graph beNode.
 	"self handleEvents."

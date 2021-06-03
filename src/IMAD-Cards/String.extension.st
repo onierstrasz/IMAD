@@ -3,7 +3,7 @@ Extension { #name : #String }
 { #category : #'*IMAD-Cards' }
 String >> asBrEditableLabel [
 	^ BrEditableLabel new
-		look:
+		aptitude:
 			(BrGlamorousEditableLabelAptitude new
 				defaultBackground: Color veryVeryLightGray);
 		text: self
@@ -12,7 +12,7 @@ String >> asBrEditableLabel [
 { #category : #'*IMAD-Cards' }
 String >> asBrLabel [
 	^ BrLabel new
-		look: BrGlamorousLabelAptitude;
+		aptitude: BrGlamorousLabelAptitude;
 		text: self
 ]
 

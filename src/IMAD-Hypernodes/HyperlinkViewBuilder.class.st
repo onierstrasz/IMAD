@@ -23,12 +23,12 @@ HyperlinkViewBuilder class >> forLink: edge inGraph: aHypernodeGraphElement [
 { #category : #accessing }
 HyperlinkViewBuilder >> addLook [
 	linkElement
-		look:
+		aptitude:
 			(BrStyleCommonAptitude new
 				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ])
 				+ (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ])
-				"+
+	"+
 					(BrGlamorousWithTooltipAptitude2
 						content: (self tooltipWithText: self link kind))"
 ]

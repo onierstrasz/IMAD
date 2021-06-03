@@ -77,35 +77,35 @@ HypernodeEditor >> buildButtonBar [
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomin;
 				label: 'Zoom In';
 				action: [ graphContainer zoomIn ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomout;
 				label: 'Zoom Out';
 				action: [ graphContainer zoomOut ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomtofit;
 				label: 'Fit';
 				action: [ graphContainer zoomToFit ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize;
 				label: 'Resize';
 				action: [ graphContainer zoomToActualSize ]).
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons refresh;
 				label: 'Refresh';
 				action: [ self updateGraph ]).
@@ -113,7 +113,7 @@ HypernodeEditor >> buildButtonBar [
 	buttonBar
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons help;
 				label: 'Refresh';
 				action: [ self phlow spawnTool: (GtDocumenterTool forClass: HypernodeEditor) ]).
@@ -218,8 +218,9 @@ HypernodeEditor >> graph: aHypernodeGraphElement [
 
 { #category : #gui }
 HypernodeEditor >> handleEvents [
-	<todo: 'Add CMD-click'>
 	"double-click"
+
+	<todo: 'Add CMD-click'>
 	graphContainer
 		when: BlDoubleClickEvent
 		do: [ :evt | 
@@ -228,7 +229,7 @@ HypernodeEditor >> handleEvents [
 				addNodeWithPosition: (graphHolder globalPointToLocal: evt position) ].
 	"right-click"
 	graphContainer
-		look: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ])
+		aptitude: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ])
 ]
 
 { #category : #initialization }
@@ -246,7 +247,7 @@ HypernodeEditor >> initialize [
 		addChild:
 			(BrEditor new
 				beReadOnlyWithSelection;
-				look: BrGlamorousRegularEditorAptitude new;
+				aptitude: BrGlamorousRegularEditorAptitude new;
 				text: (self missingNodeErrorString asRopedText foreground: Color red))
 ]
 
@@ -267,7 +268,7 @@ HypernodeEditor >> newClassDefinitionDialog [
 	^ container
 		addChild:
 			(BrLabel new
-				look: BrGlamorousLabelAptitude new bold;
+				aptitude: BrGlamorousLabelAptitude new bold;
 				text: 'Please edit and create the storage class first.');
 		addChild:
 			(self newLinearBoxedLayout
@@ -287,7 +288,7 @@ HypernodeEditor >> newClassDefinitionDialog [
 							'''' asBrLabel}));
 		addChild:
 			(BrButton new
-				look: BrGlamorousButtonWithLabelAptitude;
+				aptitude: BrGlamorousButtonWithLabelAptitude;
 				label: 'Create class';
 				action: [ :button | 
 					self node storageClassName: theClass text asString.
@@ -319,7 +320,7 @@ HypernodeEditor >> newFlowElement [
 HypernodeEditor >> newLinearBoxedLayout [
 	^ BlElement new
 		layout: BlLinearLayout vertical;
-		look: BrGlamorousInputFieldSpacingAptitude;
+		aptitude: BrGlamorousInputFieldSpacingAptitude;
 		constraintsDo: [ :c | 
 			c horizontal matchParent.
 			c vertical fitContent ]
@@ -360,13 +361,14 @@ HypernodeEditor >> saveButton [
 	"NB: Here we hard-wire the fact that we are saving the graph for the root node. Later we might want a save button for any arbitrary subnode and its reachable graph."
 
 	^ BrButton new
-		look:
+		aptitude:
 			BrGlamorousButtonWithIconAptitude
 				+
 					(BrGlamorousWithDropdownAptitude
 						handle: [ BrButton new
-								look:
-									BrGlamorousButtonWithIconAptitude - BrGlamorousWithLabelTooltipAptitude
+								aptitude:
+									BrGlamorousButtonWithIconAptitude
+										- BrGlamorousWithLabelTooltipAptitude
 										- BrGlamorousButtonExteriorAptitude;
 								icon: BrGlamorousIcons save;
 								label: 'Saved to ' , self node root storageClassMethod ]

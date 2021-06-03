@@ -78,7 +78,7 @@ HypergraphEntity >> buildDescriptionPane [
 	gtDoc text: self description.
 	aSaveButton := BrButton new.
 	aSaveButton
-		look: BrGlamorousButtonWithIconAptitude;
+		aptitude: BrGlamorousButtonWithIconAptitude;
 		visibility: BlVisibility hidden;
 		icon: BrGlamorousVectorIcons accept;
 		label: 'Save';
@@ -119,7 +119,7 @@ HypergraphEntity >> buildLabel [
 	^ (self
 		editableLabelFor: self name
 		withSetter: [ :newName | self name: newName ])
-		look:
+		aptitude:
 			(BrGlamorousEditableLabelAptitude new
 				defaultBackground: Color transparent;
 				glamorousCodeFont;

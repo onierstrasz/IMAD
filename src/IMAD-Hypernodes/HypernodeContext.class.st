@@ -1,7 +1,7 @@
 "
 I provide a context for a ${class:name=Hypernode}$ instance as a subnode within a Hypernode graph.
 
-Where as a Hypernode may be a subnode of many other Hypernodes, in each case it is so within a unique context. A HypernodeContext therefore knows its parent node as well as the subnode it provides the context for.
+Whereas a Hypernode may be a subnode of many other Hypernodes, in each case it is so within a unique context. A HypernodeContext therefore knows its parent node as well as the subnode it provides the context for.
 
 A HypernodeContext is used to keep track of contextual information related to the role of a node within a subgraph, in particular it keeps track of the last position in the display.
 
