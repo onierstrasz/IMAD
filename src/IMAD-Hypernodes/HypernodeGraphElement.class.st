@@ -53,7 +53,7 @@ HypernodeGraphElement >> contexts [
 
 { #category : #accessing }
 HypernodeGraphElement >> defaultLayout [
-	<todo: 'Note sure we really want this ... instead we need to change or set the layout depending on the situation'>
+	<todo: 'Note sure we really want this ... instead we need to change or set the layout depending on the graph style'>
 	^ BlOnceLayout new layout: BlFitLayout new
 
 	"^ BlOnceLayout new layout: GtGradHorizontalTreeLayout new"

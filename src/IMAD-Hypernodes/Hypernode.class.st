@@ -13,6 +13,8 @@ There are various constraints that might make sense to impose on Hypernode graph
 
 Instead each application is free to impose specific constraints, such as a strict nesting structure, or the requirement that each node be contained in at most one parent graph.
 
+The appearance and behavior of the contained graph is determined by the Graph Style, a dedicated instance variable. The graph style can be changed dynamically.
+
 I am a model entity. My views are provided by ${class:name=HypernodeEditor}$ (live view), ${class:name=HypernodeGraphElement}$ (subgraph view within the editor view), and ${class:name=HypernodeElement}$ (as a node within a graph).
 
 A Hypernode graph should have a clearly identified root node from which all other nodes can be reached. This is needed to save the graph of reachable nodes. For this reason a new Hypernode should either be instantiated by sending ==Hypernode root== or ==Hypernode for: aNode==, where ==aNode== is an existing node with a root.
@@ -24,7 +26,8 @@ Class {
 	#instVars : [
 		'nodeContexts',
 		'links',
-		'root'
+		'root',
+		'graphStyle'
 	],
 	#category : #'IMAD-Hypernodes'
 }
@@ -204,6 +207,11 @@ Hypernode >> generateStorageMethodString [
 	^ OpalCompiler new format: stream contents
 ]
 
+{ #category : #accessing }
+Hypernode >> graphStyle [
+	^ graphStyle
+]
+
 { #category : #'gt-extension' }
 Hypernode >> gtGraphFor: aView [
 	<gtView>
@@ -264,7 +272,8 @@ Hypernode >> initialize [
 	super initialize.
 	"nodes := OrderedCollection new."
 	nodeContexts := OrderedCollection new.
-	links := OrderedCollection new
+	links := OrderedCollection new.
+	graphStyle := DefaultGraphStyle new
 ]
 
 { #category : #querying }

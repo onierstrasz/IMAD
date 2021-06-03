@@ -79,7 +79,7 @@ HypernodeElement >> defaultPadding [
 { #category : #accessing }
 HypernodeElement >> handleEvents [
 	<todo:
-		'Move the context menu and double-click handling to the configurable look. Possibly move the other eventhandlers too, if that is possible.'>
+		'Move the context menu and double-click handling to the configurable look (or the graph style). Possibly move the other eventhandlers too, if that is possible.'>
 	self assert: self context isNotNil.
 	self aptitude
 		add: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ]).
@@ -97,20 +97,21 @@ HypernodeElement >> handleEvents [
 { #category : #accessing }
 HypernodeElement >> initialize [
 	<todo:
-		'What should be the basic layout? BlFrameLayout or BlLinearLayout vertical? SHould this also be part of the configurable look?'>
+		'What should be the basic layout? BlFrameLayout or BlLinearLayout vertical? Should this also be part of the configurable look?'>
 	super initialize.
-	isEditable := false.
+	
+	isEditable := false. "Do we need this?!"
+	
 	"NB: the node context will be set by context: when created via HypernodeElement class>>#forContext:"
+
 	self
 		layout: BlFrameLayout new;
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
-	"self
-		geometry: (BlRectangle cornerRadius: 4);
-		background: Color white;
-		padding: (BlInsets all: self defaultPadding)."
+
 	self aptitude: self defaultLook.
+	
 	self updateNode.
 	self graph beNode.
 	"self handleEvents."
@@ -119,6 +120,7 @@ HypernodeElement >> initialize [
 
 { #category : #accessing }
 HypernodeElement >> mindmapLook [
+	<todo: 'This should be determined by the graph style of the parent node'>
 	^ HNConfigurableAptitude
 		configuration:
 			{(#borderColor -> #black).
