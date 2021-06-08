@@ -1,7 +1,8 @@
 "
 I am a common abstract superclass for Hypernodes, Hyperlinks and related classes.
 
-See ${class:name=Hypernode}$.
+See {{gtClass:name=Hypernode}}.
+
 
 "
 Class {

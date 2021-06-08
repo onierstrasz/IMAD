@@ -1,7 +1,7 @@
 "
-I am an object that holds a ${class:name=KeyedTree}$ of properties.
-Each property consists of a key and a value. The key should normally be a ${class:name=Symbol}$.
-The value may be a primitive value, such as a ${class:name=ByteString}$, or  a ${class:name=Number}$ , or it may be an ${class:name=OrderedCollection}$ or ${class:name=KeyedTree}$ of values.
+I am an object that holds a {{gtClass:name=KeyedTree}} of properties.
+Each property consists of a key and a value. The key should normally be a {{gtClass:name=Symbol}}.
+The value may be a primitive value, such as a {{gtClass:name=ByteString}}, or  a {{gtClass:name=Number}} , or it may be an {{gtClass:name=OrderedCollection}} or {{gtClass:name=KeyedTree}} of values.
 
 
 "

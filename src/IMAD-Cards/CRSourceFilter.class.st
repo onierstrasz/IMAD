@@ -1,6 +1,7 @@
 "
 I query whether the source of a relation is a given card.
 
+
 "
 Class {
 	#name : #CRSourceFilter,

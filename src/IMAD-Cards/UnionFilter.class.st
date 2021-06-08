@@ -1,5 +1,6 @@
 "
 I evaluate the union of two queries.
+
 "
 Class {
 	#name : #UnionFilter,

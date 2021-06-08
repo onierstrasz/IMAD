@@ -5,21 +5,22 @@ I am mainly intended to configure the appearance of nodes (and edges) in a graph
 
 I can set various properties, such as the text label, foreground and background color, shape, and border. My configuration can be exported and imported as a Dictionary.
 
-For every configuration key ==#xyz== there is a public method ==#updateXyzLook:==, called by ${method:name=HNConfigurableAptitude>>#updateLookFor:}$ via ${method:name=HNConfigurableAptitude>>#interpretConfiguration}$.
+For every configuration key `#xyz` there is a public method `#updateXyzLook:`, called by {{gtMethod:name=HNConfigurableAptitude>>#updateLookFor:}} via {{gtMethod:name=HNConfigurableAptitude>>#interpretConfiguration}}.
 
-Bindings are changed by calling  ${method:name=HNConfigurableAptitude>>#configuration:}$ to set the configuration, or ${method:name=HNConfigurableAptitude>>#update:}$ to change a single property or ${method:name=HNConfigurableAptitude>>#updateAll:}$ to update several.
+Bindings are changed by calling  {{gtMethod:name=HNConfigurableAptitude>>#configuration:}} to set the configuration, or {{gtMethod:name=HNConfigurableAptitude>>#update:}} to change a single property or {{gtMethod:name=HNConfigurableAptitude>>#updateAll:}} to update several.
 
 The following features can be configured:
 
-==background== : a Color Symbol (#black, #white, see ${method:name=HNConfigurableAptitude>>#colorFor:}$)
-==border== : a Color Symbol
-==shape== : a shape Symbol (#circle, #ellipse, ... see ${method:name=HNConfigurableAptitude>>#shapeFor:}$)
-==text== : a String
-==width== : a Number
+`background` : a Color Symbol (#black, #white, see {{gtMethod:name=HNConfigurableAptitude>>#colorFor:}})
+`border` : a Color Symbol
+`shape` : a shape Symbol (#circle, #ellipse, ... see {{gtMethod:name=HNConfigurableAptitude>>#shapeFor:}})
+`text` : a String
+`width` : a Number
 
-__TO BE EXTENDED__
+TO BE EXTENDED
 
-See also: ${class:name=HNConfigurableAptitudeExamples}$
+See also: {{gtClass:name=HNConfigurableAptitudeExamples}}
+
 
 "
 Class {

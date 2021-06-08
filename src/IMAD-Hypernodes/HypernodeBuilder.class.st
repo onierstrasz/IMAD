@@ -3,13 +3,13 @@ A am used to build a complete Hypernode graph as a clone of an existing one.
 I keep track of the mapping between the old and the new nodes in the graph, and recreate the entire structure.
 
 I am used in particular to save scripts as methods to store and restore hypernode graphs.
-See ${method:name=Hypernode>>#storeOn:}$.
+See {{gtMethod:name=Hypernode>>#storeOn:}}.
 
 The strategy is as follows:
 
 - Create the builder
-- Create each node (with its properties), using ${method:name=HypernodeBuilder>>#addNode:for:}$, keeping track of the mapping of old ids to new ones
-- Populate each node with its subnodes (which now exist), using ${method:name=HypernodeBuilder>>#addSubNode:for:withContextProperties:}$, and its edges, using ${method:name=HypernodeBuilder>>#addEdgeFrom:to:for:withProperties:}$
+- Create each node (with its properties), using {{gtMethod:name=HypernodeBuilder>>#addNode:for:}}, keeping track of the mapping of old ids to new ones
+- Populate each node with its subnodes (which now exist), using {{gtMethod:name=HypernodeBuilder>>#addSubNode:for:withContextProperties:}}, and its edges, using {{gtMethod:name=HypernodeBuilder>>#addEdgeFrom:to:for:withProperties:}}
 - Return the root node
 
 "

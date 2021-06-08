@@ -1,5 +1,6 @@
 "
 I am a place to experiment with edge layout algorithms that will eventually move back to GT.
+
 "
 Class {
 	#name : #EdgeLayout,

@@ -1,5 +1,6 @@
 "
 I am announced when a node (context) is deleted from a graph.
+
 "
 Class {
 	#name : #DeleteNodeContext,

@@ -3,6 +3,7 @@ I am the actual card graph inside the graph pane of the card deck element.
 I also keep track of the mappings from model entities back to their elements.
 I sit inside the graphHolder of the card deck element.
 
+
 "
 Class {
 	#name : #VirtualHandGraphView,

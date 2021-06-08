@@ -1,22 +1,23 @@
 "
 Some random examples, not necessarily tests.
 
-The ${method:name=HypernodeExamples>>#editorScript}$ method contains a script that summarizes all the key interactions, but without the underlying model. This is intended to be used for demo and debugging purposes.
-The ==editorScript== example illustrates how a ==Hypernode== graph editor is constructed from nested Bloc elements to support interactive creation of graphs. The example is written as a flat script so one can easily see all the GUI components and how they interact, without the underlying model classes.
+The {{gtMethod:name=HypernodeExamples>>#editorScript}} method contains a script that summarizes all the key interactions, but without the underlying model. This is intended to be used for demo and debugging purposes.
+The `editorScript` example illustrates how a `Hypernode` graph editor is constructed from nested Bloc elements to support interactive creation of graphs. The example is written as a flat script so one can easily see all the GUI components and how they interact, without the underlying model classes.
 
 In the example, each element has a colored border or shading to make it stand out.
 
-The """"editor"""" (blue border) is the root element. It holds a """"buttonBar"""" and a """"graphContainer"""" (orange borders). The graphContainer contains the (pinchable) """"graphHolder"""" (light gray border), which holds the """"graph"""" (white with shading).
+The **editor** (blue border) is the root element. It holds a **buttonBar** and a **graphContainer** (orange borders). The graphContainer contains the (pinchable) **graphHolder** (light gray border), which holds the **graph** (white with shading).
 
-The """"graph"""" (shaded white element) is a plain ==BlElement== with a ==BlWrapAroundChildrenLayout== layout and ==fitContent== constraints. It will automatically adapt its size to its children as they are added.
+The **graph** (shaded white element) is a plain `BlElement` with a `BlWrapAroundChildrenLayout` layout and `fitContent` constraints. It will automatically adapt its size to its children as they are added.
 
-The """"graphHolder"""" (gray) is an instance of ==BlPinchableElement==. This is similar to a zoomable element, except that its layout bounds are not affected by zoom operations. We actually don't care about its border.
+The **graphHolder** (gray) is an instance of `BlPinchableElement`. This is similar to a zoomable element, except that its layout bounds are not affected by zoom operations. We actually don't care about its border.
 
-The """"graphContainer"""" (orange) is a ==BlPannableElement== created by sending ==asPannableElement== to the graphHolder. It supports panning and handles the background events for the graph (context menu and node creation), since its (fixed) border defines the area where we want to capture mouse events.
+The **graphContainer** (orange) is a `BlPannableElement` created by sending `asPannableElement` to the graphHolder. It supports panning and handles the background events for the graph (context menu and node creation), since its (fixed) border defines the area where we want to capture mouse events.
 
-The """"editor"""" (blue) is a plain BlElement with ==matchParent== constraints and a vertical linear layout (==BlLinearLayout vertical==).
+The **editor** (blue) is a plain BlElement with `matchParent` constraints and a vertical linear layout (`BlLinearLayout vertical`).
 
-The """"buttonBar"""" (also orange), contains buttons that send zoom messages to the graphContainer.
+The **buttonBar** (also orange), contains buttons that send zoom messages to the graphContainer.
+
 
 "
 Class {

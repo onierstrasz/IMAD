@@ -6,6 +6,7 @@ I gather mouse click events from the view (clicks on orange nodes), and interpre
 
 If the model accepts the transition as valid, I update the view.
 If the FSA is dead, I color the current state as red instead of green.
+
 "
 Class {
 	#name : #FSAViewController,

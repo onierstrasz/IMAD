@@ -1,6 +1,7 @@
 "
 I test the querying of CardRelations using filters.
 I use a simple deck of three cards labeled A, B and C, connected by relations w, x, y and z.
+
 "
 Class {
 	#name : #CardRelationFilterTestExamples,

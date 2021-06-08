@@ -1,13 +1,13 @@
 "
 A Hypernode is a node in a nested graph. Each Hypernode contains (possibly empty sets) of Hypernodes and Hyperlinks. A Hyperlink represents an edge from one Hypernode to another. 
 
-Note that a Hypernode does not directly contain other Hypernode instances but rather ${class:name=HypernodeContext}$ instances, each of which provides contextual information (look etc.) for that node within this one. (A Hypernode may be contained in multiple parents, but in different contexts, so the same node may appear as a UML class, or a MindMap node, or a FSA node.)
+Note that a Hypernode does not directly contain other Hypernode instances but rather {{gtClass:name=HypernodeContext}} instances, each of which provides contextual information (look etc.) for that node within this one. (A Hypernode may be contained in multiple parents, but in different contexts, so the same node may appear as a UML class, or a MindMap node, or a FSA node.)
 
 There are no a priori constraints on the nesting structure of a Hypernode graph. In particular, a Hyperlink may link to a Hypernode that is not properly nested within the same parent Hypernode.
 
-The design is based on the Hypernode model of *Levene and Poulovassilis>http://scg.unibe.ch/scgbib?query=Leve90a&display=abstract*. In this version of the Hypernode model, links may span Hypernodes. In contrast, their *later model>http://scg.unibe.ch/scgbib?query=Poul94a&display=abstract* imposes a strict nesting hierarchy.
+The design is based on the Hypernode model of [Levene and Poulovassilis](http://scg.unibe.ch/scgbib?query=Leve90a&display=abstract). In this version of the Hypernode model, links may span Hypernodes. In contrast, their [later model](http://scg.unibe.ch/scgbib?query=Poul94a&display=abstract) imposes a strict nesting hierarchy.
 
-Note that we avoid the terms ""Hyperedge"" and ""Hypergraph"", as these have different specific meanings: a *hypergraph>https://en.wikipedia.org/wiki/Hypergraph* is a generalization of a graph in which hyperedges may connect any number of nodes. This concept is more similar to that of a hypernode, which may contain a subgraph of nodes.
+Note that we avoid the terms ""Hyperedge"" and ""Hypergraph"", as these have different specific meanings: a [hypergraph](https://en.wikipedia.org/wiki/Hypergraph) is a generalization of a graph in which hyperedges may connect any number of nodes. This concept is more similar to that of a hypernode, which may contain a subgraph of nodes.
 
 There are various constraints that might make sense to impose on Hypernode graphs, for example that the the source node of each Hyperlink be contained within the same parent Hypernode as the link itself, but we do not enforce such constraints apriori, as there might well be applications that do not require such constraints. For example, there might be applications in which incoming rather than outgoing links are considered to be part of the graph.
 
@@ -15,9 +15,10 @@ Instead each application is free to impose specific constraints, such as a stric
 
 The appearance and behavior of the contained graph is determined by the Graph Style, a dedicated instance variable. The graph style can be changed dynamically.
 
-I am a model entity. My views are provided by ${class:name=HypernodeEditor}$ (live view), ${class:name=HypernodeGraphElement}$ (subgraph view within the editor view), and ${class:name=HypernodeElement}$ (as a node within a graph).
+I am a model entity. My views are provided by {{gtClass:name=HypernodeEditor}} (live view), {{gtClass:name=HypernodeGraphElement}} (subgraph view within the editor view), and {{gtClass:name=HypernodeElement}} (as a node within a graph).
 
-A Hypernode graph should have a clearly identified root node from which all other nodes can be reached. This is needed to save the graph of reachable nodes. For this reason a new Hypernode should either be instantiated by sending ==Hypernode root== or ==Hypernode for: aNode==, where ==aNode== is an existing node with a root.
+A Hypernode graph should have a clearly identified root node from which all other nodes can be reached. This is needed to save the graph of reachable nodes. For this reason a new Hypernode should either be instantiated by sending `Hypernode root` or `Hypernode for: aNode`, where `aNode` is an existing node with a root.
+
 
 "
 Class {

@@ -11,6 +11,7 @@ The displayed BlElements ( HypernodeElement and HypernodeGraphElement) should de
 
 The idea is to have a few pre-packaged graph style subclasses for common styles (like mind maps and FSAs), and also to have a highly configurable style that can be specified through a GUI and stored as a property sub-tree of the parent node (or shared between multiple hypernode graphs).
 
+
 "
 Class {
 	#name : #HNAbstractGraphStyle,

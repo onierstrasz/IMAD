@@ -2,6 +2,7 @@
 I represent the abstract parent of model entities that contains sets of cards, namely Decks and Hands.
 
 Todo: push up shared methods from CardDeck, or make them abstract here and implement them in VirtualHand.
+
 "
 Class {
 	#name : #AbstractCardSet,

@@ -1,5 +1,6 @@
 "
 I serve as a common superclass for entities with a name and a description (Cards and Card Decks)
+
 "
 Class {
 	#name : #AbstractCardModelNamedEntity,

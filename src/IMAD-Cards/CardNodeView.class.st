@@ -1,5 +1,6 @@
 "
-I provide a dedicated view for a ${class:Card}$ instance as a node within a graph.
+I provide a dedicated view for a {{gtClass:Card}} instance as a node within a graph.
+
 "
 Class {
 	#name : #CardNodeView,

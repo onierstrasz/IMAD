@@ -7,6 +7,7 @@ The Faculty of Science of the University of Bern forms various committees to mak
 Each committee is composed of Faculty members (i.e., professors), assistants, and also some students. The chair of a committee is always a Faculty member. Committees meet on various dates and may deliver reports to the Dean or to the Faculty.
 Committee members can be contacted by email or phone
  
+
 "
 Class {
 	#name : #CardDeckExamples,

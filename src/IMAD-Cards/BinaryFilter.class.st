@@ -1,5 +1,6 @@
 "
 I am an abstract parent of binary union and intersection filters.
+
 "
 Class {
 	#name : #BinaryFilter,

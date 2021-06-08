@@ -1,21 +1,21 @@
 "
 I am a utility class for this package. I can run all the tests and find all the todos.
 
-[[[
+```
 IMAD gtExamples
-]]]
+```
 
-[[[
+```
 IMAD todos
-]]]
+```
 
-[[[
+```
 IMAD deprecated
-]]]
+```
 
-[[[
+```
 IMAD assertAllStoredHypernodesEqualSelf
-]]]
+```
 
 "
 Class {

@@ -3,6 +3,7 @@ I  provide a dedicated view for a VirtualHand of Cards in a Deck, i.e., defined 
 Eventually some of my parts should be factored out into separate Element classes.
 
 I consist of a Header, a Tags pane, and a Graph pane.
+
 "
 Class {
 	#name : #VirtualHandGUI,

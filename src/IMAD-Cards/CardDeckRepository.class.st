@@ -1,5 +1,6 @@
 "
 I am a repository of Card Decks.
+
 "
 Class {
 	#name : #CardDeckRepository,

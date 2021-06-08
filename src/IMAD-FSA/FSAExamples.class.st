@@ -1,5 +1,6 @@
 "
 I am a repository of FSA examples
+
 "
 Class {
 	#name : #FSAExamples,

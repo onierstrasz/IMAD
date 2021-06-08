@@ -9,6 +9,7 @@ Each view subscribes to announcements in a dedicated subscribe method.
 NB: The subscription specifies the action to be performed.
 The action retrieves the announcement with any payload as the first argument.
 
+
 "
 Class {
 	#name : #HNAnnouncement,

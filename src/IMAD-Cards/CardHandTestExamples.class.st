@@ -3,34 +3,34 @@ I test that a VirtualHand is properly synchronized with its CardDeck.
 
 The Deck has cards with tags 'a' and 'b'.
 The Hand is defined by the filter 'a' & not 'b'.
-!Tests:
+# Tests:
 Adding a Card to a Hand adds it to the Deck, and ensures that the Card has the tags it needs to pass the Hand's Filter. The hand should automatically set all the positive tags (need to ask a filter for all its positive tags)
 
-${method:name=CardHandTestExamples>>#addCardToHand}$
+{{gtMethod:name=CardHandTestExamples>>#addCardToHand}}
 
 Adding a Relation to a Hand adds it to the Deck. (The source and target already must be in the Hand.)
-${method:name=CardHandTestExamples>>#addRelationToHand}$
+{{gtMethod:name=CardHandTestExamples>>#addRelationToHand}}
 
 Adding a Card or Relation to a Deck might add it to the Hand. The Filter will need to be reevaluated.
-${method:name=CardHandTestExamples>>#addCardToDeck}$
+{{gtMethod:name=CardHandTestExamples>>#addCardToDeck}}
 
-${method:name=CardHandTestExamples>>#addRelationToDeck}$
+{{gtMethod:name=CardHandTestExamples>>#addRelationToDeck}}
 
 Deleting a Card or Relation from a Deck deletes it from the Hand.
-${method:name=CardHandTestExamples>>#deleteCardFromDeck}$
+{{gtMethod:name=CardHandTestExamples>>#deleteCardFromDeck}}
 
-${method:name=CardHandTestExamples>>#deleteRelationFromDeck}$
+{{gtMethod:name=CardHandTestExamples>>#deleteRelationFromDeck}}
 
 Deleting a Card or Relation  from a Hand also deletes it from the Deck.
-${method:name=CardHandTestExamples>>#deleteCardFromHand}$
+{{gtMethod:name=CardHandTestExamples>>#deleteCardFromHand}}
 
-${method:name=CardHandTestExamples>>#deleteRelationFromHand}$
+{{gtMethod:name=CardHandTestExamples>>#deleteRelationFromHand}}
 
 Adding a tag to a card or removing it may remove it from the hand (and add it to another hand) -- need test with two hands
 
-${method:name=CardHandTestExamples>>#addTagToCard}$
+{{gtMethod:name=CardHandTestExamples>>#addTagToCard}}
 
-${method:name=CardHandTestExamples>>#deleteTagFromCard}$
+{{gtMethod:name=CardHandTestExamples>>#deleteTagFromCard}}
 
 
 "

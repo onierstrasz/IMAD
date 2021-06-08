@@ -1,5 +1,6 @@
 "
 I query whether a relation has a given name.
+
 "
 Class {
 	#name : #CRRelNameFilter,

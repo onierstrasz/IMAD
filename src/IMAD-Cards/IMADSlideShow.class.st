@@ -1,7 +1,7 @@
 "
-[[[
+```
 IMADSlideShow new openInSpace
-]]]
+```
 
 
 "

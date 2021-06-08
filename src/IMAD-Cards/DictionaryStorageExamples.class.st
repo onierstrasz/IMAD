@@ -1,5 +1,6 @@
 "
 Some test examples illustrating how property dictionaries can be stored and restored.
+
 "
 Class {
 	#name : #DictionaryStorageExamples,

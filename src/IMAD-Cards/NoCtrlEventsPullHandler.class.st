@@ -1,5 +1,5 @@
 "
-I'm a ${class:BlPullHandler}$ that does not listen to CTRL events (so they can be handled by the ${class:EdgeBuilder}$ instead).
+I'm a {{gtClass:BlPullHandler}} that does not listen to CTRL events (so they can be handled by the {{gtClass:EdgeBuilder}} instead).
 
 AS says:
 

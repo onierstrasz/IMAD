@@ -1,6 +1,7 @@
 "
 I am an abstract superclass for Hyperlink announcements.
 
+
 "
 Class {
 	#name : #HLAnnouncement,

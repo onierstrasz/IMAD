@@ -2,6 +2,7 @@
 I represent the logic of a Finite State Automaton.
 For examples, inspect: FSAExamples
 	
+
 "
 Class {
 	#name : #FSA,

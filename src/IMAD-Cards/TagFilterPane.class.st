@@ -2,6 +2,7 @@
 I ama widget that holds a bunch of stateful buttons that represent tags that should be present or absent in the Cards displayed in the CardDeckGUI.
 
 I generate a CardFilter  from the buttons to make the actual selection.
+
 "
 Class {
 	#name : #TagFilterPane,

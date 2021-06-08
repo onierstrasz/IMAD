@@ -1,7 +1,8 @@
 "
-I build a view of a ${class:name=Hyperlink}$ as an edge within a ${class:name=HypernodeGraphElement}$.
+I build a view of a {{gtClass:name=Hyperlink}} as an edge within a {{gtClass:name=HypernodeGraphElement}}.
 
-See also: ${class:name=CardRelationViewBuilder}$. 
+See also: {{gtClass:name=CardRelationViewBuilder}}. 
+
 "
 Class {
 	#name : #HyperlinkViewBuilder,

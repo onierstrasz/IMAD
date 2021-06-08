@@ -1,5 +1,6 @@
 "
 I hold some common, useful behaviour shared by the Hypernode view classes.
+
 "
 Class {
 	#name : #AbstractHypernodeElement,

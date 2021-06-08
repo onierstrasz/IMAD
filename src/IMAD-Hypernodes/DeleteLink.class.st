@@ -1,5 +1,6 @@
 "
 I am announced when a link is deleted.
+
 "
 Class {
 	#name : #DeleteLink,

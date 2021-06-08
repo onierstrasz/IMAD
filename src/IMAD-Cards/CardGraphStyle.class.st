@@ -9,6 +9,7 @@ A style is defined as a configuration, a property list (nested dictionary).
 Some configurations are predefined, and others can be provided by a GUI, or retrieved from properties of a card deck or a given card.
 
 (Last updated 2020-08-05)
+
 "
 Class {
 	#name : #CardGraphStyle,

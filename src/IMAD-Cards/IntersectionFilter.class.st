@@ -1,5 +1,6 @@
 "
 I evaluate the intersection of two queries.
+
 "
 Class {
 	#name : #IntersectionFilter,

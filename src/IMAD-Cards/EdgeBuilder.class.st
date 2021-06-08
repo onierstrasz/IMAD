@@ -3,6 +3,7 @@ I handle a Ctrl-click and drag event between two nodes to create an edge.
 I must be on a node when starting and stopping.
 
 This would be better done using separate drag and drop events, but it seems that BlDropEvent is currently (2020-06-12) broken (sent to the dragged element instead of the drop location). 
+
 "
 Class {
 	#name : #EdgeBuilder,

@@ -1,5 +1,6 @@
 "
-I am announced when a new link is created by the ${class:name=HyperlinkDragHandler}$.
+I am announced when a new link is created by the {{gtClass:name=HyperlinkDragHandler}}.
+
 "
 Class {
 	#name : #CreateLink,

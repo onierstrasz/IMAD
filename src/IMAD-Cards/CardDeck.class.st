@@ -4,6 +4,7 @@ I keep track of the cards and the relations between them.
 
 TO DO:
 The implementations of cards and relations are naive to start (collections). To scale up, we will need dictionaries to quickly look up cards and their relationships.
+
 "
 Class {
 	#name : #CardDeck,

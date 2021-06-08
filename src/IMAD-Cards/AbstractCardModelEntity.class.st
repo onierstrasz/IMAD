@@ -1,6 +1,7 @@
 "
 I serve as a common superclass for shared behaviour of Card model entities.
 All entities have a set of properties.
+
 "
 Class {
 	#name : #AbstractCardModelEntity,

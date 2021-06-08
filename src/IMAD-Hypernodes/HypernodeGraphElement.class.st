@@ -7,9 +7,10 @@ I also keep track of the mappings from model entities back to their elements (in
 NB: The dictionary is needed because for each edge to create we have to look up the element corresponding to the other end of the relation.
 NB: We can also use this to map relations to their edges, if needed.
 I do not directly handle events, but this is done by the graphHolder.
-Event handling is defined in ${method:name=HypernodeEditor>>#handleEvents}$.
+Event handling is defined in {{gtMethod:name=HypernodeEditor>>#handleEvents}}.
 
-(I am based on  ${class:name=VirtualHandGraphView}$.)
+(I am based on  {{gtClass:name=VirtualHandGraphView}}.)
+
 
 "
 Class {

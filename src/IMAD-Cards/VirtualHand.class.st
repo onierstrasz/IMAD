@@ -5,6 +5,7 @@ The subsets of cards and relations are computed lazily. If either the Deck or th
 
 If the Deck is modified (Cards or Relations updated) then the cards and relations are invalidated, and recomputed by their (lazy) accessors.
 
+
 "
 Class {
 	#name : #VirtualHand,

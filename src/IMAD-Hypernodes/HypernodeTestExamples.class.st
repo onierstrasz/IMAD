@@ -1,5 +1,6 @@
 "
 I provide some simple examples of Hypernode graphs to test basic functionality.
+
 "
 Class {
 	#name : #HypernodeTestExamples,

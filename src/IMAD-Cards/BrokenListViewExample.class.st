@@ -7,6 +7,7 @@ Inspect:
 	
 and press the ""refresh"" button.
 
+
 "
 Class {
 	#name : #BrokenListViewExample,
