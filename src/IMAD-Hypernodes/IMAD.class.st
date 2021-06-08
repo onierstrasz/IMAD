@@ -117,14 +117,14 @@ IMAD >> garbageCollectionTestScript [
 <gtExample>
 
 |report updateReport|
-updateReport := [report := report, 'There are ', CardDeck allInstances size asString, ' instances of CardDeck, and ', Card allInstances size asString, ' instances of Card.
+updateReport := [report := report, 'There are ', Hypernode allInstances size asString, ' instances of Hypernode.
 '.].
 
 report := 'Initally:
 '.
 updateReport value.
 
-(CardDeck gtReferences & #gtExample gtPragmas & (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples do: #run.
+(Hypernode gtReferences & #gtExample gtPragmas & (GtSearchMethodsInClassFilter forClass: IMAD) not) gtExamples do: #run.
 
 report := report, '
 After running all examples:
