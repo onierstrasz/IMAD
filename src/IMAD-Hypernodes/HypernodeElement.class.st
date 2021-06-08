@@ -43,6 +43,7 @@ HypernodeElement >> context: aNodeContext [
 	<todo: 'update the configurable look from the context'>
 	self assert: aNodeContext isNotNil.
 	nodeContext := aNodeContext.
+	self aptitude: nodeContext graphStyle nodeAptitude.
 	self handleEvents.
 	self graph model: aNodeContext node.
 	self subscribe
@@ -100,33 +101,21 @@ HypernodeElement >> initialize [
 	<todo:
 		'What should be the basic layout? BlFrameLayout or BlLinearLayout vertical? Should this also be part of the configurable look?'>
 	super initialize.
-	
-	isEditable := false. "Do we need this?!"
-	
-	"NB: the node context will be set by context: when created via HypernodeElement class>>#forContext:"
+	isEditable := false.	"Do we need this?!"
 
+	"NB: the node context will be set by context: when created via HypernodeElement class>>#forContext:"
 	self
 		layout: BlFrameLayout new;
 		constraintsDo: [ :c | 
 			c horizontal fitContent.
 			c vertical fitContent ].
 
-	self aptitude: self defaultLook.
-	
+	"The aptitide will be updated when the context is set."
+	self aptitude: DefaultGraphStyle new nodeAptitude.
 	self updateNode.
 	self graph beNode.
 	"self handleEvents."
 	^ self
-]
-
-{ #category : #accessing }
-HypernodeElement >> mindmapLook [
-	<todo: 'This should be determined by the graph style of the parent node'>
-	^ HNConfigurableAptitude
-		configuration:
-			{(#borderColor -> #black).
-			(#text -> 'topic').
-			(#shape -> #roundedRectangle)}
 ]
 
 { #category : #accessing }

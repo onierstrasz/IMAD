@@ -7,3 +7,18 @@ Class {
 	#superclass : #HNAbstractGraphStyle,
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
+
+{ #category : #accessing }
+DefaultGraphStyle class >> styleName [
+	^ 'Default style'
+]
+
+{ #category : #accessing }
+DefaultGraphStyle >> nodeAptitude [
+	^ HNConfigurableAptitude
+		configuration:
+			{(#borderColor -> #black).
+			(#hoverColor -> #red).
+			(#text -> '').
+			(#shape -> #circle)}
+]

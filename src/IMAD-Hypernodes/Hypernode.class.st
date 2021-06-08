@@ -213,6 +213,12 @@ Hypernode >> graphStyle [
 	^ graphStyle
 ]
 
+{ #category : #accessing }
+Hypernode >> graphStyle: aGraphStyle [
+	<todo: 'store the name of the style in the properties'>
+	graphStyle := aGraphStyle
+]
+
 { #category : #'gt-extension' }
 Hypernode >> gtGraphFor: aView [
 	<gtView>

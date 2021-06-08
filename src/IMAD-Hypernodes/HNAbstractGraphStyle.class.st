@@ -20,10 +20,23 @@ Class {
 }
 
 { #category : #accessing }
+HNAbstractGraphStyle class >> styleName [
+	"Used to translate between the textual name and the actual class"
+	^ self subclassResponsibility
+]
+
+{ #category : #accessing }
 HNAbstractGraphStyle >> graphLayout [
 	"Default layout for HypernodeGraphLement just fits all the nodes, and lets them be repositioned according to the positions stored in the node's contexts."
 
 	^ BlOnceLayout new layout: BlFitLayout new
+]
+
+{ #category : #accessing }
+HNAbstractGraphStyle >> nodeAptitude [
+	"The aptitude for nodes in this graph style."
+
+	self subclassResponsibility
 ]
 
 { #category : #accessing }

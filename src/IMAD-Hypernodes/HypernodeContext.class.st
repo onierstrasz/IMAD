@@ -56,6 +56,11 @@ HypernodeContext >> description: aString [
 ]
 
 { #category : #accessing }
+HypernodeContext >> graphStyle [
+	^ parent graphStyle
+]
+
+{ #category : #accessing }
 HypernodeContext >> initializeNode: aSubnode parent: aHypernode [
 	node := aSubnode.
 	parent := aHypernode

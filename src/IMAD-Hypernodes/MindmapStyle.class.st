@@ -11,3 +11,17 @@ Class {
 	#superclass : #HNAbstractGraphStyle,
 	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
 }
+
+{ #category : #accessing }
+MindmapStyle class >> styleName [
+	^ 'Mindmap'
+]
+
+{ #category : #accessing }
+MindmapStyle >> nodeAptitude [
+	^ HNConfigurableAptitude
+		configuration:
+			{(#borderColor -> #black).
+			(#text -> 'topic').
+			(#shape -> #roundedRectangle)}
+]

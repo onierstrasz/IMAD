@@ -151,7 +151,10 @@ HypernodeEditor >> buildGraphContainer [
 
 { #category : #debugging }
 HypernodeEditor >> contextMenu [
-	<todo: 'Add cascading menu for graph styles'>
+	<todo: 'Add cascading menu for graph styles.
+	Need to generate list of Graph styles to set.
+	'>
+	<todo: 'Remove borders from buttons'>
 	| content |
 	content := BlElement new
 		layout: BlLinearLayout vertical;
@@ -181,9 +184,7 @@ HypernodeEditor >> contextMenu [
 										label: 'Select graph style' ]
 								content: [ BrGlamorousSimpleContextMenuContent new
 										items:
-											{('Inspect self' -> [ self node inspect ]).
-											('Select graph style' -> [ "not sure what goes here!" ]).
-											('Toggle debug view' -> [ self toggleDebugMode ])};
+											self graphStyleMenuItems;
 										yourself ]);
 				label: 'Select graph style').
 	^ content
@@ -253,6 +254,16 @@ HypernodeEditor >> graph: aHypernodeGraphElement [
 	graph unsubscribe.
 	graph := aHypernodeGraphElement.
 	graphHolder contentElement: graph
+]
+
+{ #category : #debugging }
+HypernodeEditor >> graphStyleMenuItems [
+	"{('Inspect self' -> [ self node inspect ]).
+	('Select graph style' -> [  ]).
+	('Toggle debug view' -> [ self toggleDebugMode ])}"
+
+	^ HNAbstractGraphStyle allSubclasses
+		collect: [ :c | c styleName -> [ self node graphStyle: c new ] ]
 ]
 
 { #category : #gui }
