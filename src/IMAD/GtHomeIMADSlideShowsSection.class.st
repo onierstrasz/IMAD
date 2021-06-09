@@ -1,7 +1,7 @@
 Class {
 	#name : #GtHomeIMADSlideShowsSection,
 	#superclass : #GtHomeSection,
-	#category : #'IMAD-Cards-Presenter'
+	#category : #'IMAD-Presenter'
 }
 
 { #category : #accessing }
