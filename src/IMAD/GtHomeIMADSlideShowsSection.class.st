@@ -1,3 +1,6 @@
+"
+Just a placeholder for the moment.
+"
 Class {
 	#name : #GtHomeIMADSlideShowsSection,
 	#superclass : #GtHomeSection,

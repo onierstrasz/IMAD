@@ -1,4 +1,6 @@
 "
+Just a placeholder for the moment.
+
 ```
 IMADSlideShow new openInSpace
 ```
