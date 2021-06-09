@@ -18,7 +18,7 @@ Class {
 		'parent',
 		'node'
 	],
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Model'
 }
 
 { #category : #accessing }

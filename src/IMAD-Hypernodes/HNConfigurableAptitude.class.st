@@ -30,7 +30,7 @@ Class {
 		'configuration',
 		'defaults'
 	],
-	#category : #'IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-View'
 }
 
 { #category : #accessing }

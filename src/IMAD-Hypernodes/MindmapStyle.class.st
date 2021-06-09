@@ -9,7 +9,7 @@ Nodes may be highlighted in various ways: background color, border, shape, test 
 Class {
 	#name : #MindmapStyle,
 	#superclass : #HNAbstractGraphStyle,
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Styles'
 }
 
 { #category : #accessing }

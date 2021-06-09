@@ -1,7 +1,7 @@
 Class {
 	#name : #HNConfigurableAptitudeExamples,
 	#superclass : #Object,
-	#category : #'IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-View'
 }
 
 { #category : #accessing }

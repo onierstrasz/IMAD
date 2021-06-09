@@ -32,7 +32,7 @@ Class {
 		'buttonBar',
 		'nameHolder'
 	],
-	#category : #'IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-View'
 }
 
 { #category : #'instance creation' }

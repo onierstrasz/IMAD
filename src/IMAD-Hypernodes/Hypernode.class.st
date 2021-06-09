@@ -30,7 +30,7 @@ Class {
 		'root',
 		'graphStyle'
 	],
-	#category : #'IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Model'
 }
 
 { #category : #creation }

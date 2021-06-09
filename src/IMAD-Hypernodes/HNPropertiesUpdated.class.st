@@ -1,5 +1,5 @@
 Class {
 	#name : #HNPropertiesUpdated,
 	#superclass : #HNAnnouncement,
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Announcements'
 }

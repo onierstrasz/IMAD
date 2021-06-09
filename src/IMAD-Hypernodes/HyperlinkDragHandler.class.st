@@ -17,7 +17,7 @@ Class {
 		'dragStartGlobalPosition',
 		'originalPosition'
 	],
-	#category : #'IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-View'
 }
 
 { #category : #accessing }

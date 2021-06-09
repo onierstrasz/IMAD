@@ -13,7 +13,7 @@ Class {
 		'target',
 		'parent'
 	],
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Model'
 }
 
 { #category : #accessing }

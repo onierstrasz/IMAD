@@ -12,7 +12,7 @@ Class {
 		'graph',
 		'linkElement'
 	],
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-View'
 }
 
 { #category : #accessing }

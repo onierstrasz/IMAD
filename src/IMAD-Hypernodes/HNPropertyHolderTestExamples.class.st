@@ -1,7 +1,7 @@
 Class {
 	#name : #HNPropertyHolderTestExamples,
 	#superclass : #Object,
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Examples'
 }
 
 { #category : #accessing }

@@ -1,7 +1,7 @@
 Class {
 	#name : #HypernodeRepository,
 	#superclass : #Object,
-	#category : #'IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Examples'
 }
 
 { #category : #'as yet unclassified' }

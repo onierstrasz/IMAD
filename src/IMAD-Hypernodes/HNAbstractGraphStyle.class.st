@@ -16,7 +16,7 @@ The idea is to have a few pre-packaged graph style subclasses for common styles 
 Class {
 	#name : #HNAbstractGraphStyle,
 	#superclass : #Object,
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Styles'
 }
 
 { #category : #accessing }

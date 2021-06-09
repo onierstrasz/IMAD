@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'hyperlink'
 	],
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Announcements'
 }
 
 { #category : #accessing }

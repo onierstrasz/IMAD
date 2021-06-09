@@ -7,5 +7,5 @@ Creation is triggered by a double-click event in the HypernodeEditor (see {{gtMe
 Class {
 	#name : #CreateNodeContext,
 	#superclass : #HNAnnouncement,
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Announcements'
 }

@@ -6,5 +6,5 @@ The node has been dragged with the help of the HypernodePullHandler (see {{gtMet
 Class {
 	#name : #UpdateNodeContext,
 	#superclass : #HNAnnouncement,
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Announcements'
 }

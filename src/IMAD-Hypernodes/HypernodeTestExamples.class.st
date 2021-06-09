@@ -5,7 +5,7 @@ I provide some simple examples of Hypernode graphs to test basic functionality.
 Class {
 	#name : #HypernodeTestExamples,
 	#superclass : #Object,
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Examples'
 }
 
 { #category : #accessing }

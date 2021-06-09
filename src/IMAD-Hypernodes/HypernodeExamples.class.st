@@ -23,7 +23,7 @@ The **buttonBar** (also orange), contains buttons that send zoom messages to the
 Class {
 	#name : #HypernodeExamples,
 	#superclass : #Object,
-	#category : #'IMAD-Hypernodes-IMAD-Hypernodes'
+	#category : #'IMAD-Hypernodes-Examples'
 }
 
 { #category : #accessing }
