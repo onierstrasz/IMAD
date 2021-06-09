@@ -49,3 +49,8 @@ HNAbstractGraphStyle >> nodeLayout [
 			c horizontal fitContent.
 			c vertical fitContent ]
 ]
+
+{ #category : #accessing }
+HNAbstractGraphStyle >> styleName [
+	^ self class styleName
+]

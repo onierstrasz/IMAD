@@ -210,13 +210,14 @@ Hypernode >> generateStorageMethodString [
 
 { #category : #accessing }
 Hypernode >> graphStyle [
+	graphStyle ifNil: [ self initializeGraphStyle ].
 	^ graphStyle
 ]
 
 { #category : #accessing }
 Hypernode >> graphStyle: aGraphStyle [
-	<todo: 'store the name of the style in the properties'>
-	graphStyle := aGraphStyle
+	graphStyle := aGraphStyle.
+	self set: #graphStyle to: aGraphStyle styleName
 ]
 
 { #category : #'gt-extension' }
@@ -279,8 +280,21 @@ Hypernode >> initialize [
 	super initialize.
 	"nodes := OrderedCollection new."
 	nodeContexts := OrderedCollection new.
-	links := OrderedCollection new.
-	graphStyle := DefaultGraphStyle new
+	links := OrderedCollection new
+]
+
+{ #category : #initialization }
+Hypernode >> initializeGraphStyle [
+	"Look for the graph style by name in the properties."
+
+	| styleName |
+	styleName := self
+		get: #graphStyle
+		ifAbsentPut: DefaultGraphStyle styleName.
+	graphStyle := HNAbstractGraphStyle allSubclasses
+		detect: [ :c | c styleName = styleName ]
+		ifFound: [ :c | c new ]
+		ifNone: [ self error: 'Could not find Graph Style named "' , styleName , '"' ]
 ]
 
 { #category : #querying }
