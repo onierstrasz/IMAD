@@ -285,16 +285,11 @@ Hypernode >> initialize [
 
 { #category : #initialization }
 Hypernode >> initializeGraphStyle [
-	"Look for the graph style by name in the properties."
-
 	| styleName |
 	styleName := self
 		get: #graphStyle
 		ifAbsentPut: DefaultGraphStyle styleName.
-	graphStyle := HNAbstractGraphStyle allSubclasses
-		detect: [ :c | c styleName = styleName ]
-		ifFound: [ :c | c new ]
-		ifNone: [ self error: 'Could not find Graph Style named "' , styleName , '"' ]
+	graphStyle := HNAbstractGraphStyle styleNamed: styleName
 ]
 
 { #category : #querying }

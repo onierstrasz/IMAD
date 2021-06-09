@@ -6,7 +6,6 @@ Class {
 	#name : #HypernodeElement,
 	#superclass : #AbstractHypernodeElement,
 	#instVars : [
-		'isEditable',
 		'nodeContext'
 	],
 	#category : #'IMAD-Hypernodes-View'
@@ -101,7 +100,6 @@ HypernodeElement >> initialize [
 	<todo:
 		'What should be the basic layout? BlFrameLayout or BlLinearLayout vertical? Should this also be part of the configurable look?'>
 	super initialize.
-	isEditable := false.	"Do we need this?!"
 
 	"NB: the node context will be set by context: when created via HypernodeElement class>>#forContext:"
 	self

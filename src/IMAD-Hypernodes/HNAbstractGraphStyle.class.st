@@ -26,6 +26,17 @@ HNAbstractGraphStyle class >> styleName [
 ]
 
 { #category : #accessing }
+HNAbstractGraphStyle class >> styleNamed: aStyleName [
+"Factory method to instantiate a style by name"
+
+	 ^ HNAbstractGraphStyle allSubclasses
+		detect: [ :c | c styleName = aStyleName ]
+		ifFound: [ :c | c new ]
+		ifNone: [ self error: 'Could not find Graph Style named "' , aStyleName , '"' ]
+
+]
+
+{ #category : #accessing }
 HNAbstractGraphStyle >> graphLayout [
 	"Default layout for HypernodeGraphLement just fits all the nodes, and lets them be repositioned according to the positions stored in the node's contexts."
 

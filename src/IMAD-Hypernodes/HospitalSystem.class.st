@@ -50,19 +50,19 @@ HospitalSystem >> mindmap [
 			for: 1
 			withContextProperties:
 			(KeyedTree new
-				add: #position -> (221.05151367187477 @ 269.98370361328125);
+				add: #position -> (282.0515136718748 @ 155.98370361328125);
 				yourself);
 		addSubNode: 3
 			for: 1
 			withContextProperties:
 			(KeyedTree new
-				add: #position -> (392.7137451171873 @ 256.79345703125);
+				add: #position -> (499.7137451171873 @ 139.79345703125);
 				yourself);
 		addSubNode: 4
 			for: 1
 			withContextProperties:
 			(KeyedTree new
-				add: #position -> (374.3026123046875 @ 391.0487060546875);
+				add: #position -> (221.3026123046875 @ 303.0487060546875);
 				yourself);
 		addEdgeFrom: 2
 			to: 3
