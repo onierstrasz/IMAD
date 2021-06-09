@@ -71,56 +71,6 @@ HypernodeRepository >> flatGraphWithNodeProperties [
 		nodeForId: 1
 ]
 
-{ #category : #accessing }
-HypernodeRepository >> sampleHypernodeGraph [
-	<storedHypernode>
-	<gtExample>
-	^ HypernodeBuilder new
-		addNode:
-			(Hypernode new
-				properties:
-					(KeyedTree new
-						add: #storageClassName -> 'HypernodeRepository';
-						add: #storageMethodName -> 'sampleHypernodeGraph';
-						yourself);
-				yourself)
-			for: 1;
-		addNode: Hypernode new yourself for: 2;
-		addNode: Hypernode new yourself for: 3;
-		addNode: Hypernode new yourself for: 4;
-		addNode: Hypernode new yourself for: 5;
-		addSubNode: 2
-			for: 1
-			withContextProperties:
-			(KeyedTree new
-				add: #position -> (128.72760009765625 @ 194.53741455078125);
-				yourself);
-		addSubNode: 3
-			for: 1
-			withContextProperties:
-			(KeyedTree new
-				add: #position -> (307.099365234375 @ 186.00860595703125);
-				yourself);
-		addSubNode: 4
-			for: 1
-			withContextProperties:
-			(KeyedTree new
-				add: #position -> (229.5087890625 @ 296.09161376953125);
-				yourself);
-		addSubNode: 5
-			for: 1
-			withContextProperties:
-			(KeyedTree new
-				add: #position -> (455.4840087890625 @ 268.706298828125);
-				yourself);
-		setRootFor: 1 to: 1;
-		setRootFor: 2 to: 1;
-		setRootFor: 3 to: 1;
-		setRootFor: 4 to: 1;
-		setRootFor: 5 to: 1;
-		nodeForId: 1
-]
-
 { #category : #'as yet unclassified' }
 HypernodeRepository >> testGraph [
 	<storedHypernode>
