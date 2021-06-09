@@ -1,6 +1,6 @@
 Extension { #name : #GtHome }
 
-{ #category : #'*IMAD-Cards' }
+{ #category : #'*IMAD' }
 GtHome >> imadSlideShowsSection [
 	<gtHomeSection>
 	^ GtHomeIMADSlideShowsSection new

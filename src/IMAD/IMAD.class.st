@@ -21,7 +21,7 @@ IMAD assertAllStoredHypernodesEqualSelf
 Class {
 	#name : #IMAD,
 	#superclass : #Object,
-	#category : #'IMAD-Hypernodes'
+	#category : #IMAD
 }
 
 { #category : #accessing }
