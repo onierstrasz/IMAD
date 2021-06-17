@@ -151,10 +151,7 @@ HypernodeEditor >> buildGraphContainer [
 
 { #category : #debugging }
 HypernodeEditor >> contextMenu [
-	<todo: 'Add cascading menu for graph styles.
-	Need to generate list of Graph styles to set.
-	'>
-	<todo: 'Remove borders from buttons'>
+
 	| content |
 	content := BlElement new
 		layout: BlLinearLayout vertical;
@@ -165,39 +162,31 @@ HypernodeEditor >> contextMenu [
 	content
 		addChild:
 			(BrButton new
-				aptitude: BrGlamorousButtonWithLabelAptitude;
+				aptitude: BrGlamorousButtonWithLabelAptitude - BrGlamorousButtonExteriorAptitude;
 				label: 'Inspect self';
-				action: [ self node inspect ]);
+				action: [ self node inspect ];
+				hMatchParent);
 		addChild:
 			(BrButton new
-				aptitude: BrGlamorousButtonWithLabelAptitude;
+				aptitude: BrGlamorousButtonWithLabelAptitude - BrGlamorousButtonExteriorAptitude;
 				label: 'Toggle debug view';
-				action: [ self toggleDebugMode ]);
+				action: [ self toggleDebugMode ];
+				hMatchParent);
 		addChild:
 			(BrButton new
 				aptitude:
-					BrGlamorousButtonWithLabelAptitude
+					BrGlamorousButtonWithLabelAptitude - BrGlamorousButtonExteriorAptitude
 						+
 							(BrGlamorousWithDropdownAptitude
 								handle: [ BrButton new
-										aptitude: BrGlamorousButtonWithLabelAptitude;
+										aptitude: BrGlamorousButtonWithLabelAptitude - BrGlamorousButtonExteriorAptitude;
 										label: 'Select graph style' ]
 								content: [ BrGlamorousSimpleContextMenuContent new
-										items:
-											self graphStyleMenuItems;
+										items: self graphStyleMenuItems;
 										yourself ]);
-				label: 'Select graph style').
+				label: 'Select graph style';
+				hMatchParent).
 	^ content
-	"^ BrGlamorousSimpleContextMenuContent new
-		items:
-			{('Inspect self' -> [ self node inspect ]).
-			('Select graph style' -> [ ""not sure what goes here!""
-			
-			
-			
-			 ]).
-			('Toggle debug view' -> [ self toggleDebugMode ])};
-		yourself"
 ]
 
 { #category : #utility }
