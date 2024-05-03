@@ -19,7 +19,7 @@ IMADHomeSection >> tocCard [
 	<gtSectionCard>
 	<gtExample>
 	^ GtHomeCard page
-		title: 'IMAD ToC';
+		title: 'IMAD';
 		description: 'IMAD Lepiter database';
 		priority: 10;
 		pageName: 'IMAD ToC';
