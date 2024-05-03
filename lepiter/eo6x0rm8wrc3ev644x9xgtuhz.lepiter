@@ -18,7 +18,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:19:17.456418+02:00"
+						"dateAndTimeString" : "2024-05-03T09:28:20.959292+02:00"
 					}
 				},
 				"editEmail" : {
@@ -29,17 +29,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:20:21.622722+02:00"
+						"dateAndTimeString" : "2024-05-03T09:29:14.774055+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "UTq4b+jTDQCJygFoCenT9w=="
+					"uidString" : "VhCxZunTDQCkyOlACenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "I worked on the [IMAD project](https://github.com/onierstrasz/IMAD) during my sabbatical in NZ in Spring 2022."
+				"string" : "The {{gtClass:name=HypernodeEditor}} consists of several nested panes. See the {{gtClass:name=EditorExamples}} for a simplified demo."
 			},
 			{
 				"__type" : "textSnippet",
@@ -55,7 +55,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:24.789059+02:00"
+						"dateAndTimeString" : "2024-05-03T09:29:20.724847+02:00"
 					}
 				},
 				"editEmail" : {
@@ -66,17 +66,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:30.088478+02:00"
+						"dateAndTimeString" : "2024-05-03T09:32:14.846514+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "adgAd+jTDQCK6uX7CenT9w=="
+					"uidString" : "aRrvaenTDQCml6iXCenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[Loading IMAD]] "
+				"string" : "When a new node is created in the editor, its coordinates have to be mapped to an absolute position in the model. This is done in {{gtMethod:name=HypernodeEditor>>#handleEvents}} with the help of {{gtMethod:name=BlElement>>#globalPointToLocal:}}, which translates coordinates. We want the coordinates from the standpoint of the `graphHolder`, which is the {{gtClass:name=BlPinchableElement}} defined in {{gtMethod:name=HypernodeEditor>>#buildGraphContainer}}."
 			},
 			{
 				"__type" : "textSnippet",
@@ -92,7 +92,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:38.873158+02:00"
+						"dateAndTimeString" : "2024-05-03T10:04:09.109048+02:00"
 					}
 				},
 				"editEmail" : {
@@ -103,17 +103,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:48.447181+02:00"
+						"dateAndTimeString" : "2024-05-03T10:04:44.22236+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "lQwmeOjTDQCLhfWmCenT9w=="
+					"uidString" : "iTW75unTDQCvRaxkCenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[IMAD Examples]] "
+				"string" : "In the other direction {{gtMethod:name=HypernodePullHandler>>#dragEndEvent:}} updates the model node on a drag end event."
 			},
 			{
 				"__type" : "textSnippet",
@@ -129,7 +129,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:34:06.539488+02:00"
+						"dateAndTimeString" : "2024-05-03T10:05:35.25998+02:00"
 					}
 				},
 				"editEmail" : {
@@ -140,91 +140,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:37:55.547433+02:00"
+						"dateAndTimeString" : "2024-05-03T10:06:37.77473+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "E4y2pOjTDQCOP/4RCenT9w=="
+					"uidString" : "8cLd6+nTDQCw2BsbCenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[Domain modeling Card Decks]]"
-			},
-			{
-				"__type" : "textSnippet",
-				"children" : {
-					"__type" : "snippets",
-					"items" : [ ]
-				},
-				"createEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"createTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:37:57.223085+02:00"
-					}
-				},
-				"editEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"editTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:38:02.488901+02:00"
-					}
-				},
-				"uid" : {
-					"__type" : "uid",
-					"uidString" : "sH92sujTDQCSaJiSCenT9w=="
-				},
-				"paragraphStyle" : {
-					"__type" : "textStyle"
-				},
-				"string" : "[[FSA Experiments]]"
-			},
-			{
-				"__type" : "textSnippet",
-				"children" : {
-					"__type" : "snippets",
-					"items" : [ ]
-				},
-				"createEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"createTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T09:28:06.196142+02:00"
-					}
-				},
-				"editEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"editTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T09:28:15.297972+02:00"
-					}
-				},
-				"uid" : {
-					"__type" : "uid",
-					"uidString" : "xcjPZenTDQCkFJYMCenT9w=="
-				},
-				"paragraphStyle" : {
-					"__type" : "textStyle"
-				},
-				"string" : "[[How are coordinates mapped?]]"
+				"string" : "**Q** Why do we need to send `constraints position` to the element instead of just `position`?"
 			}
 		]
 	},
@@ -236,7 +162,7 @@
 		"__type" : "time",
 		"time" : {
 			"__type" : "dateAndTime",
-			"dateAndTimeString" : "2024-05-03T08:19:17.406479+02:00"
+			"dateAndTimeString" : "2024-05-03T09:28:20.907996+02:00"
 		}
 	},
 	"editEmail" : {
@@ -247,15 +173,15 @@
 		"__type" : "time",
 		"time" : {
 			"__type" : "dateAndTime",
-			"dateAndTimeString" : "2024-05-03T08:19:28.246845+02:00"
+			"dateAndTimeString" : "2024-05-03T09:28:20.907996+02:00"
 		}
 	},
 	"pageType" : {
 		"__type" : "namedPage",
-		"title" : "IMAD ToC"
+		"title" : "How are coordinates mapped?"
 	},
 	"uid" : {
 		"__type" : "uuid",
-		"uuid" : "f775b76f-e8d3-0d00-89c9-a8e309e9d3f7"
+		"uuid" : "a743b066-e9d3-0d00-a4c7-73ed09e9d3f7"
 	}
 }

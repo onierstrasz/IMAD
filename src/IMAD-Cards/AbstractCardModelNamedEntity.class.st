@@ -140,33 +140,32 @@ AbstractCardModelNamedEntity >> gtPropertiesFor: aView [
 		items: [ self properties associations sort: [ :a :b | a key <= b key ] ];
 		column: 'Key'
 			do: [ :column | 
-			column
-				stencil: [ :assoc | 
-					self
-						editableLabelFor: assoc key
-						withSetter: [ :newKey | self rename: assoc key to: newKey ] ];
-				weight: 1 ];
+				column
+					stencil: [ :assoc | 
+						self
+							editableLabelFor: assoc key
+							withSetter: [ :newKey | self rename: assoc key to: newKey ] ];
+					weight: 1 ];
 		column: 'Value'
 			do: [ :column | 
-			column
-				stencil: [ :assoc | 
-					self
-						editableLabelFor: assoc value
-						withSetter: [ :newValue | self set: assoc key to: newValue ] ];
-				weight: 1 ];
+				column
+					stencil: [ :assoc | 
+						self
+							editableLabelFor: assoc value
+							withSetter: [ :newValue | self set: assoc key to: newValue ] ];
+					weight: 1 ];
+		column: ' '
+			do: [  "Dummy column to enable easy clicking to next pane":column | 
+				column
+					stencil: [ BlTextElement new text: '' asRopedText ];
+					weight: 1 ];
 		column: ' '
 			do: [ :column | 
-			"Dummy column to enable easy clicking to next pane"
-			column
-				stencil: [ BlTextElement new text: '' asRopedText ];
-				weight: 1 ];
-		column: ' '
-			do: [ :column | 
-			column
-				stencil: [ :assoc | self removePropertyButtonFor: assoc ];
-				noWidth ];
+				column
+					stencil: [ :assoc | self removePropertyButtonFor: assoc ];
+					noWidth ];
 		actionStencil: [ BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons add;
 				label: 'Add property';
 				action: [ self set: self freshKey to: self defaultValue ] ];
@@ -244,10 +243,10 @@ AbstractCardModelNamedEntity >> protectedKeys [
 { #category : #'gt-extensions' }
 AbstractCardModelNamedEntity >> removePropertyButtonFor: anAssociation [
 	^ BrButton new
-		look: BrGlamorousButtonWithIconAptitude;
+		aptitude: BrGlamorousButtonWithIconAptitude;
 		icon: BrGlamorousVectorIcons remove;
-		label: 'Remove ', anAssociation key;
-		action: [ :button | self removePropertyWithKey: anAssociation key  ]
+		label: 'Remove ' , anAssociation key;
+		action: [ :button | self removePropertyWithKey: anAssociation key ]
 ]
 
 { #category : #printing }

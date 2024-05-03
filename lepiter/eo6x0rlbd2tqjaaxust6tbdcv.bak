@@ -18,7 +18,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:19:17.456418+02:00"
+						"dateAndTimeString" : "2024-05-03T08:56:05.539265+02:00"
 					}
 				},
 				"editEmail" : {
@@ -29,17 +29,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:20:21.622722+02:00"
+						"dateAndTimeString" : "2024-05-03T08:56:30.083248+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "UTq4b+jTDQCJygFoCenT9w=="
+					"uidString" : "2OVU8+jTDQCXUgh7CenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "I worked on the [IMAD project](https://github.com/onierstrasz/IMAD) during my sabbatical in NZ in Spring 2022."
+				"string" : "Some views are broken because {{gtClass:name=GtDocument}} no longer exists."
 			},
 			{
 				"__type" : "textSnippet",
@@ -55,7 +55,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:24.789059+02:00"
+						"dateAndTimeString" : "2024-05-03T08:56:30.374502+02:00"
 					}
 				},
 				"editEmail" : {
@@ -66,17 +66,51 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:30.088478+02:00"
+						"dateAndTimeString" : "2024-05-03T08:56:46.912384+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "adgAd+jTDQCK6uX7CenT9w=="
+					"uidString" : "btjP9OjTDQCY0Hv/CenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[Loading IMAD]] "
+				"string" : "We replace it by a message logger to see what messages are sent to it."
+			},
+			{
+				"__type" : "pharoSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [ ]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2024-05-03T08:56:48.274695+02:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2024-05-03T08:59:03.157791+02:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "Xvng9ejTDQCaLfAxCenT9w=="
+				},
+				"code" : "#text: gtImplementors contents\r\tselect: [ :m | m methodClass inheritsFrom: BlElement ]"
 			},
 			{
 				"__type" : "textSnippet",
@@ -92,7 +126,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:38.873158+02:00"
+						"dateAndTimeString" : "2024-05-03T08:55:58.222312+02:00"
 					}
 				},
 				"editEmail" : {
@@ -103,17 +137,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:48.447181+02:00"
+						"dateAndTimeString" : "2024-05-03T09:12:12.642219+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "lQwmeOjTDQCLhfWmCenT9w=="
+					"uidString" : "BkDl8ujTDQCXUeb9CenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[IMAD Examples]] "
+				"string" : "It looks like we can use {{gtClass:name=BrEditor}} or perhaps {{gtClass:name=BlTextElement}}."
 			},
 			{
 				"__type" : "textSnippet",
@@ -129,7 +163,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:34:06.539488+02:00"
+						"dateAndTimeString" : "2024-05-03T09:12:13.158684+02:00"
 					}
 				},
 				"editEmail" : {
@@ -140,17 +174,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:37:55.547433+02:00"
+						"dateAndTimeString" : "2024-05-03T09:12:13.158684+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "E4y2pOjTDQCOP/4RCenT9w=="
+					"uidString" : "YZcBLenTDQCilNSnCenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[Domain modeling Card Decks]]"
+				"string" : ""
 			},
 			{
 				"__type" : "textSnippet",
@@ -166,7 +200,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:37:57.223085+02:00"
+						"dateAndTimeString" : "2024-05-03T09:12:13.406494+02:00"
 					}
 				},
 				"editEmail" : {
@@ -177,54 +211,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:38:02.488901+02:00"
+						"dateAndTimeString" : "2024-05-03T09:12:18.891535+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "sH92sujTDQCSaJiSCenT9w=="
+					"uidString" : "NF4FLenTDQCimemoCenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[FSA Experiments]]"
-			},
-			{
-				"__type" : "textSnippet",
-				"children" : {
-					"__type" : "snippets",
-					"items" : [ ]
-				},
-				"createEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"createTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T09:28:06.196142+02:00"
-					}
-				},
-				"editEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"editTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T09:28:15.297972+02:00"
-					}
-				},
-				"uid" : {
-					"__type" : "uid",
-					"uidString" : "xcjPZenTDQCkFJYMCenT9w=="
-				},
-				"paragraphStyle" : {
-					"__type" : "textStyle"
-				},
-				"string" : "[[How are coordinates mapped?]]"
+				"string" : "Not working. For now we "
 			}
 		]
 	},
@@ -236,7 +233,7 @@
 		"__type" : "time",
 		"time" : {
 			"__type" : "dateAndTime",
-			"dateAndTimeString" : "2024-05-03T08:19:17.406479+02:00"
+			"dateAndTimeString" : "2024-05-03T08:56:05.531925+02:00"
 		}
 	},
 	"editEmail" : {
@@ -247,15 +244,15 @@
 		"__type" : "time",
 		"time" : {
 			"__type" : "dateAndTime",
-			"dateAndTimeString" : "2024-05-03T08:19:28.246845+02:00"
+			"dateAndTimeString" : "2024-05-03T08:56:05.531925+02:00"
 		}
 	},
 	"pageType" : {
 		"__type" : "namedPage",
-		"title" : "IMAD ToC"
+		"title" : "How to replace GtDocument?"
 	},
 	"uid" : {
 		"__type" : "uuid",
-		"uuid" : "f775b76f-e8d3-0d00-89c9-a8e309e9d3f7"
+		"uuid" : "5ffde4f2-e8d3-0d00-9750-65ce09e9d3f7"
 	}
 }

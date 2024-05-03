@@ -153,14 +153,22 @@ HypergraphEntity >> generatedValue [
 
 { #category : #'gt-extension' }
 HypergraphEntity >> gtDescriptionFor: aView [
-<todo: 'Does not update if the view is hidden.
+"<todo: 'Does not update if the view is hidden.
 https://github.com/onierstrasz/IMAD/issues/74'>
 	<gtView>
 	^ aView explicit
 		title: 'Description';
 		priority: 10;
 		stencil: [ self buildDescriptionPane ];
-		updateWhen: HNPropertiesUpdated in: [ self announcer ]
+		updateWhen: HNPropertiesUpdated in: [ self announcer ]"
+
+	<gtView>
+	^ aView textEditor
+		title: 'Description';
+		priority: 10;
+		aptitude: BrGlamorousCodeEditorAptitude;
+		text: [ self description asRopedText ];
+		actionUpdateButton
 ]
 
 { #category : #utilities }
