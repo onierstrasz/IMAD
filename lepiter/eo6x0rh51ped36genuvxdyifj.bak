@@ -29,7 +29,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:50.209871+02:00"
+						"dateAndTimeString" : "2024-05-03T08:23:17.211931+02:00"
 					}
 				},
 				"uid" : {
@@ -39,7 +39,44 @@
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : ""
+				"string" : "***Warning*** Trying to inspect or view the IMAD class will freeze the image! No idea why."
+			},
+			{
+				"__type" : "textSnippet",
+				"children" : {
+					"__type" : "snippets",
+					"items" : [ ]
+				},
+				"createEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"createTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2024-05-03T08:23:25.414368+02:00"
+					}
+				},
+				"editEmail" : {
+					"__type" : "email",
+					"emailString" : "<unknown>"
+				},
+				"editTime" : {
+					"__type" : "time",
+					"time" : {
+						"__type" : "dateAndTime",
+						"dateAndTimeString" : "2024-05-03T08:23:25.816552+02:00"
+					}
+				},
+				"uid" : {
+					"__type" : "uid",
+					"uidString" : "acF/fujTDQCM39agCenT9w=="
+				},
+				"paragraphStyle" : {
+					"__type" : "textStyle"
+				},
+				"string" : "Instantiating it or inspecting the methods does not cause problems however!"
 			},
 			{
 				"__type" : "textSnippet",
@@ -137,7 +174,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:22:39.069307+02:00"
+						"dateAndTimeString" : "2024-05-03T08:26:16.123673+02:00"
 					}
 				},
 				"uid" : {
@@ -147,7 +184,7 @@
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "Tests:"
+				"string" : "Tests are in "
 			},
 			{
 				"__type" : "pharoSnippet",
@@ -174,14 +211,14 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:22:03.892387+02:00"
+						"dateAndTimeString" : "2024-05-03T08:26:10.988503+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
 					"uidString" : "m1VUeejTDQCL9/U2CenT9w=="
 				},
-				"code" : "HypernodeTestExamples "
+				"code" : ""
 			},
 			{
 				"__type" : "textSnippet",
@@ -245,14 +282,14 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:22:11.439681+02:00"
+						"dateAndTimeString" : "2024-05-03T08:25:29.704069+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
 					"uidString" : "3TiyeejTDQCMASBaCenT9w=="
 				},
-				"code" : "HypernodeRepository new flatGraphWithNodeProperties"
+				"code" : "HypernodeRepository new flatGraphWithNodeProperties."
 			}
 		]
 	},

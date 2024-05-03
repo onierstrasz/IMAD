@@ -21,13 +21,13 @@ The **buttonBar** (also orange), contains buttons that send zoom messages to the
 
 "
 Class {
-	#name : #HypernodeExamples,
+	#name : #EditorExamples,
 	#superclass : #Object,
 	#category : #'IMAD-Hypernodes-Examples'
 }
 
 { #category : #accessing }
-HypernodeExamples >> editorScript [
+EditorExamples >> editorScript [
 	"This example will also run as a Playground snippet. (Just delete everything up to and including the variable declarations.)
 The purpose is to demonstrate all the GUI events and interactions without the scaffolding of the underlying model or the dedicated classed.
 This makes it easier to debug the definitions of the event handlers."
@@ -173,7 +173,7 @@ This makes it easier to debug the definitions of the event handlers."
 ]
 
 { #category : #accessing }
-HypernodeExamples >> pinchableDemo [
+EditorExamples >> pinchableDemo [
 <gtExample>
 "Example by Aliaksei Syrel. Shows how bounds of parent element can automatically adjust to its children. Double-click on background to add children."
 | makeNode graph graphHolder pannable |
