@@ -214,7 +214,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T09:28:10.765997+02:00"
+						"dateAndTimeString" : "2024-05-03T09:28:15.297972+02:00"
 					}
 				},
 				"uid" : {
@@ -224,7 +224,7 @@
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[How are coordinate"
+				"string" : "[[How are coordinates mapped?]]"
 			}
 		]
 	},
