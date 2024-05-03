@@ -38,6 +38,7 @@ HypernodePullHandler >> dragEndEvent: anEvent [
 	"anEvent consumed: true."
 	self assert: self context isNotNil.
 	newPosition := self element constraints position.
+	"self halt."
 	self context reposition: newPosition
 ]
 
