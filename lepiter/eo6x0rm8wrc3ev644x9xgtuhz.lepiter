@@ -119,7 +119,45 @@
 				"__type" : "textSnippet",
 				"children" : {
 					"__type" : "snippets",
-					"items" : [ ]
+					"items" : [
+						{
+							"__type" : "textSnippet",
+							"children" : {
+								"__type" : "snippets",
+								"items" : [ ]
+							},
+							"createEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"createTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2024-05-03T11:20:08.033912+02:00"
+								}
+							},
+							"editEmail" : {
+								"__type" : "email",
+								"emailString" : "<unknown>"
+							},
+							"editTime" : {
+								"__type" : "time",
+								"time" : {
+									"__type" : "dateAndTime",
+									"dateAndTimeString" : "2024-05-03T11:20:19.364434+02:00"
+								}
+							},
+							"uid" : {
+								"__type" : "uid",
+								"uidString" : "ieN29urTDQCDolvfBtQrHg=="
+							},
+							"paragraphStyle" : {
+								"__type" : "textStyle"
+							},
+							"string" : "Aliaksei explains: “Exactly, here it should be constraints position. imagine a UI loop frame in which two events happen:\n - drag event\n - drag end event\ndrag event computes a new position and changes constraints to request that position. the requested position will be processed later during the next layout cycle. this means that the drag end event that follows right after drag event will not have an updated elements position, as layout recomputation didn't happen yet”"
+						}
+					]
 				},
 				"createEmail" : {
 					"__type" : "email",
