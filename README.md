@@ -23,7 +23,8 @@ Then within a GT Playground, execute the following snippet to load this reposito
 Metacello new
    baseline: 'IMAD';
    repository: 'github://onierstrasz/IMAD/src';
-   load
+   load.
+#BaselineOfIMAD asClass loadLepiter
 ```
 
 ## Hypergraphs

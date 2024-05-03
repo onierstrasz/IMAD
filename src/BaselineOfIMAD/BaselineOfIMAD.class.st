@@ -4,6 +4,21 @@ Class {
 	#category : #BaselineOfIMAD
 }
 
+{ #category : #loading }
+BaselineOfIMAD class >> loadLepiter [
+	IceRepository registry  
+		detect: [ :aRepository |
+			aRepository name = 'IMAD' ]
+		ifFound: [ :aRepository | 
+			| defaultDatabase currentProperties |
+			defaultDatabase := LeDatabasesRegistry defaultLogicalDatabase.
+			currentProperties := defaultDatabase properties.
+			currentProperties addRegisteredDirectory: aRepository repositoryDirectory / 'lepiter'.
+			defaultDatabase reload ]
+		ifNone: [
+			self inform: 'Repository not found.' ]
+]
+
 { #category : #baselines }
 BaselineOfIMAD >> baseline: spec [
 	<baseline>
