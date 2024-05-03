@@ -23,19 +23,17 @@ Class {
 VirtualHandGUI >> buildButtonBar [
 	| buttonBar |
 	buttonBar := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical fitContent ];
-		layout: BlLinearLayout horizontal;
-		yourself.
+			constraintsDo: [ :c | 
+				c horizontal matchParent.
+				c vertical fitContent ];
+			layout: BlLinearLayout horizontal;
+			yourself.
 	buttonBar
-		addChild:
-			(BlElement new
+		addChild: (BlElement new
 				constraintsDo: [ :c | 
 					c horizontal matchParent.
 					c vertical matchParent ];
-				yourself).
-	"buttonBar
+				yourself).	"buttonBar
 		addChild:
 			(BrButton new
 				look: BrGlamorousButtonWithIconAptitude;
@@ -43,37 +41,32 @@ VirtualHandGUI >> buildButtonBar [
 				label: 'Add card';
 				action: [ self deck addCard: Card new ])."
 	buttonBar
-		addChild:
-			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+		addChild: (BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomin;
 				label: 'Zoom In';
 				action: [ theGraph zoomIn ]).
 	buttonBar
-		addChild:
-			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+		addChild: (BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomout;
 				label: 'Zoom Out';
 				action: [ theGraph zoomOut ]).
 	buttonBar
-		addChild:
-			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+		addChild: (BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons zoomtofit;
 				label: 'Fit';
 				action: [ theGraph zoomToFit ]).
 	buttonBar
-		addChild:
-			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+		addChild: (BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousIcons actualsize;
 				label: 'Resize';
 				action: [ theGraph zoomToActualSize ]).
 	buttonBar
-		addChild:
-			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+		addChild: (BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons refresh;
 				label: 'Refresh';
 				action: [ self updateGraph ]).
@@ -97,19 +90,17 @@ VirtualHandGUI >> buildGraphHolder [
 
 	<todo: 'Add CMD-click'>
 	graphHolder := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical matchParent ];
-		padding: (BlInsets all: 5);
-		margin: (BlInsets all: 5);
-		layout: BlLinearLayout vertical;
-		yourself.
+			constraintsDo: [ :c | 
+				c horizontal matchParent.
+				c vertical matchParent ];
+			padding: (BlInsets all: 5);
+			margin: (BlInsets all: 5);
+			layout: BlLinearLayout vertical;
+			yourself.
 	graphHolder
-		"viewModel: (BrInteractiveModel with: BrHoverModel new);"
-		look: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ]).	"right-click"
+		aptitude: (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ]).	"viewModel: (BrInteractiveModel with: BrHoverModel new);"	"right-click"
 	graphHolder
-		addEventHandler:
-			(BlEventHandler
+		addEventHandler: (BlEventHandler
 				on: BlDoubleClickEvent
 				do: [ :evt | self hand addCard: Card new ]).	"Double-click"
 	^ graphHolder
@@ -139,31 +130,28 @@ VirtualHandGUI >> buildGraphPane [
 VirtualHandGUI >> buildGuiHeaderPane [
 	| header |
 	header := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal matchParent.
-			c vertical fitContent ];
-		padding: (BlInsets all: 5);
-		"border: (BlBorder paint: Color blue width: 1);"
+			constraintsDo: [ :c | 
+				c horizontal matchParent.
+				c vertical fitContent ];
+			padding: (BlInsets all: 5);
 			layout: BlLinearLayout horizontal;
-		yourself.
+			yourself.	"border: (BlBorder paint: Color blue width: 1);"
 	nameHolder := BlElement new
-		constraintsDo: [ :c | 
-			c horizontal fitContent.
-			c vertical fitContent ];
-		layout: BlLinearLayout vertical;
-		yourself.
+			constraintsDo: [ :c | 
+				c horizontal fitContent.
+				c vertical fitContent ];
+			layout: BlLinearLayout vertical;
+			yourself.
 	header addChild: nameHolder.
 	header
-		addChild:
-			(BlElement new
+		addChild: (BlElement new
 				constraintsDo: [ :c | 
 					c horizontal matchParent.
 					c vertical matchParent ];
 				yourself).
 	header
-		addChild:
-			(BrButton new
-				look: BrGlamorousButtonWithIconAptitude;
+		addChild: (BrButton new
+				aptitude: BrGlamorousButtonWithIconAptitude;
 				icon: BrGlamorousVectorIcons inspect;
 				label: 'Open inspector window';
 				action: [ self hand inspect ]).
@@ -236,23 +224,20 @@ VirtualHandGUI >> initialize [
 { #category : #accessing }
 VirtualHandGUI >> saveButton [
 	^ BrButton new
-		look:
-			BrGlamorousButtonWithIconAptitude
-				+
-					(BrGlamorousWithDropdownAptitude
+		aptitude: BrGlamorousButtonWithIconAptitude
+				+ (BrGlamorousWithDropdownAptitude
 						handle: [ BrButton new
-								look:
-									BrGlamorousButtonWithIconAptitude - BrGlamorousWithLabelTooltipAptitude
+								look: BrGlamorousButtonWithIconAptitude - BrGlamorousWithLabelTooltipAptitude
 										- BrGlamorousButtonExteriorAptitude;
 								icon: BrGlamorousIcons save;
 								label: 'Saved to ' , self deck storageClassMethod ]
 						content: [ | dropdown |
 							dropdown := BlElement new
-								layout: BlLinearLayout vertical;
-								constraintsDo: [ :c | 
-									c padding: (BlInsets all: 5).
-									c vertical fitContent.
-									c horizontal fitContent ].
+									layout: BlLinearLayout vertical;
+									constraintsDo: [ :c | 
+										c padding: (BlInsets all: 5).
+										c vertical fitContent.
+										c horizontal fitContent ].
 							(self deck classNamed: self deck storageClassName) isClass
 								ifTrue: [ self deck saveState.
 									dropdown

@@ -18,7 +18,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:19:17.456418+02:00"
+						"dateAndTimeString" : "2024-05-03T08:38:23.873197+02:00"
 					}
 				},
 				"editEmail" : {
@@ -29,17 +29,17 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:20:21.622722+02:00"
+						"dateAndTimeString" : "2024-05-03T08:38:23.873197+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "UTq4b+jTDQCJygFoCenT9w=="
+					"uidString" : "NyUNtOjTDQCS2urRCenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "I worked on the [IMAD project](https://github.com/onierstrasz/IMAD) during my sabbatical in NZ in Spring 2022."
+				"string" : " Experiments to see how to model FSAs and Petri Nets with Mondrian."
 			},
 			{
 				"__type" : "textSnippet",
@@ -55,7 +55,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:24.789059+02:00"
+						"dateAndTimeString" : "2024-05-03T08:38:04.071934+02:00"
 					}
 				},
 				"editEmail" : {
@@ -66,20 +66,20 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:30.088478+02:00"
+						"dateAndTimeString" : "2024-05-03T08:40:14.92371+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "adgAd+jTDQCK6uX7CenT9w=="
+					"uidString" : "FATfsujTDQCSzM4cCenT9w=="
 				},
 				"paragraphStyle" : {
 					"__type" : "textStyle"
 				},
-				"string" : "[[Loading IMAD]] "
+				"string" : "See: {{gtClass:name=FSAExamples}}"
 			},
 			{
-				"__type" : "textSnippet",
+				"__type" : "exampleSnippet",
 				"children" : {
 					"__type" : "snippets",
 					"items" : [ ]
@@ -92,7 +92,7 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:38.873158+02:00"
+						"dateAndTimeString" : "2024-05-03T08:38:56.351974+02:00"
 					}
 				},
 				"editEmail" : {
@@ -103,54 +103,20 @@
 					"__type" : "time",
 					"time" : {
 						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:21:48.447181+02:00"
+						"dateAndTimeString" : "2024-05-03T08:38:56.351974+02:00"
 					}
 				},
 				"uid" : {
 					"__type" : "uid",
-					"uidString" : "lQwmeOjTDQCLhfWmCenT9w=="
+					"uidString" : "g7n8tejTDQCTHMfwCenT9w=="
 				},
-				"paragraphStyle" : {
-					"__type" : "textStyle"
-				},
-				"string" : "[[IMAD Examples]] "
-			},
-			{
-				"__type" : "textSnippet",
-				"children" : {
-					"__type" : "snippets",
-					"items" : [ ]
-				},
-				"createEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"createTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:34:06.539488+02:00"
-					}
-				},
-				"editEmail" : {
-					"__type" : "email",
-					"emailString" : "<unknown>"
-				},
-				"editTime" : {
-					"__type" : "time",
-					"time" : {
-						"__type" : "dateAndTime",
-						"dateAndTimeString" : "2024-05-03T08:35:12.733053+02:00"
-					}
-				},
-				"uid" : {
-					"__type" : "uid",
-					"uidString" : "E4y2pOjTDQCOP/4RCenT9w=="
-				},
-				"paragraphStyle" : {
-					"__type" : "textStyle"
-				},
-				"string" : "[[Domain modeling Card Decks (Broken)]]"
+				"exampleSelector" : "fsa4nodes",
+				"previewHeight" : 450,
+				"previewShowSelector" : "gtViewsFor:",
+				"exampleBehaviorName" : "FSAExamples",
+				"codeExpanded" : true,
+				"previewExpanded" : false,
+				"noCode" : true
 			}
 		]
 	},
@@ -162,7 +128,7 @@
 		"__type" : "time",
 		"time" : {
 			"__type" : "dateAndTime",
-			"dateAndTimeString" : "2024-05-03T08:19:17.406479+02:00"
+			"dateAndTimeString" : "2024-05-03T08:38:04.035635+02:00"
 		}
 	},
 	"editEmail" : {
@@ -173,15 +139,15 @@
 		"__type" : "time",
 		"time" : {
 			"__type" : "dateAndTime",
-			"dateAndTimeString" : "2024-05-03T08:19:28.246845+02:00"
+			"dateAndTimeString" : "2024-05-03T08:38:04.035635+02:00"
 		}
 	},
 	"pageType" : {
 		"__type" : "namedPage",
-		"title" : "IMAD ToC"
+		"title" : "FSA Experiments"
 	},
 	"uid" : {
 		"__type" : "uuid",
-		"uuid" : "f775b76f-e8d3-0d00-89c9-a8e309e9d3f7"
+		"uuid" : "8475deb2-e8d3-0d00-92cb-185209e9d3f7"
 	}
 }

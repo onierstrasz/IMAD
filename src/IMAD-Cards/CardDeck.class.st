@@ -30,8 +30,9 @@ CardDeck >> addCard: aCard [
 { #category : #'gt-extensions' }
 CardDeck >> addCardButton [
 	"NB: Still used in gtCardsFor:"
+
 	^ BrButton new
-		look: BrGlamorousButtonWithIconAptitude;
+		aptitude: BrGlamorousButtonWithIconAptitude;
 		icon: BrGlamorousVectorIcons add;
 		label: 'Add card';
 		action: [ :button | 
@@ -218,9 +219,9 @@ CardDeck >> deleteCard: aCard [
 { #category : #'gt-extensions' }
 CardDeck >> deleteCardButtonFor: aCard [
 	^ BrButton new
-		look: BrGlamorousButtonWithIconAptitude;
+		aptitude: BrGlamorousButtonWithIconAptitude;
 		icon: BrGlamorousVectorIcons remove;
-		label: 'Delete ', aCard name;
+		label: 'Delete ' , aCard name;
 		action: [ :button | aCard delete ]
 ]
 

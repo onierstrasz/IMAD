@@ -21,16 +21,13 @@ Class {
 
 { #category : #accessing }
 CardRelationViewBuilder >> addLook [
-
 	edgeElement
-		look:
-			(BrStyleCommonAptitude new
+		aptitude: (BrStyleCommonAptitude new
 				default: [ :elt | elt border: (BlBorder paint: Color gray width: 2) ];
 				hovered: [ :elt | elt border: (BlBorder paint: Color blue width: 2) ])
 				+ (BrGlamorousWithContextMenuAptitude content: [ self contextMenu ])
-				+
-					(BrGlamorousWithTooltipAptitude2
-						content: (self tooltipWithText: self relation kind)).
+				+ (BrGlamorousWithTooltipAptitude2
+						content: (self tooltipWithText: self relation kind))
 ]
 
 { #category : #accessing }
@@ -117,11 +114,11 @@ CardRelationViewBuilder >> relation [
 { #category : #accessing }
 CardRelationViewBuilder >> tooltipWithText: aString [
 	"From TCardModelElement"
+
 	^ BrLabel new
-		look: BrGlamorousLabelAptitude new glamorousRegularFontAndSize;
+		aptitude: BrGlamorousLabelAptitude new glamorousRegularFontAndSize;
 		padding: (BlInsets all: 5);
 		alignCenter;
 		text: aString asRopedText;
-		yourself.
-
+		yourself
 ]
