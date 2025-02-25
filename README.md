@@ -27,10 +27,10 @@ Metacello new
 #BaselineOfIMAD asClass loadLepiter
 ```
 
-## Hypergraphs
+## Hypernode graphs
 
 This is a reimplementation of the Card Decks described below.
-Nothing to see yet, but soon ...
+See the Hypernodes package for a prototype of an interactive editor of nested hypernode graphs.
 
 ## Domain modeling Card Decks (IMAD-Cards)
 
