@@ -120,7 +120,7 @@ AbstractCardModelNamedEntity >> description: aString [
 
 { #category : #'gt-extensions' }
 AbstractCardModelNamedEntity >> gtDescriptionFor: aView [
-	<gtView>
+	"<gtView>"
 	^ aView explicit
 		title: 'Description';
 		priority: 0;
